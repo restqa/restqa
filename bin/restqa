@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+
+const { program } = require('commander')
+const package = require('../package.json')
+const path = require('path')
+const cucumber = require('cucumber')
+const Cli = require('../src/cli')
+
+program
+  .version(package.version)
+
+program
+  .command('steps [keyword]')
+  .description('Get the list of step by keyword : given | when | then')
+  .action(Cli.steps)
+
+program
+  .command('run')
+  .option('-e, --env <env>', 'Define the current environment')
+  .option('-c, --config <config>', 'Use a specific .restqa.yml file')
+  .description('Get the list of step by keyword : given | when | then')
+  .action(Cli.run)
+
+program.on('--help', () => {
+  /* eslint-disable no-console */
+  console.log(
+    '  For more details please visit https://github.com/resqa/restqapi'
+  )
+  /* eslint-enable no-console */
+})
+
+program.parse(process.argv)
+
+let cmd  = program.commands.find(_ => _.restqa)
+if (!cmd) process.exit(0)
+
+let {env, config, paths} = cmd.restqa
+
+// TODO : Add extra cucumber parameters from config file
+
+let customOptions = [
+  'node',
+  'cucumber-js',
+  '--require',
+  './src/setup.js',
+  '--format',
+  './src/restqa-formatter:.restqa.log'
+]
+
+const options  = {
+  argv: customOptions.concat(paths),
+  cwd: path.join(__dirname, '../'),
+  stdout: process.stdout
+}
+
+const cucumberCli = new cucumber.Cli(options);
+
+cucumberCli.run()
+  .then(result => {
+    const exitCode = result.success ? 0 : 1
+    if (result.shouldExitImmediately) {
+      process.exit(exitCode)
+    } else {
+      process.exitCode = exitCode
+    }
+  })
+  .catch(err => {
+    console.error(err) // eslint-disable-line no-console
+    process.exit(1)
+  })
