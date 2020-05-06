@@ -1,6 +1,6 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An all in one test automation runner",
   "scripts": {
     "start:library": "export $(cat .env | xargs) && cucumber-js --require ./src/setup.js ./sample-project",
