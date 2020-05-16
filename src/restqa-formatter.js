@@ -9,8 +9,8 @@ const restqa = {
 const config = new Config(restqa)
 
 const options = {
-  key: config.code,
-  name: config.name,
+  key: config.metadata.code,
+  name: config.metadata.name,
   env: config.environment.name,
   outputs: config.environment.outputs
 }
