@@ -27,4 +27,4 @@ jobs:
         name: restqa/restqa
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        tags: "latest,${{ env.RELEASE_VERSION }}"
+        tags: "latest,${{ github.event.release.tag_name }}"
