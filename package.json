@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@restqa/cucumber-export": "0.0.5",
+    "@restqa/cucumber-export": "0.0.6",
     "@restqa/restqapi": "0.0.4",
     "@restqa/restqdata": "0.0.2",
     "chalk": "^4.0.0",
