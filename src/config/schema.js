@@ -29,6 +29,7 @@ function validate (config) {
   const schemaConfig = Joi.object({
     version: Joi.any().allow('0.0.1'),
     metadata: {
+      code: Joi.string().required(),
       name: Joi.string().required(),
       description: Joi.string().required()
     },
