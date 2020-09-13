@@ -55,7 +55,11 @@ let World = config
 class RestQA extends World[0] {
   constructor(obj) {
     super(obj)
-    this._data = new Data(config.environment.data)
+    let { data, secrets } = config.environment
+    this._data = new Data(data)
+    if (secrets) {
+      Object.keys(secrets).forEach(_ => this._data.set(_, secrets[_]))
+    }
   }
 }
 
