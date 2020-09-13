@@ -33,7 +33,11 @@ function validate (config) {
       name: Joi.string().required(),
       description: Joi.string().required()
     },
-    environment: schemaEnvironment
+    environment: schemaEnvironment,
+    analytics: Joi.object({
+      key: Joi.string(),
+      ignore: Joi.array()
+    })
   })
 
   const { value, error } = schemaConfig.validate(config)

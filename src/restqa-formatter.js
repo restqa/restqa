@@ -17,4 +17,21 @@ const options = {
   outputs: config.environment.outputs
 }
 
+if (config.analytics  && config.analytics.key) { // If the analytics exist we add an export to the restqa.io webhook
+  if (!config.analytics.ignore || !config.analytics.ignore.includes(options.env)) {
+    options.outputs.push({
+      type: 'http',
+      enabled: true,
+      config: {
+        url: process.env.RESTQA_ANALYTICS_URL || 'https://get.restqa.io/webhook',
+        method: 'POST',
+        headers: {
+          'x-api-key': config.analytics.key
+        }
+      }
+    })
+  }
+}
+
+
 module.exports = getFormatter(options)
