@@ -21,6 +21,16 @@ program
   .description('Get the list of step by keyword : given | when | then')
   .action(Cli.run)
 
+program
+  .command('generate')
+  .description('Generate a Test scenario from a curl command')
+  .action(Cli.generate)
+
+program
+  .command('init')
+  .description('Initialize a new RestQA project')
+  .action(Cli.initialize)
+
 program.on('--help', () => {
   /* eslint-disable no-console */
   console.log(
@@ -29,11 +39,17 @@ program.on('--help', () => {
   /* eslint-enable no-console */
 })
 
-program.parse(process.argv)
+async function main() {
+  return program.parseAsync(process.argv)
+}
 
-let cmd  = program.commands.find(_ => _.restqa)
-if (!cmd) process.exit(0)
+main()
+  .then( _program => {
+  let cmd  = _program.commands.find(_ => _.restqa)
+   if (cmd) Run(cmd)
+ })
 
+function Run(cmd) {
 let {env, config, paths} = cmd.restqa
 
 // TODO : Add extra cucumber parameters from config file
@@ -68,3 +84,4 @@ cucumberCli.run()
     console.error(err) // eslint-disable-line no-console
     process.exit(1)
   })
+}
