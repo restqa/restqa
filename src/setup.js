@@ -6,61 +6,61 @@ const {
 } = require('cucumber')
 
 
+const {
+  World,
+  Data
+} = require('@restqa/restqa-plugin-boostrap')
+
 const Config = require('./config')
-const Data = require(`./data`)
 
-const restqa = {
-  env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
-  configFile: process.env.RESTQA_CONFIG
-}
+try {
 
-const config = new Config(restqa)
-
-function pluginLoader (plugin) {
-  let Module = require(`@restqa/${plugin.name}`)
-  if (config.environment.data) {
-    plugin.config.data = {
-      startSymbol: config.environment.data.startSymbol,
-      endSymbol: config.environment.data.endSymbol
-    }
+  const restqa = {
+    env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
+    configFile: process.env.RESTQA_CONFIG
   }
-  let instance = new Module(plugin.config)
   
-  instance.setParameterType(defineParameterType)
-  instance.setSteps({ Given, When, Then })
-  instance.setHooks({ Before, BeforeAll, After, AfterAll })
+  const config = new Config(restqa)
   
-  return instance.getWorld()
-}
-
-let World = config
-  .environment
-  .plugins
-  .map(pluginLoader)
-  /*
-  .reduce((r,i) => {
-    let props = Object.getOwnPropertyNames(i.prototype)
-    props.forEach(prop => {
-      if ('constructor' === prop) {
-        Object.assign(r.prototype, new (i.prototype[prop])({}))
-      } else {
-        r.prototype[prop] = i.prototype[prop]
+  function pluginLoader (plugin) {
+    let Module = require(`@restqa/${plugin.name}`)
+    if (config.environment.data) {
+      plugin.config.data = {
+        startSymbol: config.environment.data.startSymbol,
+        endSymbol: config.environment.data.endSymbol
       }
-    })
-    return  r
-  }, class {} )
-  */
+    }
 
-
-class RestQA extends World[0] {
-  constructor(obj) {
-    super(obj)
-    let { data, secrets } = config.environment
-    this._data = new Data(data)
-    if (secrets) {
-      Object.keys(secrets).forEach(_ => this._data.set(_, secrets[_]))
+    let instance = new Module(plugin.config)
+    
+    instance.setParameterType(defineParameterType)
+    instance.setSteps({ Given, When, Then })
+    instance.setHooks({ Before, BeforeAll, After, AfterAll })
+    
+    let __CLASS_NAME__ = instance.getWorld()
+    return new __CLASS_NAME__({})
+  }
+  
+  let Plugins = config
+    .environment
+    .plugins
+    .map(pluginLoader)
+  
+  
+  class RestQA extends World{
+    constructor(obj) {
+      super(obj)
+      let { data, secrets } = config.environment
+      this._data = new Data(data)
+      if (secrets) {
+        Object.keys(secrets).forEach(_ => this._data.set(_, secrets[_]))
+      }
+      Plugins.forEach(world => world.setup.call(this))
     }
   }
+  
+  setWorldConstructor(RestQA)
+} catch(err) {
+  console.log(err)
+  process.exit(1)
 }
-
-setWorldConstructor(RestQA)
