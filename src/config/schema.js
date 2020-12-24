@@ -12,6 +12,7 @@ function validate (config) {
       })
     ).required(),
     data: {
+      storage: Joi.string(),
       channel: Joi.string(),
       config: Joi.object({}).unknown(),
       startSymbol: Joi.string(),
