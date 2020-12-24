@@ -10,7 +10,7 @@ function validate (config) {
         name: Joi.string().required().valid('restqapi'),
         config: Joi.any()
       })
-    ),
+    ).required(),
     data: {
       channel: Joi.string(),
       config: Joi.object({}).unknown(),
