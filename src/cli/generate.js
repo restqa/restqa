@@ -3,7 +3,11 @@ const { Generator } = require('@restqa/restqapi')
 const fs = require('fs')
 const path = require('path')
 
-module.exports = async function (parentProgram) {
+module.exports = async function (parentProgram, print) {
+
+  if (undefined === print) {
+    print = true
+  }
 
   let { args, logger } = parentProgram
 
@@ -112,7 +116,7 @@ module.exports = async function (parentProgram) {
    if (program.output) {
      fs.appendFileSync(path.resolve(process.cwd(), program.output), result + '\n\n\n\n\n')
      logger.log(`The file has been added to the file "${program.output}"`)
-   } else {
+   } else if (true === print) {
      logger.log('\n', '**** SCENARIO GENERATED SUCCESSFULLY ****', '\n')
      logger.log(result)
    }

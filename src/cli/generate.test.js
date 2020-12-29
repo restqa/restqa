@@ -394,6 +394,10 @@ describe('# cli - generator', () => {
 
     test('Write the scenario into a file', async () => {
       const fs = require('fs')
+      const filename = process.cwd() + '/test.feature'
+      if (fs.existsSync(filename)) {
+        fs.unlinkSync(filename)
+      }
       
       let resultScenario = `
         Given I have an example
@@ -429,9 +433,7 @@ describe('# cli - generator', () => {
       expect(mockGenerator.mock.calls.length).toBe(1)
       expect(mockGenerator.mock.calls[0][0]).toEqual(expectOptions)
 
-      let contentFile = fs.readFileSync(process.cwd() + '/test.feature').toString()
-      expect(contentFile).toEqual(resultScenario)
-
-      fs.unlinkSync(process.cwd() + '/test.feature')
+      let contentFile = fs.readFileSync(filename).toString()
+      expect(contentFile).toEqual(resultScenario + '\n\n\n\n\n')
     })
 })
