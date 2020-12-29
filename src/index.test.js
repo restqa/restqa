@@ -24,10 +24,10 @@ describe('# Index - Generate', () => {
         args: [
           'curl',
           'https://jsonplaceholder.typicode.com/todos/1'
-        ]
+        ],
+        print: false
       }
       expect(mockGenerate.mock.calls[0][0]).toEqual(expectedOption)
-      expect(mockGenerate.mock.calls[0][1]).toBe(false)
     })
 
     test('Curl command with a lot of options', () => {
@@ -42,6 +42,7 @@ describe('# Index - Generate', () => {
       expect(Generate(cmd)).resolves.toEqual('result')
       expect(mockGenerate.mock.calls.length).toBe(1)
       const expectedOption = {
+        print: false,
         args: [
           'curl',
           '--url',
@@ -61,7 +62,6 @@ describe('# Index - Generate', () => {
         ]
       }
       expect(mockGenerate.mock.calls[0][0]).toEqual(expectedOption)
-      expect(mockGenerate.mock.calls[0][1]).toBe(false)
     })
 })
 

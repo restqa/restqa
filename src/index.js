@@ -5,7 +5,12 @@ async function Generate (cmd) {
     .match(/"[^"]+"|'[^']+'|\S+/g)
     .map(str => str.replace(/^"/, '').replace(/"$/, ''))
 
-  return  generate({ args }, false)
+  const options = {
+    args,
+    print: false
+  }
+
+  return  generate(options)
 }
 
 module.exports = {

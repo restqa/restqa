@@ -3,13 +3,14 @@ const { Generator } = require('@restqa/restqapi')
 const fs = require('fs')
 const path = require('path')
 
-module.exports = async function (parentProgram, print) {
+module.exports = async function (parentProgram) {
 
-  if (undefined === print) {
+  let { args, logger} = parentProgram
+
+  let print = parentProgram.print
+  if (undefined === undefined) {
     print = true
   }
-
-  let { args, logger } = parentProgram
 
   logger = logger || console
 
