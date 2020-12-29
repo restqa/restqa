@@ -1,6 +1,6 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "An all in one test automation runner",
   "scripts": {
     "start:library": "export $(cat .env | xargs) && cucumber-js --require ./src/setup.js ./sample-project",
@@ -24,7 +24,7 @@
     "@restqa/restqapi": "0.0.10",
     "@restqa/restqdata": "0.0.2",
     "chalk": "^4.0.0",
-    "commander": "^5.0.0",
+    "commander": "^6.2.1",
     "console-table-printer": "^1.4.3",
     "cucumber": "^6.0.5",
     "proxyquire": "^2.1.3",
