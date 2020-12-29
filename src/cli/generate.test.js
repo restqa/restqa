@@ -1,6 +1,18 @@
+const fs = require('fs')
+const filename = process.cwd() + '/test.feature'
+
 afterEach(() => {
     jest.resetModules()
     global.console.error = jest.fn()
+    if (fs.existsSync(filename)) {
+      fs.unlinkSync(filename)
+    }
+})
+
+beforeEach(() => {
+    if (fs.existsSync(filename)) {
+      fs.unlinkSync(filename)
+    }
 })
 
 
@@ -393,11 +405,6 @@ describe('# cli - generator', () => {
     })
 
     test('Write the scenario into a file', async () => {
-      const fs = require('fs')
-      const filename = process.cwd() + '/test.feature'
-      if (fs.existsSync(filename)) {
-        fs.unlinkSync(filename)
-      }
       
       let resultScenario = `
         Given I have an example
