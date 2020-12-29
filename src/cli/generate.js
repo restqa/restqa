@@ -8,7 +8,7 @@ module.exports = async function (parentProgram) {
   let { args, logger} = parentProgram
 
   let print = parentProgram.print
-  if (undefined === undefined) {
+  if (undefined === print) {
     print = true
   }
 
