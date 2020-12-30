@@ -114,7 +114,23 @@ module.exports = async function (parentProgram) {
    let result = await Generator(options)
 
    if (program.output) {
-     fs.appendFileSync(path.resolve(process.cwd(), program.output), result + '\n\n\n\n\n')
+     const filename = path.resolve(process.cwd(), program.output)
+     const headers = [
+       'Feature: Generated scenario',
+       '',
+       `Scenario: Test on ${options.method || 'GET' } ${options.url}`,
+     ]
+
+     let content = [
+       result,
+       '\n\n\n\n'
+     ]
+
+     if (!fs.existsSync(filename)) {
+       content = headers.concat(content)
+     }
+
+     fs.appendFileSync(filename, content.join('\n'))
      logger.success(`The file has been added to the file "${program.output}"`)
    } else if (true === print) {
      logger.success('\n', '**** SCENARIO GENERATED SUCCESSFULLY ****', '\n')
