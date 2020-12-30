@@ -8,20 +8,27 @@ afterEach(() => {
   jest.resetModules()
 })
 
+const chalk = require('chalk')
 
 describe('# utils - logger', () => {
+  function _eq(expected, received) {
+    expected = Buffer.from(expected).toString('base64')
+    received = Buffer.from(received).toString('base64')
+    expect(expected).toEqual(received)
+  }
+
   test('log error', () => {
     const logger = require('./logger') 
     logger.error('my error msg', 'msg2')
     expect(global.console.log.mock.calls.length).toBe(1)
-    expect(global.console.log.mock.calls[0][0]).toEqual('[1m[31mmy error msg msg2[39m[22m')
+    expect(global.console.log.mock.calls[0][0]).toEqual(chalk.bold.red('my error msg msg2'))
   })
 
   test('log info', () => {
     const logger = require('./logger') 
     logger.info('my info msg', 'msg2')
     expect(global.console.log.mock.calls.length).toBe(1)
-    expect(global.console.log.mock.calls[0][0]).toEqual('[1m[34mmy info msg msg2[39m[22m')
+    expect(global.console.log.mock.calls[0][0]).toEqual(chalk.bold.blue('my info msg msg2'))
   })
 
   test('log log', () => {
@@ -36,6 +43,6 @@ describe('# utils - logger', () => {
     const logger = require('./logger') 
     logger.success('my success msg', 'msg2')
     expect(global.console.log.mock.calls.length).toBe(1)
-    expect(global.console.log.mock.calls[0][0]).toEqual('[1m[32mmy success msg msg2[39m[22m')
+    expect(global.console.log.mock.calls[0][0]).toEqual(chalk.bold.green('my success msg msg2'))
   })
 })
