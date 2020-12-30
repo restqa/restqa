@@ -38,8 +38,7 @@ function getSteps (keyword) {
   proxyquire('../setup', {
     cucumber,
     helpers: { given: {}, when: {}, then: {} },
-    './config': config,
-    './data': function() {}
+    './config': config
   })
   return result[keyword]
 }
