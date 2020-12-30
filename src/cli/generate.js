@@ -118,10 +118,10 @@ module.exports = async function (parentProgram) {
      const headers = [
        'Feature: Generated scenario',
        '',
-       `Scenario: Test on ${options.method || 'GET' } ${options.url}`,
      ]
 
      let content = [
+       `Scenario: Test on ${options.method || 'GET' } ${options.url}`,
        result,
        '\n\n\n\n'
      ]
@@ -131,7 +131,7 @@ module.exports = async function (parentProgram) {
      }
 
      fs.appendFileSync(filename, content.join('\n'))
-     logger.success(`The file has been added to the file "${program.output}"`)
+     logger.success(`The Scenario has been added to the file "${program.output}"`)
    } else if (true === print) {
      logger.success('\n', '**** SCENARIO GENERATED SUCCESSFULLY ****', '\n')
      logger.log(result)

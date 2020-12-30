@@ -483,6 +483,7 @@ Given I have an example
 
 
 
+Scenario: Test on GET https://examples/quotes/legacy/bw15
 Given I have a second example
       `.trim()
 
