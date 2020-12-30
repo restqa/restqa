@@ -3,13 +3,16 @@ const filename = process.cwd() + '/test.feature'
 
 afterEach(() => {
     jest.resetModules()
-    global.console.error = jest.fn()
     if (fs.existsSync(filename)) {
       fs.unlinkSync(filename)
     }
 })
 
 beforeEach(() => {
+    global.console = {
+      log: jest.fn(),
+      error: jest.fn()
+    }
     if (fs.existsSync(filename)) {
       fs.unlinkSync(filename)
     }
@@ -109,10 +112,7 @@ describe('# cli - generator', () => {
           '-k',
           '-X',
           'POST'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
       let result = await Generate(program)
       expect(result).toEqual(resultScenario)
@@ -167,10 +167,7 @@ describe('# cli - generator', () => {
           '{"lead":{"id":"9754"}}',
           '--compressed',
           'https://examples/quotes/legacy/bw15'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
       let result = await Generate(program)
       expect(result).toEqual(resultScenario)
@@ -221,10 +218,7 @@ describe('# cli - generator', () => {
           '--url',
           'https://examples/quotes/legacy/bw15',
           '-XPATCH'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
       let result = await Generate(program)
       expect(result).toEqual(resultScenario)
@@ -273,10 +267,7 @@ describe('# cli - generator', () => {
           '--url',
           'https://examples/quotes/legacy/bw15',
           '-XPATCH'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
       let result = await Generate(program)
       expect(result).toEqual(resultScenario)
@@ -325,10 +316,7 @@ describe('# cli - generator', () => {
           'MOBILE=09876463',
           '--form',
           'MESSAGE=test-sms'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
       let result = await Generate(program)
       expect(result).toEqual(resultScenario)
@@ -378,10 +366,7 @@ describe('# cli - generator', () => {
           'MOBILE=09876463',
           '--data',
           'MESSAGE=test-sms'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
       let result = await Generate(program)
       expect(result).toEqual(resultScenario)
@@ -422,10 +407,7 @@ describe('# cli - generator', () => {
           'https://examples/quotes/legacy/bw15',
           '-o',
           'test.feature'
-        ],
-        logger: {
-          log: jest.fn() 
-        }
+        ]
       }
 
       let result = await Generate(program)

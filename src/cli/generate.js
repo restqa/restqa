@@ -2,17 +2,16 @@ const { Command } = require('commander')
 const { Generator } = require('@restqa/restqapi')
 const fs = require('fs')
 const path = require('path')
+const logger = require('../utils/logger')
 
 module.exports = async function (parentProgram) {
 
-  let { args, logger} = parentProgram
+  let { args } = parentProgram
 
   let print = parentProgram.print
   if (undefined === print) {
     print = true
   }
-
-  logger = logger || console
 
   if ('curl' !== args[0]) {
     throw new ReferenceError(`You need to provide a curl command for me to generate an awesome scenario`)
@@ -116,9 +115,9 @@ module.exports = async function (parentProgram) {
 
    if (program.output) {
      fs.appendFileSync(path.resolve(process.cwd(), program.output), result + '\n\n\n\n\n')
-     logger.log(`The file has been added to the file "${program.output}"`)
+     logger.success(`The file has been added to the file "${program.output}"`)
    } else if (true === print) {
-     logger.log('\n', '**** SCENARIO GENERATED SUCCESSFULLY ****', '\n')
+     logger.success('\n', '**** SCENARIO GENERATED SUCCESSFULLY ****', '\n')
      logger.log(result)
    }
 

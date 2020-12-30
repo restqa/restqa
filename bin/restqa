@@ -5,6 +5,7 @@ const package = require('../package.json')
 const path = require('path')
 const cucumber = require('cucumber')
 const Cli = require('../src/cli')
+const logger = require('../src/utils/logger')
 
 program
   .version(package.version)
@@ -22,6 +23,7 @@ program
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
   .description('Get the list of step by keyword : given | when | then')
   .action(Cli.run)
+  .test = 1
 
 program
   .command('generate')
@@ -41,7 +43,7 @@ program
 
 program.on('--help', () => {
   /* eslint-disable no-console */
-  console.log(
+  logger.log(
     '  For more details please visit https://github.com/resqa/restqapi'
   )
   /* eslint-enable no-console */
@@ -57,7 +59,7 @@ main()
    if (cmd) Run(cmd)
  })
  .catch(e => {
-   console.error('> ', e.message)
+   logger.error('> ', e.message)
  })
 
 function Run(cmd) {
@@ -92,7 +94,7 @@ cucumberCli.run()
     }
   })
   .catch(err => {
-    console.error(err) // eslint-disable-line no-console
+    logger.error(err) // eslint-disable-line no-console
     process.exit(1)
   })
 }
