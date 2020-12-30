@@ -34,12 +34,11 @@ program
   .usage("[global options] command")
   .action(Cli.generate)
 
-/*
 program
   .command('init')
+  .option('-y', 'Initialize with default values')
   .description('Initialize a new RestQA project')
   .action(Cli.initialize)
-*/
 
 program.on('--help', () => {
   /* eslint-disable no-console */
