@@ -1,4 +1,6 @@
 module.exports = {
   steps: require('./steps'),
-  run: require('./run')
+  run: require('./run'),
+  generate: require('./generate'),
+  initialize: require('./initialize')
 }
