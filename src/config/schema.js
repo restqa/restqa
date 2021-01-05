@@ -7,7 +7,7 @@ function validate (config) {
     secrets: Joi.object({}).unknown(),
     plugins: Joi.array().items(
       Joi.object({
-        name: Joi.string().required().valid('restqapi'),
+        name: Joi.string().required(),
         config: Joi.any()
       })
     ).required(),

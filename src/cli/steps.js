@@ -1,8 +1,11 @@
 const proxyquire = require('proxyquire')
 const chalk = require('chalk')
 const { Table } = require('console-table-printer')
+const Config = require('../config')
 
 function getSteps (keyword) {
+
+
   const result = {}
 
   const register = (cucumberFn, gerkin, comment) => {
@@ -23,31 +26,31 @@ function getSteps (keyword) {
     Then: (gerkin, fn, comment) => register('Then', gerkin, comment)
   }
 
-  const config = function () {
-    return {
-      environment: {
-        plugins: [{
-          name : 'restqapi',
-          config: {}
-        }]
-      }
-
-    }
-  }
 
   proxyquire('../setup', {
-    cucumber,
-    helpers: { given: {}, when: {}, then: {} },
-    './config': config
+    'cucumber': cucumber
   })
   return result[keyword]
 }
 
-module.exports = function (keyword) {
+module.exports = function (keyword, program) {
+  const { config } = program || {}
+
   const keywords = ['given', 'when', 'then']
-  if (!keywords.includes(keyword)) {
-    return console.log(`The available keyword are [ ${keywords.join(' | ')} ]`)
+
+  if (!keyword) {
+    throw new TypeError(`Provide a keyword. Available: given | when | then`)
   }
+
+  if (!keywords.includes(keyword.toLowerCase())) {
+    throw new TypeError(`"${keyword}" is not a valid argument. Available: ${keywords.join(' | ')}`)
+  }
+
+  keyword = keyword.toLowerCase()
+
+  process.env.RESTQA_CONFIG = Config.locate({configFile: config})
+
+
   const table = new Table({
     style: 'fatBorder', // style of border of the table
     columns: [
