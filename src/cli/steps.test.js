@@ -139,7 +139,7 @@ environments:
     expect(mockPrintTable.mock.calls.length).toBe(1)
   })
 
-  test.only('Load the steps from multiple plugin', () => {
+  test('Load the steps from multiple plugin', () => {
     const content = `
 ---
 
@@ -282,3 +282,112 @@ environments:
   })
 
 })
+
+  test('Load the steps search tags', () => {
+    const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://host.docker.internal:4046
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+    `
+    filename = `/tmp/.restqa-tag.yml`
+    fs.writeFileSync(filename, content)
+
+    /*****
+     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
+     */
+    let mockOfMockCucumber
+
+    jest.mock('proxyquire', () =>  {
+      return function(file, { cucumber }) {
+        mockOfMockCucumber = cucumber
+        require(file)
+      }
+    })
+
+    jest.mock('cucumber', () =>  {
+      return {
+        After: () => {},
+        AfterAll: () => {},
+        Before: () => {},
+        BeforeAll: () => {},
+        defineParameterType: () => {},
+        setWorldConstructor: () => {},
+        Given: (gerkin, fn, comment, tags) => mockOfMockCucumber.Given(gerkin, fn, comment, tags),
+        When: (gerkin, fn, comment, tags) => mockOfMockCucumber.When(gerkin, fn, comment, tags),
+        Then: (gerkin, fn, comment, tags) => mockOfMockCucumber.ThenGiven(gerkin, fn, comment, tags),
+      }
+    })
+
+    jest.mock('@restqa/restqapi', () =>  {
+      return function() {
+        return {
+          setParameterType: () => {},
+          setHooks: () => {},
+          getWorld: () => {
+            return class test {
+            }
+          },
+          setSteps: function({ Given }) {
+            Given('my definition', () => {}, 'my comment', 'header')
+            Given('my definitions', () => {}, 'my comments', 'headers')
+            Given('ma definition', () => {}, 'mon commentaire', 'api')
+          }
+        }
+      }
+    })
+
+    const mockAddRow = jest.fn()
+    const mockPrintTable = jest.fn()
+    const mockTable = jest.fn(() => {
+      return {
+        addRow: mockAddRow,
+        printTable: mockPrintTable
+      }
+    })
+
+    jest.mock('console-table-printer', () =>  {
+      return {
+        Table: mockTable
+      }
+    })
+    
+
+    const Steps = require('./steps')
+    Steps('Given', { config: filename, tag: 'header'})
+
+    expect(mockTable.mock.calls.length).toBe(1)
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+
+    expect(mockAddRow.mock.calls.length).toBe(2)
+    expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Keyword: 'given',
+      Step: 'my definition',
+      Comment: 'my comment'
+    })
+
+    expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Keyword: 'given',
+      Step: 'my definitions',
+      Comment: 'my comments'
+    })
+
+    expect(mockPrintTable.mock.calls.length).toBe(1)
+  })

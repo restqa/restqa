@@ -8,10 +8,10 @@ function getSteps (keyword) {
 
   const result = {}
 
-  const register = (cucumberFn, gerkin, comment) => {
+  const register = (cucumberFn, gerkin, comment, tag) => {
     cucumberFn = cucumberFn.toLowerCase()
     result[cucumberFn] = result[cucumberFn] || []
-    result[cucumberFn].push({ gerkin, comment })
+    result[cucumberFn].push({ gerkin, comment, tag })
   }
 
   const cucumber = {
@@ -21,9 +21,9 @@ function getSteps (keyword) {
     BeforeAll: () => {},
     defineParameterType: () => {},
     setWorldConstructor: () => {},
-    Given: (gerkin, fn, comment) => register('Given', gerkin, comment),
-    When: (gerkin, fn, comment) => register('When', gerkin, comment),
-    Then: (gerkin, fn, comment) => register('Then', gerkin, comment)
+    Given: (gerkin, fn, comment, tag) => register('Given', gerkin, comment, tag),
+    When: (gerkin, fn, comment, tag) => register('When', gerkin, comment, tag),
+    Then: (gerkin, fn, comment, tag) => register('Then', gerkin, comment, tag)
   }
 
 
@@ -34,7 +34,7 @@ function getSteps (keyword) {
 }
 
 module.exports = function (keyword, program) {
-  const { config } = program || {}
+  const { config, tag } = program || {}
 
   const keywords = ['given', 'when', 'then']
 
@@ -60,8 +60,16 @@ module.exports = function (keyword, program) {
     ]
   })
 
-  getSteps(keyword)
-    .forEach(r => {
+  let steps = getSteps(keyword)
+
+  if (tag) {
+    let reg = new RegExp(tag)
+    steps = steps.filter(step => {
+      return step.tag.match(reg)
+    })
+  }
+
+  steps.forEach(r => {
       table.addRow({
         Keyword: keyword || chalk.blue(keyword),
         Step: r.gerkin || chalk.yellow(r.gerkin),
