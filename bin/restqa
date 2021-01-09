@@ -11,6 +11,13 @@ program
   .version(package.version)
 
 program
+  .command('init')
+  .option('-y', 'Initialize with default values')
+  .description('Initialize a new RestQA project')
+  .action(Cli.initialize)
+
+
+program
   .command('steps [keyword]')
   .alias('st')
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
@@ -35,12 +42,6 @@ program
   .description('Generate a Test scenario from a curl command')
   .usage("[global options] command")
   .action(Cli.generate)
-
-program
-  .command('init')
-  .option('-y', 'Initialize with default values')
-  .description('Initialize a new RestQA project')
-  .action(Cli.initialize)
 
 program.on('--help', () => {
   /* eslint-disable no-console */

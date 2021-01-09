@@ -1,8 +1,108 @@
 const YAML = require('yaml')
 const fs = require('fs')
 const path = require('path')
-//const inquirer = require('inquirer')
+const inquirer = require('inquirer')
 
+async function initialize(program) {
+  const questions = [{
+    type: 'list',
+    name: 'ci',
+    message: 'Do you need a continuous integration configuration ?',
+    choices: [{
+      name: 'Github Action',
+      value: 'github-action' 
+    }, {
+      name: 'Gitlab Ci',
+      value: 'gitlab-ci' 
+    }, {
+      name: 'Bitbucket Pipelines',
+      value: 'bitbucket-pipeline' 
+    
+    },
+    new inquirer.Separator(),
+    {
+      name: 'I want to configure my continuous integration by myself',
+      value: false
+    }]
+  }]
+  let answers = await inquirer.prompt(questions)
+  initialize.generate(answers)
+}
+
+initialize.generate = function (options) {
+  const {
+    ci
+  } = options
+
+  if (ci) {
+    switch (ci) {
+      case 'github-action':
+        var jsonContent = {
+          name: 'RestQA - Integration tests',
+          on: '[push]',
+          jobs: {
+            RestQa : {
+              'runs-on': 'ubuntu-latest',
+              steps: [{
+                uses: 'actions/checkout@v1',
+              }, {
+                uses: 'restqa/restqa-action@0.0.1',
+                with: {
+                  path: 'tests/'
+                }
+              }]
+            }
+          }
+        }
+        createYaml('.github/workflows/integration-test.yml', jsonContent)
+        break;
+      case 'gitlab-ci':
+        var jsonContent = {
+          stages: [
+            'e2e test'
+          ],
+          RestQa: {
+            stage: 'e2e test',
+            image: {
+              name: 'restqa/restqa'
+            },
+            script: [
+              'restqa run .'
+            ]
+          }
+        }
+        createYaml('.gitlab-ci.yml', jsonContent)
+        break;
+      case 'bitbucket-pipeline':
+        var jsonContent = {
+          pipelines: {
+            default: [{
+              step: {
+                image: 'restqa/restqa',
+                script: [
+                  'restqa run .'
+                ]
+              }
+            }]
+          }
+        }
+        createYaml('bitbucket-pipelines.yml', jsonContent)
+        break;
+      default:
+        throw new Error(`The continous integration "${ci}" is not supported by RestQa`)
+    }
+  }
+}
+
+function createYaml(filename, jsonContent) {
+  let contentYAML = YAML.stringify(jsonContent, null, { directivesEndMarker: true })
+  fs.writeFileSync(filename, contentYAML)
+}
+
+module.exports = initialize
+
+
+/*
 module.exports = async function (program) {
   let filename = path.resolve(process.cwd(), '.restqa.yml')
   let  content = {}
@@ -10,7 +110,7 @@ module.exports = async function (program) {
     content = getDefaultTemplate()
   }
 
-  let contentYAML = YAML.stringify(content,null, { directivesEndMarker: true })
+  let contentYAML = YAML.stringify(content, null, { directivesEndMarker: true })
   fs.writeFileSync(filename, contentYAML)
 }
 
@@ -38,3 +138,4 @@ function getDefaultTemplate() {
     }]
   }
 }
+*/
