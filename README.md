@@ -1,31 +1,22 @@
 <p align="center">
-  <img src="https://restqa.io/assets/img/logos/restqa-logo-colors.png" alt="kakunin.png" width="451"/>
+  <img src="https://restqa.io/assets/img/logos/restqa-logo-colors.png" alt="restqa.png" width="300"/>
 </p>
-
-<p align="center">
-  <a href="#documentation">Documentation</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#issues">Issues</a> •
-</p>
+<h1 align="center">RestQA</h1>
 
 
-### ** API Automated testing platform**
+### API Automated testing platform
 
-
+Focus on API testing, RestQA provide a full set of tools to create your test automation platform from A to Z.
 
 ---
 
-### **Key Features:**
-
-1. E2E API testing
-2. Reports
-
----
-
-### **Documentation:**
+### Documentation:
 
 You can find documentation on the **[Documentation page](https://docs.restqa.io)**.
 
 ---
 
+### License
+
+[MIT License](./LICENSE)
 
