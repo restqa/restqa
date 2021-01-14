@@ -1,5 +1,6 @@
 afterEach(() => {
     jest.resetModules()
+    jest.resetAllMocks()
 })
 
 

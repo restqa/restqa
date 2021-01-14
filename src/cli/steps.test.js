@@ -3,6 +3,7 @@ let filename
 
 afterEach(() => {
   jest.resetModules()
+  jest.resetAllMocks()
   if (filename && fs.existsSync(filename)) {
     fs.unlinkSync(filename)
   }
@@ -281,7 +282,6 @@ environments:
     expect(mockPrintTable.mock.calls.length).toBe(1)
   })
 
-})
 
   test('Load the steps search tags', () => {
     const content = `
@@ -391,3 +391,4 @@ environments:
 
     expect(mockPrintTable.mock.calls.length).toBe(1)
   })
+})

@@ -3,6 +3,7 @@ const filename = process.cwd() + '/test.feature'
 
 afterEach(() => {
     jest.resetModules()
+    jest.resetAllMocks()
     if (fs.existsSync(filename)) {
       fs.unlinkSync(filename)
     }

@@ -1,3 +1,5 @@
+process.setMaxListeners(Infinity)
+
 const fs = require('fs')
 const path = require('path')
 let files = []
@@ -26,6 +28,7 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.resetModules()
+  jest.resetAllMocks()
 
   files.forEach(filename => {
     if (filename && fs.existsSync(filename)) {
@@ -38,7 +41,6 @@ afterEach(() => {
 describe('#Cli - Initialize', () => {
 
   describe('Genereate', () => {
-    describe('CI', () => {
 
       test('Throw an error if the CI is not a part of the list', () => {
         const Iniitialize = require('./initialize')
@@ -238,7 +240,6 @@ describe('#Cli - Initialize', () => {
         filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
         expect(fs.existsSync(filename)).toBe(false)
       })
-    })
 
     describe('restqa configuration file and welcome scenario', () => {
 
