@@ -19,24 +19,28 @@ async function initialize(program) {
     const questions = [{
       type: 'input',
       name: 'name',
+      default: answers.name,
       message: 'Project name:',
     }, {
       type: 'input',
       name: 'description',
       message: 'Description:',
+      default: answers.description
     }, {
       type: 'input',
       name: 'url',
-      message: 'Host name of the target api (example: http://api.example.com)',
+      message: 'Host name of the target api',
+      default: answers.url
     }, {
       type: 'input',
       name: 'env',
-      default: 'local',
       message: 'Environment name of this url (local) ?',
+      default: answers.env
     }, {
       type: 'list',
       name: 'ci',
       message: 'Do you need a continuous integration configuration ?',
+      default: false,
       choices: [{
         name: 'Github Action',
         value: 'github-action' 
