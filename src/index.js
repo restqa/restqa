@@ -1,4 +1,9 @@
 const  generate = require('./cli/generate')
+const  initialize = require('./cli/initialize')
+const  install = require('./cli/install')
+
+async function Initialize() {
+}
 
 async function Generate (cmd) {
   let args = cmd
@@ -13,6 +18,13 @@ async function Generate (cmd) {
   return  generate(options)
 }
 
+
+function Install(options) {
+  return install.generate(options)
+}
+
 module.exports = {
-  Generate
+  Initialize,
+  Generate,
+  Install
 }
