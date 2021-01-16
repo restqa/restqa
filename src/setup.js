@@ -61,6 +61,7 @@ try {
   
   setWorldConstructor(RestQA)
 } catch(err) {
+  //throw err
   console.log(err)
   process.exit(1)
 }
