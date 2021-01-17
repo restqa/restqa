@@ -265,6 +265,152 @@ environments:
         }
         expect(result).toEqual(expectedContent)
     })
+  
+    test('Throw an error if the discord config doesn\'t contain the url', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = `/tmp/.restqa.yml`
+      fs.writeFileSync(filename, content)
+  
+      const Install = require('./install')
+      const options =  {
+        configFile: filename,
+        name: 'discord',
+        env: 'uat',
+        config: {
+        }
+      }
+  
+      expect(() => Install.generate(options)).toThrow('Please specify the discord incoming webhook url')
+    })
+  
+    test('Add the discord output into the configuration file in a specific environment', () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+  
+        const Install = require('./install')
+        const options =  {
+          name: 'discord',
+          env: 'local',
+          configFile: filename,
+          config: {
+            url: 'https://www.discord-incoming.com/test',
+            onlyFailed: false
+          }
+        }
+  
+        let result = Install.generate(options)
+        result = YAML.parse(result)
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }, {
+              type: 'discord',
+              enabled: true,
+              config: {
+                url: 'https://www.discord-incoming.com/test',
+                onlyFailed: false
+              }
+            }]
+          }, {
+            name: 'uat',
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://test.uat.com'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+    })
   })
 
   describe('Install', () => {
@@ -347,6 +493,9 @@ environments:
           {
             name: 'slack (outputs)',
             value: 'slack'
+          },{
+            name: 'discord (outputs)',
+            value: 'discord'
           }
         ]
         expect(mockPrompt.mock.calls[0][0][0].choices).toEqual(expectedPlugins)
@@ -638,6 +787,105 @@ environments:
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
         expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs has been configured successfully')
+
+        expect(mockLogger.info.mock.calls.length).toBe(1)
+        expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install slack when there is only one environment available', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+
+        const mockLogger = {
+          info: jest.fn(),
+          log: jest.fn(),
+          success: jest.fn()
+        }
+
+        jest.mock('../utils/logger', () => {
+          return mockLogger
+        })
+
+        const mockPrompt = jest.fn().mockResolvedValue({
+          configFile: filename,
+          config_url:'https://www.discord-incoming.com/test',
+          onlyFailed: false
+        })
+
+        jest.mock('inquirer', () => {
+          return {
+            Separator: jest.fn(),
+            prompt: mockPrompt
+          }
+        })
+  
+        const Install = require('./install')
+        await Install('discord')
+
+        expect(mockPrompt.mock.calls.length).toBe(1)
+
+        expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What is the discord incoming webhook url?')
+        expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_url')
+        
+        let result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }, {
+              type: 'discord',
+              enabled: true,
+              config: {
+                url: 'https://www.discord-incoming.com/test',
+                onlyFailed: false
+              }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+
+        expect(mockLogger.success.mock.calls.length).toBe(1)
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "discord" outputs has been configured successfully')
 
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')

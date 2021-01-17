@@ -24,7 +24,27 @@ const LIST = {
        }
      }
     }
-  }
+  },
+  'discord' : {
+    type: 'outputs',
+    questions: [{
+      name: 'config_url',
+      message: `What is the discord incoming webhook url?`
+    }],
+    get: (config) => {
+      if (!config.url) {
+        throw new Error('Please specify the discord incoming webhook url')
+      }
+      return {
+        type: 'discord',
+        enabled: true,
+        config: {
+          url: config.url,
+          onlyFailed: false
+       }
+     }
+    }
+  },
 }
 
 async function Install (name, program) {
