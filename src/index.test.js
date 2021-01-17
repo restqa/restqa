@@ -66,3 +66,28 @@ describe('# Index - Generate', () => {
     })
 })
 
+describe('# Index - Install', () => {
+  test('Get result from an addon  Install', () => {
+      const mockInstall = {
+        generate: jest.fn().mockReturnValue('result')
+      }
+
+      jest.mock('./cli/install', () => {
+        return mockInstall
+      })
+
+      const { Install } = require('./index')
+      const opt = {
+        name: 'slack',
+        env: 'uat'
+      }
+      expect(Install(opt)).toEqual('result')
+      expect(mockInstall.generate.mock.calls.length).toBe(1)
+      expect(mockInstall.generate.mock.calls[0][0]).toEqual({
+        name: 'slack',
+        env: 'uat'
+      })
+
+  })
+})
+

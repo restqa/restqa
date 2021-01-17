@@ -16,6 +16,12 @@ program
   .description('Initialize a new RestQA project')
   .action(Cli.initialize)
 
+program
+  .command('install [name]')
+  .alias('i')
+  .description('Install an addon to your project')
+  .action(Cli.install)
+
 
 program
   .command('steps [keyword]')
@@ -32,7 +38,6 @@ program
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
   .description('Get the list of step by keyword : given | when | then')
   .action(Cli.run)
-  .test = 1
 
 program
   .command('generate')
