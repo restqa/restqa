@@ -698,7 +698,7 @@ environments:
   
       expect(() => Install.generate(options)).toThrow('Please specify the discord incoming webhook url')
     })
-  
+
     test('Add the discord output into the configuration file in a specific environment', () => {
         const content = `
 ---
@@ -777,6 +777,97 @@ environments:
                 url: 'https://www.discord-incoming.com/test',
                 onlyFailed: false
               }
+            }]
+          }, {
+            name: 'uat',
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://test.uat.com'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+    })
+  
+    test('Add the http-html-report output into the configuration file in a specific environment', () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+  
+        const Install = require('./install')
+        const options =  {
+          name: 'http-html-report',
+          env: 'local',
+          configFile: filename
+        }
+  
+        let result = Install.generate(options)
+        result = YAML.parse(result)
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }, {
+              type: 'http-html-report',
+              enabled: true
             }]
           }, {
             name: 'uat',
@@ -884,6 +975,9 @@ environments:
           },{
             name: 'Discord (outputs)',
             value: 'discord'
+          },{
+            name: 'Http-html-report (outputs)',
+            value: 'http-html-report'
           },
          new mockSeparator(),
           {
@@ -1282,6 +1376,98 @@ environments:
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
         expect(mockLogger.success.mock.calls[0][0]).toEqual('The "discord" outputs addon has been configured successfully')
+
+        expect(mockLogger.info.mock.calls.length).toBe(1)
+        expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install http-html-report when there is only one environment available', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+
+        const mockLogger = {
+          info: jest.fn(),
+          log: jest.fn(),
+          success: jest.fn()
+        }
+
+        jest.mock('../utils/logger', () => {
+          return mockLogger
+        })
+
+        const mockPrompt = jest.fn().mockResolvedValue({
+          configFile: filename,
+        })
+
+        jest.mock('inquirer', () => {
+          return {
+            Separator: jest.fn(),
+            prompt: mockPrompt
+          }
+        })
+  
+        const Install = require('./install')
+        await Install('http-html-report')
+
+        expect(mockPrompt.mock.calls.length).toBe(1)
+
+        expect(mockPrompt.mock.calls[0][0].length).toBe(0)
+
+        let result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }, {
+              type: 'http-html-report',
+              enabled: true
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+
+        expect(mockLogger.success.mock.calls.length).toBe(1)
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "http-html-report" outputs addon has been configured successfully')
 
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
