@@ -67,6 +67,33 @@ const LIST = {
        }
      }
     }
+  },
+  'google-sheet' : {
+    type: 'data',
+    questions: [{
+      name: 'config_id',
+      message: `What is your Google Sheet id?`
+    },{
+      name: 'config_apikey',
+      message: `What is your Google Sheet api key?`
+    }],
+    get: (config) => {
+      if (!config.id) {
+        throw new Error('Please specify the google sheet id (data.config.id)')
+      }
+
+      if (!config.apikey) {
+        throw new Error('Please specify the google sheet api key (data.config.apikey)')
+      }
+
+      return {
+        channel: 'google-sheet',
+        config: {
+          id: config.id,
+          apikey: config.apikey
+       }
+     }
+    }
   }
 }
 

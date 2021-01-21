@@ -457,6 +457,200 @@ environments:
         }
         expect(result).toEqual(expectedContent)
     })
+
+    test('Throw an error if the google-sheet config doesn\'t contain the google sheet id', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = `/tmp/.restqa.yml`
+      fs.writeFileSync(filename, content)
+  
+      const Install = require('./install')
+      const options =  {
+        configFile: filename,
+        name: 'google-sheet',
+        env: 'uat',
+        config: {
+        }
+      }
+  
+      expect(() => Install.generate(options)).toThrow('Please specify the google sheet id (data.config.id)')
+    })
+
+    test('Throw an error if the google-sheet config doesn\'t contain the google api key', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+
+      filename = `/tmp/.restqa.yml`
+      fs.writeFileSync(filename, content)
+  
+      const Install = require('./install')
+      const options =  {
+        configFile: filename,
+        name: 'google-sheet',
+        env: 'uat',
+        config: {
+          id: 'fake-id'
+        }
+      }
+      expect(() => Install.generate(options)).toThrow('Please specify the google sheet api key (data.config.apikey)')
+    })
+  
+    test('Add the google sheet data into the configuration file in a specific environment', () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+  
+        const Install = require('./install')
+        const options =  {
+          name: 'google-sheet',
+          env: 'local',
+          configFile: filename,
+          config: {
+            id: 'fake-id',
+            apikey: 'fake-apikey',
+          }
+        }
+  
+        let result = Install.generate(options)
+        result = YAML.parse(result)
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            data: {
+              channel: 'google-sheet',
+              config: {
+                id: 'fake-id',
+                apikey: 'fake-apikey'
+              }
+            },
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }, {
+            name: 'uat',
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://test.uat.com'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+    })
   
     test('Throw an error if the discord config doesn\'t contain the url', () => {
       const content = `
@@ -695,6 +889,9 @@ environments:
           {
             name: 'Excel (data)',
             value: 'excel'
+          },{
+            name: 'Google-sheet (data)',
+            value: 'google-sheet'
           }
         ]
         expect(mockPrompt.mock.calls[0][0][0].choices).toEqual(expectedPlugins)
@@ -1090,7 +1287,7 @@ environments:
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
     })
 
-    test('Install CSV when there is only one environment available', async () => {
+    test('Install excel (CSV) when there is only one environment available', async () => {
         const content = `
 ---
 
@@ -1182,6 +1379,108 @@ environments:
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
         expect(mockLogger.success.mock.calls[0][0]).toEqual('The "excel" data addon has been configured successfully')
+
+        expect(mockLogger.info.mock.calls.length).toBe(1)
+        expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install google-sheet when there is only one environment available', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+
+        const mockLogger = {
+          info: jest.fn(),
+          log: jest.fn(),
+          success: jest.fn()
+        }
+
+        jest.mock('../utils/logger', () => {
+          return mockLogger
+        })
+
+        const mockPrompt = jest.fn().mockResolvedValue({
+          configFile: filename,
+          config_id: 'google-sheet-id',
+          config_apikey: 'google-sheet-apikey'
+        })
+
+        jest.mock('inquirer', () => {
+          return {
+            Separator: jest.fn(),
+            prompt: mockPrompt
+          }
+        })
+  
+        const Install = require('./install')
+        await Install('google-sheet')
+
+        expect(mockPrompt.mock.calls.length).toBe(1)
+
+        expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What is your Google Sheet id?')
+        expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_id')
+
+        expect(mockPrompt.mock.calls[0][0][1].message).toEqual('What is your Google Sheet api key?')
+        expect(mockPrompt.mock.calls[0][0][1].name).toEqual('config_apikey')
+        
+        let result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            data: {
+              channel: 'google-sheet',
+              config: {
+                id: 'google-sheet-id',
+                apikey: 'google-sheet-apikey'
+              }
+            },
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+
+        expect(mockLogger.success.mock.calls.length).toBe(1)
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "google-sheet" data addon has been configured successfully')
 
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
