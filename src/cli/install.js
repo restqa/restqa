@@ -45,6 +45,29 @@ const LIST = {
      }
     }
   },
+  'excel' : {
+    type: 'data',
+    questions: [{
+      name: 'config_folder',
+      message: `Where are located your csv files ?`
+    }],
+    get: (config) => {
+      if (!config.folder) {
+        throw new Error('Please specify the location of your csv files (data.config.folder)')
+      }
+
+      if (!fs.existsSync(config.folder)) {
+          throw new Error(`The folder "${config.folder}" doesn't exist.`)
+      }
+
+      return {
+        channel: 'csv',
+        config: {
+          folder: config.folder
+       }
+     }
+    }
+  }
 }
 
 async function Install (name, program) {
@@ -60,16 +83,26 @@ async function Install (name, program) {
   const env = restqaConfig.environments[0].name
 
   if (!name) {
+    const filteredList = Object.keys(LIST).reduce((result, key) => {
+      result[LIST[key].type] = result[LIST[key].type]  || []
+      result[LIST[key].type].push(key)
+      return result
+    }, {})
+
     name = (await inquirer.prompt([{
       type: 'list',
       message: `What do you want to install?`,
       name: 'name',
-      choices: Object.keys(LIST).map(key => {
-        return {
-          name: `${key} (${LIST[key].type})`,
-          value: key
-        }
-      })
+      choices: Object.values(filteredList).map(list => {
+        let _list = list.map(key => {
+          return {
+            name: `${key.charAt(0).toUpperCase() + key.slice(1)} (${LIST[key].type})`,
+            value: key
+          }
+        })
+        _list.push(new inquirer.Separator())
+        return _list
+      }).flat().slice(0, -1)
     }])).name
   }
 
@@ -101,7 +134,7 @@ async function Install (name, program) {
   let result = Install.generate(answers)
   fs.writeFileSync(configFile, result)
 
-  logger.success(`The "${name}" ${LIST[name].type} has been configured successfully`)
+  logger.success(`The "${name}" ${LIST[name].type} addon has been configured successfully`)
   logger.info('Do not forget to use environment variable to secure your sensitive information')
 }
 
@@ -143,7 +176,13 @@ Install.generate = function(options) {
     throw new Error(`"${env}" is not an environment available in the config file, choose between : ${restqaConfig.environments.map(_ => _.name).join(', ')}`)
   }
 
-  restqaConfig.environments[envIndex][plugin.type].push(plugin.get(config))
+  if ('outputs' === plugin.type) {
+    restqaConfig.environments[envIndex]['outputs'].push(plugin.get(config))
+  } 
+
+  if ('data' === plugin.type) {
+    restqaConfig.environments[envIndex]['data'] = plugin.get(config)
+  }
 
   return YAML.stringify(restqaConfig)
 }

@@ -265,6 +265,198 @@ environments:
         }
         expect(result).toEqual(expectedContent)
     })
+
+    test('Throw an error if the excel config doesn\'t contain the folder', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = `/tmp/.restqa.yml`
+      fs.writeFileSync(filename, content)
+  
+      const Install = require('./install')
+      const options =  {
+        configFile: filename,
+        name: 'excel',
+        env: 'uat',
+        config: {
+        }
+      }
+  
+      expect(() => Install.generate(options)).toThrow('Please specify the location of your csv files (data.config.folder)')
+    })
+
+    test('Throw an error if the excel config contains a folder but he doesn\'t exist', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+
+      filename = `/tmp/.restqa.yml`
+      fs.writeFileSync(filename, content)
+  
+      const Install = require('./install')
+      const options =  {
+        configFile: filename,
+        name: 'excel',
+        env: 'uat',
+        config: {
+          folder: '/fake_folder'
+        }
+      }
+      expect(() => Install.generate(options)).toThrow('The folder "/fake_folder" doesn\'t exist.')
+    })
+  
+    test('Add the excel data into the configuration file in a specific environment', () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+  
+        const Install = require('./install')
+        const options =  {
+          name: 'excel',
+          env: 'local',
+          configFile: filename,
+          config: {
+            folder: '/tmp',
+          }
+        }
+  
+        let result = Install.generate(options)
+        result = YAML.parse(result)
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            data: {
+              channel: 'csv',
+              config: {
+                folder: '/tmp'
+              }
+            },
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }, {
+            name: 'uat',
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://test.uat.com'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+    })
   
     test('Throw an error if the discord config doesn\'t contain the url', () => {
       const content = `
@@ -476,9 +668,11 @@ environments:
             config_url:'https://www.slack-incoming.com/test'
           })
 
+        const mockSeparator = jest.fn()
+
         jest.mock('inquirer', () => {
           return {
-            Separator: jest.fn(),
+            Separator: mockSeparator,
             prompt: mockPrompt
           }
         })
@@ -491,11 +685,16 @@ environments:
         expect(mockPrompt.mock.calls[0][0][0].name).toEqual('name')
         const expectedPlugins = [
           {
-            name: 'slack (outputs)',
+            name: 'Slack (outputs)',
             value: 'slack'
           },{
-            name: 'discord (outputs)',
+            name: 'Discord (outputs)',
             value: 'discord'
+          },
+         new mockSeparator(),
+          {
+            name: 'Excel (data)',
+            value: 'excel'
           }
         ]
         expect(mockPrompt.mock.calls[0][0][0].choices).toEqual(expectedPlugins)
@@ -560,7 +759,7 @@ environments:
         expect(result).toEqual(expectedContent)
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
-        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs has been configured successfully')
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
     })
@@ -687,7 +886,7 @@ environments:
         expect(result).toEqual(expectedContent)
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
-        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs has been configured successfully')
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
     })
@@ -786,13 +985,13 @@ environments:
         expect(result).toEqual(expectedContent)
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
-        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs has been configured successfully')
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
 
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
     })
 
-    test('Install slack when there is only one environment available', async () => {
+    test('Install discord when there is only one environment available', async () => {
         const content = `
 ---
 
@@ -885,7 +1084,104 @@ environments:
         expect(result).toEqual(expectedContent)
 
         expect(mockLogger.success.mock.calls.length).toBe(1)
-        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "discord" outputs has been configured successfully')
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "discord" outputs addon has been configured successfully')
+
+        expect(mockLogger.info.mock.calls.length).toBe(1)
+        expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install CSV when there is only one environment available', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+        filename = `.restqa.yml`
+        fs.writeFileSync(filename, content)
+
+        const mockLogger = {
+          info: jest.fn(),
+          log: jest.fn(),
+          success: jest.fn()
+        }
+
+        jest.mock('../utils/logger', () => {
+          return mockLogger
+        })
+
+        const mockPrompt = jest.fn().mockResolvedValue({
+          configFile: filename,
+          config_folder:'/tmp',
+        })
+
+        jest.mock('inquirer', () => {
+          return {
+            Separator: jest.fn(),
+            prompt: mockPrompt
+          }
+        })
+  
+        const Install = require('./install')
+        await Install('excel')
+
+        expect(mockPrompt.mock.calls.length).toBe(1)
+
+        expect(mockPrompt.mock.calls[0][0][0].message).toEqual('Where are located your csv files ?')
+        expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_folder')
+        
+        let result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+  
+        const expectedContent = {
+          version: '0.0.1',
+          metadata: {
+            code: 'API',
+            name: 'My test API',
+            description: 'The description of the test api'
+          },
+          environments: [{
+            name: 'local',
+            default: true,
+            data: {
+              channel: 'csv',
+              config: {
+                folder: '/tmp'
+              }
+            },
+            plugins: [{
+              name: 'restqapi',
+              config: {
+                url: 'http://localhost:3000'
+              }
+            }],
+            outputs: [{
+              type: 'file',
+              enabled: true,
+              config: {
+                path: 'my-report.json'
+             }
+            }]
+          }]
+        }
+        expect(result).toEqual(expectedContent)
+
+        expect(mockLogger.success.mock.calls.length).toBe(1)
+        expect(mockLogger.success.mock.calls[0][0]).toEqual('The "excel" data addon has been configured successfully')
 
         expect(mockLogger.info.mock.calls.length).toBe(1)
         expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
