@@ -13,6 +13,9 @@ module.exports = {
   },
   success: function () {
     console.log(chalk.bold.green.apply(this, arguments))
-  }
+  },
+  warning: function() {
+    console.log(chalk.bold.yellow.apply(this, arguments))
+  },
 }
 

@@ -12,6 +12,7 @@ const {
 } = require('@restqa/restqa-plugin-boostrap')
 
 const Config = require('./config')
+const Logger = require('./utils/logger')
 
 try {
 
@@ -60,6 +61,27 @@ try {
   }
   
   setWorldConstructor(RestQA)
+
+  
+  const dataPrivacyWarningOutput = ['http-html-report']
+  config.environment.outputs
+    .filter(_ => dataPrivacyWarningOutput.includes(_.type))
+    .forEach(output => {
+      if ('http-html-report' === output.type && !output.config) {
+        const msg = [
+          `🔥 [DATA PRIVACY WARNING] The output "http-html-report" is configured with the default options.`,
+          `Your report will be stored in the public RestQA dashboard with a time limit of 2 minutes.`,
+          `This mode will be enabled for demo purposes only, you should not use it with your real scenarios.`,
+          `We are recommending you 2 other options:`,
+          `👉 Disable the http-html-report output`,
+          `👉 Configure the http-html-report to a custom url pointing to the @restqa/sidekick-server hosted on your infrastructure (project: https://github.com/restqa/sidekick-server)`,
+          `---`,
+          `More documentation about http-html-report at https://docs.restqa.io/monitoring/http-html-report`,
+          `\n\n`
+        ]
+        Logger.warning(msg.join('\n'))
+      }
+    })
 } catch(err) {
   //throw err
   console.log(err)

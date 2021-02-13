@@ -45,4 +45,11 @@ describe('# utils - logger', () => {
     expect(global.console.log.mock.calls.length).toBe(1)
     expect(global.console.log.mock.calls[0][0]).toEqual(chalk.bold.green('my success msg msg2'))
   })
+
+  test('log warning', () => {
+    const logger = require('./logger') 
+    logger.warning('my warning msg', 'msg2')
+    expect(global.console.log.mock.calls.length).toBe(1)
+    expect(global.console.log.mock.calls[0][0]).toEqual(chalk.bold.yellow('my warning msg msg2'))
+  })
 })
