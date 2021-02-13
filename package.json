@@ -3,7 +3,7 @@
   "version": "0.0.20",
   "description": "An all in one test automation runner",
   "scripts": {
-    "start:library": "export $(cat .env | xargs) && cucumber-js --require ./src/setup.js ./sample-project",
+    "start:library": "export $(cat .env | xargs) && ./bin/restqa run ./sample-project",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage"
