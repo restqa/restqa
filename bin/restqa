@@ -80,7 +80,9 @@ let customOptions = [
   '--require',
   './src/setup.js',
   '--format',
-  './src/restqa-formatter:.restqa.log'
+  './src/restqa-formatter:.restqa.log',
+  '--format-options',
+  '{"snippetSyntax": "./src/restqa-snippet.js"}'
 ]
 
 const options  = {
