@@ -21,8 +21,8 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@restqa/cucumber-export": "^0.1.1",
+    "@restqa/restqa-plugin-bootstrap": "0.0.4",
     "@restqa/restqapi": "0.0.13",
-    "@restqa/restqdata": "0.0.2",
     "chalk": "^4.0.0",
     "commander": "^6.2.1",
     "console-table-printer": "^1.4.3",

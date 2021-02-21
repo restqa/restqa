@@ -9,7 +9,7 @@ const {
 const {
   World,
   Data
-} = require('@restqa/restqa-plugin-boostrap')
+} = require('@restqa/restqa-plugin-bootstrap')
 
 const Config = require('./config')
 const Logger = require('./utils/logger')
