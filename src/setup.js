@@ -69,10 +69,10 @@ try {
     .forEach(output => {
       if ('http-html-report' === output.type && !output.config) {
         const msg = [
-          `🔥 [DATA PRIVACY WARNING] The output "http-html-report" is configured with the default options.`,
-          `Your report will be stored in the public RestQA dashboard with a time limit of 2 minutes.`,
-          `This mode will be enabled for demo purposes only, you should not use it with your real scenarios.`,
-          `We are recommending you 2 other options:`,
+          `🔥 [DATA PRIVACY WARNING] The output "http-html-report" is configured with the default option.`,
+          `The report will be automatically stored on the public RestQA dashboard for only 2 minutes.`,
+          `This mode will be enabled for demo purposes only. It should be used with your real scenarios.`,
+          `We are recommending you two other options for you:`,
           `👉 Disable the http-html-report output`,
           `👉 Configure the http-html-report to a custom url pointing to the @restqa/sidekick-server hosted on your infrastructure (project: https://github.com/restqa/sidekick-server)`,
           `---`,
