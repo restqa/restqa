@@ -29,12 +29,12 @@ describe('RestQA Snippet', () => {
     }
 
     let expectedResult = `
-😵 Oups, we are facing an issue with the step:
+😵 Oooppps! We are facing an issue with the step:
 """
 My undefined step definition!
 """
 
-Do not worry, we are here to find a solution with you, please try to:
+Do not worry! We are here to find a solution for the error your encountering. Please try to check the following:
 ---
 👉 Check if you don't have any random spaces at the begining, in the middle or at the end of the line.
 👉 Check the available steps on your project by using the command: restqa step then
@@ -96,13 +96,13 @@ Thank you for using RestQA! 💜`
     const snippet = new Snippet('async-await')
     let result = snippet.build(options)
     let expectedResult = `
-😵 Oups, we are facing an issue with the steps:
+😵 Oooppps! We are facing an issue with the steps:
 """
 My undefined step definition! (number 1)
 My undefined step definition! (number 2)
 """
 
-Do not worry, we are here to find a solution with you, please try to:
+Do not worry! We are here to find a solution for the error your encountering. Please try to check the following:
 ---
 👉 Check if you don't have any random spaces at the begining, in the middle or at the end of the line.
 👉 Check the available steps on your project by using the command: restqa step given
