@@ -42,7 +42,7 @@ In addition, RestQA is highly extensible via its [Plugin API](https://docs.restq
 
 ## Contribution
 
-See [Contributing Guide](https://github.com/restqa/restqa/tree/master/.github/contributing.md).
+See [Contributing Guide](./CONTRIBUTING.md).
 
 ## License
 
