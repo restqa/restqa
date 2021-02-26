@@ -139,6 +139,37 @@ describe('# cli - generator', () => {
 
     })
 
+    test('Get the Scenario with only cookies set', async () => {
+      let resultScenario = `
+        Given I have an example
+      `
+      let mockGenerator = jest.fn().mockReturnValue(resultScenario)
+      
+      jest.mock('@restqa/restqapi', () => ({
+        Generator: mockGenerator
+      }))
+      const Generate = require('./generate')
+      const program = {
+        args: [
+          'curl',
+          '--cookie',
+          'my-chocolate-cookie',
+          'https://examples/quotes/legacy/bw15'
+        ]
+      }
+      let result = await Generate(program)
+      expect(result).toEqual(resultScenario)
+      let expectOptions = {
+        url: 'https://examples/quotes/legacy/bw15',
+        headers: {
+          'cookie': 'my-chocolate-cookie',
+        },
+        isJson: false
+      }
+      expect(mockGenerator.mock.calls.length).toBe(1)
+      expect(mockGenerator.mock.calls[0][0]).toEqual(expectOptions)
+    })
+
     test('Get the Scenario with json request body but not method specified into the command', async () => {
       let resultScenario = `
         Given I have an example

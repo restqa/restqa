@@ -104,10 +104,12 @@ module.exports = async function (parentProgram) {
    })
 
    if (program.cookie) {
+     options.headers = options.headers || {}
      options.headers['cookie'] = program.cookie
    }
 
    if (program.userAgent) {
+     options.headers = options.headers || {}
      options.headers['user-agent'] = program.userAgent
    }
 

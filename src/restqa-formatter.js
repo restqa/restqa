@@ -14,7 +14,7 @@ const options = {
   env: config.environment.name,
   repository: process.env.GITHUB_REPOSITORY || process.env.CI_PROJECT_PATH || process.env.BITBUCKET_REPO_SLUG || process.env.RESTQA_REPOSITORY,
   sha: process.env.GITHUB_SHA || process.env.CI_COMMIT_SHA || process.env.BITBUCKET_COMMIT || process.env.RESTQA_COMMIT_SHA,
-  outputs: config.environment.outputs
+  outputs: config.environment.outputs || []
 }
 
 if (config.analytics  && config.analytics.key) { // If the analytics exist we add an export to the restqa.io webhook

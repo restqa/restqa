@@ -109,7 +109,7 @@ initialize.generate = async function (options) {
         }
       }],
       outputs: [{
-        type: 'http-html-report',
+        type: 'html',
         enabled: true,
       }, {
         type: 'file',

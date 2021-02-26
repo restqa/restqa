@@ -1,20 +1,38 @@
 <p align="center">
-  <img src="https://restqa.io/assets/img/logos/restqa-logo-colors.png" alt="restqa.png" width="300"/>
+  <a href="https://restqa.io" target="_blank" rel="noopener noreferrer">
+    <img src="https://restqa.io/assets/img/logos/restqa-logo-colors.png" alt="RestQA logo" width="180"/>
+  </a>
 </p>
-<h1 align="center">RestQA</h1>
+<br/>
+<p align="center">
+  <a href="https://www.npmjs.com/package/@restqa/restqa"><img src="https://img.shields.io/npm/v/@restqa/restqa" alt="npm package"></a>
+  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/@restqa/restqa" alt="node compatility"></a>
+  <a href="https://github.com/restqa/restqa/actions/workflows/build.yml"><img src="https://github.com/restqa/restqa/actions/workflows/build.yml/badge.svg" alt="github action build"></a>
+  <a href="https://hub.docker.com/r/restqa/restqa"><img src="https://img.shields.io/docker/v/restqa/restqa/latest" alt="Docker build"></a>
+  <a href="https://restqa.io/chat"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
+</p>
+<br/>
+
+# RestQA 🦏
+
+> Next Generation End-to-End API test automation platform
+
+- 🚀 Instant installation
+- 🤩 low learning curve
+- ⭐️ 100+ built-in feature steps
+- 🔌 Dozen of integrations
+- 🕵️ Data privacy focused
 
 
-### API Automated testing platform
+RestQA was born from a need of getting more transparency of a product behavior. It consists of two major parts:
 
-Focus on API testing, RestQA provide a full set of tools to create your test automation platform from A to Z.
+- Use Gherkin to enforce the ATDD (acceptance test driven development) as pratice across the team member regardless of their background
 
----
+- Reuse the team toolset as maximum, i order to reduce the learning curve and focus on the product behavior test scenario
 
-### Documentation:
+In addition, RestQA is highly extensible via its [Plugin API](https://docs.restqa.io/api/plugin-api) and [Output API](https://docs.restqa.io/api/output-api).
 
-You can find documentation on the **[Documentation page](https://docs.restqa.io)**.
-
----
+[Read the Docs to Learn More](https://docs.restqa.io).
 
 ### Demo
 
@@ -22,9 +40,11 @@ You can find documentation on the **[Documentation page](https://docs.restqa.io)
 
 [Access to the Mini Demo](https://player.vimeo.com/video/508689124?title=0&byline=0&portrait=0)
 
+## Contribution
 
+See [Contributing Guide](./CONTRIBUTING.md).
 
-### License
+## License
 
 [MIT License](./LICENSE)
 
