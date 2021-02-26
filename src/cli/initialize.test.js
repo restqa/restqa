@@ -334,7 +334,7 @@ describe('#Cli - Initialize', () => {
               }
             }],
             outputs: [{
-              type: 'http-html-report',
+              type: 'html',
               enabled: true,
             }, {
               type: 'file',
@@ -407,7 +407,7 @@ describe('#Cli - Initialize', () => {
               }
             }],
             outputs: [{
-              type: 'http-html-report',
+              type: 'html',
               enabled: true,
             }, {
               type: 'file',
@@ -500,7 +500,7 @@ Given I have an example`
               }
             }],
             outputs: [{
-              type: 'http-html-report',
+              type: 'html',
               enabled: true,
             }, {
               type: 'file',
@@ -562,7 +562,7 @@ Given I have an example`
               }
             }],
             outputs: [{
-              type: 'http-html-report',
+              type: 'html',
               enabled: true,
             }, {
               type: 'file',

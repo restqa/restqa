@@ -63,6 +63,9 @@ try {
   setWorldConstructor(RestQA)
 
   
+  /*
+   *  Commented because now the html report is the default exporter
+
   const dataPrivacyWarningOutput = ['http-html-report']
   config.environment.outputs
     .filter(_ => dataPrivacyWarningOutput.includes(_.type))
@@ -82,6 +85,7 @@ try {
         Logger.warning(msg.join('\n'))
       }
     })
+  */
 } catch(err) {
   //throw err
   console.log(err)

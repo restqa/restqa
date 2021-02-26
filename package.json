@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@restqa/cucumber-export": "^0.1.1",
+    "@restqa/cucumber-export": "^0.1.4",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
     "@restqa/restqapi": "0.0.14",
     "chalk": "^4.0.0",
@@ -33,6 +33,9 @@
   },
   "bin": {
     "restqa": "./bin/restqa"
+  },
+  "engines": {
+    "node": ">=12.0.0"
   },
   "main": "src/index.js",
   "devDependencies": {
