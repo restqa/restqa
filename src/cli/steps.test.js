@@ -95,18 +95,21 @@ environments:
     Steps('Given', { config: filename })
 
     expect(mockTable.mock.calls.length).toBe(1)
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
     expect(mockAddRow.mock.calls.length).toBe(2)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definition',
       Comment: 'my comment'
     })
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'ma definition',
       Comment: 'mon commentaire'
@@ -205,24 +208,28 @@ environments:
     Steps('Then', { config: filename })
 
     expect(mockTable.mock.calls.length).toBe(1)
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
     expect(mockAddRow.mock.calls.length).toBe(3)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'then',
       Step: 'my definition',
       Comment: 'my comment'
     })
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'then',
       Step: 'ma definition',
       Comment: 'mon commentaire'
     })
 
     expect(mockAddRow.mock.calls[2][0]).toEqual({
+      Plugin: '@restqa/restqmocki',
       Keyword: 'then',
       Step: 'ma definition de mock',
       Comment: 'mon commentaire de mock'
@@ -294,18 +301,21 @@ environments:
     Steps('Given', { config: filename, tag: 'header'})
 
     expect(mockTable.mock.calls.length).toBe(1)
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
     expect(mockAddRow.mock.calls.length).toBe(2)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definition',
       Comment: 'my comment'
     })
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definitions',
       Comment: 'my comments'

@@ -18,7 +18,8 @@ module.exports = function (processor, options) {
   const config = new Config(options)
   
   function pluginLoader (plugin) {
-    let Module = require(`@restqa/${plugin.name}`)
+    options.plugin = `@restqa/${plugin.name}`
+    let Module = require(options.plugin)
     if (config.environment.data) {
       plugin.config.data = {
         startSymbol: config.environment.data.startSymbol,

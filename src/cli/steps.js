@@ -1,5 +1,3 @@
-const proxyquire = require('proxyquire')
-const chalk = require('chalk')
 const { Table } = require('console-table-printer')
 const Config = require('../config')
 const Bootstrap = require('../bootstrap')
@@ -11,7 +9,12 @@ function getSteps (keyword, options) {
   const register = (cucumberFn, gerkin, comment, tag) => {
     cucumberFn = cucumberFn.toLowerCase()
     result[cucumberFn] = result[cucumberFn] || []
-    result[cucumberFn].push({ gerkin, comment, tag })
+    result[cucumberFn].push({
+      gerkin,
+      comment,
+      tag,
+      plugin: options.plugin
+    })
   }
 
   const cucumber = {
@@ -25,7 +28,6 @@ function getSteps (keyword, options) {
     When: (gerkin, fn, comment, tag) => register('When', gerkin, comment, tag),
     Then: (gerkin, fn, comment, tag) => register('Then', gerkin, comment, tag)
   }
-
 
   Bootstrap(cucumber, options)
 
@@ -54,9 +56,10 @@ module.exports = function (keyword, program) {
   const table = new Table({
     style: 'fatBorder', // style of border of the table
     columns: [
+      { name: 'Plugin', alignment: 'left', color: 'green'  },
       { name: 'Keyword', alignment: 'left' },
       { name: 'Step', alignment: 'left' },
-      { name: 'Comment', alignment: 'left', color: 'red' }
+      { name: 'Comment', alignment: 'left', color: 'magenta' }
     ]
   })
 
@@ -71,8 +74,9 @@ module.exports = function (keyword, program) {
 
   steps.forEach(r => {
       table.addRow({
-        Keyword: keyword || chalk.blue(keyword),
-        Step: r.gerkin || chalk.yellow(r.gerkin),
+        Plugin: r.plugin,
+        Keyword: keyword,
+        Step: r.gerkin,
         Comment: r.comment
       })
     })
