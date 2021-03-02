@@ -58,32 +58,6 @@ environments:
     filename = `/tmp/.restqa.yml`
     fs.writeFileSync(filename, content)
 
-    /*****
-     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
-     */
-    let mockOfMockCucumber
-
-    jest.mock('proxyquire', () =>  {
-      return function(file, { cucumber }) {
-        mockOfMockCucumber = cucumber
-        require(file)
-      }
-    })
-
-    jest.mock('cucumber', () =>  {
-      return {
-        After: () => {},
-        AfterAll: () => {},
-        Before: () => {},
-        BeforeAll: () => {},
-        defineParameterType: () => {},
-        setWorldConstructor: () => {},
-        Given: (gerkin, fn, comment) => mockOfMockCucumber.Given(gerkin, fn, comment),
-        When: (gerkin, fn, comment) => mockOfMockCucumber.When(gerkin, fn, comment),
-        Then: (gerkin, fn, comment) => mockOfMockCucumber.ThenGiven(gerkin, fn, comment),
-      }
-    })
-
     jest.mock('@restqa/restqapi', () =>  {
       return function() {
         return {
@@ -165,32 +139,6 @@ environments:
     `
     filename = `/tmp/.restqa-multiple.yml`
     fs.writeFileSync(filename, content)
-
-    /*****
-     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
-     */
-    let mockOfMockCucumber
-
-    jest.mock('proxyquire', () =>  {
-      return function(file, { cucumber }) {
-        mockOfMockCucumber = cucumber
-        require(file)
-      }
-    })
-
-    jest.mock('cucumber', () =>  {
-      return {
-        After: () => {},
-        AfterAll: () => {},
-        Before: () => {},
-        BeforeAll: () => {},
-        defineParameterType: () => {},
-        setWorldConstructor: () => {},
-        Given: (gerkin, fn, comment) => mockOfMockCucumber.Given(gerkin, fn, comment),
-        When: (gerkin, fn, comment) => mockOfMockCucumber.When(gerkin, fn, comment),
-        Then: (gerkin, fn, comment) => mockOfMockCucumber.Then(gerkin, fn, comment),
-      }
-    })
 
     jest.mock('@restqa/restqapi', () =>  {
       return function() {
@@ -307,32 +255,6 @@ environments:
     `
     filename = `/tmp/.restqa-tag.yml`
     fs.writeFileSync(filename, content)
-
-    /*****
-     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
-     */
-    let mockOfMockCucumber
-
-    jest.mock('proxyquire', () =>  {
-      return function(file, { cucumber }) {
-        mockOfMockCucumber = cucumber
-        require(file)
-      }
-    })
-
-    jest.mock('cucumber', () =>  {
-      return {
-        After: () => {},
-        AfterAll: () => {},
-        Before: () => {},
-        BeforeAll: () => {},
-        defineParameterType: () => {},
-        setWorldConstructor: () => {},
-        Given: (gerkin, fn, comment, tags) => mockOfMockCucumber.Given(gerkin, fn, comment, tags),
-        When: (gerkin, fn, comment, tags) => mockOfMockCucumber.When(gerkin, fn, comment, tags),
-        Then: (gerkin, fn, comment, tags) => mockOfMockCucumber.ThenGiven(gerkin, fn, comment, tags),
-      }
-    })
 
     jest.mock('@restqa/restqapi', () =>  {
       return function() {
