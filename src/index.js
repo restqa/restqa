@@ -1,6 +1,4 @@
-const  generate = require('./cli/generate')
-const  initialize = require('./cli/initialize')
-const  install = require('./cli/install')
+const  { generate, initialize, install, steps } = require('./cli')
 
 async function Initialize() {
 }
@@ -23,8 +21,17 @@ function Install(options) {
   return install.generate(options)
 }
 
+function Steps(options) {
+  return steps(options.keyword, {
+    configFile: options.configFile || './.restqa.yml',
+    tag: options.tag,
+    print: false
+  })
+}
+
 module.exports = {
   Initialize,
   Generate,
-  Install
+  Install,
+  Steps
 }

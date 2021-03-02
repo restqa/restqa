@@ -91,3 +91,51 @@ describe('# Index - Install', () => {
   })
 })
 
+describe('# Index - Step', () => {
+  test('Get result from Step defintions', () => {
+      const mockSteps = jest.fn().mockReturnValue('result')
+
+      jest.mock('./cli/steps', () => {
+        return mockSteps
+      })
+
+      const opt = {
+        configFile: '/tmp/.restqa.yml',
+        keyword: 'then',
+        tag: 'header'
+      }
+
+      const { Steps } = require('./index')
+      expect(Steps(opt)).toEqual('result')
+      expect(mockSteps.mock.calls.length).toBe(1)
+      expect(mockSteps.mock.calls[0][0]).toEqual('then')
+      expect(mockSteps.mock.calls[0][1]).toEqual({
+        configFile: '/tmp/.restqa.yml',
+        tag: 'header',
+        print: false
+      })
+  })
+
+  test('Get result from Step defintions (default value)', () => {
+      const mockSteps = jest.fn().mockReturnValue('result')
+
+      jest.mock('./cli/steps', () => {
+        return mockSteps
+      })
+
+      const opt = {
+        keyword: 'then',
+        tag: 'header'
+      }
+
+      const { Steps } = require('./index')
+      expect(Steps(opt)).toEqual('result')
+      expect(mockSteps.mock.calls.length).toBe(1)
+      expect(mockSteps.mock.calls[0][0]).toEqual('then')
+      expect(mockSteps.mock.calls[0][1]).toEqual({
+        configFile: './.restqa.yml',
+        tag: 'header',
+        print: false
+      })
+  })
+})

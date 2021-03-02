@@ -35,7 +35,9 @@ function getSteps (keyword, options) {
 }
 
 module.exports = function (keyword, program) {
-  const { config, tag } = program || {}
+  let { config, tag, print } = program || {}
+
+  print = (undefined === print) ? true : print
 
   const keywords = ['given', 'when', 'then']
 
@@ -72,13 +74,19 @@ module.exports = function (keyword, program) {
     })
   }
 
-  steps.forEach(r => {
-      table.addRow({
-        Plugin: r.plugin,
-        Keyword: keyword,
-        Step: r.gerkin,
-        Comment: r.comment
-      })
-    })
-  table.printTable()
+  const result = steps.map(r => {
+    let el = {
+      Plugin: r.plugin,
+      Keyword: keyword,
+      Step: r.gerkin,
+      Comment: r.comment
+    }
+    table.addRow(el)
+    return el
+  })
+
+  if (true === print) {
+    table.printTable()
+  }
+  return result
 }

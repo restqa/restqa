@@ -92,7 +92,7 @@ environments:
     
 
     const Steps = require('./steps')
-    Steps('Given', { config: filename })
+    const result = Steps('Given', { config: filename })
 
     expect(mockTable.mock.calls.length).toBe(1)
     expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
@@ -115,6 +115,17 @@ environments:
       Comment: 'mon commentaire'
     })
     expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(result).toEqual([{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'my definition',
+      Comment: 'my comment'
+    },{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'ma definition',
+      Comment: 'mon commentaire'
+    }])
   })
 
   test('Load the steps from multiple plugin', () => {
@@ -205,7 +216,7 @@ environments:
     
 
     const Steps = require('./steps')
-    Steps('Then', { config: filename })
+    const result = Steps('Then', { config: filename })
 
     expect(mockTable.mock.calls.length).toBe(1)
     expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
@@ -235,10 +246,26 @@ environments:
       Comment: 'mon commentaire de mock'
     })
     expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(result).toEqual([{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'then',
+      Step: 'my definition',
+      Comment: 'my comment'
+    },{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'then',
+      Step: 'ma definition',
+      Comment: 'mon commentaire'
+    },{
+      Plugin: '@restqa/restqmocki',
+      Keyword: 'then',
+      Step: 'ma definition de mock',
+      Comment: 'mon commentaire de mock'
+    }])
   })
 
 
-  test('Load the steps search tags', () => {
+  test('Load the steps search tags and no print', () => {
     const content = `
 ---
 
@@ -296,9 +323,8 @@ environments:
       }
     })
     
-
     const Steps = require('./steps')
-    Steps('Given', { config: filename, tag: 'header'})
+    const result = Steps('Given', { config: filename, tag: 'header', print: false})
 
     expect(mockTable.mock.calls.length).toBe(1)
     expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
@@ -321,6 +347,17 @@ environments:
       Comment: 'my comments'
     })
 
-    expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(mockPrintTable.mock.calls.length).toBe(0)
+    expect(result).toEqual([{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'my definition',
+      Comment: 'my comment'
+    },{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'my definitions',
+      Comment: 'my comments'
+    }])
   })
 })
