@@ -4,8 +4,12 @@ const cucumber = require('cucumber')
 const logger = require('../utils/logger')
 
 module.exports = function (program) {
-  // -- env
-  let { env, config, args } = program
+  let {
+    env,
+    config,
+    stdout = process.stdout,
+    args = []
+  } = program
 
   // -- paths
   if (!args.length) args.push('.')
@@ -25,14 +29,15 @@ module.exports = function (program) {
   // -- config
   config = config || path.join(process.cwd(), '.restqa.yml')
   if (!fs.existsSync(config)) {
-    console.log(`file not exist : ${config}`)
-    process.exit(0)
+    return Promise.reject(new Error(`The configuration file "${config}" doesn't exit.`))
   }
 
-  // TODO : Add extra cucumber parameters from config file
-  process.env.RESTQA_CONFIG = config
-  if (env) process.env.RESTQA_ENV = env
+  global.restqaOptions = {
+    config,
+    env
+  }
   
+  // TODO : Add extra cucumber parameters from config file
   let customOptions = [
     'node',
     'cucumber-js',
@@ -47,7 +52,7 @@ module.exports = function (program) {
   const options  = {
     argv: customOptions.concat(paths),
     cwd: path.join(__dirname, '../'),
-    stdout: process.stdout
+    stdout
   }
   
   const cucumberCli = new cucumber.Cli(options)
