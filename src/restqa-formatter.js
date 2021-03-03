@@ -3,8 +3,10 @@ const Config = require('./config')
 
 const restqa = {
   env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
-  configFile: process.env.RESTQA_CONFIG
+  configFile: process.env.RESTQA_CONFIG,
+  tmpFileExport: process.env.RESTQA_TMP_FILE_EXPORT
 }
+
 
 const config = new Config(restqa)
 
@@ -17,21 +19,14 @@ const options = {
   outputs: config.environment.outputs || []
 }
 
-if (config.analytics  && config.analytics.key) { // If the analytics exist we add an export to the restqa.io webhook
-  if (!config.analytics.ignore || !config.analytics.ignore.includes(options.env)) {
-    options.outputs.push({
-      type: 'http',
-      enabled: true,
-      config: {
-        url: process.env.RESTQA_ANALYTICS_URL || 'https://get.restqa.io/webhook',
-        method: 'POST',
-        headers: {
-          'x-api-key': config.analytics.key
-        }
-      }
-    })
-  }
+if (restqa.tmpFileExport) {
+  options.outputs.push({
+    type: 'file',
+     enabled: true,
+     config: {
+       path: restqa.tmpFileExport
+    }
+  })
 }
-
 
 module.exports = getFormatter(options)

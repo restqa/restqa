@@ -14,7 +14,7 @@ describe('#Cli - Run', () => {
 
     let options = {
       config: filename,
-      stdout: 'std-out-example'
+      stream: 'std-out-example'
     }
     const Run = require('./run')
     expect(Run(options)).rejects.toThrow(`The configuration file "${filename}" doesn't exit.`)
@@ -67,7 +67,7 @@ environments:
     const Run = require('./run')
     let options = {
       config: filename,
-      stdout: 'std-out-example'
+      stream: 'std-out-example'
     }
     const result = await Run(options)
     expect(mockCucumberCli.mock.calls.length).toBe(1)

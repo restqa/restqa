@@ -7,7 +7,7 @@ module.exports = function (program) {
   let {
     env,
     config,
-    stdout = process.stdout,
+    stream = process.stdout,
     args = []
   } = program
 
@@ -52,7 +52,7 @@ module.exports = function (program) {
   const options  = {
     argv: customOptions.concat(paths),
     cwd: path.join(__dirname, '../'),
-    stdout
+    stdout: stream
   }
   
   const cucumberCli = new cucumber.Cli(options)
