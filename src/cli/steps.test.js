@@ -58,32 +58,6 @@ environments:
     filename = `/tmp/.restqa.yml`
     fs.writeFileSync(filename, content)
 
-    /*****
-     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
-     */
-    let mockOfMockCucumber
-
-    jest.mock('proxyquire', () =>  {
-      return function(file, { cucumber }) {
-        mockOfMockCucumber = cucumber
-        require(file)
-      }
-    })
-
-    jest.mock('cucumber', () =>  {
-      return {
-        After: () => {},
-        AfterAll: () => {},
-        Before: () => {},
-        BeforeAll: () => {},
-        defineParameterType: () => {},
-        setWorldConstructor: () => {},
-        Given: (gerkin, fn, comment) => mockOfMockCucumber.Given(gerkin, fn, comment),
-        When: (gerkin, fn, comment) => mockOfMockCucumber.When(gerkin, fn, comment),
-        Then: (gerkin, fn, comment) => mockOfMockCucumber.ThenGiven(gerkin, fn, comment),
-      }
-    })
-
     jest.mock('@restqa/restqapi', () =>  {
       return function() {
         return {
@@ -118,26 +92,40 @@ environments:
     
 
     const Steps = require('./steps')
-    Steps('Given', { config: filename })
+    const result = Steps('Given', { config: filename })
 
     expect(mockTable.mock.calls.length).toBe(1)
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
     expect(mockAddRow.mock.calls.length).toBe(2)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definition',
       Comment: 'my comment'
     })
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'ma definition',
       Comment: 'mon commentaire'
     })
     expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(result).toEqual([{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'my definition',
+      Comment: 'my comment'
+    },{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'ma definition',
+      Comment: 'mon commentaire'
+    }])
   })
 
   test('Load the steps from multiple plugin', () => {
@@ -165,32 +153,6 @@ environments:
     `
     filename = `/tmp/.restqa-multiple.yml`
     fs.writeFileSync(filename, content)
-
-    /*****
-     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
-     */
-    let mockOfMockCucumber
-
-    jest.mock('proxyquire', () =>  {
-      return function(file, { cucumber }) {
-        mockOfMockCucumber = cucumber
-        require(file)
-      }
-    })
-
-    jest.mock('cucumber', () =>  {
-      return {
-        After: () => {},
-        AfterAll: () => {},
-        Before: () => {},
-        BeforeAll: () => {},
-        defineParameterType: () => {},
-        setWorldConstructor: () => {},
-        Given: (gerkin, fn, comment) => mockOfMockCucumber.Given(gerkin, fn, comment),
-        When: (gerkin, fn, comment) => mockOfMockCucumber.When(gerkin, fn, comment),
-        Then: (gerkin, fn, comment) => mockOfMockCucumber.Then(gerkin, fn, comment),
-      }
-    })
 
     jest.mock('@restqa/restqapi', () =>  {
       return function() {
@@ -254,36 +216,56 @@ environments:
     
 
     const Steps = require('./steps')
-    Steps('Then', { config: filename })
+    const result = Steps('Then', { config: filename })
 
     expect(mockTable.mock.calls.length).toBe(1)
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
     expect(mockAddRow.mock.calls.length).toBe(3)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'then',
       Step: 'my definition',
       Comment: 'my comment'
     })
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'then',
       Step: 'ma definition',
       Comment: 'mon commentaire'
     })
 
     expect(mockAddRow.mock.calls[2][0]).toEqual({
+      Plugin: '@restqa/restqmocki',
       Keyword: 'then',
       Step: 'ma definition de mock',
       Comment: 'mon commentaire de mock'
     })
     expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(result).toEqual([{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'then',
+      Step: 'my definition',
+      Comment: 'my comment'
+    },{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'then',
+      Step: 'ma definition',
+      Comment: 'mon commentaire'
+    },{
+      Plugin: '@restqa/restqmocki',
+      Keyword: 'then',
+      Step: 'ma definition de mock',
+      Comment: 'mon commentaire de mock'
+    }])
   })
 
 
-  test('Load the steps search tags', () => {
+  test('Load the steps search tags and no print', () => {
     const content = `
 ---
 
@@ -307,32 +289,6 @@ environments:
     `
     filename = `/tmp/.restqa-tag.yml`
     fs.writeFileSync(filename, content)
-
-    /*****
-     *  Some mock headach due to fact that jest is not compatible with proxyquire : https://github.com/facebook/jest/issues/1937
-     */
-    let mockOfMockCucumber
-
-    jest.mock('proxyquire', () =>  {
-      return function(file, { cucumber }) {
-        mockOfMockCucumber = cucumber
-        require(file)
-      }
-    })
-
-    jest.mock('cucumber', () =>  {
-      return {
-        After: () => {},
-        AfterAll: () => {},
-        Before: () => {},
-        BeforeAll: () => {},
-        defineParameterType: () => {},
-        setWorldConstructor: () => {},
-        Given: (gerkin, fn, comment, tags) => mockOfMockCucumber.Given(gerkin, fn, comment, tags),
-        When: (gerkin, fn, comment, tags) => mockOfMockCucumber.When(gerkin, fn, comment, tags),
-        Then: (gerkin, fn, comment, tags) => mockOfMockCucumber.ThenGiven(gerkin, fn, comment, tags),
-      }
-    })
 
     jest.mock('@restqa/restqapi', () =>  {
       return function() {
@@ -367,28 +323,41 @@ environments:
       }
     })
     
-
     const Steps = require('./steps')
-    Steps('Given', { config: filename, tag: 'header'})
+    const result = Steps('Given', { config: filename, tag: 'header', print: false})
 
     expect(mockTable.mock.calls.length).toBe(1)
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Keyword')
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Step')
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Comment')
+    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
+    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
+    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
+    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
     expect(mockAddRow.mock.calls.length).toBe(2)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definition',
       Comment: 'my comment'
     })
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
+      Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definitions',
       Comment: 'my comments'
     })
 
-    expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(mockPrintTable.mock.calls.length).toBe(0)
+    expect(result).toEqual([{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'my definition',
+      Comment: 'my comment'
+    },{
+      Plugin: '@restqa/restqapi',
+      Keyword: 'given',
+      Step: 'my definitions',
+      Comment: 'my comments'
+    }])
   })
 })
