@@ -1,3 +1,8 @@
+const Stream = require('stream')
+const os = require('os')
+const fs = require('fs')
+const path = require('path')
+
 afterEach(() => {
     jest.resetModules()
     jest.resetAllMocks()
@@ -137,5 +142,105 @@ describe('# Index - Step', () => {
         tag: 'header',
         print: false
       })
+  })
+
+describe('# Index - Run', () => {
+
+  let filename
+  beforeEach(() => {
+    if (filename && fs.existsSync(filename)) {
+      fs.unlinkSync(filename)
+      filename = undefined
+    }
+  })
+
+
+    test('Get result from run', () => {
+      const mockMath = jest.spyOn(Math, 'random').mockImplementation(() => '0.6140915758927235')
+      filename = path.resolve(os.tmpdir(), 'restqa-result-6140915.json')
+      const mockRun = jest.fn().mockImplementation(() =>{
+        //simulate the writting of an file export from cucumber-export module
+        fs.writeFileSync(filename, JSON.stringify({foo: 'bar'}))
+        return Promise.resolve('result')
+      })
+
+      jest.mock('./cli/run', () => {
+        return mockRun
+      })
+
+      const stream = new Stream.Writable()
+
+      const opt = {
+        configFile: '/tmp/.restqa.yml',
+        env: 'local',
+        stream,
+        path: 'tests/'
+      }
+
+      const { Run } = require('./index')
+      expect(Run(opt)).resolves.toEqual({foo: 'bar'})
+      expect(mockRun.mock.calls.length).toBe(1)
+      expect(mockRun.mock.calls[0][0]).toEqual({
+        config: '/tmp/.restqa.yml',
+        env: 'local',
+        stream,
+        args: [ 'tests/' ]
+      })
+    })
+    
+    test('Get result from run without path', () => {
+      const mockMath = jest.spyOn(Math, 'random').mockImplementation(() => '0.6140915758927235')
+      filename = path.resolve(os.tmpdir(), 'restqa-result-6140915.json')
+      const mockRun = jest.fn().mockImplementation(() =>{
+        //simulate the writting of an file export from cucumber-export module
+        fs.writeFileSync(filename, JSON.stringify({foo: 'bar'}))
+        return Promise.resolve('result')
+      })
+
+      jest.mock('./cli/run', () => {
+        return mockRun
+      })
+
+      const stream = new Stream.Writable()
+
+      const opt = {
+        configFile: '/tmp/.restqa.yml',
+        env: 'local',
+        stream
+      }
+
+      const { Run } = require('./index')
+      expect(Run(opt)).resolves.toEqual({foo: 'bar'})
+      expect(mockRun.mock.calls.length).toBe(1)
+      expect(mockRun.mock.calls[0][0]).toEqual({
+        config: '/tmp/.restqa.yml',
+        env: 'local',
+        stream
+      })
+    })
+
+    test('throw error if runner has an issue', () => {
+      const mockRun = jest.fn().mockRejectedValue(new Error('Issue with the file'))
+
+      jest.mock('./cli/run', () => {
+        return mockRun
+      })
+
+      const stream = new Stream.Writable()
+      const opt = {
+        configFile: '/tmp/.restqa.yml',
+        env: 'local',
+        stream
+      }
+
+      const { Run } = require('./index')
+      expect(Run(opt)).rejects.toEqual(new Error('Issue with the file'))
+      expect(mockRun.mock.calls.length).toBe(1)
+      expect(mockRun.mock.calls[0][0]).toEqual({
+        config: '/tmp/.restqa.yml',
+        env: 'local',
+        stream
+      })
+    })
   })
 })
