@@ -27,6 +27,7 @@
     "commander": "^6.2.1",
     "console-table-printer": "^1.4.3",
     "cucumber": "^6.0.5",
+    "debug": "^4.3.1",
     "inquirer": "^7.3.3",
     "yaml": "^1.9.2"
   },
