@@ -29,51 +29,6 @@ RestQASnippetSyntax.prototype.build = function({
   ].join('\n')
 
   return chalk.redBright(result)
- 
-
-  console.log('----------------------------')
-  console.log(comment)
-  console.log(generatedExpressions[0])
-  console.log(functionName)
-  console.log(stepParameterNames)
-  console.log('----------------------------')
-
-
-
-  let functionKeyword = '';
-
-  let implementation;
-  if (true) {
-    implementation = `${CALLBACK_NAME}(null, 'pending');`;
-  } else {
-    implementation = "return 'pending';";
-  }
-
-  const definitionChoices = generatedExpressions.map((generatedExpression, index) => {
-    const prefix = index === 0 ? '' : '// ';
-
-    const allParameterNames = generatedExpression.parameterNames
-      .map(parameterName => `${parameterName}: any`)
-      .concat(stepParameterNames.map(stepParameterName => `${stepParameterName}: any`));
-
-    if (this.snippetInterface === 'callback') {
-      allParameterNames.push(`${CALLBACK_NAME}: any`);
-    }
-    return (
-      prefix +
-      functionName +
-      "sfdsfdafds('" +
-      generatedExpression.source.replace(/'/g, "\\'") +
-      "', " +
-      functionKeyword +
-      '(' +
-      allParameterNames.join(', ') +
-      ') => {\n'
-    );
-  });
-
-  return definitionChoices.join('') + `  // ${comment}\n` + `  ${implementation}\n` + '});';
-
 };
 
 module.exports = RestQASnippetSyntax
