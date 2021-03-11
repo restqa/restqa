@@ -6,7 +6,9 @@
     "start:library": "export $(cat .env | xargs) && ./bin/restqa run ./sample-project",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "lint:fix": "eslint --fix src/ bin/restqa",
+    "lint": "eslint src/ bin/restqa"
   },
   "keywords": [
     "api",
@@ -29,6 +31,7 @@
     "cucumber": "^6.0.5",
     "debug": "^4.3.1",
     "inquirer": "^7.3.3",
+    "npm": "^7.6.2",
     "yaml": "^1.9.2"
   },
   "bin": {
@@ -39,7 +42,12 @@
   },
   "main": "src/index.js",
   "devDependencies": {
-    "eslint": "^7.16.0",
+    "eslint": "^7.21.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
     "jest": "^26.6.3",
     "jest-runner-eslint": "^0.10.0"
   },
@@ -49,6 +57,12 @@
     }
   },
   "jest": {
+    "watchPlugins": [
+      "jest-runner-eslint/watch-fix"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
     "projects": [
       {
         "displayName": "test"
@@ -61,6 +75,11 @@
         ]
       }
     ]
+  },
+  "jest-runner-eslint": {
+    "cliOptions": {
+      "fix": true
+    }
   },
   "repository": {
     "type": "git",

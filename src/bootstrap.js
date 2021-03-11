@@ -4,10 +4,8 @@ const {
 } = require('@restqa/restqa-plugin-bootstrap')
 
 const Config = require('./config')
-const Logger = require('./utils/logger')
 
 module.exports = function (processor, options) {
-
   const {
     After, AfterAll, Before, BeforeAll,
     Given, When, Then,
@@ -16,10 +14,10 @@ module.exports = function (processor, options) {
   } = processor
 
   const config = new Config(options)
-  
+
   function pluginLoader (plugin) {
     options.plugin = `@restqa/${plugin.name}`
-    let Module = require(options.plugin)
+    const Module = require(options.plugin)
     if (config.environment.data) {
       plugin.config.data = {
         startSymbol: config.environment.data.startSymbol,
@@ -27,26 +25,25 @@ module.exports = function (processor, options) {
       }
     }
 
-    let instance = new Module(plugin.config)
-    
+    const instance = new Module(plugin.config)
+
     instance.setParameterType(defineParameterType)
     instance.setSteps({ Given, When, Then })
     instance.setHooks({ Before, BeforeAll, After, AfterAll })
-    
-    let __CLASS_NAME__ = instance.getWorld()
+
+    const __CLASS_NAME__ = instance.getWorld()
     return new __CLASS_NAME__({})
   }
-  
-  let Plugins = config
+
+  const Plugins = config
     .environment
     .plugins
     .map(pluginLoader)
-  
-  
-  class RestQA extends World{
-    constructor(obj) {
+
+  class RestQA extends World {
+    constructor (obj) {
       super(obj)
-      let { data, secrets } = config.environment
+      const { data, secrets } = config.environment
       this._data = new Data(data)
       if (secrets) {
         Object.keys(secrets).forEach(_ => this._data.set(_, secrets[_]))
@@ -54,6 +51,6 @@ module.exports = function (processor, options) {
       Plugins.forEach(world => world.setup.call(this))
     }
   }
-  
+
   setWorldConstructor(RestQA)
 }

@@ -1,6 +1,5 @@
-const  {
+const {
   generate,
-  initialize,
   install,
   steps,
   run
@@ -9,11 +8,11 @@ const os = require('os')
 const fs = require('fs')
 const path = require('path')
 
-async function Initialize() {
+async function Initialize () {
 }
 
 async function Generate (cmd) {
-  let args = cmd
+  const args = cmd
     .match(/"[^"]+"|'[^']+'|\S+/g)
     .map(str => str.replace(/^"/, '').replace(/"$/, ''))
 
@@ -22,15 +21,14 @@ async function Generate (cmd) {
     print: false
   }
 
-  return  generate(options)
+  return generate(options)
 }
 
-
-function Install(options) {
+function Install (options) {
   return install.generate(options)
 }
 
-function Steps(options) {
+function Steps (options) {
   return steps(options.keyword, {
     configFile: options.configFile || './.restqa.yml',
     tag: options.tag,
@@ -38,28 +36,24 @@ function Steps(options) {
   })
 }
 
-async function Run(options) {
-  try {
-    const uuid = Math.floor(Math.random()* 10000000)
-    let filename = path.resolve(os.tmpdir(), `restqa-result-${uuid}.json`)
-    process.env.RESTQA_TMP_FILE_EXPORT =  filename
-    let args = undefined
+async function Run (options) {
+  const uuid = Math.floor(Math.random() * 10000000)
+  const filename = path.resolve(os.tmpdir(), `restqa-result-${uuid}.json`)
+  process.env.RESTQA_TMP_FILE_EXPORT = filename
+  let args
 
-    if (options.path) {
-      args = [options.path]
-    }
-
-    const result = await run({
-      config: options.configFile,
-      env: options.env,
-      stream: options.stream,
-      args
-    })
-
-    return JSON.parse(fs.readFileSync(filename).toString('utf-8'))
-  } catch(err) {
-    throw err
+  if (options.path) {
+    args = [options.path]
   }
+
+  await run({
+    config: options.configFile,
+    env: options.env,
+    stream: options.stream,
+    args
+  })
+
+  return JSON.parse(fs.readFileSync(filename).toString('utf-8'))
 }
 
 module.exports = {
@@ -67,5 +61,5 @@ module.exports = {
   Generate,
   Install,
   Steps,
-  Run,
+  Run
 }
