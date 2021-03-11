@@ -36,9 +36,9 @@ module.exports = function (program) {
     config,
     env
   }
-  
+
   // TODO : Add extra cucumber parameters from config file
-  let customOptions = [
+  const customOptions = [
     'node',
     'cucumber-js',
     '--require',
@@ -48,15 +48,15 @@ module.exports = function (program) {
     '--format-options',
     '{"snippetSyntax": "../src/restqa-snippet.js"}'
   ]
-  
-  const options  = {
+
+  const options = {
     argv: customOptions.concat(paths),
     cwd: path.join(__dirname, '../'),
     stdout: stream
   }
-  
+
   const cucumberCli = new cucumber.Cli(options)
-  
+
   return cucumberCli.run()
     .then(result => {
       const exitCode = result.success ? 0 : 1

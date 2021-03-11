@@ -7,7 +7,6 @@ const restqa = {
   tmpFileExport: process.env.RESTQA_TMP_FILE_EXPORT
 }
 
-
 const config = new Config(restqa)
 
 const options = {
@@ -22,9 +21,9 @@ const options = {
 if (restqa.tmpFileExport) {
   options.outputs.push({
     type: 'file',
-     enabled: true,
-     config: {
-       path: restqa.tmpFileExport
+    enabled: true,
+    config: {
+      path: restqa.tmpFileExport
     }
   })
 }

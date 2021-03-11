@@ -3,7 +3,6 @@ const Config = require('../config')
 const Bootstrap = require('../bootstrap')
 
 function getSteps (keyword, options) {
-
   const result = {}
 
   const register = (cucumberFn, gerkin, comment, tag) => {
@@ -42,7 +41,7 @@ module.exports = function (keyword, program) {
   const keywords = ['given', 'when', 'then']
 
   if (!keyword) {
-    throw new TypeError(`Provide a keyword. Available: given | when | then`)
+    throw new TypeError('Provide a keyword. Available: given | when | then')
   }
 
   if (!keywords.includes(keyword.toLowerCase())) {
@@ -51,14 +50,14 @@ module.exports = function (keyword, program) {
 
   keyword = keyword.toLowerCase()
 
-  const options  = {
-    configFile: Config.locate({configFile: config})
+  const options = {
+    configFile: Config.locate({ configFile: config })
   }
 
   const table = new Table({
     style: 'fatBorder', // style of border of the table
     columns: [
-      { name: 'Plugin', alignment: 'left', color: 'green'  },
+      { name: 'Plugin', alignment: 'left', color: 'green' },
       { name: 'Keyword', alignment: 'left' },
       { name: 'Step', alignment: 'left' },
       { name: 'Comment', alignment: 'left', color: 'magenta' }
@@ -68,14 +67,14 @@ module.exports = function (keyword, program) {
   let steps = getSteps(keyword, options)
 
   if (tag) {
-    let reg = new RegExp(tag)
+    const reg = new RegExp(tag)
     steps = steps.filter(step => {
       return step.tag.match(reg)
     })
   }
 
   const result = steps.map(r => {
-    let el = {
+    const el = {
       Plugin: r.plugin,
       Keyword: keyword,
       Step: r.gerkin,
@@ -85,7 +84,7 @@ module.exports = function (keyword, program) {
     return el
   })
 
-  if (true === print) {
+  if (print === true) {
     table.printTable()
   }
   return result

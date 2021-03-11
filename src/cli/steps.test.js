@@ -18,7 +18,6 @@ beforeEach(() => {
 })
 
 describe('#Cli - Steps', () => {
-
   test('Throw an error if the keyword is not passed', () => {
     const Steps = require('./steps')
     expect(() => {
@@ -55,11 +54,11 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa.yml`
+    filename = '/tmp/.restqa.yml'
     fs.writeFileSync(filename, content)
 
-    jest.mock('@restqa/restqapi', () =>  {
-      return function() {
+    jest.mock('@restqa/restqapi', () => {
+      return function () {
         return {
           setParameterType: () => {},
           setHooks: () => {},
@@ -67,7 +66,7 @@ environments:
             return class test {
             }
           },
-          setSteps: function({ Given }) {
+          setSteps: function ({ Given }) {
             Given('my definition', () => {}, 'my comment')
             Given('ma definition', () => {}, 'mon commentaire')
           }
@@ -84,23 +83,22 @@ environments:
       }
     })
 
-    jest.mock('console-table-printer', () =>  {
+    jest.mock('console-table-printer', () => {
       return {
         Table: mockTable
       }
     })
-    
 
     const Steps = require('./steps')
     const result = Steps('Given', { config: filename })
 
-    expect(mockTable.mock.calls.length).toBe(1)
+    expect(mockTable.mock.calls).toHaveLength(1)
     expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
     expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
     expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
     expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
-    expect(mockAddRow.mock.calls.length).toBe(2)
+    expect(mockAddRow.mock.calls).toHaveLength(2)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
       Plugin: '@restqa/restqapi',
       Keyword: 'given',
@@ -114,13 +112,13 @@ environments:
       Step: 'ma definition',
       Comment: 'mon commentaire'
     })
-    expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(mockPrintTable.mock.calls).toHaveLength(1)
     expect(result).toEqual([{
       Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definition',
       Comment: 'my comment'
-    },{
+    }, {
       Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'ma definition',
@@ -151,11 +149,11 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa-multiple.yml`
+    filename = '/tmp/.restqa-multiple.yml'
     fs.writeFileSync(filename, content)
 
-    jest.mock('@restqa/restqapi', () =>  {
-      return function() {
+    jest.mock('@restqa/restqapi', () => {
+      return function () {
         return {
           setParameterType: () => {},
           setHooks: () => {},
@@ -163,7 +161,7 @@ environments:
             return class test {
             }
           },
-          setSteps: function({ Then }) {
+          setSteps: function ({ Then }) {
             Then('my definition', () => {}, 'my comment')
             Then('ma definition', () => {}, 'mon commentaire')
           }
@@ -171,8 +169,8 @@ environments:
       }
     })
 
-    jest.mock('@restqa/restqmocki', () =>  {
-      return function() {
+    jest.mock('@restqa/restqmocki', () => {
+      return function () {
         return {
           setParameterType: () => {},
           setHooks: () => {},
@@ -180,24 +178,24 @@ environments:
             return class test {
             }
           },
-          setSteps: function({ Then }) {
+          setSteps: function ({ Then }) {
             Then('ma definition de mock', () => {}, 'mon commentaire de mock')
           }
         }
       }
-    }, {virtual: true})
+    }, { virtual: true })
 
     jest.mock('../config/schema', () => {
-      const originalModule = jest.requireActual('../config/schema');
+      const originalModule = jest.requireActual('../config/schema')
 
       return {
         validate: originalModule.validate,
         pluginList: [
-         'restqapi',
-         'restqmock'
+          'restqapi',
+          'restqmock'
         ]
-      };
-    });
+      }
+    })
 
     const mockAddRow = jest.fn()
     const mockPrintTable = jest.fn()
@@ -208,23 +206,22 @@ environments:
       }
     })
 
-    jest.mock('console-table-printer', () =>  {
+    jest.mock('console-table-printer', () => {
       return {
         Table: mockTable
       }
     })
-    
 
     const Steps = require('./steps')
     const result = Steps('Then', { config: filename })
 
-    expect(mockTable.mock.calls.length).toBe(1)
+    expect(mockTable.mock.calls).toHaveLength(1)
     expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
     expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
     expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
     expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
-    expect(mockAddRow.mock.calls.length).toBe(3)
+    expect(mockAddRow.mock.calls).toHaveLength(3)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
       Plugin: '@restqa/restqapi',
       Keyword: 'then',
@@ -245,25 +242,24 @@ environments:
       Step: 'ma definition de mock',
       Comment: 'mon commentaire de mock'
     })
-    expect(mockPrintTable.mock.calls.length).toBe(1)
+    expect(mockPrintTable.mock.calls).toHaveLength(1)
     expect(result).toEqual([{
       Plugin: '@restqa/restqapi',
       Keyword: 'then',
       Step: 'my definition',
       Comment: 'my comment'
-    },{
+    }, {
       Plugin: '@restqa/restqapi',
       Keyword: 'then',
       Step: 'ma definition',
       Comment: 'mon commentaire'
-    },{
+    }, {
       Plugin: '@restqa/restqmocki',
       Keyword: 'then',
       Step: 'ma definition de mock',
       Comment: 'mon commentaire de mock'
     }])
   })
-
 
   test('Load the steps search tags and no print', () => {
     const content = `
@@ -287,11 +283,11 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa-tag.yml`
+    filename = '/tmp/.restqa-tag.yml'
     fs.writeFileSync(filename, content)
 
-    jest.mock('@restqa/restqapi', () =>  {
-      return function() {
+    jest.mock('@restqa/restqapi', () => {
+      return function () {
         return {
           setParameterType: () => {},
           setHooks: () => {},
@@ -299,7 +295,7 @@ environments:
             return class test {
             }
           },
-          setSteps: function({ Given }) {
+          setSteps: function ({ Given }) {
             Given('my definition', () => {}, 'my comment', 'header')
             Given('my definitions', () => {}, 'my comments', 'headers')
             Given('ma definition', () => {}, 'mon commentaire', 'api')
@@ -317,22 +313,22 @@ environments:
       }
     })
 
-    jest.mock('console-table-printer', () =>  {
+    jest.mock('console-table-printer', () => {
       return {
         Table: mockTable
       }
     })
-    
-    const Steps = require('./steps')
-    const result = Steps('Given', { config: filename, tag: 'header', print: false})
 
-    expect(mockTable.mock.calls.length).toBe(1)
+    const Steps = require('./steps')
+    const result = Steps('Given', { config: filename, tag: 'header', print: false })
+
+    expect(mockTable.mock.calls).toHaveLength(1)
     expect(mockTable.mock.calls[0][0].columns[0].name).toEqual('Plugin')
     expect(mockTable.mock.calls[0][0].columns[1].name).toEqual('Keyword')
     expect(mockTable.mock.calls[0][0].columns[2].name).toEqual('Step')
     expect(mockTable.mock.calls[0][0].columns[3].name).toEqual('Comment')
 
-    expect(mockAddRow.mock.calls.length).toBe(2)
+    expect(mockAddRow.mock.calls).toHaveLength(2)
     expect(mockAddRow.mock.calls[0][0]).toEqual({
       Plugin: '@restqa/restqapi',
       Keyword: 'given',
@@ -347,13 +343,13 @@ environments:
       Comment: 'my comments'
     })
 
-    expect(mockPrintTable.mock.calls.length).toBe(0)
+    expect(mockPrintTable.mock.calls).toHaveLength(0)
     expect(result).toEqual([{
       Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definition',
       Comment: 'my comment'
-    },{
+    }, {
       Plugin: '@restqa/restqapi',
       Keyword: 'given',
       Step: 'my definitions',

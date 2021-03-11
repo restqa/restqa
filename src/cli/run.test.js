@@ -12,15 +12,15 @@ describe('#Cli - Run', () => {
   test('Throw error if the passed file doesnt exist', async () => {
     filename = `/${os.tmpdir()}/.restqa.fake.yml`
 
-    let options = {
+    const options = {
       config: filename,
       stream: 'std-out-example'
     }
     const Run = require('./run')
-    expect(Run(options)).rejects.toThrow(`The configuration file "${filename}" doesn't exit.`)
+    return expect(Run(options)).rejects.toThrow(`The configuration file "${filename}" doesn't exit.`)
   })
 
-  test('Run the cucumber success tests with passed stdout ', async () => {
+  test('Run the cucumber success tests with passed stdout', async () => {
     const content = `
 ---
 
@@ -42,7 +42,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa.yml`
+    filename = '/tmp/.restqa.yml'
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -51,9 +51,9 @@ environments:
     })
 
     const mockCucumberCli = jest.fn().mockImplementation(() => {
-        return {
-          run: mockCucumberRun
-        }
+      return {
+        run: mockCucumberRun
+      }
     })
 
     jest.mock('cucumber', () => {
@@ -65,12 +65,12 @@ environments:
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
 
     const Run = require('./run')
-    let options = {
+    const options = {
       config: filename,
       stream: 'std-out-example'
     }
-    const result = await Run(options)
-    expect(mockCucumberCli.mock.calls.length).toBe(1)
+    await Run(options)
+    expect(mockCucumberCli.mock.calls).toHaveLength(1)
     const expectedRunOption = {
       argv: [
         'node',
@@ -87,11 +87,11 @@ environments:
       stdout: 'std-out-example'
     }
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption)
-    expect(mockCucumberRun.mock.calls.length).toEqual(1)
-    expect(mockExit).toHaveBeenCalledWith(0);
+    expect(mockCucumberRun.mock.calls).toHaveLength(1)
+    expect(mockExit).toHaveBeenCalledWith(0)
   })
 
-  test('Run the cucumber failing tests with default stdout ', async () => {
+  test('Run the cucumber failing tests with default stdout', async () => {
     const content = `
 ---
 
@@ -113,7 +113,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa.yml`
+    filename = '/tmp/.restqa.yml'
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -122,9 +122,9 @@ environments:
     })
 
     const mockCucumberCli = jest.fn().mockImplementation(() => {
-        return {
-          run: mockCucumberRun
-        }
+      return {
+        run: mockCucumberRun
+      }
     })
 
     jest.mock('cucumber', () => {
@@ -136,11 +136,11 @@ environments:
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
 
     const Run = require('./run')
-    let options = {
+    const options = {
       config: filename
     }
-    const result = await Run(options)
-    expect(mockCucumberCli.mock.calls.length).toBe(1)
+    await Run(options)
+    expect(mockCucumberCli.mock.calls).toHaveLength(1)
     const expectedRunOption = {
       argv: [
         'node',
@@ -157,8 +157,8 @@ environments:
       stdout: process.stdout
     }
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption)
-    expect(mockCucumberRun.mock.calls.length).toEqual(1)
-    expect(mockExit).toHaveBeenCalledWith(1);
+    expect(mockCucumberRun.mock.calls).toHaveLength(1)
+    expect(mockExit).toHaveBeenCalledWith(1)
   })
 
   test('Run the cucumber test but shouldnt exit', async () => {
@@ -183,7 +183,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa.yml`
+    filename = '/tmp/.restqa.yml'
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -192,9 +192,9 @@ environments:
     })
 
     const mockCucumberCli = jest.fn().mockImplementation(() => {
-        return {
-          run: mockCucumberRun
-        }
+      return {
+        run: mockCucumberRun
+      }
     })
 
     jest.mock('cucumber', () => {
@@ -206,11 +206,11 @@ environments:
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
 
     const Run = require('./run')
-    let options = {
+    const options = {
       config: filename
     }
-    const result = await Run(options)
-    expect(mockCucumberCli.mock.calls.length).toBe(1)
+    await Run(options)
+    expect(mockCucumberCli.mock.calls).toHaveLength(1)
     const expectedRunOption = {
       argv: [
         'node',
@@ -227,7 +227,7 @@ environments:
       stdout: process.stdout
     }
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption)
-    expect(mockCucumberRun.mock.calls.length).toEqual(1)
+    expect(mockCucumberRun.mock.calls).toHaveLength(1)
     expect(mockExit).not.toHaveBeenCalled()
   })
 
@@ -253,15 +253,15 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = `/tmp/.restqa.yml`
+    filename = '/tmp/.restqa.yml'
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockRejectedValue(new Error('This is an error'))
 
     const mockCucumberCli = jest.fn().mockImplementation(() => {
-        return {
-          run: mockCucumberRun
-        }
+      return {
+        run: mockCucumberRun
+      }
     })
 
     jest.mock('cucumber', () => {
@@ -280,11 +280,11 @@ environments:
     })
 
     const Run = require('./run')
-    let options = {
+    const options = {
       config: filename
     }
-    const result = await Run(options)
-    expect(mockCucumberCli.mock.calls.length).toBe(1)
+    await Run(options)
+    expect(mockCucumberCli.mock.calls).toHaveLength(1)
     const expectedRunOption = {
       argv: [
         'node',
@@ -301,9 +301,9 @@ environments:
       stdout: process.stdout
     }
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption)
-    expect(mockCucumberRun.mock.calls.length).toEqual(1)
+    expect(mockCucumberRun.mock.calls).toHaveLength(1)
     expect(mockExit).toHaveBeenCalledWith(1)
-    expect(mockLogger.error.mock.calls.length).toBe(1)
+    expect(mockLogger.error.mock.calls).toHaveLength(1)
     expect(mockLogger.error.mock.calls[0][0]).toEqual(new Error('This is an error'))
   })
 })
