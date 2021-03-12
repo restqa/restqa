@@ -50,7 +50,9 @@ async function initialize (program) {
       }, {
         name: 'Bitbucket Pipelines',
         value: 'bitbucket-pipeline'
-
+      }, {
+        name: 'Circle Ci',
+        value: 'circle-ci'
       },
       new inquirer.Separator(),
       {
@@ -188,6 +190,48 @@ initialize.generate = async function (options) {
         }
         createYaml(path.resolve(folder, 'bitbucket-pipelines.yml'), jsonContent)
         logger.success('bitbucket-pipelines.yml file created successfully')
+        break
+      }
+      case 'circle-ci': {
+        const jsonContent = {
+          version: 2.1,
+          jobs: {
+            test: {
+              docker: [
+                {
+                  image: 'restqa/restqa'
+                }
+              ],
+              steps: [
+                'checkout',
+                {
+                  run: {
+                    name: 'Run RestQA integration test',
+                    command: 'restqa run'
+                  }
+                },
+                {
+                  store_artifacts: {
+                    path: 'report'
+                  }
+                }
+              ]
+            }
+          },
+          workflows: {
+            version: 2,
+            restqa: {
+              jobs: [
+                'test'
+              ]
+            }
+          }
+        }
+        const filepath = '.circleci/config.yml'
+        createRecursiveFolder(filepath, folder)
+        createYaml(path.resolve(folder, filepath), jsonContent)
+
+        logger.success(filepath + ' file created successfully')
         break
       }
       default:

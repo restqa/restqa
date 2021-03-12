@@ -203,6 +203,76 @@ describe('#Cli - Initialize', () => {
       expect(mockLogger.success.mock.calls[2][0]).toEqual('tests/integration/welcome-restqa.feature file created successfully')
     })
 
+    test('Create Circle-ci pipeline file if selected', async () => {
+      const mockLogger = {
+        info: jest.fn(),
+        log: jest.fn(),
+        success: jest.fn()
+      }
+
+      jest.mock('../utils/logger', () => {
+        return mockLogger
+      })
+
+      const filename = path.resolve(process.cwd(), '.circleci/config.yml')
+      files.push(filename)
+      const Iniitialize = require('./initialize')
+      const options = {
+        name: 'sample',
+        url: 'http://test.com',
+        env: 'test',
+        description: 'my description',
+        ci: 'circle-ci'
+      }
+      await Iniitialize.generate(options)
+
+      const content = fs.readFileSync(filename).toString('utf-8')
+      const YAML = require('yaml')
+      const result = YAML.parse(content)
+
+      const expectedContent = {
+        version: 2.1,
+        jobs: {
+          test: {
+            docker: [
+              {
+                image: 'restqa/restqa'
+              }
+            ],
+            steps: [
+              'checkout',
+              {
+                run: {
+                  name: 'Run RestQA integration test',
+                  command: 'restqa run'
+                }
+              },
+              {
+                store_artifacts: {
+                  path: 'report'
+                }
+              }
+            ]
+          }
+        },
+        workflows: {
+          version: 2,
+          restqa: {
+            jobs: [
+              'test'
+            ]
+          }
+        }
+      }
+
+      expect(result).toEqual(expectedContent)
+      expect(mockLogger.success.mock.calls).toHaveLength(3)
+
+      expect(mockLogger.success.mock.calls[0][0]).toEqual('.restqa.yml file created successfully')
+      expect(mockLogger.success.mock.calls[1][0]).toEqual('.circleci/config.yml file created successfully')
+      expect(mockLogger.success.mock.calls[2][0]).toEqual('tests/integration/welcome-restqa.feature file created successfully')
+    })
+
     test('Do nothing if any CI hasn\'t been selected', async () => {
       const Iniitialize = require('./initialize')
       const options = {
@@ -219,6 +289,8 @@ describe('#Cli - Initialize', () => {
       filename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
+      expect(fs.existsSync(filename)).toBe(false)
+      filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
       expect(fs.existsSync(filename)).toBe(false)
     })
 
@@ -237,6 +309,8 @@ describe('#Cli - Initialize', () => {
       filename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
+      expect(fs.existsSync(filename)).toBe(false)
+      filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
       expect(fs.existsSync(filename)).toBe(false)
     })
 
@@ -576,6 +650,8 @@ Given I have an example`
       filename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
+      expect(fs.existsSync(filename)).toBe(false)
+      filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
       expect(fs.existsSync(filename)).toBe(false)
     })
   })
