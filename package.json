@@ -24,7 +24,7 @@
     "@hapi/joi": "^17.1.1",
     "@restqa/cucumber-export": "^0.1.4",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
-    "@restqa/restqapi": "0.0.14",
+    "@restqa/restqapi": "0.0.15",
     "chalk": "^4.0.0",
     "commander": "^6.2.1",
     "console-table-printer": "^1.4.3",
