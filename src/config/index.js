@@ -5,7 +5,7 @@ const Schema = require('./schema')
 
 function Config ({ env, configFile }) {
   if (!fs.existsSync(configFile)) {
-    console.log(`THE RESTQA CONFIG FILE IS MISSING (${configFile})`)
+    throw new Error(`THE RESTQA CONFIG FILE IS MISSING (${configFile})`)
   }
 
   const envVar = {

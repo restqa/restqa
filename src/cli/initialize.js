@@ -104,7 +104,7 @@ initialize.generate = async function (options) {
       name: env,
       default: true,
       plugins: [{
-        name: 'restqapi',
+        name: '@restqa/restqapi',
         config: {
           url
         }

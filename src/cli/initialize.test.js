@@ -398,7 +398,7 @@ describe('#Cli - Initialize', () => {
             name: 'production',
             default: true,
             plugins: [{
-              name: 'restqapi',
+              name: '@restqa/restqapi',
               config: {
                 url: 'http://test.sample.com'
               }
@@ -471,7 +471,7 @@ describe('#Cli - Initialize', () => {
             name: 'production',
             default: true,
             plugins: [{
-              name: 'restqapi',
+              name: '@restqa/restqapi',
               config: {
                 url: 'http://test.sample.com'
               }
@@ -564,7 +564,7 @@ Given I have an example`
           name: 'local',
           default: true,
           plugins: [{
-            name: 'restqapi',
+            name: '@restqa/restqapi',
             config: {
               url: 'http://test.new.sample.com'
             }
@@ -625,7 +625,7 @@ Given I have an example`
           name: 'local',
           default: true,
           plugins: [{
-            name: 'restqapi',
+            name: '@restqa/restqapi',
             config: {
               url: 'https://api.restqa.io'
             }

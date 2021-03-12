@@ -5,7 +5,22 @@ const {
 
 const Config = require('./config')
 
-module.exports = function (processor, options) {
+module.exports = function (processor, options = {}) {
+  if (
+    !processor ||
+    !processor.After ||
+    !processor.AfterAll ||
+    !processor.Before ||
+    !processor.BeforeAll ||
+    !processor.Given ||
+    !processor.When ||
+    !processor.Then ||
+    !processor.defineParameterType ||
+    !processor.setWorldConstructor
+  ) {
+    throw new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType and setWorldConstructor.')
+  }
+
   const {
     After, AfterAll, Before, BeforeAll,
     Given, When, Then,
@@ -13,10 +28,11 @@ module.exports = function (processor, options) {
     setWorldConstructor
   } = processor
 
+  const parameterTypes = []
   const config = new Config(options)
 
   function pluginLoader (plugin) {
-    options.plugin = `@restqa/${plugin.name}`
+    options.plugin = getPluginModuleName(plugin.name)
     const Module = require(options.plugin)
     if (config.environment.data) {
       plugin.config.data = {
@@ -27,7 +43,11 @@ module.exports = function (processor, options) {
 
     const instance = new Module(plugin.config)
 
-    instance.setParameterType(defineParameterType)
+    instance.setParameterType((el) => {
+      if (parameterTypes.includes(el.name)) return
+      defineParameterType(el)
+      parameterTypes.push(el.name)
+    })
     instance.setSteps({ Given, When, Then })
     instance.setHooks({ Before, BeforeAll, After, AfterAll })
 
@@ -53,4 +73,12 @@ module.exports = function (processor, options) {
   }
 
   setWorldConstructor(RestQA)
+}
+
+function getPluginModuleName (name) {
+  // Due to some changes we need to handle retro-compatibility
+  if (['restqapi', 'restqkube'].includes(name)) {
+    name = `@restqa/${name}`
+  }
+  return name
 }
