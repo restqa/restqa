@@ -142,7 +142,7 @@ environments:
       - name: restqapi
         config:
           url: http://host.docker.internal:4046
-      - name: restqmocki
+      - name: '@restqa/restqmocki'
     outputs:
       - type: file
         enabled: true
