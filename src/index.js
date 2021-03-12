@@ -53,7 +53,8 @@ async function Run (options) {
     args
   })
 
-  return JSON.parse(fs.readFileSync(filename).toString('utf-8'))
+  const result = fs.readFileSync(filename).toString('utf-8')
+  return JSON.parse(result)
 }
 
 module.exports = {
