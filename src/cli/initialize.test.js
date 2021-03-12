@@ -273,6 +273,53 @@ describe('#Cli - Initialize', () => {
       expect(mockLogger.success.mock.calls[2][0]).toEqual('tests/integration/welcome-restqa.feature file created successfully')
     })
 
+    test('Create travis-ci pipeline file if selected', async () => {
+      const mockLogger = {
+        info: jest.fn(),
+        log: jest.fn(),
+        success: jest.fn()
+      }
+
+      jest.mock('../utils/logger', () => {
+        return mockLogger
+      })
+
+      const filename = path.resolve(process.cwd(), '.travis.yml')
+      files.push(filename)
+      const Iniitialize = require('./initialize')
+      const options = {
+        name: 'sample',
+        url: 'http://test.com',
+        env: 'test',
+        description: 'my description',
+        ci: 'travis'
+      }
+      await Iniitialize.generate(options)
+
+      const content = fs.readFileSync(filename).toString('utf-8')
+      const YAML = require('yaml')
+      const result = YAML.parse(content)
+
+      const expectedContent = {
+        dist: 'trusty',
+        jobs: {
+          include: [
+            {
+              stage: 'test',
+              script: 'docker run --rm -v $PWD:/app restqa/restqa'
+            }
+          ]
+        }
+      }
+
+      expect(result).toEqual(expectedContent)
+      expect(mockLogger.success.mock.calls).toHaveLength(3)
+
+      expect(mockLogger.success.mock.calls[0][0]).toEqual('.restqa.yml file created successfully')
+      expect(mockLogger.success.mock.calls[1][0]).toEqual('.travis.yml file created successfully')
+      expect(mockLogger.success.mock.calls[2][0]).toEqual('tests/integration/welcome-restqa.feature file created successfully')
+    })
+
     test('Do nothing if any CI hasn\'t been selected', async () => {
       const Iniitialize = require('./initialize')
       const options = {
@@ -291,6 +338,8 @@ describe('#Cli - Initialize', () => {
       filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
+      expect(fs.existsSync(filename)).toBe(false)
+      filename = path.resolve(process.cwd(), 'travis.yml')
       expect(fs.existsSync(filename)).toBe(false)
     })
 
@@ -311,6 +360,8 @@ describe('#Cli - Initialize', () => {
       filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
+      expect(fs.existsSync(filename)).toBe(false)
+      filename = path.resolve(process.cwd(), 'travis.yml')
       expect(fs.existsSync(filename)).toBe(false)
     })
 

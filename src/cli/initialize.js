@@ -53,10 +53,13 @@ async function initialize (program) {
       }, {
         name: 'Circle Ci',
         value: 'circle-ci'
+      }, {
+        name: 'Travis Ci',
+        value: 'travis'
       },
       new inquirer.Separator(),
       {
-        name: 'I want to configure my continuous integration by myself',
+        name: 'I want to configure the continuous integration by myself',
         value: false
       }]
     }]
@@ -228,6 +231,25 @@ initialize.generate = async function (options) {
           }
         }
         const filepath = '.circleci/config.yml'
+        createRecursiveFolder(filepath, folder)
+        createYaml(path.resolve(folder, filepath), jsonContent)
+
+        logger.success(filepath + ' file created successfully')
+        break
+      }
+      case 'travis': {
+        const jsonContent = {
+          dist: 'trusty',
+          jobs: {
+            include: [
+              {
+                stage: 'test',
+                script: 'docker run --rm -v $PWD:/app restqa/restqa'
+              }
+            ]
+          }
+        }
+        const filepath = '.travis.yml'
         createRecursiveFolder(filepath, folder)
         createYaml(path.resolve(folder, filepath), jsonContent)
 
