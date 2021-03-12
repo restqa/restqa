@@ -1,10 +1,15 @@
 const path = require('path')
 const fs = require('fs')
+const cucumber = require('cucumber')
+const logger = require('../utils/logger')
 
 module.exports = function (program) {
-  // -- env
-  let { env, config, args } = program
-  if (env) process.env.RESTQA_ENV = env
+  let {
+    env,
+    config,
+    stream = process.stdout,
+    args = []
+  } = program
 
   // -- paths
   if (!args.length) args.push('.')
@@ -24,14 +29,45 @@ module.exports = function (program) {
   // -- config
   config = config || path.join(process.cwd(), '.restqa.yml')
   if (!fs.existsSync(config)) {
-    console.log(`file not exist : ${config}`)
-    process.exit(0)
+    return Promise.reject(new Error(`The configuration file "${config}" doesn't exit.`))
   }
-  process.env.RESTQA_CONFIG = config
 
-  program.restqa = {
-    env,
+  global.restqaOptions = {
     config,
-    paths
+    env
   }
+
+  // TODO : Add extra cucumber parameters from config file
+  const customOptions = [
+    'node',
+    'cucumber-js',
+    '--require',
+    '../src/setup.js',
+    '--format',
+    '../src/restqa-formatter:.restqa.log',
+    '--format-options',
+    '{"snippetSyntax": "../src/restqa-snippet.js"}'
+  ]
+
+  const options = {
+    argv: customOptions.concat(paths),
+    cwd: path.join(__dirname, '../'),
+    stdout: stream
+  }
+
+  const cucumberCli = new cucumber.Cli(options)
+
+  return cucumberCli.run()
+    .then(result => {
+      const exitCode = result.success ? 0 : 1
+      if (result.shouldExitImmediately) {
+        process.exit(exitCode)
+      } else {
+        process.exitCode = exitCode
+      }
+    })
+    .catch(err => {
+      logger.error(err) // eslint-disable-line no-console
+      process.exit(1)
+    })
 }

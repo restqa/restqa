@@ -10,10 +10,9 @@ jest.mock('chalk', () => {
 })
 const Snippet = require('./restqa-snippet')
 
-
 describe('RestQA Snippet', () => {
   test('generate snippet when the snippet interface is async-await, generator, promise, synchronous', () => {
-    let options = {
+    const options = {
       comment: 'This is my test comment',
       generatedExpressions: [{
         expressionTemplate: 'My undefined step definition!',
@@ -28,7 +27,7 @@ describe('RestQA Snippet', () => {
       stepParameterNames: []
     }
 
-    let expectedResult = `
+    const expectedResult = `
 😵 Oooppps! We are facing an issue with the step:
 """
 My undefined step definition!
@@ -70,7 +69,7 @@ Thank you for using RestQA! 💜`
   })
 
   test('generate snippet multiple failing step definition', () => {
-    let options = {
+    const options = {
       comment: 'This is my test comment',
       generatedExpressions: [{
         expressionTemplate: 'My undefined step definition! (number 1)',
@@ -80,7 +79,7 @@ Thank you for using RestQA! 💜`
           useForSnippets: true,
           preferForRegexpMatch: false
         }]
-      },{
+      }, {
         expressionTemplate: 'My undefined step definition! (number 2)',
         parameterTypes: [{
           name: 'string',
@@ -94,8 +93,8 @@ Thank you for using RestQA! 💜`
     }
 
     const snippet = new Snippet('async-await')
-    let result = snippet.build(options)
-    let expectedResult = `
+    const result = snippet.build(options)
+    const expectedResult = `
 😵 Oooppps! We are facing an issue with the steps:
 """
 My undefined step definition! (number 1)

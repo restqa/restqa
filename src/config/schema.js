@@ -16,7 +16,7 @@ function validate (config) {
       channel: Joi.string(),
       config: Joi.object({}).unknown(),
       startSymbol: Joi.string(),
-      endSymbol: Joi.string(),
+      endSymbol: Joi.string()
     },
     outputs: Joi.array().items(
       Joi.object({

@@ -5,14 +5,14 @@ const Schema = require('./schema')
 
 function Config ({ env, configFile }) {
   if (!fs.existsSync(configFile)) {
-    console.log(`THE RESTQA CONFIG FILE IS MISSING (${configFile})`)
+    throw new Error(`THE RESTQA CONFIG FILE IS MISSING (${configFile})`)
   }
 
   const envVar = {
     identify: value => value instanceof RegExp,
     tag: '!env-var',
-    resolve(doc, node) {
-      let { strValue } = node
+    resolve (doc, node) {
+      const { strValue } = node
       return process.env[strValue] || `${strValue} not found in the environment variable`
     }
   }
@@ -36,12 +36,13 @@ function Config ({ env, configFile }) {
   return Schema.validate(config)
 }
 
-Config.locate = function(options) {
+Config.locate = function (options) {
   let { configFile, path } = options || {}
   let fileName = '.restqa.yml'
   let filePath = Path.join(process.cwd(), fileName)
+  let parsed
   if (configFile) {
-    var parsed = Path.parse(configFile)
+    parsed = Path.parse(configFile)
     if (!parsed.dir) {
       parsed.dir = process.cwd()
       parsed.root = '/'
@@ -55,15 +56,14 @@ Config.locate = function(options) {
     if (!isFolder) {
       throw new ReferenceError(`The path "${path}" is not a folder`)
     }
-    if (configFile) {
+    if (configFile && parsed) {
       fileName = parsed.base
-      
     }
     filePath = Path.join(path, fileName)
   }
 
   if (!fs.existsSync(filePath)) {
-    throw new ReferenceError(`The configuration file "${filePath}" doesn\'t exist."`)
+    throw new ReferenceError(`The configuration file "${filePath}" doesn't exist."`)
   }
 
   return filePath
