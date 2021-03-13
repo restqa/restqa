@@ -113,7 +113,7 @@ describe('# Index - Step', () => {
     expect(mockSteps.mock.calls).toHaveLength(1)
     expect(mockSteps.mock.calls[0][0]).toEqual('then')
     expect(mockSteps.mock.calls[0][1]).toEqual({
-      configFile: '/tmp/.restqa.yml',
+      config: '/tmp/.restqa.yml',
       tag: 'header',
       print: false
     })
@@ -136,7 +136,7 @@ describe('# Index - Step', () => {
     expect(mockSteps.mock.calls).toHaveLength(1)
     expect(mockSteps.mock.calls[0][0]).toEqual('then')
     expect(mockSteps.mock.calls[0][1]).toEqual({
-      configFile: './.restqa.yml',
+      config: './.restqa.yml',
       tag: 'header',
       print: false
     })

@@ -30,7 +30,7 @@ function Install (options) {
 
 function Steps (options) {
   return steps(options.keyword, {
-    configFile: options.configFile || './.restqa.yml',
+    config: options.configFile || './.restqa.yml',
     tag: options.tag,
     print: false
   })
