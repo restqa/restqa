@@ -7,11 +7,16 @@ module.exports = function (program) {
   let {
     env,
     config,
+    tags = [],
     stream = process.stdout,
     args = []
   } = program
 
-  // -- paths
+  const invalidTags = tags.filter(tag => tag.substr(0, 1) !== '@')
+  if (invalidTags.length) {
+    return Promise.reject(new Error(`The tags should start with the symbol "@" (example: @${invalidTags[0]})`))
+  }
+
   if (!args.length) args.push('.')
 
   const paths = args.map(_ => path.resolve(_))
@@ -48,6 +53,12 @@ module.exports = function (program) {
     '--format-options',
     '{"snippetSyntax": "../src/restqa-snippet.js"}'
   ]
+
+  if (tags) {
+    tags.forEach(tag => {
+      customOptions.push(`--tags ${tag}`)
+    })
+  }
 
   const options = {
     argv: customOptions.concat(paths),
