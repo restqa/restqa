@@ -90,9 +90,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/0.0.22...HEAD
-[0.0.21]: https://github.com/restqa/restqa/compare/0.0.20...1.0.21
-[0.0.20]: https://github.com/restqa/restqa/compare/0.0.19...1.0.20
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.22...HEAD
+[0.0.22]: https://github.com/restqa/restqa/compare/0.0.21...0.0.22
+[0.0.21]: https://github.com/restqa/restqa/compare/0.0.20...0.0.21
+[0.0.20]: https://github.com/restqa/restqa/compare/0.0.19...0.0.20
 [0.0.19]: https://github.com/restqa/restqa/compare/0.0.18...0.0.19
 [0.0.18]: https://github.com/restqa/restqa/compare/0.0.17...0.0.18
 [0.0.17]: https://github.com/restqa/restqa/compare/0.0.16...0.0.17
