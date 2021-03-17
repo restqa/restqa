@@ -86,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Allow the data storage config
 
-## [0.0.09] - 2020-09-26
+## [0.0.9] - 2020-09-26
 ### Added
 - Enable secret into the configuration file
 
