@@ -36,6 +36,37 @@ function Steps (options) {
   })
 }
 
+/**
+ * Execute RestQA test suite using specific configuration
+ *
+ * @param {Object} options
+ * @param {string} options.config - The path of the RestQA configuration file
+ * @param {string} options.env - The target environment from the RestQA configuration file
+ * @param {stream.Writable} options.stream - The stream to export the logs
+ * @param {array} options.tags - The list of tags
+ * @param {string} options.path - The path of the feature files
+ *
+ * @return Promise<obj>
+ *
+ * @example
+ *
+ * const { Run } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   config: './restqa.yml',
+ *   env: 'prod',
+ *   stream: process.stdout,
+ *   tags: [
+ *     '@production',
+ *     '@success'
+ *   ],
+ *   path: './tests'
+ * }
+ *
+ * const result = await Run(options)
+ * console.log(result)
+ */
+
 async function Run (options) {
   const uuid = Math.floor(Math.random() * 10000000)
   const filename = path.resolve(os.tmpdir(), `restqa-result-${uuid}.json`)
@@ -50,6 +81,7 @@ async function Run (options) {
     config: options.configFile,
     env: options.env,
     stream: options.stream,
+    tags: options.tags || [],
     args
   })
 

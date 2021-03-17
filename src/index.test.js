@@ -180,6 +180,7 @@ describe('# Index - Step', () => {
         config: '/tmp/.restqa.yml',
         env: 'local',
         stream,
+        tags: [],
         args: ['tests/']
       })
     })
@@ -211,6 +212,7 @@ describe('# Index - Step', () => {
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',
         env: 'local',
+        tags: [],
         stream
       })
     })
@@ -226,7 +228,10 @@ describe('# Index - Step', () => {
       const opt = {
         configFile: '/tmp/.restqa.yml',
         env: 'local',
-        stream
+        stream,
+        tags: [
+          '@success'
+        ]
       }
 
       const { Run } = require('./index')
@@ -235,7 +240,10 @@ describe('# Index - Step', () => {
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',
         env: 'local',
-        stream
+        stream,
+        tags: [
+          '@success'
+        ]
       })
     })
   })
