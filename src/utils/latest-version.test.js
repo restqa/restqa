@@ -4,7 +4,7 @@ describe('latest version', () => {
     jest.resetAllMocks()
   })
 
-  test('Do not share any message if the latest version is matching the current version', () => {
+  test('Do not share any message when the latest version is matching the current version', () => {
     const mockPackageJson = jest.fn().mockResolvedValue({ version: '0.0.1' })
     jest.mock('package-json', () => {
       return mockPackageJson
@@ -13,7 +13,7 @@ describe('latest version', () => {
     return expect(LatestVersion('0.0.1')).resolves.toBe(true)
   })
 
-  test('Share a message if the latest version is not matching the current version', async () => {
+  test('Share a message when the latest version is not matching the current version', async () => {
     const mockPackageJson = jest.fn().mockResolvedValue({ version: '0.0.2' })
     jest.mock('package-json', () => {
       return mockPackageJson
