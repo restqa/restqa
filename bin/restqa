@@ -4,6 +4,7 @@ const { program } = require('commander')
 const { version } = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
+const LatestVersion = require('../src/utils/latest-version')
 
 program
   .version(version)
@@ -62,4 +63,7 @@ async function main () {
 main()
   .catch(e => {
     logger.error('> ', e)
+  })
+  .finally(async() => {
+    await LatestVersion(version)
   })
