@@ -9,17 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.22] - 2021-02-XX	
 ### Added
-- Changelog | #53
-- Enable Gherkin tags | #49
-- Latest version checker | #52
+- Changelog | [#54](https://github.com/restqa/restqa/pull/54)
+- [Enable Gherkin tags](https://docs.restqa.io/getting-started/run#specify-the-gherkin-tag) | [#50](https://github.com/restqa/restqa/pull/50)
+- [Latest version checker](https://docs.restqa.io/getting-started/version) | [#55](https://github.com/restqa/restqa/pull/55)
+- [Enable command line to install Html exports](https://docs.restqa.io/reporting/html) | [#57](https://github.com/restqa/restqa/pull/57/commits/90167be4071a61bdfe5fb9de6d0ca1ff12634f70)
+- [Enable command line to install JSON File exports](https://docs.restqa.io/reporting/json) | [#57](https://github.com/restqa/restqa/pull/57/commits/d76bdb57eed881d1594c26670e26f7382b391089)
 
 ## [0.0.21] - 2021-02-12
 ### Added
 - [Expose the step definitions as a module methods](https://docs.restqa.io/api/api-reference#stepsoptions)
 - [Expose the runner as a module methods](https://docs.restqa.io/api/api-reference#runoptions)
-- Add Circle CI integration | #43
-- Add Travis CI integration | #44
-- Add debug env var | #14
+- [Add Circle CI integration](https://docs.restqa.io/ci-cd/circle-ci) | [#42](https://github.com/restqa/restqa/pull/42)
+- [Add Travis CI integration](https://docs.restqa.io/ci-cd/travis-ci) | [#46](https://github.com/restqa/restqa/pull/46)
+- Add debug env var | [#14](https://github.com/restqa/restqa/issues/14)
 
 ### Update
 - Bump [@restqa/restqapi:0.0.15](https://github.com/restqa/restqapi/releases/tag/0.0.15)
