@@ -28,3 +28,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: "latest,${{ github.event.release.tag_name }}"
+  discord-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_EMBEDS: |
+            [{
+              "title": "Version  ${{ github.event.release.tag_name }}  has been released :tada::tada::tada:",
+              "description": "[CHANGELOG](https://github.com/restqa/restqa/blob/${{ github.event.release.tag_name }}/CHANGELOG.md) available\n\nDo not forget to update your local RestQA version using the command:\n```\n$ npm i -g @restqa/restqa@latest\n```",
+              "url": "http://google.com",
+              "color": 11032831
+             }]
+        uses: Ilshidur/action-discord@master

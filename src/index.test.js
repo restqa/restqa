@@ -113,7 +113,7 @@ describe('# Index - Step', () => {
     expect(mockSteps.mock.calls).toHaveLength(1)
     expect(mockSteps.mock.calls[0][0]).toEqual('then')
     expect(mockSteps.mock.calls[0][1]).toEqual({
-      configFile: '/tmp/.restqa.yml',
+      config: '/tmp/.restqa.yml',
       tag: 'header',
       print: false
     })
@@ -136,7 +136,7 @@ describe('# Index - Step', () => {
     expect(mockSteps.mock.calls).toHaveLength(1)
     expect(mockSteps.mock.calls[0][0]).toEqual('then')
     expect(mockSteps.mock.calls[0][1]).toEqual({
-      configFile: './.restqa.yml',
+      config: './.restqa.yml',
       tag: 'header',
       print: false
     })
@@ -180,6 +180,7 @@ describe('# Index - Step', () => {
         config: '/tmp/.restqa.yml',
         env: 'local',
         stream,
+        tags: [],
         args: ['tests/']
       })
     })
@@ -211,6 +212,7 @@ describe('# Index - Step', () => {
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',
         env: 'local',
+        tags: [],
         stream
       })
     })
@@ -226,7 +228,10 @@ describe('# Index - Step', () => {
       const opt = {
         configFile: '/tmp/.restqa.yml',
         env: 'local',
-        stream
+        stream,
+        tags: [
+          '@success'
+        ]
       }
 
       const { Run } = require('./index')
@@ -235,7 +240,10 @@ describe('# Index - Step', () => {
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',
         env: 'local',
-        stream
+        stream,
+        tags: [
+          '@success'
+        ]
       })
     })
   })

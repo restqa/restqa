@@ -4,6 +4,7 @@ const { program } = require('commander')
 const { version } = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
+const LatestVersion = require('../src/utils/latest-version')
 
 program
   .version(version)
@@ -42,7 +43,9 @@ program
   .alias('r')
   .option('-e, --env <env>', 'Define the current environment')
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
-  .description('Get the list of step by keyword : given | when | then')
+  .option('-t, --tags <tags>', 'Use --tags <EXPRESSION> to run specific features or scenarios (example: @prod)', (value, previous) => (previous || []).concat([value]))
+  .description('Execute the RestQA test suite')
+  .usage('-c ./.restqa.yml -e local -t success customer.feature')
   .action(Cli.run)
 
 program.on('--help', () => {
@@ -59,5 +62,8 @@ async function main () {
 
 main()
   .catch(e => {
-    logger.error('> ', e.message)
+    logger.error('> ', e)
+  })
+  .finally(async() => {
+    await LatestVersion(version)
   })

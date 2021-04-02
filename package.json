@@ -1,6 +1,6 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "An all in one test automation runner",
   "scripts": {
     "start:library": "export $(cat .env | xargs) && ./bin/restqa run ./sample-project",
@@ -21,17 +21,18 @@
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
     "@restqa/cucumber-export": "^0.1.4",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
-    "@restqa/restqapi": "0.0.15",
+    "@restqa/restqapi": "0.0.16",
     "chalk": "^4.0.0",
     "commander": "^6.2.1",
     "console-table-printer": "^1.4.3",
     "cucumber": "^6.0.5",
     "debug": "^4.3.1",
     "inquirer": "^7.3.3",
+    "joi": "^17.4.0",
     "npm": "^7.6.2",
+    "package-json": "^6.5.0",
     "yaml": "^1.9.2"
   },
   "bin": {

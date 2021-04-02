@@ -882,6 +882,188 @@ environments:
       }
       expect(result).toEqual(expectedContent)
     })
+
+    test('Add the html output into the configuration file in a specific environment', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+
+      const Install = require('./install')
+      const options = {
+        name: 'html',
+        env: 'local',
+        configFile: filename
+      }
+
+      let result = Install.generate(options)
+      result = YAML.parse(result)
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'html',
+            enabled: true
+          }]
+        }, {
+          name: 'uat',
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://test.uat.com'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+    })
+
+    test('Add the file output into the configuration file in a specific environment', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+
+      const Install = require('./install')
+      const options = {
+        name: 'file',
+        env: 'local',
+        configFile: filename
+      }
+
+      let result = Install.generate(options)
+      result = YAML.parse(result)
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'file',
+            enabled: true
+          }]
+        }, {
+          name: 'uat',
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://test.uat.com'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+    })
   })
 
   describe('Install', () => {
@@ -967,6 +1149,12 @@ environments:
         }, {
           name: 'Discord (outputs)',
           value: 'discord'
+        }, {
+          name: 'Html (outputs)',
+          value: 'html'
+        }, {
+          name: 'File (outputs)',
+          value: 'file'
         }, {
           name: 'Http-html-report (outputs)',
           value: 'http-html-report'
@@ -1366,6 +1554,190 @@ environments:
 
       expect(mockLogger.success.mock.calls).toHaveLength(1)
       expect(mockLogger.success.mock.calls[0][0]).toEqual('The "discord" outputs addon has been configured successfully')
+
+      expect(mockLogger.info.mock.calls).toHaveLength(1)
+      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install html when there is only one environment available', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+
+      const mockLogger = {
+        info: jest.fn(),
+        log: jest.fn(),
+        success: jest.fn()
+      }
+
+      jest.mock('../utils/logger', () => {
+        return mockLogger
+      })
+
+      const mockPrompt = jest.fn().mockResolvedValue({
+        configFile: filename
+      })
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        }
+      })
+
+      const Install = require('./install')
+      await Install('html')
+
+      expect(mockPrompt.mock.calls).toHaveLength(1)
+
+      expect(mockPrompt.mock.calls[0][0]).toHaveLength(0)
+
+      const result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'html',
+            enabled: true
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+
+      expect(mockLogger.success.mock.calls).toHaveLength(1)
+      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "html" outputs addon has been configured successfully')
+
+      expect(mockLogger.info.mock.calls).toHaveLength(1)
+      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install file when there is only one environment available', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+
+      const mockLogger = {
+        info: jest.fn(),
+        log: jest.fn(),
+        success: jest.fn()
+      }
+
+      jest.mock('../utils/logger', () => {
+        return mockLogger
+      })
+
+      const mockPrompt = jest.fn().mockResolvedValue({
+        configFile: filename
+      })
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        }
+      })
+
+      const Install = require('./install')
+      await Install('file')
+
+      expect(mockPrompt.mock.calls).toHaveLength(1)
+
+      expect(mockPrompt.mock.calls[0][0]).toHaveLength(0)
+
+      const result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'file',
+            enabled: true
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+
+      expect(mockLogger.success.mock.calls).toHaveLength(1)
+      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "file" outputs addon has been configured successfully')
 
       expect(mockLogger.info.mock.calls).toHaveLength(1)
       expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
