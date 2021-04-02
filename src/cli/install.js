@@ -45,6 +45,26 @@ const LIST = {
       }
     }
   },
+  html: {
+    type: 'outputs',
+    questions: [],
+    get: () => {
+      return {
+        type: 'html',
+        enabled: true
+      }
+    }
+  },
+  file: {
+    type: 'outputs',
+    questions: [],
+    get: () => {
+      return {
+        type: 'file',
+        enabled: true
+      }
+    }
+  },
   'http-html-report': {
     type: 'outputs',
     questions: [],
