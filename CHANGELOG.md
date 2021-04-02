@@ -15,6 +15,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Enable command line to install Html exports](https://docs.restqa.io/reporting/html) | [#57](https://github.com/restqa/restqa/pull/57/commits/90167be4071a61bdfe5fb9de6d0ca1ff12634f70)
 - [Enable command line to install JSON File exports](https://docs.restqa.io/reporting/json) | [#57](https://github.com/restqa/restqa/pull/57/commits/d76bdb57eed881d1594c26670e26f7382b391089)
 
+### Update
+- Bump default Plugin [@restqa/restqapi:0.0.16](https://github.com/restqa/restqapi/releases/tag/0.0.16)
+  - New step definition: `Then the response body at {string} should be a date before {string}`
+  - New step definition: `Then the response body at {string} should be a date after {string}`
+  - New step definition: `Then the response body at {string} should be a date before today`
+  - New step definition: `Then the response body at {string} should be a date after today`
+  - New step definition: `Then the response body at {string} should match the json schema from {string}`
+  - New step definition: `Then the response body should match the json schema from {string}`
+
 ## [0.0.21] - 2021-02-12
 ### Added
 - [Expose the step definitions as a module methods](https://docs.restqa.io/api/api-reference#stepsoptions)
