@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.22] - 2021-02-XX	
+## [0.0.22] - 2021-04-02
 ### Added
 - Changelog | [#54](https://github.com/restqa/restqa/pull/54)
 - [Enable Gherkin tags](https://docs.restqa.io/getting-started/run#specify-the-gherkin-tag) | [#50](https://github.com/restqa/restqa/pull/50)
@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New step definition: `Then the response body at {string} should match the json schema from {string}`
   - New step definition: `Then the response body should match the json schema from {string}`
 
-## [0.0.21] - 2021-02-12
+## [0.0.21] - 2021-03-12
 ### Added
 - [Expose the step definitions as a module methods](https://docs.restqa.io/api/api-reference#stepsoptions)
 - [Expose the runner as a module methods](https://docs.restqa.io/api/api-reference#runoptions)
