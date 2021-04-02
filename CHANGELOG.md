@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.23] - 2021-04-02
+### Bug Fix
+- [Fix issue due to incorrect step definition](https://github.com/restqa/restqapi/commit/c9bc5952960a0bb79e179767a3f6109a8bea397b)
+
+
 ## [0.0.22] - 2021-04-02
 ### Added
 - Changelog | [#54](https://github.com/restqa/restqa/pull/54)
@@ -101,7 +106,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.22...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.23...HEAD
+[0.0.23]: https://github.com/restqa/restqa/compare/0.0.22...0.0.23
 [0.0.22]: https://github.com/restqa/restqa/compare/0.0.21...0.0.22
 [0.0.21]: https://github.com/restqa/restqa/compare/0.0.20...0.0.21
 [0.0.20]: https://github.com/restqa/restqa/compare/0.0.19...0.0.20
