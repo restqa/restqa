@@ -55,6 +55,16 @@ const LIST = {
       }
     }
   },
+  file: {
+    type: 'outputs',
+    questions: [],
+    get: () => {
+      return {
+        type: 'file',
+        enabled: true
+      }
+    }
+  },
   'http-html-report': {
     type: 'outputs',
     questions: [],
