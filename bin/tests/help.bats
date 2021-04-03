@@ -1,3 +1,6 @@
+#!/usr/bin/env bats
+
+load 'common.sh'
 
 @test "Check the help of restqa (--help)" {
   run restqa --help

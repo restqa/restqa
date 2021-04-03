@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-export PATH="../:$PATH"
+load 'common.sh'
 
 PACKAGE_VERSION=$(cat ./package.json \
   | grep version \
