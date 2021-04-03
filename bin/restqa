@@ -51,7 +51,7 @@ program
 program.on('--help', () => {
   /* eslint-disable no-console */
   logger.log(
-    '  For more details please visit https://github.com/resqa/restqapi'
+    '  For more details please visit https://github.com/restqa/restqa'
   )
   /* eslint-enable no-console */
 })
@@ -63,6 +63,7 @@ async function main () {
 main()
   .catch(e => {
     logger.error('> ', e)
+    process.exit(1)
   })
   .finally(async() => {
     await LatestVersion(version)
