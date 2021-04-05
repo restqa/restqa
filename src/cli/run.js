@@ -56,8 +56,8 @@ module.exports = function (program) {
 
   if (tags) {
     tags.forEach(tag => {
-      customOptions.push(`--tags`)
-      customOptions.push(`${tag}`)
+      customOptions.push('--tags')
+      customOptions.push(tag)
     })
   }
 

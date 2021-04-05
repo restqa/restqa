@@ -308,8 +308,10 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        '--tags @production',
-        '--tags @success',
+        '--tags',
+        '@production',
+        '--tags',
+        '@success',
         path.resolve('.')
       ],
       cwd: path.join(__dirname, '../'),
