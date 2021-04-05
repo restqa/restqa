@@ -30,13 +30,13 @@ load 'common.sh'
 
 ## Multi environment 
 
-@test "Fail Test when environment doesn't exist" {
+@test "[RUN]> MULTI-ENV > Fail Test when environment doesn't exist" {
   run restqa run -e prod -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
   assert_failure
   assert_output --partial 'Error: THE ENVIRONMENT NEEDS TO BE DEFINED AS (local | uat)'
 }
 
-@test "Run successfull test on the uat environement" {
+@test "[RUN]> MULTI-ENV > Run successfull test on the uat environement" {
   run restqa run -e uat -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
   debug "${status}" "${output}" "${lines}"
   assert_success
@@ -44,7 +44,7 @@ load 'common.sh'
   assert_output --partial '1 scenario (1 passed)'
 }
 
-@test "Run successfull test on the local environement" {
+@test "[RUN]> MULTI-ENV > Run successfull test on the local environement" {
   run restqa run -e local -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
   debug "${status}" "${output}" "${lines}"
   assert_success
@@ -52,10 +52,24 @@ load 'common.sh'
   assert_output --partial '1 scenario (1 passed)'
 }
 
-@test "Run successfull test on the default environement" {
+@test "[RUN]> MULTI-ENV > Run successfull test on the default environement" {
   run restqa run -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
   debug "${status}" "${output}" "${lines}"
   assert_success
   assert_output --partial 'The selected environment is: "uat"'
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+## Tags
+
+@test "[RUN]> TAG > Error if the tag doesn't start with the symbol @" {
+  run restqa run -t select -c ./bin/tests/features/tags/.restqa.yml ./bin/tests/features/tags/
+  assert_failure
+  assert_output --partial '>  Error: The tags should start with the symbol "@" (example: @select)'
+}
+
+@test "[RUN]> TAG > Run on the scenario taggdd" {
+  run restqa run -t @select -c ./bin/tests/features/tags/.restqa.yml ./bin/tests/features/tags/
+  assert_success
   assert_output --partial '1 scenario (1 passed)'
 }
