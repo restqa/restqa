@@ -25,7 +25,9 @@ function Config ({ env, configFile }) {
     env = (config.environments.find(e => e.default) || {}).name
   }
 
-  if (!env || !envs.includes(env)) {
+  env = String(env).toLowerCase()
+
+  if (!env || !envs.map(_ => _.toLowerCase()).includes(env)) {
     throw new Error(`THE ENVIRONMENT NEEDS TO BE DEFINED AS (${envs.join(' | ')})`)
   }
 

@@ -34,7 +34,7 @@ module.exports = function (program) {
   // -- config
   config = config || path.join(process.cwd(), '.restqa.yml')
   if (!fs.existsSync(config)) {
-    return Promise.reject(new Error(`The configuration file "${config}" doesn't exit.`))
+    return Promise.reject(new Error(`The configuration file "${config}" doesn't exist.`))
   }
 
   global.restqaOptions = {

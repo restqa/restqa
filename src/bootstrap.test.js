@@ -19,6 +19,12 @@ describe('#bootstrap', () => {
     jest.resetAllMocks()
   })
 
+  jest.mock('./utils/logger', () => {
+    return {
+      info: jest.fn()
+    }
+  })
+
   test('Throw error if the processor is undefined', () => {
     const Bootstrap = require('./bootstrap')
     expect(() => {

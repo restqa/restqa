@@ -18,6 +18,11 @@ beforeEach(() => {
 })
 
 describe('#Cli - Steps', () => {
+  jest.mock('../utils/logger', () => {
+    return {
+      info: jest.fn()
+    }
+  })
   test('Throw an error if the keyword is not passed', () => {
     const Steps = require('./steps')
     expect(() => {
