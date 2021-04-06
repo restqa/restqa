@@ -25,6 +25,10 @@ function Config ({ env, configFile }) {
     env = (config.environments.find(e => e.default) || {}).name
   }
 
+  if (!env && envs.length === 1) {
+    env = envs[0]
+  }
+
   env = String(env).toLowerCase()
 
   if (!env || !envs.map(_ => _.toLowerCase()).includes(env)) {
