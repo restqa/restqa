@@ -17,7 +17,7 @@ describe('#Cli - Run', () => {
       stream: 'std-out-example'
     }
     const Run = require('./run')
-    return expect(Run(options)).rejects.toThrow(`The configuration file "${filename}" doesn't exit.`)
+    return expect(Run(options)).rejects.toThrow(`The configuration file "${filename}" doesn't exist.`)
   })
 
   test('Throw error if tag is not starting with a @', async () => {
@@ -308,8 +308,10 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        '--tags @production',
-        '--tags @success',
+        '--tags',
+        '@production',
+        '--tags',
+        '@success',
         path.resolve('.')
       ],
       cwd: path.join(__dirname, '../'),
@@ -361,6 +363,7 @@ environments:
 
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
     const mockLogger = {
+      info: jest.fn(),
       error: jest.fn()
     }
 

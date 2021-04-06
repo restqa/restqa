@@ -45,13 +45,13 @@ program
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
   .option('-t, --tags <tags>', 'Use --tags <EXPRESSION> to run specific features or scenarios (example: @prod)', (value, previous) => (previous || []).concat([value]))
   .description('Execute the RestQA test suite')
-  .usage('-c ./.restqa.yml -e local -t success customer.feature')
+  .usage('-c ./.restqa.yml -e local -t @success customer.feature')
   .action(Cli.run)
 
 program.on('--help', () => {
   /* eslint-disable no-console */
   logger.log(
-    '  For more details please visit https://github.com/resqa/restqapi'
+    '  For more details please visit https://github.com/restqa/restqa'
   )
   /* eslint-enable no-console */
 })
@@ -63,6 +63,7 @@ async function main () {
 main()
   .catch(e => {
     logger.error('> ', e)
+    process.exit(1)
   })
   .finally(async() => {
     await LatestVersion(version)
