@@ -6,7 +6,7 @@
 
 What do you need to know about the unit tests ?
 
-* Technology: [jest](https://jest.io)
+* Technology: [jest](https://jestjs.io)
 * Style: [chicago school](https://dev.to/hiboabd/a-beginners-explanation-of-the-chicago-london-approaches-4o5f)
 * Command: `npm test`
 * Coverage command: `npm run test:coverage`
