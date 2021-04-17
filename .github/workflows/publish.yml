@@ -42,3 +42,15 @@ jobs:
               "color": 11032831
              }]
         uses: Ilshidur/action-discord@master
+  tweet:
+    name: posting_on_twitter
+    runs-on: ubuntu-latest
+    steps:
+      - name: tweety
+        uses: m1ner79/Github-Twittction@v1.0.1
+        with:
+            twitter_status: "[TODO]"
+            twitter_consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }} 
+            twitter_consumer_secret: ${{ secrets.TWITTER_CONSUMER_SECRET }} 
+            twitter_access_token_key: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }} 
+            twitter_access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }} 
