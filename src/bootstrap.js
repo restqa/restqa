@@ -4,6 +4,7 @@ const {
 } = require('@restqa/restqa-plugin-bootstrap')
 
 const Config = require('./config')
+const logger = require('./utils/logger')
 
 module.exports = function (processor, options = {}) {
   if (
@@ -30,6 +31,7 @@ module.exports = function (processor, options = {}) {
 
   const parameterTypes = []
   const config = new Config(options)
+  logger.info(`🎯 The selected environment is: "${config.environment.name}"`)
 
   function pluginLoader (plugin) {
     options.plugin = getPluginModuleName(plugin.name)

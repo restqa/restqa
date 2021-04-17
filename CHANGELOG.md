@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.24] - 2021-04-16
+### Update
+- [Enable functional testing](https://github.com/restqa/restqa/blob/master/CONTRIBUTING.md) | [#61](https://github.com/restqa/restqa/pull/61)
+- [RestQA Plugin Generator](https://github.com/restqa/generator-plugin) | Yeoman Generator allowing anyone to create custom step definition and run then within RestQA
+
 ## [0.0.23] - 2021-04-02
 ### Bug Fix
 - [Fix issue due to incorrect step definition](https://github.com/restqa/restqapi/commit/c9bc5952960a0bb79e179767a3f6109a8bea397b)
-
 
 ## [0.0.22] - 2021-04-02
 ### Added
@@ -106,7 +110,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.23...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.24...HEAD
+[0.0.24]: https://github.com/restqa/restqa/compare/0.0.23...0.0.24
 [0.0.23]: https://github.com/restqa/restqa/compare/0.0.22...0.0.23
 [0.0.22]: https://github.com/restqa/restqa/compare/0.0.21...0.0.22
 [0.0.21]: https://github.com/restqa/restqa/compare/0.0.20...0.0.21
