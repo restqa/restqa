@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.25] - 2021-05-01
+
+
+
 ## [0.0.24] - 2021-04-16
 ### Update
 - [Enable functional testing](https://github.com/restqa/restqa/blob/master/CONTRIBUTING.md) | [#61](https://github.com/restqa/restqa/pull/61)
@@ -110,7 +114,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.24...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.25...HEAD
+[0.0.25]: https://github.com/restqa/restqa/compare/0.0.24...0.0.25
 [0.0.24]: https://github.com/restqa/restqa/compare/0.0.23...0.0.24
 [0.0.23]: https://github.com/restqa/restqa/compare/0.0.22...0.0.23
 [0.0.22]: https://github.com/restqa/restqa/compare/0.0.21...0.0.22
