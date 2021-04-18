@@ -38,7 +38,7 @@ In addition, RestQA is highly extensible via its [Plugin API](https://docs.restq
 
 [<img src="https://restqa.io/assets/img/utils/video-600.png" width=600 />](https://www.youtube.com/watch?v=EberYFGPZPo)
 
-[Access to the Mini Demo](https://www.youtube.com/watch?v=EberYFGPZPo)
+[Access to the Youtube Video](https://www.youtube.com/watch?v=EberYFGPZPo)
 
 ## Contribution
 
