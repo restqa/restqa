@@ -34,7 +34,7 @@ function getSteps (keyword, options) {
 }
 
 module.exports = function (keyword, program) {
-  let { config, tag, print } = program || {}
+  let { config, tag, print, env } = program || {}
 
   print = (undefined === print) ? true : print
 
@@ -51,7 +51,15 @@ module.exports = function (keyword, program) {
   keyword = keyword.toLowerCase()
 
   const options = {
-    configFile: Config.locate({ configFile: config })
+    configFile: Config.locate({ configFile: config }),
+    env
+  }
+
+  if (options.env) {
+    const restqaConfig = Config.raw({ configFile: config })
+    if (restqaConfig.environments.findIndex(_ => _.name === env) === -1) {
+      throw new Error(`"${options.env}" is not an environment available in the config file, choose between : ${restqaConfig.environments.map(_ => _.name).join(', ')}`)
+    }
   }
 
   const table = new Table({
