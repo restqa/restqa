@@ -45,6 +45,26 @@ const LIST = {
       }
     }
   },
+  line: {
+    type: 'outputs',
+    questions: [{
+      name: 'config_token',
+      message: 'What is the notification Line Messenger token?'
+    }],
+    get: (config) => {
+      if (!config.token) {
+        throw new Error('Please specify the Line notification token')
+      }
+      return {
+        type: 'line',
+        enabled: true,
+        config: {
+          token: config.token,
+          onlyFailed: false
+        }
+      }
+    }
+  },
   html: {
     type: 'outputs',
     questions: [],
