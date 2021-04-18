@@ -53,7 +53,7 @@ environments:
   - name: local
     default: true
     plugins:
-      - name: restqapi
+      - name: '@restqa/restqapi'
         config:
           url: http://host.docker.internal:4046
     outputs:
@@ -147,7 +147,7 @@ environments:
   - name: local
     default: true
     plugins:
-      - name: restqapi
+      - name: '@restqa/restqapi'
         config:
           url: http://host.docker.internal:4046
       - name: '@restqa/restqmocki'
@@ -282,7 +282,7 @@ environments:
   - name: local
     default: true
     plugins:
-      - name: restqapi
+      - name: '@restqa/restqapi'
         config:
           url: http://host.docker.internal:4046
     outputs:
