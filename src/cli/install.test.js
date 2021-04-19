@@ -398,7 +398,7 @@ environments:
         env: 'local',
         configFile: filename,
         config: {
-          folder: '/tmp'
+          folder: os.tmpdir()
         }
       }
 
@@ -424,7 +424,7 @@ environments:
           data: {
             channel: 'csv',
             config: {
-              folder: '/tmp'
+              folder: os.tmpdir()
             }
           },
           outputs: [{
@@ -1874,7 +1874,7 @@ environments:
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
-        config_folder: '/tmp'
+        config_folder: os.tmpdir()
       })
 
       jest.mock('inquirer', () => {
@@ -1907,7 +1907,7 @@ environments:
           data: {
             channel: 'csv',
             config: {
-              folder: '/tmp'
+              folder: os.tmpdir()
             }
           },
           plugins: [{
