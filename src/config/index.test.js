@@ -1,4 +1,6 @@
 const fs = require('fs')
+const path = require('path')
+const os = require('os')
 let filename
 
 afterEach(() => {
@@ -24,7 +26,7 @@ describe('#Config locate', () => {
   })
 
   test('Return the file path if the config file is found', () => {
-    filename = `${process.cwd()}/.restqa.yml`
+    filename = path.resolve(process.cwd(), '.restqa.yml')
     fs.writeFileSync(filename, 'the file content')
 
     const result = Config.locate()
@@ -42,7 +44,7 @@ describe('#Config locate', () => {
   })
 
   test('Return the file path if the config file is found in a specific folder', () => {
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, 'the file content')
 
     const result = Config.locate({ configFile: filename })
@@ -56,7 +58,7 @@ describe('#Config locate', () => {
   })
 
   test('Return the config file if the passed path contains a config file', () => {
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, 'the file content')
     const result = Config.locate({ path: '/tmp' })
     expect(result).toEqual(filename)
@@ -69,7 +71,7 @@ describe('#Config locate', () => {
   })
 
   test('Return the config file if the passed path contains a config file and a specific config file name', () => {
-    filename = '/tmp/.example.yml'
+    filename = path.resolve(os.tmpdir(), '.example.yml')
     fs.writeFileSync(filename, 'the file content')
     const result = Config.locate({ configFile: '.example.yml', path: '/tmp' })
     expect(result).toEqual(filename)

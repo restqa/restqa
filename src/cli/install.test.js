@@ -2,6 +2,8 @@ process.setMaxListeners(Infinity)
 
 const fs = require('fs')
 const YAML = require('yaml')
+const os = require('os')
+const path = require('path')
 
 let filename
 
@@ -101,7 +103,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -146,7 +148,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -292,7 +294,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -340,7 +342,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -484,7 +486,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -532,7 +534,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -678,7 +680,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
