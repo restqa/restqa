@@ -472,7 +472,7 @@ describe('#Cli - Initialize', () => {
 
         expect(result).toEqual(expectedContent)
 
-        const filenameWelcome = path.resolve('/tmp', 'tests', 'integration', 'welcome-restqa.feature')
+        const filenameWelcome = path.resolve(os.tmpdir(), 'tests', 'integration', 'welcome-restqa.feature')
         expect(fs.existsSync(filenameWelcome)).toBe(false)
       })
 
@@ -544,7 +544,7 @@ describe('#Cli - Initialize', () => {
         }
         expect(result).toEqual(expectedContent)
 
-        const filenameWelcome = path.resolve('/tmp', 'tests', 'integration', 'welcome-restqa.feature')
+        const filenameWelcome = path.resolve(os.tmpdir(), 'tests', 'integration', 'welcome-restqa.feature')
         files.push(filenameWelcome)
         const contentWelcome = fs.readFileSync(filenameWelcome).toString('utf-8')
         const expectedWelcomeFeature = `

@@ -292,12 +292,7 @@ function createYaml (filename, jsonContent) {
 }
 
 function createRecursiveFolder (filename, root) {
-  path.dirname(filename).split(path.sep)
-    .reduce((pathname, dir) => {
-      pathname = path.resolve(pathname, dir)
-      if (!fs.existsSync(pathname)) fs.mkdirSync(pathname)
-      return pathname
-    }, root)
+  fs.mkdirSync(path.resolve(root, path.dirname(filename)), { recursive: true })
 }
 
 module.exports = initialize
