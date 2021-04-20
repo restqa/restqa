@@ -2,6 +2,8 @@ process.setMaxListeners(Infinity)
 
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
+
 let files = []
 let mockGenerator
 
@@ -294,6 +296,7 @@ describe('#Cli - Initialize', () => {
         description: 'my description',
         ci: 'travis'
       }
+      mockGenerator.mockResolvedValue('Given I have an example')
       await Iniitialize.generate(options)
 
       const content = fs.readFileSync(filename).toString('utf-8')
@@ -410,7 +413,7 @@ describe('#Cli - Initialize', () => {
           return mockLogger
         })
 
-        const filename = path.resolve('/tmp/', '.restqa.yml')
+        const filename = path.resolve(os.tmpdir(), '.restqa.yml')
         files.push(filename)
         const Initialize = require('./initialize')
 
@@ -421,7 +424,7 @@ describe('#Cli - Initialize', () => {
           url: 'http://test.sample.com',
           env: 'production',
           description: 'This is my description',
-          folder: '/tmp/'
+          folder: os.tmpdir()
         }
 
         await Initialize.generate(options)
@@ -484,7 +487,7 @@ describe('#Cli - Initialize', () => {
           return mockLogger
         })
 
-        const filename = path.resolve('/tmp/', '.restqa.yml')
+        const filename = path.resolve(os.tmpdir(), '.restqa.yml')
         files.push(filename)
         const Initialize = require('./initialize')
 
@@ -495,7 +498,7 @@ describe('#Cli - Initialize', () => {
           url: 'http://test.sample.com',
           env: 'production',
           description: 'This is my description',
-          folder: '/tmp/'
+          folder: os.tmpdir()
         }
 
         await Initialize.generate(options)

@@ -65,7 +65,7 @@ async function initialize (program) {
     }]
     answers = await inquirer.prompt(questions)
   }
-  initialize.generate(answers)
+  return initialize.generate(answers)
 }
 
 initialize.generate = async function (options) {
