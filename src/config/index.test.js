@@ -39,8 +39,8 @@ describe('#Config locate', () => {
     }).toThrow(`The configuration file "${path.resolve(process.cwd(), '.example.restqa.yml')}" doesn't exist."`)
 
     expect(() => {
-      Config.locate({ configFile: '/tmp/.example.restqa.yml' })
-    }).toThrow('The configuration file "/tmp/.example.restqa.yml" doesn\'t exist."')
+      Config.locate({ configFile: path.resolve(os.tmpdir(), '.example.restqa.yml') })
+    }).toThrow(`The configuration file "${path.resolve(os.tmpdir(), '.example.restqa.yml')}" doesn't exist."`)
   })
 
   test('Return the file path if the config file is found in a specific folder', () => {
