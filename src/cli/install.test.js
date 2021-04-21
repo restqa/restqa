@@ -669,7 +669,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
