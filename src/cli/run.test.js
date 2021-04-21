@@ -10,7 +10,7 @@ beforeEach(() => {
 
 describe('#Cli - Run', () => {
   test('Throw error if the passed file doesnt exist', async () => {
-    filename = `/${os.tmpdir()}/.restqa.fake.yml`
+    filename = path.resolve(os.tmpdir(), '.restqa.fake.yml')
 
     const options = {
       config: filename,
@@ -55,7 +55,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -126,7 +126,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -196,7 +196,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -266,7 +266,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -344,7 +344,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockRejectedValue(new Error('This is an error'))

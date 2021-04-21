@@ -2,6 +2,8 @@ process.setMaxListeners(Infinity)
 
 const fs = require('fs')
 const YAML = require('yaml')
+const os = require('os')
+const path = require('path')
 
 let filename
 
@@ -101,7 +103,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -146,7 +148,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -292,7 +294,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -340,7 +342,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -396,7 +398,7 @@ environments:
         env: 'local',
         configFile: filename,
         config: {
-          folder: '/tmp'
+          folder: os.tmpdir()
         }
       }
 
@@ -422,7 +424,7 @@ environments:
           data: {
             channel: 'csv',
             config: {
-              folder: '/tmp'
+              folder: os.tmpdir()
             }
           },
           outputs: [{
@@ -484,7 +486,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -532,7 +534,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -678,7 +680,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -1872,7 +1874,7 @@ environments:
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
-        config_folder: '/tmp'
+        config_folder: os.tmpdir()
       })
 
       jest.mock('inquirer', () => {
@@ -1905,7 +1907,7 @@ environments:
           data: {
             channel: 'csv',
             config: {
-              folder: '/tmp'
+              folder: os.tmpdir()
             }
           },
           plugins: [{

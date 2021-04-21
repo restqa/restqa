@@ -1,4 +1,7 @@
 const fs = require('fs')
+const path = require('path')
+const os = require('os')
+
 let filename
 
 afterEach(() => {
@@ -59,7 +62,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     jest.mock('@restqa/restqapi', () => {
@@ -154,7 +157,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa-multiple.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
     fs.writeFileSync(filename, content)
 
     jest.mock('@restqa/restqapi', () => {
@@ -288,7 +291,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa-tag.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa-tag.yml')
     fs.writeFileSync(filename, content)
 
     jest.mock('@restqa/restqapi', () => {
