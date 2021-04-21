@@ -31,10 +31,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g bats
+#    - run: npm install -g bats
     - run: npm install
       env:
         CI: true
     - run: npm test
-    - run: npm run test:functional
-      shell: bash
+#    - run: npm run test:functional
+#      shell: bash
