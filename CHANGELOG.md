@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.25] - 2021-05-01
 
-
+* improve windows OS compatibility
 
 ## [0.0.24] - 2021-04-16
 ### Update
