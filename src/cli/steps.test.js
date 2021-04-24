@@ -73,7 +73,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
     const opt = {
       env: 'prod',
@@ -346,7 +346,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa-multiple.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
     fs.writeFileSync(filename, content)
 
     jest.mock('@restqa/restqmocki', () => {
