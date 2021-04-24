@@ -45,6 +45,26 @@ const LIST = {
       }
     }
   },
+  line: {
+    type: 'outputs',
+    questions: [{
+      name: 'config_token',
+      message: 'What is the notification Line Messenger token?'
+    }],
+    get: (config) => {
+      if (!config.token) {
+        throw new Error('Please specify the Line notification token')
+      }
+      return {
+        type: 'line',
+        enabled: true,
+        config: {
+          token: config.token,
+          onlyFailed: false
+        }
+      }
+    }
+  },
   html: {
     type: 'outputs',
     questions: [],
@@ -128,15 +148,22 @@ const LIST = {
 }
 
 async function Install (name, program) {
+  program = program || {}
+
+  let {
+    config,
+    env
+  } = program
+
   if (name && !LIST[name]) {
     throw new Error(`The plugin "${name}" is not available. Use the command "restqa install" to retrive the list of available plugin`)
   }
 
   const questions = []
 
-  const configFile = Config.locate()
+  const configFile = Config.locate({ configFile: config })
   const restqaConfig = YAML.parse(fs.readFileSync(configFile).toString('utf-8'))
-  const env = restqaConfig.environments[0].name
+  const envs = restqaConfig.environments.map(env => env.name)
 
   if (!name) {
     const filteredList = Object.keys(LIST).reduce((result, key) => {
@@ -162,13 +189,17 @@ async function Install (name, program) {
     }])).name
   }
 
-  if (restqaConfig.environments.length > 1) {
-    questions.push({
-      type: 'list',
-      name: 'env',
-      message: `On which environment would you like to install the "${name}" ${LIST[name].type}?`,
-      choices: restqaConfig.environments.map(env => env.name)
-    })
+  if (!env) {
+    if (restqaConfig.environments.length > 1) {
+      questions.push({
+        type: 'list',
+        name: 'env',
+        message: `On which environment would you like to install the "${name}" ${LIST[name].type}?`,
+        choices: envs
+      })
+    } else {
+      env = restqaConfig.environments[0].name
+    }
   }
 
   Array.prototype.push.apply(questions, LIST[name].questions)
@@ -227,6 +258,7 @@ Install.generate = function (options) {
   }
 
   if (plugin.type === 'outputs') {
+    restqaConfig.environments[envIndex].outputs = restqaConfig.environments[envIndex].outputs || []
     restqaConfig.environments[envIndex].outputs.push(plugin.get(config))
   }
 
