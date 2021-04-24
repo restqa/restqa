@@ -17,9 +17,9 @@ module.exports = function (program) {
     return Promise.reject(new Error(`The tags should start with the symbol "@" (example: @${invalidTags[0]})`))
   }
 
-  if (!args.length) args.push('.')
+  const currentPathGlob = path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}')
 
-  const paths = args.map(_ => path.resolve(_))
+  let paths = args.map(_ => path.resolve(_))
 
   if (paths.length === 1) {
     const isFolder = fs.lstatSync(paths[0]).isDirectory()
@@ -30,6 +30,12 @@ module.exports = function (program) {
       }
     }
   }
+
+  paths = paths.map(p => {
+    return p.replace(new RegExp(`^${path.resolve('.')}$`), currentPathGlob)
+  })
+
+  if (!paths.length) paths.push(currentPathGlob)
 
   // -- config
   config = config || path.join(process.cwd(), '.restqa.yml')
@@ -79,7 +85,7 @@ module.exports = function (program) {
       }
     })
     .catch(err => {
-      logger.error(err) // eslint-disable-line no-console
+      logger.error(err)
       process.exit(1)
     })
 }

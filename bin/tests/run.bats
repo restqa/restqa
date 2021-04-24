@@ -84,7 +84,8 @@ load 'common.sh'
 }
 
 @test "[RUN]> MULTI-ENV > Run successfull test on the local environement" {
-  run restqa run -e local -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
+  cd ./bin/tests/features/multi-env
+  run restqa run -e local
   debug "${status}" "${output}" "${lines}"
   assert_success
   assert_output --partial 'The selected environment is: "local"'
@@ -92,10 +93,29 @@ load 'common.sh'
 }
 
 @test "[RUN]> MULTI-ENV > Run successfull test on the default environement" {
-  run restqa run -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
+  cd ./bin/tests/features/multi-env
+  run restqa run
   debug "${status}" "${output}" "${lines}"
   assert_success
   assert_output --partial 'The selected environment is: "uat"'
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+@test "[RUN]> Plugin > exclude the node_module folder" {
+  cd ./bin/tests/features/exlude_node_modules
+  run restqa run 
+  debug "${status}" "${output}" "${lines}"
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+@test "[RUN]> Plugin > exclude the node_module folder but '.' is passed as local folder" {
+  cd ./bin/tests/features/exlude_node_modules
+  run restqa run  .
+  debug "${status}" "${output}" "${lines}"
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
   assert_output --partial '1 scenario (1 passed)'
 }
 
