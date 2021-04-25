@@ -27,6 +27,7 @@ program
   .command('steps [keyword]')
   .alias('st')
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
+  .option('-e, --env <env>', 'Define the current environment')
   .option('-t, --tag <tag>', 'Filter the step definition by tag')
   .description('Get the list of step by keyword : given | when | then')
   .action(Cli.steps)

@@ -9,27 +9,29 @@ module.exports = function (program) {
     config,
     tags = [],
     stream = process.stdout,
-    args = []
+    args = ['.']
   } = program
+
+  if (!args.length) args.push('.')
 
   const invalidTags = tags.filter(tag => tag.substr(0, 1) !== '@')
   if (invalidTags.length) {
     return Promise.reject(new Error(`The tags should start with the symbol "@" (example: @${invalidTags[0]})`))
   }
 
-  if (!args.length) args.push('.')
-
-  const paths = args.map(_ => path.resolve(_))
-
-  if (paths.length === 1) {
-    const isFolder = fs.lstatSync(paths[0]).isDirectory()
+  if (args.length === 1) {
+    const folderToSearch = path.resolve(args[0])
+    const isFolder = fs.lstatSync(folderToSearch).isDirectory()
     if (isFolder) {
-      const configFile = path.join(paths[0], '.restqa.yml')
+      const configFile = path.join(folderToSearch, '.restqa.yml')
       if (!config && fs.existsSync(configFile)) {
         config = configFile
       }
     }
   }
+
+  const currentPathGlob = path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}')
+  const paths = args.map(_ => _ === '.' ? currentPathGlob : path.resolve(_))
 
   // -- config
   config = config || path.join(process.cwd(), '.restqa.yml')
@@ -79,7 +81,7 @@ module.exports = function (program) {
       }
     })
     .catch(err => {
-      logger.error(err) // eslint-disable-line no-console
+      logger.error(err)
       process.exit(1)
     })
 }

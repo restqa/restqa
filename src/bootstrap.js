@@ -5,6 +5,10 @@ const {
 
 const Config = require('./config')
 const logger = require('./utils/logger')
+const path = require('path')
+
+const Module = require('module')
+const requireUtil = Module.createRequire(path.resolve(process.cwd(), '.') + path.sep)
 
 module.exports = function (processor, options = {}) {
   if (
@@ -34,8 +38,8 @@ module.exports = function (processor, options = {}) {
   logger.info(`🎯 The selected environment is: "${config.environment.name}"`)
 
   function pluginLoader (plugin) {
-    options.plugin = getPluginModuleName(plugin.name)
-    const Module = require(options.plugin)
+    options.plugin = plugin.name
+    const Plugin = getPluginModule(plugin.name)
     if (config.environment.data) {
       plugin.config.data = {
         startSymbol: config.environment.data.startSymbol,
@@ -43,7 +47,7 @@ module.exports = function (processor, options = {}) {
       }
     }
 
-    const instance = new Module(plugin.config)
+    const instance = new Plugin(plugin.config)
 
     instance.setParameterType((el) => {
       if (parameterTypes.includes(el.name)) return
@@ -77,10 +81,18 @@ module.exports = function (processor, options = {}) {
   setWorldConstructor(RestQA)
 }
 
-function getPluginModuleName (name) {
+function getPluginModule (name) {
   // Due to some changes we need to handle retro-compatibility
-  if (['restqapi', 'restqkube'].includes(name)) {
+  if (['restqapi'].includes(name)) {
     name = `@restqa/${name}`
   }
-  return name
+
+  let result
+  if (name === '@restqa/restqapi') {
+    result = require(name)
+  } else {
+    result = requireUtil(name)
+  }
+
+  return result
 }

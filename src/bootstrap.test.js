@@ -223,12 +223,18 @@ environments:
     })
 
     let passConfigRestQkube
-    jest.mock('@restqa/restqkube', () => {
-      return function (config) {
-        passConfigRestQkube = config
-        return mockInstancePlugin
+    jest.mock('module', () => {
+      return {
+        createRequire: (path) => {
+          return (pluginName) => {
+            return function (config) {
+              passConfigRestQkube = config
+              return mockInstancePlugin
+            }
+          }
+        }
       }
-    }, { virtual: true })
+    })
 
     let worldResult
 
@@ -359,12 +365,18 @@ environments:
     })
 
     let passConfigRestQkube
-    jest.mock('@restqa/restqkube', () => {
-      return function (config) {
-        passConfigRestQkube = config
-        return mockInstancePlugin
+    jest.mock('module', () => {
+      return {
+        createRequire: (path) => {
+          return (pluginName) => {
+            return function (config) {
+              passConfigRestQkube = config
+              return mockInstancePlugin
+            }
+          }
+        }
       }
-    }, { virtual: true })
+    })
 
     let worldResult
 

@@ -10,6 +10,9 @@ environments:
       - name: '@restqa/restqapi'
         config:
           url: https://api.restqa.io
+      - name: '@restqa/restqkube'
+        config:
+          url: https://api.restqa.io
     outputs:
       - type: html
         enabled: true
