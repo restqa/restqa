@@ -33,7 +33,7 @@
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
     "npm": "^7.6.2",
-    "package-json": "^6.5.0",
+    "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
   },
   "bin": {

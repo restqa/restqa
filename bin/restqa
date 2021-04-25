@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 
 const { program } = require('commander')
-const { version } = require('../package.json')
+const pkg = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
-const LatestVersion = require('../src/utils/latest-version')
+const updateNotifier = require('update-notifier')
+
+const notifier = updateNotifier({
+  pkg,
+  shouldNotifyInNpmScript: true
+})
 
 program
-  .version(version)
+  .version(pkg.version)
 
 program
   .command('init')
@@ -68,6 +73,8 @@ main()
     logger.error('> ', e)
     process.exit(1)
   })
-  .finally(async() => {
-    await LatestVersion(version)
+  .finally( () => {
+    if (notifier.update) {
+      notifier.notify()
+    }
   })
