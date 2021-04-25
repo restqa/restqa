@@ -49,7 +49,7 @@ jobs:
       - name: tweety
         uses: m1ner79/Github-Twittction@v1.0.1
         with:
-            twitter_status: "Release ${{github.event.release.tag_name}} for ${{github.repository}} is out in the wild 😱💪🍾🎂\n\nThank you for the contribution ${{ steps.author.outputs.name }} ${{github.event.release.html_url}}"
+            twitter_status: "Release ${{github.event.release.tag_name}} for ${{github.repository}} is out in the wild 😱💪🍾🎂\n\n #testautomation #apitesting #gherkin #softwaretesting ${{github.event.release.html_url}}"
             twitter_consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }} 
             twitter_consumer_secret: ${{ secrets.TWITTER_CONSUMER_SECRET }} 
             twitter_access_token_key: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }} 
