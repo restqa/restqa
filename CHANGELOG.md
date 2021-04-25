@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.25] - 2021-05-01
 
 * improve windows OS compatibility | [#67](https://github.com/restqa/restqa/pull/67)
-* Enable line App Alerting | [#65](https://github.com/restqa/restqa/pull/65)
+* [Enable line App Alerting](https://docs.restqa.io/alerting/line) | [#65](https://github.com/restqa/restqa/pull/65)
+* [Extend RestQA capability through Plugins](https://docs.restqa.io/getting-started/plugins) | [#66](https://github.com/restqa/restqa/pull/66)
 
 ## [0.0.24] - 2021-04-16
 ### Update
