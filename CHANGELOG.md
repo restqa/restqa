@@ -9,10 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.25] - 2021-05-01
 
-* improve windows OS compatibility | [#67](https://github.com/restqa/restqa/pull/67)
+### Added
 * [Enable line App Alerting](https://docs.restqa.io/alerting/line) | [#65](https://github.com/restqa/restqa/pull/65)
 * [Extend RestQA capability through Plugins](https://docs.restqa.io/getting-started/plugins) | [#66](https://github.com/restqa/restqa/pull/66)
+
+### Update
+* improve windows OS compatibility | [#67](https://github.com/restqa/restqa/pull/67)
 * Use [update-notifier](https://github.com/yeoman/update-notifier) to replace the previous custom implementation | [#68](https://github.com/restqa/restqa/pull/68)
+* Bump [@restqa/cucumber-export@0.1.5](https://github.com/restqa/cucumber-export/releases/tag/0.1.5)
 
 ## [0.0.24] - 2021-04-16
 ### Update
