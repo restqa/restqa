@@ -4,7 +4,10 @@ const { program } = require('commander')
 const pkg = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
+const Welcome = require('../src/utils/welcome')
 const updateNotifier = require('update-notifier')
+
+// Welcome()
 
 const notifier = updateNotifier({
   pkg,
