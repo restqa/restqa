@@ -12,7 +12,8 @@ load 'common.sh'
   [ "${lines[3]}" =  "  -c, --config <config>  Use a specific .restqa.yml file" ]
   [ "${lines[4]}" =  "  -e, --env <env>        Define the current environment" ]
   [ "${lines[5]}" =  "  -t, --tag <tag>        Filter the step definition by tag" ]
-  [ "${lines[6]}" =  "  -h, --help             display help for command" ]
+  [ "${lines[6]}" =  "  -o, --output <output>  Formating the output: short | medium | large" ]
+  [ "${lines[7]}" =  "  -h, --help             display help for command" ]
 }
 
 MAINDIR="$BATS_TMPDIR/restqa-bats-tests"
@@ -58,6 +59,14 @@ teardown() {
   assert_output --partial ">  Error: \"prod\" is not an environment available in the config file, choose between : local"
 }
 
+@test "[STEPS]> Get Error if the output is not valid" {
+  run restqa st -c ./bin/tests/features/success/.restqa.yml -o hello given
+  assert_failure
+  assert_output --partial ">  TypeError: \"hello\" is not a valid output. Available: short | medium | large"
+}
+
+## Happy
+
 @test "[STEPS]> Retrieve the steps successfully" {
   cp ./bin/tests/features/success/.restqa.yml "$WORKDIR/.restqa.-success.yml"
   cd $WORKDIR
@@ -97,7 +106,7 @@ teardown() {
 @test "[STEPS]> Successfull multi-plugin but filter per tag" {
   cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
   cd $WORKDIR
-  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url
+  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url -o large
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   assert_output --partial 'Plugin'
@@ -116,4 +125,48 @@ teardown() {
   refute_output --partial '@restqa/restqkube'
   refute_output --partial 'I have my cluster'
   refute_output --partial 'Create a cluster instance'
+}
+
+@test "[STEPS]> Successfull multi-plugin but filter per tag and short output" {
+  cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
+  cd $WORKDIR
+  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url -o short
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
+  refute_output --partial 'Plugin'
+  assert_output --partial 'Keyword'
+  assert_output --partial 'Step'
+  refute_output --partial 'Comment'
+  assert_line --index 3 --partial '══════'
+  refute_line --index 4 --partial '@restqa/restqapi'
+  assert_line --index 4 --partial 'given'
+  assert_line --index 4 --partial 'I have the api gateway'
+  refute_line --index 4 --partial 'Create a new api request targeting the default api gateway'
+  refute_line --index 5 --partial '@restqa/restqapi'
+  assert_line --index 5 --partial 'given'
+  assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
+  refute_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
+  assert_line --index 6 --partial '══════'
+}
+
+@test "[STEPS]> Successfull multi-plugin but filter per tag and medium output" {
+  cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
+  cd $WORKDIR
+  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url --output medium
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
+  assert_output --partial 'Plugin'
+  assert_output --partial 'Keyword'
+  assert_output --partial 'Step'
+  refute_output --partial 'Comment'
+  assert_line --index 3 --partial '══════'
+  assert_line --index 4 --partial '@restqa/restqapi'
+  assert_line --index 4 --partial 'given'
+  assert_line --index 4 --partial 'I have the api gateway'
+  refute_line --index 4 --partial 'Create a new api request targeting the default api gateway'
+  assert_line --index 5 --partial '@restqa/restqapi'
+  assert_line --index 5 --partial 'given'
+  assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
+  refute_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
+  assert_line --index 6 --partial '══════'
 }
