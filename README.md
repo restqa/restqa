@@ -40,6 +40,12 @@ In addition, RestQA is highly extensible via its [Plugin API](https://docs.restq
 
 [Access to the Youtube Video](https://www.youtube.com/watch?v=EberYFGPZPo)
 
+### Example
+
+Take a look at the [example folder](./example) to see a basic setup.
+
+More example available on the [restqa-example](https://github.com/restqa/restqa-example) repository.
+
 ## Contribution
 
 See [Contributing Guide](./CONTRIBUTING.md).
