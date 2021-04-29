@@ -19,6 +19,7 @@ jobs:
         CI: true
     - run: npm test
     - run: npm run test:functional
+    - run: npm run example
 
   build-windows:
     runs-on: windows-latest
@@ -36,5 +37,6 @@ jobs:
       env:
         CI: true
     - run: npm test
-#    - run: npm run test:functional
-#      shell: bash
+#   - run: npm run example
+#   - run: npm run test:functional
+#     shell: bash
