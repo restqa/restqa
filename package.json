@@ -10,7 +10,7 @@
     "test:functional": "bats bin/tests",
     "lint:fix": "eslint --fix src/ bin/restqa",
     "lint": "eslint src/ bin/restqa",
-    "example": "./bin/restqa run ./example/"
+    "example": "bin/restqa run example/"
   },
   "keywords": [
     "api",
