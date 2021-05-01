@@ -21,9 +21,10 @@ module.exports = function (processor, options = {}) {
     !processor.When ||
     !processor.Then ||
     !processor.defineParameterType ||
-    !processor.setWorldConstructor
+    !processor.setWorldConstructor ||
+    !processor.setDefaultTimeout
   ) {
-    throw new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType and setWorldConstructor.')
+    throw new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.')
   }
 
   const {
@@ -35,6 +36,9 @@ module.exports = function (processor, options = {}) {
 
   const parameterTypes = []
   const config = new Config(options)
+  if (config.restqa && config.restqa.timeout) {
+    processor.setDefaultTimeout(config.restqa.timeout)
+  }
   logger.info(`🎯 The selected environment is: "${config.environment.name}"`)
 
   function pluginLoader (plugin) {

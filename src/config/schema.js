@@ -38,6 +38,9 @@ function validate (config) {
     analytics: Joi.object({
       key: Joi.string(),
       ignore: Joi.array()
+    }),
+    restqa: Joi.object({
+      timeout: Joi.number()
     })
   })
 
