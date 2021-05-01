@@ -24,6 +24,7 @@ function getSteps (keyword, options) {
     BeforeAll: () => {},
     defineParameterType: () => {},
     setWorldConstructor: () => {},
+    setDefaultTimeout: () => {},
     Given: (gerkin, fn, comment, tag) => register('Given', gerkin, comment, tag),
     When: (gerkin, fn, comment, tag) => register('When', gerkin, comment, tag),
     Then: (gerkin, fn, comment, tag) => register('Then', gerkin, comment, tag)
