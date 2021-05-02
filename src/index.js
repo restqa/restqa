@@ -11,6 +11,22 @@ const path = require('path')
 async function Initialize () {
 }
 
+/**
+ * Generate a test scenario from a curl command
+ *
+ * @param {string} The curl command that need to be converted as a scenario
+ *
+ * @return Array<obj>
+ *
+ * @example
+ *
+ * const { Generate } = require('@restqa/restqa')
+ *
+ * const cmd = "curl -X GET https://jsonplaceholder.typicode.com/todos/1"
+ *
+ * const result = await Generate(cmd)
+ * console.log(result)
+ */
 async function Generate (cmd) {
   const args = cmd
     .match(/"[^"]+"|'[^']+'|\S+/g)
@@ -24,10 +40,62 @@ async function Generate (cmd) {
   return generate(options)
 }
 
+/**
+ * Install a new integration into your configuration
+ *
+ * @param {Object} options
+ * @param {string} option.name - The name of the integration you want to install (ex: 'slack')
+ * @param {string} option.configFile - Location of the RestQA Configuration File (ex: './restqa.yml')
+ * @param {string} option.env - The target enviironment (from your RestQA config file) (ex: 'local')
+ * @param {options} option.config - Represent the configuration required to setup the addon
+ *
+ * @return Array<obj>
+ *
+ * @example
+ *
+ * const { Install } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   name: 'discord',
+ *   configFile: './restqa.yml',
+ *   env: 'prod',
+ *   config: {
+ *     url: 'http://webhook.discord.com/test'
+ *   }
+ * }
+ *
+ * const result = await Install(options)
+ * console.log(result)
+ */
 function Install (options) {
   return install.generate(options)
 }
 
+/**
+ * Retrieve the list of step definition available
+ *
+ * @param {Object} options
+ * @param {string} options.keyword - The path of the RestQA configuration file (given | then | when)
+ * @param {string} options.config - The path of the RestQA configuration file
+ * @param {string} options.env - The target environment from the RestQA configuration file
+ * @param {string} options.tags - The tag used to filter the steps
+ *
+ * @return Array<obj>
+ *
+ * @example
+ *
+ * const { Steps } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   keyword: 'given',
+ *   configFile: './restqa.yml',
+ *   env: 'prod',
+ *   tags: 'headers'
+ * }
+ *
+ * const result = Steps(options)
+ * console.log(result)
+ */
 function Steps (options) {
   return steps(options.keyword, {
     config: options.configFile || './.restqa.yml',
@@ -53,7 +121,7 @@ function Steps (options) {
  * const { Run } = require('@restqa/restqa')
  *
  * const options = {
- *   config: './restqa.yml',
+ *   configFile: './restqa.yml',
  *   env: 'prod',
  *   stream: process.stdout,
  *   tags: [

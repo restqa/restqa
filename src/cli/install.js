@@ -235,11 +235,11 @@ Install.generate = function (options) {
   const plugin = LIST[name]
 
   if (!plugin) {
-    throw new Error(`The plugin "${name}" is not available. Use the command "restqa install" to retrive the list of available plugin`)
+    throw new TypeError(`The plugin "${name}" is not available. Use the command "restqa install" to retrive the list of available plugin`)
   }
 
   if (!env) {
-    throw new Error('Please specify the target environment')
+    throw new TypeError('Please specify the target environment')
   }
 
   if (!configFile) {
@@ -254,7 +254,7 @@ Install.generate = function (options) {
   const envIndex = restqaConfig.environments.findIndex(_ => _.name === env)
 
   if (envIndex === -1) {
-    throw new Error(`"${env}" is not an environment available in the config file, choose between : ${restqaConfig.environments.map(_ => _.name).join(', ')}`)
+    throw new TypeError(`"${env}" is not an environment available in the config file, choose between : ${restqaConfig.environments.map(_ => _.name).join(', ')}`)
   }
 
   if (plugin.type === 'outputs') {
