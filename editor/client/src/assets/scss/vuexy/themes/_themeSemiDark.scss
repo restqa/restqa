@@ -1,0 +1,50 @@
+/*=========================================================================================
+    File Name: _themeSemiDark.scss
+    Description: partial- Styles for semi dark theme
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+.theme-semi-dark {
+
+    // Vertical NavMenu
+    .v-nav-menu{
+        .vs-sidebar {
+            background-color: $sidebar-dark-bg;
+        }
+        .shadow-bottom{
+            width: 94%;
+            background: linear-gradient(to bottom, rgb(15, 22, 66) 44%, rgba(15, 22, 66, 0.51) 73%, rgba(44, 48, 60, 0) 100%)
+        }
+        .scroll-area-v-nav-menu{
+            .feather-icon, span{
+                color: $white;
+            }
+            a{
+                .feather-icon{
+                    svg, span{
+                        color: $white;
+                    }
+                }
+            }
+            .vs-sidebar-group{
+                &.vs-sidebar-group-open{
+                    > .group-header{
+                        background: $content-dark-bg;
+                    }
+                }
+                &.vs-sidebar-group-active{
+                    > .group-header{
+                        background: $content-dark-bg;
+                    }
+                }
+            }
+            .con-vs-chip{
+                box-shadow: 0px 0px 4px 2px $content-dark-bg;
+            }
+        }
+    }
+}

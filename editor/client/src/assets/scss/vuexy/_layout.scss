@@ -1,0 +1,15 @@
+/*=========================================================================================
+    File Name: _layout.scss
+    Description: partial- main layout styles container - imports layout styles
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+@import "layout/layoutCommon";
+@import "layout/layoutVertical";
+@import "layout/layoutHorizontal";
+
+@import "layout/theNavbar";
+@import "layout/footer";

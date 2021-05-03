@@ -1,0 +1,60 @@
+@import '../_variables.scss';
+
+// If items is inside drop-down
+.menu-item {
+  li {
+    .h-nav-menu-item {
+
+      a {
+        padding: .75rem 1.5rem;
+      }
+
+      & > * {
+        transition: .25s ease-in-out;
+
+        &:hover {
+          transform: translateX(5px)
+        }
+      }
+
+
+      &.h-nav-active-item {
+        background-color: #f6f6f6;
+
+        .theme-dark & {
+          background-color: $theme-dark-bg;
+        }
+      }
+    }
+
+  }
+}
+
+// If items is as nav-header
+.menu-link {
+  .h-nav-menu-item {
+
+    &:hover {
+      .nav-link {
+        background: #f6f6f6;
+
+        .theme-dark & {
+          background: $theme-light-dark-bg;
+        }
+      }
+    }
+
+    &.h-nav-active-item {
+      a {
+        background: linear-gradient(118deg, rgba(var(--vs-primary),1), rgba(var(--vs-primary),.7)) !important;
+        box-shadow: 0px 0px 6px 1px rgba(var(--vs-primary), 0.6);
+        color: #fff;
+      }
+    }
+
+    a {
+      border-radius: 4px;
+      padding: .5rem 1.5rem;
+    }
+  }
+}

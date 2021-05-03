@@ -1,0 +1,79 @@
+/*=========================================================================================
+    File Name: loading.scss
+    Description: Loading page styles
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+@import "../_variables.scss";
+
+#loading-demo {
+    .fill-row-loading {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .loading-example {
+            width: 120px;
+            float: left;
+            height: 120px;
+            box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.05);
+
+            .theme-dark & {
+              box-shadow: 0px 5px 20px 0px $theme-dark-shadow-color;
+            }
+
+            border-radius: 10px;
+            margin: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+
+            .con-vs-loading {
+                z-index: 10;
+            }
+
+            &:hover {
+                box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.05);
+                transform: translate(0, 4px);
+            }
+
+            h4 {
+                z-index: 40000;
+                position: relative;
+                text-align: center;
+                padding: 10px;
+                margin-bottom: 0;
+            }
+
+            &.activeLoading {
+                opacity: 0 !important;
+                transform: scale(0.5);
+            }
+        }
+    }
+
+    .contained-example-container {
+        flex-basis: 100%;
+        justify-content: flex-start;
+
+        & > div {
+            padding: 20px;
+            width: 250px;
+            height: 250px;
+            box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.05);
+
+            .theme-dark & {
+              box-shadow: 0px 5px 20px 0px $theme-dark-shadow-color;
+            }
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

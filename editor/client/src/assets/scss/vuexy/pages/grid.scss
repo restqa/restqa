@@ -1,0 +1,53 @@
+/*=========================================================================================
+    File Name: grid.scss
+    Description: Grid page styles
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+.grid-demo__layout-container {
+    margin-top: 1.25rem;
+
+    .vs-row {
+        border-top: 1px solid #808080;
+
+        &:last-child {
+            border-bottom: 1px solid #808080;
+        }
+
+        &:not(:last-of-type) {
+            border-bottom: 0px solid #808080;
+        }
+
+        .vs-col {
+            padding: 0.5rem;
+            background-color: #eceaff;
+            border-left: 1px solid #808080;
+
+            &:last-of-type {
+                border-right: 1px solid #808080;
+            }
+        }
+    }
+
+    &--block {
+        display: flex;
+        min-height: 75px;
+        background: #f1f1f1;
+
+        .vs-row {
+            border: 0px solid #808080;
+        }
+
+        .vs-col {
+            border: 1px solid #808080;
+
+            &:not(:last-of-type) {
+                border-right: 0;
+            }
+        }
+    }
+}

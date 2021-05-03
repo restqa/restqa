@@ -1,0 +1,106 @@
+/*=========================================================================================
+  File Name: _rtlFixes.scss
+  Description: partial - rtl fix - fixes rtl specific issues
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+/*! rtl:begin:ignore */
+
+.vuesax-app-is-rtl {
+
+  /////////////////////////////////////////////////////////
+  // EXTENSION - PERFECT SCROLLBAR
+  /////////////////////////////////////////////////////////
+
+  .ps-container:not(.enable-rtl-x-scroll) {
+    .ps__scrollbar-x-rail {
+      display: none !important;
+    }
+  }
+
+  .ag-pinned-left-cols-container {
+    margin-right: 5px;
+  }
+
+
+  /////////////////////////////////////////////////////////
+  // VUESAX FRAMEWORK
+  /////////////////////////////////////////////////////////
+
+  .vs-dropdown-menu.rightx {
+    .vs-dropdown--menu--after {
+      right: unset !important;
+      left: 30px !important;
+    }
+  }
+
+  .vs-loading {
+    > * {
+      top: 0;
+    }
+  }
+
+
+  .con-vs-dropdown--menu {
+    transform: translateX(-100%);
+  }
+
+  .vx-navbar-dropdown {
+
+    &.dropdownx-enter,
+    &.dropdownx-leave-to {
+      transform: translateY(8px) !important;
+    }
+
+    @media (max-width: 500px) {
+      &.dropdown-custom {
+        &.con-vs-dropdown--menu {
+          transform: translateX(100%);
+        }
+
+        &.dropdownx-enter,
+        &.dropdownx-leave-to {
+          transform: translate(100%,8px) !important;
+        }
+      }
+    }
+  }
+
+
+  /////////////////////////////////////////////////////////
+  // EXTENSTION - DATETIME PICKER
+  /////////////////////////////////////////////////////////
+
+  .flatpickr-prev-month,
+  .flatpickr-next-month {
+    transform: rotateY(180deg);
+  }
+
+
+  /////////////////////////////////////////////////////////
+  // EXTENSTION - CAROUSEL
+  /////////////////////////////////////////////////////////
+
+  .swiper-container-cube.swiper-container-rtl {
+    .swiper-slide {
+      transform-origin: 100% 0 !important;
+    }
+  }
+
+
+  /////////////////////////////////////////////////////////
+  // COMPONENT
+  /////////////////////////////////////////////////////////
+
+  .scroll-area-v-nav-menu {
+    .ps__scrollbar-y-rail {
+      right: unset !important;
+      left: -6px !important;
+    }
+  }
+}
+
+/*! rtl:end:ignore */
