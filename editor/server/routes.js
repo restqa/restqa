@@ -1,7 +1,8 @@
-const Router = require('express').Router()
+const express = require('express')
+const path = require('path')
 const Controllers = require('./controllers')
 
-module.exports = Router
+module.exports = express.Router()
   .get('/version', Controllers.version)
   .get('/api/steps', Controllers.steps)
   .post('/api/generate', Controllers.generate)

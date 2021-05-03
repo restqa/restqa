@@ -5,3 +5,4 @@ node_modules
 my-report.json
 restqa-result.json
 **/report
+dist
