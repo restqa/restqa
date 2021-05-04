@@ -1,0 +1,43 @@
+/*=========================================================================================
+  File Name: vxTimeline.scss
+  Description: Styles for vx-timeline component
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+@import '../_variables.scss';
+
+.vx-timeline {
+    margin-left: 1.5rem;
+    padding-left: 40px;
+    border-left: 2px solid #E5E8EB;
+
+    .theme-dark & {
+        border-color: $theme-dark-border-color;
+    }
+
+    li {
+        position: relative;
+        margin-bottom: 20px;
+
+        .timeline-icon {
+            position: absolute;
+            top: 0;
+            left: -4.3rem;
+            border-radius: 50%;
+            padding: .75rem;
+            padding-bottom: 0.4rem;
+        }
+
+        .activity-desc {
+            font-size: .9rem;
+        }
+
+        .activity-e-time {
+            font-size: .8rem;
+        }
+    }
+}

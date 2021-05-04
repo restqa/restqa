@@ -29,7 +29,7 @@ describe('#bootstrap', () => {
     const Bootstrap = require('./bootstrap')
     expect(() => {
       Bootstrap()
-    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType and setWorldConstructor.'))
+    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.'))
   })
 
   test('Throw error if the processor doesn\'t contain an required method', () => {
@@ -38,7 +38,7 @@ describe('#bootstrap', () => {
       Bootstrap({
         After: jest.fn()
       })
-    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType and setWorldConstructor.'))
+    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.'))
 
     expect(() => {
       Bootstrap({
@@ -51,7 +51,7 @@ describe('#bootstrap', () => {
         Then: jest.fn(),
         defineParameterType: jest.fn()
       })
-    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType and setWorldConstructor.'))
+    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.'))
   })
 
   test('Throw error if the config can\'t be loaded', () => {
@@ -66,7 +66,8 @@ describe('#bootstrap', () => {
         When: jest.fn(),
         Then: jest.fn(),
         defineParameterType: jest.fn(),
-        setWorldConstructor: jest.fn()
+        setWorldConstructor: jest.fn(),
+        setDefaultTimeout: jest.fn()
       })
     }).toThrow(new Error('THE RESTQA CONFIG FILE IS MISSING (undefined)'))
   })
@@ -133,7 +134,8 @@ environments:
       defineParameterType: jest.fn(),
       setWorldConstructor: Obj => {
         worldResult = new Obj({})
-      }
+      },
+      setDefaultTimeout: jest.fn()
     }
     const options = {
       configFile: filename
@@ -169,7 +171,7 @@ environments:
     expect(worldResult._data.get('[[ foo ]]')).toBe('bar')
   })
 
-  test('Load plugin restqapi and restqkube then run setup the processor', () => {
+  test('Load plugin restqapi and restqkube then run setup the processor (+ setup the timeout)', () => {
     filename = path.resolve(os.tmpdir(), '.restqa-sample.yml')
     const content = `
 ---
@@ -197,6 +199,8 @@ environments:
     outputs:
       - type: html
         enabled: true
+restqa:
+  timeout: 10000
     `
     fs.writeFileSync(filename, content)
 
@@ -223,12 +227,18 @@ environments:
     })
 
     let passConfigRestQkube
-    jest.mock('@restqa/restqkube', () => {
-      return function (config) {
-        passConfigRestQkube = config
-        return mockInstancePlugin
+    jest.mock('module', () => {
+      return {
+        createRequire: (path) => {
+          return (pluginName) => {
+            return function (config) {
+              passConfigRestQkube = config
+              return mockInstancePlugin
+            }
+          }
+        }
       }
-    }, { virtual: true })
+    })
 
     let worldResult
 
@@ -243,7 +253,8 @@ environments:
       defineParameterType: jest.fn(),
       setWorldConstructor: Obj => {
         worldResult = new Obj({})
-      }
+      },
+      setDefaultTimeout: jest.fn()
     }
     const options = {
       configFile: filename
@@ -299,6 +310,8 @@ environments:
     expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2)
     expect(mockSetup.mock.calls).toHaveLength(2)
     expect(worldResult._data.get('[[ foo ]]')).toBe('bar')
+    expect(processor.setDefaultTimeout.mock.calls).toHaveLength(1)
+    expect(processor.setDefaultTimeout.mock.calls[0][0]).toEqual(10000)
   })
 
   test('Load plugin restqapi and restqkube then run setup the processor but avoid ParameterType collision', () => {
@@ -359,12 +372,18 @@ environments:
     })
 
     let passConfigRestQkube
-    jest.mock('@restqa/restqkube', () => {
-      return function (config) {
-        passConfigRestQkube = config
-        return mockInstancePlugin
+    jest.mock('module', () => {
+      return {
+        createRequire: (path) => {
+          return (pluginName) => {
+            return function (config) {
+              passConfigRestQkube = config
+              return mockInstancePlugin
+            }
+          }
+        }
       }
-    }, { virtual: true })
+    })
 
     let worldResult
 
@@ -379,7 +398,8 @@ environments:
       defineParameterType: jest.fn(),
       setWorldConstructor: Obj => {
         worldResult = new Obj({})
-      }
+      },
+      setDefaultTimeout: jest.fn()
     }
     const options = {
       configFile: filename

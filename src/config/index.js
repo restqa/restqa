@@ -75,4 +75,9 @@ Config.locate = function (options) {
   return filePath
 }
 
+Config.raw = function (options) {
+  const { configFile } = options || {}
+  return YAML.parse(fs.readFileSync(configFile).toString('utf-8'))
+}
+
 module.exports = Config

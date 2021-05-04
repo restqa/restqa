@@ -16,7 +16,7 @@ What do you need to know about the unit tests ?
 
 Why ?
 
-Because the RestQA command line is connecting with multiple libraries and some breaking change can't be detected by the unit test.
+Because the RestQA command line is connected by multiple libraries and some breaking change can't be detected by the unit test.
 
 * Technology: [bats](https://bats-core.readthedocs.io)
 * Command: `npm run test:functional`

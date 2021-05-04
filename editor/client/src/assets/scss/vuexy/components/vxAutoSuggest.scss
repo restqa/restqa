@@ -1,0 +1,40 @@
+/*=========================================================================================
+  File Name: vxAutoSuggest.scss
+  Description: Styles for vx-auto-suggest component. Imported in VxAutoSuggest.vue file
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+.vx-auto-suggest {
+    position: relative;
+
+    .vs-input{
+        .vs-con-input{
+            .vs-inputx{
+                z-index: 10;
+            }
+
+            .vs-input--placeholder {
+              top: 0;
+              z-index: 50;
+            }
+        }
+    }
+
+    .auto-suggest-suggestions-list {
+        position: absolute;
+        background: #fff;
+        width: 100%;
+        max-height: 82vh;
+        overflow-y: auto;
+
+        .auto-suggest__suggestion-group__suggestion {
+            &.vx-auto-suggest__current-selected {
+                background: #F1F1F1;
+            }
+        }
+    }
+}

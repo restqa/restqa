@@ -3,5 +3,6 @@ module.exports = {
   run: require('./run'),
   generate: require('./generate'),
   initialize: require('./initialize'),
-  install: require('./install')
+  install: require('./install'),
+  editor: require('./editor')
 }

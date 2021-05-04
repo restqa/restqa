@@ -1,0 +1,268 @@
+/*=========================================================================================
+    File Name: _datetimePicker.scss
+    Description: Styles for datetime picker
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+@import "../_variables.scss";
+
+$datetimePickerSpace: 13px;
+
+.flatpickr-calendar {
+  width: calc(307.875px + #{$datetimePickerSpace} * 2) !important;
+  box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08) !important;
+  border-radius: .5rem !important;
+  overflow: hidden;
+
+  &.hasWeeks {
+    width: calc(307.875px + #{$datetimePickerSpace} * 2 + 34px) !important;
+  }
+
+  &.arrowTop {
+    &:after,
+    &:before {
+      display: none;
+    }
+  }
+
+  &.arrowBottom {
+    &:after,
+    &:before {
+      display: none;
+    }
+  }
+
+  .numInputWrapper {
+    width: 5.5ch !important;
+
+    .numInput.cur-year {
+      font-weight: 600 !important;
+      color: #626262;
+    }
+
+    &:hover {
+      background: none;
+
+      .arrowUp,
+      .arrowDown {
+        border: none;
+      }
+    }
+  }
+
+  .flatpickr-months,
+  .flatpickr-month {
+    height: 44px !important;
+  }
+
+  .flatpickr-months {
+    padding: 0;
+  }
+
+  .flatpickr-monthDropdown-months {
+    color: #626262;
+    border: 1px solid rgba(0,0,0,.3) !important;
+    border-radius: .5rem !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    height: 27px;
+    margin-left: 22px !important;
+    margin-right: 3px !important;
+
+    &:hover {
+      background: transparent !important;
+    }
+  }
+
+  .flatpickr-current-month {
+    bottom: -11px;
+    padding-top: 0;
+
+    .numInputWrapper {
+      vertical-align: middle;
+    }
+  }
+
+  // .flatpickr-months,
+  .flatpickr-prev-month,
+  .flatpickr-next-month,
+  .flatpickr-innerContainer {
+    padding: $datetimePickerSpace !important;
+  }
+
+  .flatpickr-prev-month,
+  .flatpickr-next-month {
+    top: calc(#{$datetimePickerSpace} - 3px) !important;
+  }
+
+  .flatpickr-prev-month {
+    left: $datetimePickerSpace !important;
+  }
+
+  .flatpickr-next-month {
+    right: $datetimePickerSpace !important;
+  }
+
+  &.inline {
+    display: block !important;
+  }
+  .flatpickr-day {
+    &.selected,
+    &.startRange,
+    &.endRange,
+    &.selected.inRange,
+    &.startRange.inRange,
+    &.endRange.inRange,
+    &.selected:focus,
+    &.startRange:focus,
+    &.endRange:focus,
+    &.selected:hover,
+    &.startRange:hover,
+    &.endRange:hover,
+    &.selected.prevMonthDay,
+    &.startRange.prevMonthDay,
+    &.endRange.prevMonthDay,
+    &.selected.nextMonthDay,
+    &.startRange.nextMonthDay,
+    &.endRange.nextMonthDay {
+      background: $primary !important;
+      -webkit-box-shadow: none;
+              box-shadow: none;
+      color: $white;
+      border-color: $primary !important;
+    }
+  }
+}
+
+.flatpickr-input {
+
+  &,
+  &[type="hidden"] + input {
+    padding: .7rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    color: $content-color;
+  }
+
+  &.active {
+    border: 1px solid $primary;
+  }
+}
+
+
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg {
+  fill: $primary !important;
+}
+
+
+.theme-dark {
+  .flatpickr-calendar {
+    background: $theme-dark-bg;
+    border: 1px solid $theme-dark-border-color;
+
+    .flatpickr-month,
+    .flatpickr-weekday {
+      color: $white;
+    }
+
+    .flatpickr-prev-month,
+    .flatpickr-next-month {
+      svg {
+        fill: $white;
+      }
+    }
+
+    .flatpickr-monthDropdown-months {
+      background: $theme-light-dark-bg !important;
+
+      option {
+        background: $theme-dark-bg !important;
+        color: $theme-dark-text-color;
+      }
+    }
+
+    .flatpickr-day {
+      color: $theme-dark-text-color;
+      &.inRange,
+      &.prevMonthDay.inRange,
+      &.nextMonthDay.inRange,
+      &.today.inRange,
+      &.prevMonthDay.today.inRange,
+      &.nextMonthDay.today.inRange,
+      &:hover,
+      &.prevMonthDay:hover,
+      &.nextMonthDay:hover,
+      &:focus,
+      &.prevMonthDay:focus,
+      &.nextMonthDay:focus {
+        background: $theme-light-dark-bg;
+        border-color: $theme-light-dark-bg;
+      }
+
+      &.today {
+        border-color: #959ea9;
+      }
+
+      &.selected {
+        color: $white;
+      }
+
+      &.today:hover,
+      &.today:focus {
+        // border-color: $theme-light-dark-bg;
+        background: $theme-light-dark-bg;
+        color: #fff;
+      }
+
+      &.prevMonthDay,
+      &.nextMonthDay,
+      &.disabled {
+        opacity: .3;
+      }
+
+    }
+    .flatpickr-time {
+      border-top-color: $theme-dark-border-color !important;
+
+      input {
+        color: $theme-dark-text-color;
+      }
+
+
+      input:hover,
+      .flatpickr-am-pm:hover,
+      input:focus,
+      .flatpickr-am-pm:focus {
+        background: $theme-light-dark-bg;
+      }
+
+      .flatpickr-am-pm {
+        color: $theme-dark-text-color;
+      }
+
+
+      ::-moz-selection { background: transparent; }
+      ::selection { background: transparent; }
+    }
+
+    .numInputWrapper {
+      .arrowUp{
+        &:after {
+          border-bottom-color: $white;
+        }
+      }
+
+      .arrowDown {
+        &:after {
+          border-top-color: $white;
+        }
+      }
+    }
+  }
+}

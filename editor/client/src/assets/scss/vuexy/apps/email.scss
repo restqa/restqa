@@ -1,0 +1,164 @@
+/*=========================================================================================
+    File Name: email.scss
+    Description: Email app's styles. This is imported in Email.vue file
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+#email-app{
+    .vs-sidebar--background{
+        position: absolute;
+    }
+    .select-all-chexkbox{
+        .vs-checkbox{
+            margin-right: 0.8rem;
+        }
+    }
+    .email-filter-scroll-area {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        height: calc(100% - 75px);
+
+        &:not(.ps) {
+          overflow-y: auto;
+        }
+    }
+
+    .email-content-scroll-area {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        height: calc(100% - 100px);
+
+        &:not(.ps) {
+          overflow-y: auto;
+        }
+    }
+
+    .scroll-area-mail-content {
+      position: relative;
+      margin: auto;
+      width: 100%;
+      height: calc(100% - 6.3%);
+
+      &:not(.ps) {
+        overflow-y: auto;
+      }
+    }
+
+    .email__mails {
+        .mail__opened-mail {
+            background-color: #eee;
+        }
+    }
+
+
+    .email__mails {
+
+        .email__mail-item {
+            transition: all .35s;
+
+            &:not(:first-of-type) {
+                .mail__mail-item {
+                    border-top: 1px solid #dae1e7;
+                }
+            }
+
+            .mail__mail-item {
+                transition: all 0.2s;
+
+
+                &:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0px 3px 10px 0px #ccc;
+                    transition: all 0.2s;
+                }
+
+                // Star icon color
+                .feather-icon {
+                    color: #9c9c9c;
+                }
+            }
+        }
+    }
+
+    .email-view-sidebar {
+        .vs-sidebar{
+            background-color: #f8f8f8 !important;
+            border-left: 1px solid #dae1e7;
+        }
+
+        .email-header{
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.04);
+            border-bottom: 1px solid #eee;
+            z-index: 1;
+            position: relative;
+        }
+
+        .open-mail-label {
+            transition: all .35s;
+        }
+
+        .mail__attachment {
+          .vs-chip--text {
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+    }
+}
+
+
+// COMPOSE MAIL DIALOG
+.con-vs-dialog.email-compose {
+    .vs-dialog {
+        max-width: 530px;
+        // max-height: 95vh;
+
+        .vs-dialog-text {
+            padding: 0;
+
+            .scroll-area {
+                max-height: 75vh;
+
+                &:not(.ps) {
+                  overflow-y: auto;
+                }
+            }
+
+            .compose-mail-attachment {
+              .con-input-upload {
+                margin: 0;
+              }
+            }
+        }
+    }
+
+    .con-img-upload {
+
+    .con-input-upload {
+      height: 2.5rem;
+      width: 100%;
+    }
+
+        .img-upload {
+            // height: 4rem;
+            margin: 0;
+            margin-bottom: .5rem;
+            margin-right: 1.5rem;
+        }
+    }
+
+    .quill-editor {
+        margin-bottom: 1.5rem
+    }
+
+    .ql-editor {
+        height: 150px;
+    }
+}
+

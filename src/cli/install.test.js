@@ -2,6 +2,8 @@ process.setMaxListeners(Infinity)
 
 const fs = require('fs')
 const YAML = require('yaml')
+const os = require('os')
+const path = require('path')
 
 let filename
 
@@ -101,7 +103,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -146,7 +148,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -161,7 +163,7 @@ environments:
       expect(() => Install.generate(options)).toThrow('Please specify the slack incoming webhook url')
     })
 
-    test('Add the slack output into the configuration file in a specific environment', () => {
+    test('Add the slack output into the configuration file in a specific environment (and the output object doesn\'t exist', () => {
       const content = `
 ---
 
@@ -187,11 +189,6 @@ environments:
       - name: restqapi
         config:
           url: http://test.uat.com
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
       `
       filename = '.restqa.yml'
       fs.writeFileSync(filename, content)
@@ -242,12 +239,6 @@ environments:
             }
           }],
           outputs: [{
-            type: 'file',
-            enabled: true,
-            config: {
-              path: 'my-report.json'
-            }
-          }, {
             type: 'slack',
             enabled: true,
             config: {
@@ -292,7 +283,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -340,7 +331,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -396,7 +387,7 @@ environments:
         env: 'local',
         configFile: filename,
         config: {
-          folder: '/tmp'
+          folder: os.tmpdir()
         }
       }
 
@@ -422,7 +413,7 @@ environments:
           data: {
             channel: 'csv',
             config: {
-              folder: '/tmp'
+              folder: os.tmpdir()
             }
           },
           outputs: [{
@@ -484,7 +475,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -532,7 +523,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -646,6 +637,152 @@ environments:
       expect(result).toEqual(expectedContent)
     })
 
+    test('Throw an error if the line config doesn\'t contain the token', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const Install = require('./install')
+      const options = {
+        configFile: filename,
+        name: 'line',
+        env: 'uat',
+        config: {
+        }
+      }
+
+      expect(() => Install.generate(options)).toThrow('Please specify the Line notification token')
+    })
+
+    test('Add the Line output into the configuration file in a specific environment', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+
+      const Install = require('./install')
+      const options = {
+        name: 'line',
+        env: 'local',
+        configFile: filename,
+        config: {
+          token: 'xxx-yyy-zzz',
+          onlyFailed: false
+        }
+      }
+
+      let result = Install.generate(options)
+      result = YAML.parse(result)
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'line',
+            enabled: true,
+            config: {
+              token: 'xxx-yyy-zzz',
+              onlyFailed: false
+            }
+          }]
+        }, {
+          name: 'uat',
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://test.uat.com'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+    })
+
     test('Throw an error if the discord config doesn\'t contain the url', () => {
       const content = `
 ---
@@ -678,7 +815,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '/tmp/.restqa.yml'
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
       const Install = require('./install')
@@ -1072,6 +1209,65 @@ environments:
       return expect(Install('signal')).rejects.toThrow('The plugin "signal" is not available. Use the command "restqa install" to retrive the list of available plugin')
     })
 
+    test('Throw an error if the environemt passed name is not available in the configuration file', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+      const mockPrompt = jest.fn()
+        .mockResolvedValueOnce({
+          name: 'slack'
+        })
+        .mockResolvedValue({
+          env: 'uat',
+          configFile: filename,
+          config_url: 'https://www.slack-incoming.com/test'
+        })
+
+      const MockSeparator = jest.fn()
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: MockSeparator,
+          prompt: mockPrompt
+        }
+      })
+      const Install = require('./install')
+      const opt = {
+        env: 'testing'
+      }
+      return expect(Install('slack', opt)).rejects.toThrow('"testing" is not an environment available in the config file, choose between : local, uat')
+    })
+
     test('Install slack without passing it as a parameter and when there is multiple environment available', async () => {
       const content = `
 ---
@@ -1149,6 +1345,9 @@ environments:
         }, {
           name: 'Discord (outputs)',
           value: 'discord'
+        }, {
+          name: 'Line (outputs)',
+          value: 'line'
         }, {
           name: 'Html (outputs)',
           value: 'html'
@@ -1361,7 +1560,7 @@ environments:
       expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
     })
 
-    test('Install slack when there is only one environment available', async () => {
+    test('Install slack when there is multiple environment available but the environement is passed', async () => {
       const content = `
 ---
 
@@ -1377,6 +1576,16 @@ environments:
       - name: restqapi
         config:
           url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
     outputs:
       - type: file
         enabled: true
@@ -1410,7 +1619,126 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('slack')
+      const opt = {
+        env: 'uat'
+      }
+      await Install('slack', opt)
+
+      expect(mockPrompt.mock.calls).toHaveLength(1)
+
+      expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What is the slack incoming webhook url?')
+      expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_url')
+
+      const result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }]
+        }, {
+          name: 'uat',
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://test.uat.com'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'slack',
+            enabled: true,
+            config: {
+              url: 'https://www.slack-incoming.com/test',
+              onlyFailed: false
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+
+      expect(mockLogger.success.mock.calls).toHaveLength(1)
+      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
+      expect(mockLogger.info.mock.calls).toHaveLength(1)
+      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install slack when there is only one environment available but specify the configuration file', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const mockLogger = {
+        info: jest.fn(),
+        log: jest.fn(),
+        success: jest.fn()
+      }
+
+      jest.mock('../utils/logger', () => {
+        return mockLogger
+      })
+
+      const mockPrompt = jest.fn().mockResolvedValue({
+        configFile: filename,
+        config_url: 'https://www.slack-incoming.com/test',
+        onlyFailed: false
+      })
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        }
+      })
+
+      const Install = require('./install')
+      const opt = {
+        config: filename
+      }
+      await Install('slack', opt)
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -1872,7 +2200,7 @@ environments:
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
-        config_folder: '/tmp'
+        config_folder: os.tmpdir()
       })
 
       jest.mock('inquirer', () => {
@@ -1905,7 +2233,7 @@ environments:
           data: {
             channel: 'csv',
             config: {
-              folder: '/tmp'
+              folder: os.tmpdir()
             }
           },
           plugins: [{
@@ -2029,6 +2357,104 @@ environments:
 
       expect(mockLogger.success.mock.calls).toHaveLength(1)
       expect(mockLogger.success.mock.calls[0][0]).toEqual('The "google-sheet" data addon has been configured successfully')
+
+      expect(mockLogger.info.mock.calls).toHaveLength(1)
+      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install line when there is only one environment available', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = '.restqa.yml'
+      fs.writeFileSync(filename, content)
+
+      const mockLogger = {
+        info: jest.fn(),
+        log: jest.fn(),
+        success: jest.fn()
+      }
+
+      jest.mock('../utils/logger', () => {
+        return mockLogger
+      })
+
+      const mockPrompt = jest.fn().mockResolvedValue({
+        configFile: filename,
+        config_token: 'xxx-yyy-zzz'
+      })
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        }
+      })
+
+      const Install = require('./install')
+      await Install('line')
+
+      expect(mockPrompt.mock.calls).toHaveLength(1)
+
+      expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What is the notification Line Messenger token?')
+      expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_token')
+
+      const result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'line',
+            enabled: true,
+            config: {
+              token: 'xxx-yyy-zzz',
+              onlyFailed: false
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+
+      expect(mockLogger.success.mock.calls).toHaveLength(1)
+      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "line" outputs addon has been configured successfully')
 
       expect(mockLogger.info.mock.calls).toHaveLength(1)
       expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')

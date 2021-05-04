@@ -3,3 +3,6 @@ node_modules
 .env
 .restqa.log
 my-report.json
+restqa-result.json
+**/report
+dist

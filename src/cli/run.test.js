@@ -10,7 +10,7 @@ beforeEach(() => {
 
 describe('#Cli - Run', () => {
   test('Throw error if the passed file doesnt exist', async () => {
-    filename = `/${os.tmpdir()}/.restqa.fake.yml`
+    filename = path.resolve(os.tmpdir(), '.restqa.fake.yml')
 
     const options = {
       config: filename,
@@ -55,7 +55,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -80,7 +80,11 @@ environments:
     const Run = require('./run')
     const options = {
       config: filename,
-      stream: 'std-out-example'
+      stream: 'std-out-example',
+      args: [
+        '.',
+        os.tmpdir()
+      ]
     }
     await Run(options)
     expect(mockCucumberCli.mock.calls).toHaveLength(1)
@@ -94,7 +98,8 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        path.resolve('.')
+        path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}'),
+        os.tmpdir()
       ],
       cwd: path.join(__dirname, '../'),
       stdout: 'std-out-example'
@@ -126,7 +131,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -150,7 +155,9 @@ environments:
 
     const Run = require('./run')
     const options = {
-      config: filename
+      args: [
+        os.tmpdir()
+      ]
     }
     await Run(options)
     expect(mockCucumberCli.mock.calls).toHaveLength(1)
@@ -164,7 +171,7 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        path.resolve('.')
+        os.tmpdir()
       ],
       cwd: path.join(__dirname, '../'),
       stdout: process.stdout
@@ -196,7 +203,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -234,7 +241,7 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        path.resolve('.')
+        path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}')
       ],
       cwd: path.join(__dirname, '../'),
       stdout: process.stdout
@@ -266,7 +273,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -312,7 +319,7 @@ environments:
         '@production',
         '--tags',
         '@success',
-        path.resolve('.')
+        path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}')
       ],
       cwd: path.join(__dirname, '../'),
       stdout: process.stdout
@@ -344,7 +351,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = '/tmp/.restqa.yml'
+    filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)
 
     const mockCucumberRun = jest.fn().mockRejectedValue(new Error('This is an error'))
@@ -387,7 +394,7 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        path.resolve('.')
+        path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}')
       ],
       cwd: path.join(__dirname, '../'),
       stdout: process.stdout

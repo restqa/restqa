@@ -1,6 +1,6 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "description": "An all in one test automation runner",
   "scripts": {
     "start:library": "export $(cat .env | xargs) && ./bin/restqa run ./sample-project",
@@ -9,7 +9,10 @@
     "test:coverage": "jest --coverage",
     "test:functional": "bats bin/tests",
     "lint:fix": "eslint --fix src/ bin/restqa",
-    "lint": "eslint src/ bin/restqa"
+    "lint": "eslint src/ bin/restqa",
+    "example": "bin/restqa run example/",
+    "editor:install": "npm install --prefix ./editor/client",
+    "editor:build": "npm run build --prefix ./editor/client"
   },
   "keywords": [
     "api",
@@ -22,7 +25,7 @@
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "@restqa/cucumber-export": "^0.1.4",
+    "@restqa/cucumber-export": "^0.1.5",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
     "@restqa/restqapi": "0.0.17",
     "chalk": "^4.0.0",
@@ -30,24 +33,24 @@
     "console-table-printer": "^1.4.3",
     "cucumber": "^6.0.5",
     "debug": "^4.3.1",
+    "express": "^4.17.1",
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
-    "npm": "^7.6.2",
-    "package-json": "^6.5.0",
+    "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
   },
   "bin": {
     "restqa": "./bin/restqa"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=12.2.0"
   },
   "main": "src/index.js",
   "devDependencies": {
     "bats": "^1.3.0",
-    "bats-assert": "git+https://github.com/ztombol/bats-assert.git",
-    "bats-file": "git+https://github.com/ztombol/bats-file.git",
-    "bats-support": "git+https://github.com/ztombol/bats-support.git",
+    "bats-assert": "git+https://github.com/bats-core/bats-assert.git",
+    "bats-file": "git+https://github.com/bats-core/bats-file.git",
+    "bats-support": "git+https://github.com/bats-core/bats-support.git",
     "eslint": "^7.21.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
@@ -55,7 +58,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
     "jest": "^26.6.3",
-    "jest-runner-eslint": "^0.10.0"
+    "jest-runner-eslint": "^0.10.0",
+    "supertest": "^6.1.3"
   },
   "eslintConfig": {
     "parserOptions": {

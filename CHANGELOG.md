@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.25] - 2021-05-01
+
+### Added
+* [Enable line App Alerting](https://docs.restqa.io/alerting/line) | [#65](https://github.com/restqa/restqa/pull/65)
+* [Extend RestQA capability through Plugins](https://docs.restqa.io/getting-started/plugins) | [#66](https://github.com/restqa/restqa/pull/66)
+* [Add an example folder](./example) | [#71](https://github.com/restqa/restqa/pull/71)
+* [Option to extend the timeout](http://docs.restqa.io/getting-started/configuration#restqatimeout) | [#72](https://github.com/restqa/restqa/pull/72)
+* 🎁 Setup the new command to start the Editor: `restga editor` | [#74](https://github.com/restqa/restqa/pull/74)
+
+### Update
+* improve windows OS compatibility | [#67](https://github.com/restqa/restqa/pull/67)
+* Use [update-notifier](https://github.com/yeoman/update-notifier) to replace the previous custom implementation | [#68](https://github.com/restqa/restqa/pull/68)
+* Bump [@restqa/cucumber-export@0.1.5](https://github.com/restqa/cucumber-export/releases/tag/0.1.5)
+
 ## [0.0.24] - 2021-04-16
 ### Update
 - [Enable functional testing](https://github.com/restqa/restqa/blob/master/CONTRIBUTING.md) | [#61](https://github.com/restqa/restqa/pull/61)
@@ -110,7 +124,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.24...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.25...HEAD
+[0.0.25]: https://github.com/restqa/restqa/compare/0.0.24...0.0.25
 [0.0.24]: https://github.com/restqa/restqa/compare/0.0.23...0.0.24
 [0.0.23]: https://github.com/restqa/restqa/compare/0.0.22...0.0.23
 [0.0.22]: https://github.com/restqa/restqa/compare/0.0.21...0.0.22

@@ -24,11 +24,11 @@
 - 🕵️ Data privacy focused
 
 
-RestQA was born from a need of getting more transparency of a product behavior. It consists of two major parts:
+[RestQA](https://restqa.io) was born from a need of getting more transparency of a product behavior. It consists of two major parts:
 
 - Use Gherkin to enforce the ATDD (acceptance test driven development) as pratice across the team member regardless of their background
 
-- Reuse the team toolset as maximum, i order to reduce the learning curve and focus on the product behavior test scenario
+- Reuse the team toolset as maximum, in order to reduce the learning curve and focus on the product behavior test scenario
 
 In addition, RestQA is highly extensible via its [Plugin API](https://docs.restqa.io/api/plugin-api) and [Output API](https://docs.restqa.io/api/output-api).
 
@@ -38,7 +38,13 @@ In addition, RestQA is highly extensible via its [Plugin API](https://docs.restq
 
 [<img src="https://restqa.io/assets/img/utils/video-600.png" width=600 />](https://www.youtube.com/watch?v=EberYFGPZPo)
 
-[Access to the Mini Demo](https://www.youtube.com/watch?v=EberYFGPZPo)
+[Access to the Youtube Video](https://www.youtube.com/watch?v=EberYFGPZPo)
+
+### Example
+
+Take a look at the [example folder](./example) to see a basic setup.
+
+More example available on the [restqa-example](https://github.com/restqa/restqa-example) repository.
 
 ## Contribution
 

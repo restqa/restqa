@@ -7,21 +7,21 @@ load 'common.sh'
 @test "[RUN]> Get an error if the .restqa.yml is not found" {
   run restqa run ./bin/tests/features
   assert_failure
-  [ "${lines[0]}" =  ">  Error: The configuration file \""$PWD"/.restqa.yml\" doesn't exist." ]
+  [ "${lines[0]}" =  ">  TypeError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist." ]
 }
 
 @test "[RUN]> Get an error if the passed config file is not found (--config)" {
   run restqa run --config .fake.yml ./bin/tests/features
   #debug "${status}" "${output}" "${lines}"
   assert_failure
-  [ "${lines[0]}" =  ">  Error: The configuration file \".fake.yml\" doesn't exist." ]
+  [ "${lines[0]}" =  ">  TypeError: The configuration file \".fake.yml\" doesn't exist." ]
 }
 
 @test "[RUN]> Get an error if the passed config file is not found (-c)" {
   run restqa run -c .fake.yml ./bin/tests/features
   #debug "${status}" "${output}" "${lines}"
   assert_failure
-  [ "${lines[0]}" =  ">  Error: The configuration file \".fake.yml\" doesn't exist." ]
+  [ "${lines[0]}" =  ">  TypeError: The configuration file \".fake.yml\" doesn't exist." ]
 }
 
 ## Help
@@ -84,7 +84,8 @@ load 'common.sh'
 }
 
 @test "[RUN]> MULTI-ENV > Run successfull test on the local environement" {
-  run restqa run -e local -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
+  cd ./bin/tests/features/multi-env
+  run restqa run -e local
   debug "${status}" "${output}" "${lines}"
   assert_success
   assert_output --partial 'The selected environment is: "local"'
@@ -92,10 +93,29 @@ load 'common.sh'
 }
 
 @test "[RUN]> MULTI-ENV > Run successfull test on the default environement" {
-  run restqa run -c ./bin/tests/features/multi-env/.restqa.yml ./bin/tests/features/multi-env/
+  cd ./bin/tests/features/multi-env
+  run restqa run
   debug "${status}" "${output}" "${lines}"
   assert_success
   assert_output --partial 'The selected environment is: "uat"'
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+@test "[RUN]> Plugin > exclude the node_module folder" {
+  cd ./bin/tests/features/exlude_node_modules
+  run restqa run 
+  debug "${status}" "${output}" "${lines}"
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+@test "[RUN]> Plugin > exclude the node_module folder but '.' is passed as local folder" {
+  cd ./bin/tests/features/exlude_node_modules
+  run restqa run  .
+  debug "${status}" "${output}" "${lines}"
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
   assert_output --partial '1 scenario (1 passed)'
 }
 

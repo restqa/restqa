@@ -1,0 +1,146 @@
+/*=========================================================================================
+    File Name: simple-calnedar.scss
+    Description: Simple Calendar app's styles. This is imported in SimpleCalendar.vue file
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+@import '../_variables.scss';
+
+#simple-calendar-app {
+  .theme-default {
+
+    &.cv-wrapper {
+      padding: 20px;
+    }
+
+    .cv-header-days {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .cv-header,
+    .cv-header-day {
+      background-color: transparent;
+      font-weight: bold;
+    }
+
+    .cv-day {
+
+      &.draghover {
+        box-shadow: inset 0 0 0.2em 0.2em rgba(var(--vs-primary),1);
+      }
+
+      &:not(.outsideOfMonth) {
+        background-color: transparent !important;
+      }
+
+      &.outsideOfMonth {
+        background-color: rgba(241, 241, 241, 0.4);
+      }
+
+      .cv-day-number {
+        padding: 1rem;
+        @media screen and (max-width: 400px) {
+          padding: 0;
+          margin: 5px;
+        }
+      }
+
+      &.today {
+        .cv-day-number {
+          background-color: rgba(var(--vs-primary),1);
+          border-radius: 50%;
+          display: inline-table;
+          padding: 0.43rem;
+          margin: 0.4rem;
+          color: #fff;
+          text-align: center;
+          font-weight: 600;
+          min-width: 2rem;
+          min-height: 2rem;
+          @media screen and (max-width: 400px) {
+            margin: 5px;
+            padding: 0.3rem;
+          }
+        }
+      }
+
+
+    }
+
+    .cv-weeks {
+      .cv-week {
+
+        min-height: 20%;
+
+        .cv-event {
+          color: $white;
+          border: none;
+          padding-left: .5rem;
+          padding-right: .5rem;
+          font-weight: 500;
+
+          &.event-primary { background: rgba(var(--vs-primary), 1) !important; }
+          &.event-warning { background: rgba(var(--vs-warning), 1) !important; }
+          &.event-success { background: rgba(var(--vs-success), 1) !important; }
+          &.event-danger { background: rgba(var(--vs-danger), 1) !important; }
+
+          &.toBeContinued:after,
+          &.continued:before {
+            color: $white !important;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        &:first-of-type {
+          .cv-day {
+            border-top: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.theme-dark {
+  .calendar__label-container {
+    .con-vs-chip {
+      color: $white !important;
+    }
+  }
+
+  #simple-calendar-app {
+    .theme-default {
+
+      .cv-day,
+      .cv-event,
+      .cv-header-day,
+      .cv-header-days,
+      .cv-week,
+      .cv-weeks {
+        border-color: $theme-dark-border-color;
+      }
+
+      .cv-header {
+        button {
+          color: $theme-dark-text-color;
+        }
+      }
+      .cv-day {
+
+        &.outsideOfMonth {
+          background-color: #1a2140;
+        }
+
+        // .cv-day-number {
+        //   padding: 1rem;
+        // }
+      }
+    }
+  }
+}
