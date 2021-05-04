@@ -70,6 +70,12 @@ program
   .usage('[options]')
   .action(Cli.editor)
 
+program
+  .command('example')
+  .alias('ex')
+  .description('Run a simple RestQA example')
+  .action(Cli.example)
+
 program.on('--help', () => {
   /* eslint-disable no-console */
   logger.log(

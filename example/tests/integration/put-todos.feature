@@ -14,6 +14,7 @@ Then I should receive a response with the status 200
   And the response body at "title" should equal "A new RestQA post"
   And the response body at "completed" should equal true
 
+@skip
 Scenario: Update of a Todo when the todo doesn't exist
 Given I have the api gateway
   And I have the path "/todos/1919191"

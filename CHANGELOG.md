@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.25] - 2021-05-01
+## [0.0.26] - 2021-05-14
+
+### Added
+* [Create new command: restqa example](./example) | [#76](https://github.com/restqa/restqa/pull/76)
+
+## [0.0.25] - 2021-05-04
 
 ### Added
 * [Enable line App Alerting](https://docs.restqa.io/alerting/line) | [#65](https://github.com/restqa/restqa/pull/65)
@@ -124,7 +129,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.25...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.26...HEAD
+[0.0.26]: https://github.com/restqa/restqa/compare/0.0.25...0.0.26
 [0.0.25]: https://github.com/restqa/restqa/compare/0.0.24...0.0.25
 [0.0.24]: https://github.com/restqa/restqa/compare/0.0.23...0.0.24
 [0.0.23]: https://github.com/restqa/restqa/compare/0.0.22...0.0.23
