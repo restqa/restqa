@@ -2,7 +2,6 @@
 *.rej
 *.orig
 bin/
-dist/
 node_modules/
 vuesax-laravel-starter/node_modules/
 temp/

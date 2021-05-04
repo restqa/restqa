@@ -22,6 +22,14 @@
     "cucumber",
     "restqa"
   ],
+  "files": [
+    "editor/client/dist",
+    "editor/server",
+    "src",
+    "bin",
+    "!**/**/*.test.js",
+    "!bin/tests"
+  ],
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
