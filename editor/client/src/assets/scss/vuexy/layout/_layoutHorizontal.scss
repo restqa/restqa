@@ -1,0 +1,221 @@
+/*=========================================================================================
+  File Name: _layoutHorizontal.scss
+  Description: Horizontal Layout Styles
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+.main-horizontal {
+
+  // Navbar
+  .vx-navbar-wrapper {
+    &.nav-menu-wrapper {
+      z-index: 41000;
+    }
+
+    .vx-navbar {
+      z-index: 40001;
+    }
+
+    .search-full-container {
+      .vx-auto-suggest {
+        .auto-suggest-suggestions-list {
+          @media (min-width: 1200px) {
+            width: calc(100% - 2rem) !important;
+            margin-left: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  &.navbar-floating {
+    .vs-navbar {
+      &.vx-navbar {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+    }
+  }
+
+  &.navbar-sticky {
+    .router-content {
+      margin-top: 4.5rem;
+
+      @media (min-width: 1200px) {
+        margin-top: 8.89rem;
+      }
+    }
+
+    .vx-navbar-wrapper {
+      &:not(.nav-menu-wrapper) {
+        height: 62px;
+      }
+    }
+
+    .vs-navbar {
+      &:not(.vx-navbar) {
+        background-color: #f7f7f7 !important;
+      }
+    }
+  }
+
+  &.navbar-sticky,
+  &.navbar-static {
+    .vs-navbar {
+      &.vx-navbar {
+        box-shadow: 0px 10px 8px rgba(0,0,0,0.03);
+      }
+    }
+  }
+
+  &.navbar-static {
+    .router-content {
+
+      @media (min-width: 1200px) {
+        margin-top: 1rem;
+      }
+    }
+
+    #content-area {
+      .content-wrapper {
+        min-height: calc(var(--vh, 1vh) * 100 - 8rem - 62px);
+      }
+    }
+
+    .vx-navbar-wrapper {
+      &:not(.nav-menu-wrapper) {
+        @media (min-width: 1200px) {
+          position: fixed;
+        }
+      }
+
+      .vx-navbar {
+        @media (max-width: 1199px) {
+          background: transparent !important;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  &.navbar-hidden {
+    .vx-navbar-wrapper {
+      @media (max-width: 1199px) {
+        display: none;
+      }
+    }
+
+    .vx-navbar-wrapper {
+      position: fixed;
+
+      &.nav-menu-wrapper {
+        display: none;
+      }
+    }
+
+    .router-view {
+      @media (min-width: 1200px) {
+        margin-top: 4.5rem;
+      }
+    }
+
+  }
+
+  &:not(.navbar-static) {
+    .vx-navbar-wrapper {
+      &.nav-menu-wrapper {
+        top: 62px;
+      }
+    }
+  }
+
+  @media(min-width: 1200px) {
+    // Content Alignment
+    &.navbar-floating {
+      .router-content {
+        margin-top: 10.1rem;
+      }
+    }
+
+    /*
+      Only applies to NavMenu in horizontal layout
+      media query is given -> because navMenu in horizontal will be visible till 1200px.
+    */
+    & {
+      .vs-navbar {
+        &.vx-navbar {
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+        }
+      }
+    }
+  }
+
+  // For application pages]
+  @media (min-width: 1200px) {
+    &.no-scroll {
+      .router-view {
+        padding-bottom: 0;
+      }
+
+      &.navbar-floating {
+        .no-scroll-content {
+          height: calc(var(--vh, 1vh) * 100 - 16rem);
+        }
+
+        &.footer-hidden {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 13.4rem);
+          }
+        }
+
+        &.footer-sticky {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 16.7rem);
+          }
+        }
+      }
+
+      &.navbar-sticky {
+        .no-scroll-content {
+          height: calc(var(--vh, 1vh) * 100 - 14.7rem);
+        }
+
+        &.footer-hidden {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 12.7rem);
+          }
+        }
+
+        &.footer-sticky {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 16.2rem);
+          }
+        }
+      }
+
+      &.navbar-static {
+        &.footer-static {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 14.75rem);
+          }
+        }
+
+        &.footer-sticky {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 16.7rem);
+          }
+        }
+
+        &.footer-hidden {
+          .no-scroll-content {
+            height: calc(var(--vh, 1vh) * 100 - 13rem);
+          }
+        }
+      }
+    }
+  }
+}

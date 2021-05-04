@@ -1,0 +1,86 @@
+/*=========================================================================================
+    File Name: _datePicker.scss
+    Description: Styles for datepicker component.
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+@import "../_variables.scss";
+
+.vdp-datepicker{
+    input{
+        padding: .7rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, .2);
+        color: $content-color;
+        width: 100%;
+    }
+
+    input[disabled] {
+      opacity: .5;
+    }
+
+    .vdp-datepicker__calendar {
+      border-radius: .5rem;
+      z-index: 401;
+
+      header {
+        .pre {
+          border-top-left-radius: .5rem;
+        }
+        .next {
+          border-top-right-radius: .5rem;
+        }
+      }
+    }
+
+    .day.blank {
+      background: transparent;
+    }
+
+    .cell {
+
+      &.day {
+        border-radius: 50%;
+
+        margin-left: 1%;
+        margin-right: 1%;
+        height: 37px;
+        line-height: 37px;
+        width: 12.285714286%;
+      }
+
+      &.month,
+      &.year {
+        border-radius: .5rem;
+      }
+
+      &:not(.blank):hover {
+        // border-color: rgba(var(--vs-primary),1) !important;
+        border-color: rgba(0,0,0,0) !important;
+        background-color: #eee;
+      }
+
+      &.day.highlighted {
+        background: rgba(var(--vs-primary),.7);
+        color: $white;
+
+        &:hover {
+          background: rgba(var(--vs-primary), 1);
+        }
+      }
+
+      &.selected {
+        color: $white;
+        background: rgba(var(--vs-primary),1) !important;
+
+        &:hover {
+          background: rgba(var(--vs-primary),1);
+        }
+      }
+    }
+}

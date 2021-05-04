@@ -1,0 +1,28 @@
+@import '../_variables.scss';
+
+.menu-item {
+  .nav-link {
+    color: inherit;
+  }
+
+  .disabled-item {
+    span {
+      color: #e2e2e2;
+    }
+  }
+}
+
+.h-nav-menu-dd {
+  background-color: $white;
+  // border: 1px solid transparent;
+}
+
+/* DARK THEME */
+
+.theme-dark {
+  .h-nav-menu-dd {
+    background-color: $theme-light-dark-bg;
+    // border-color: $theme-dark-border-color;
+    box-shadow: 0px 0px 30px #0f163a !important;
+  }
+}

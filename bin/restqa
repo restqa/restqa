@@ -60,6 +60,16 @@ program
   .usage('-c ./.restqa.yml -e local -t @success customer.feature')
   .action(Cli.run)
 
+program
+  .command('editor')
+  .alias('e')
+  .alias('serve')
+  .option('-c, --config <config>', 'Use a specific .restqa.yml file')
+  .option('-p, --port <port>', 'Define the running port (default: 8081)')
+  .description('Launch the restqa editor web server')
+  .usage('[options]')
+  .action(Cli.editor)
+
 program.on('--help', () => {
   /* eslint-disable no-console */
   logger.log(

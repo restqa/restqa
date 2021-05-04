@@ -1,0 +1,220 @@
+/*=========================================================================================
+    File Name: agGridStyleOverride.scss
+    Description: Override ag-grid table style/SASS vars
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+$icons-path: "~ag-grid-community/src/styles/ag-theme-material/icons/" !default;
+
+// $ag-icon-checkbox-unchecked: url('../../../images/ag-grid/checkbox-unchecked.svg');
+// $ag-icon-checkbox-checked: url('../../../images/ag-grid/checkbox-checked.svg');
+// $ag-icon-checkbox-indeterminate: url('../../../images/ag-grid/checkbox-indeterminate.svg');
+// $icon-font-family: "feather";
+// $ag-icon-checkbox-unchecked: "\E87A";
+// $ag-icon-checkbox-checked: "\E87A";
+// $ag-icon-checkbox-indeterminate: "\E87A";
+
+$font-family: inherit;
+$font-size: inherit;
+$font-weight: inherit;
+$secondary-font-family: inherit;
+$secondary-font-size: inherit;
+$secondary-font-weight: 600;
+$primary-color: #7367F0;
+
+@import "~ag-grid-community/src/styles/ag-grid.scss";
+@import "~ag-grid-community/src/styles/ag-theme-material/sass/ag-theme-material.scss";
+
+@import "../_variables.scss";
+
+.ag-grid-table {
+
+  color: inherit !important;
+
+  height: calc(var(--vh, 1vh) * 100 - 30rem);
+  @media screen and (max-height: 800px) {
+    height: 620px;
+  }
+
+  .ag-header-cell {
+    .ag-cell-label-container {
+      .ag-header-icon.ag-filter-icon {
+        display: none;
+      }
+    }
+  }
+
+  // style select of column header filter
+  .ag-filter-select {
+    padding: 0.3rem;
+    background: transparent;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+  }
+
+  // style input of column header filter input
+  .ag-filter-filter {
+    margin-right: 10px;
+    margin-left: 10px;
+    padding-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    height: 25px !important;
+    margin-top: 10px;
+    margin-bottom: 14px !important;
+  }
+
+  // remove extra padding of input in inline edit
+  .ag-input-text-wrapper {
+    input {
+      padding-bottom: 0 !important;
+    }
+  }
+
+  // Make input border bottom visible
+  .ag-floating-filter-body {
+    height: unset;
+  }
+
+  .ag-cell-inline-editing {
+    height: 62px !important;
+  }
+
+  .ag-cell-inline-editting,
+  .ag-popup-editor {
+    padding-bottom: 12px;
+  }
+
+  .ag-grid-table-actions-right {
+    @media screen and (max-width: 614px) {
+      flex-grow: 1;
+    }
+  }
+
+  .ag-grid-table-actions-left {
+    @media screen and (max-width: 614px) and (min-width: 443px) {
+      display: flex;
+      flex-grow: 1;
+      justify-content: flex-end;
+    }
+  }
+
+  // remove horizontal scroolbar from pinned columns
+  .ag-horizontal-left-spacer, .ag-horizontal-right-spacer {
+    overflow-x: auto;
+  }
+
+  .ag-icon-checkbox-checked,
+  .ag-icon-checkbox-indeterminate {
+    font-size: 22px;
+    color: rgba(var(--vs-primary),1) !important;
+  }
+
+  .ag-icon-checkbox-unchecked {
+    color: $grey !important;
+    font-size: 22px;
+  }
+
+    ::-webkit-scrollbar {
+     width: 10px;
+     height: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+     background: $grey-light;
+     border-radius: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+     background: $theme-background;
+     border-radius: 20px;
+    }
+}
+
+// Can not use vuexy admin variables
+// agGrid vars and imported vars may conflict
+.theme-dark {
+  .ag-grid-table {
+    &.ag-theme-material {
+      background: transparent;
+      color: $theme-dark-text-color;
+
+      .ag-header {
+        background: transparent;
+        color: $white;
+        border-bottom-color: $theme-dark-border-color;
+      }
+
+      .ag-cell-last-left-pinned {
+        border-right-color: $theme-dark-border-color !important;
+      }
+
+      .ag-floating-filter-input {
+        color: $theme-dark-text-color;
+        border-bottom-color: $theme-dark-border-color;
+      }
+
+      .ag-row-hover,
+      .ag-header-cell:hover {
+        background-color: $theme-light-dark-bg;
+      }
+
+      .ag-row-selected {
+        background: $theme-light-dark-bg;
+      }
+
+      .ag-row,
+      .ag-header-cell,
+      .ag-header-group-cell,
+      .ag-row,
+      .ag-pinned-left-header,
+      .ag-horizontal-left-spacer,
+      .ag-horizontal-right-spacer {
+        border-color: $theme-dark-border-color;
+      }
+    }
+
+    .ag-icon-checkbox-unchecked,
+    .ag-icon-filter,
+    .ag-icon-asc,
+    .ag-icon-desc {
+      color: $theme-dark-text-color !important;
+    }
+
+    .ag-filter-body-wrapper {
+      background-color: $theme-light-dark-bg;
+    }
+
+    .ag-filter-select {
+      border-color: $theme-dark-border-color;
+      color: $theme-dark-text-color;
+    }
+
+    option {
+      background-color: $theme-dark-bg;
+    }
+
+    ::-webkit-scrollbar {
+     width: 10px;
+     height: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+     background: $primary;
+     border-radius: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+     background: $theme-light-dark-bg;
+     border-radius: 20px;
+    }
+  }
+}
+
+// Custom Fixes
+.ag-grid-cell-chip {
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+}

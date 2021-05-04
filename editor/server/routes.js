@@ -1,0 +1,10 @@
+const express = require('express')
+const path = require('path')
+const Controllers = require('./controllers')
+
+module.exports = express.Router()
+  .get('/version', Controllers.version)
+  .get('/api/steps', Controllers.steps)
+  .post('/api/generate', Controllers.generate)
+  .post('/api/install', Controllers.install)
+  .post('/api/run', Controllers.run)

@@ -44,7 +44,7 @@ load 'common.sh'
   answer="jjj" #jjj as 3 times the down arrow keys to select the html output because it doesn't ask any other question
   run restqa i -c ./bin/tests/features/success/.restqa.yml -e prod <<< $answer
   assert_failure
-  assert_output --partial ">  Error: \"prod\" is not an environment available in the config file, choose between : local"
+  assert_output --partial ">  TypeError: \"prod\" is not an environment available in the config file, choose between : local"
 }
 
 @test "[INSTALL]> Successfull install of the html output but getting prompt message if the configuration file contains multiple environment" {

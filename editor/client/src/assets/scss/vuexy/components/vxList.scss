@@ -1,0 +1,17 @@
+/*=========================================================================================
+    File Name: vxList.scss
+    Description: Styles for vx-list component. Imported in VxList.vue file
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+.list {
+    .list__item {
+        display: flex;
+        padding: .4rem;
+        align-items: flex-start;
+    }
+}

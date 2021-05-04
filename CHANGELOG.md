@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * [Extend RestQA capability through Plugins](https://docs.restqa.io/getting-started/plugins) | [#66](https://github.com/restqa/restqa/pull/66)
 * [Add an example folder](./example) | [#71](https://github.com/restqa/restqa/pull/71)
 * [Option to extend the timeout](http://docs.restqa.io/getting-started/configuration#restqatimeout) | [#72](https://github.com/restqa/restqa/pull/72)
+* 🎁 Setup the new command to start the Editor: `restga editor` | [#74](https://github.com/restqa/restqa/pull/74)
 
 ### Update
 * improve windows OS compatibility | [#67](https://github.com/restqa/restqa/pull/67)

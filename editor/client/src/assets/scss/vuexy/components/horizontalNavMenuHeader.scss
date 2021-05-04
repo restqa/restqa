@@ -1,0 +1,30 @@
+@import '../_variables.scss';
+
+.header-active {
+  box-shadow: 0px 0px 6px 1px rgba(var(--vs-primary), 0.6);
+}
+
+.header-label {
+  border-radius: 4px;
+}
+.header-open {
+  background-color: #f6f6f6;
+}
+
+.header-children {
+  min-width: 215px;
+  top: 100%;
+  border-radius: 4px;
+  z-index: 1;
+
+  &.dd-right {
+    right: 1rem;
+  }
+}
+
+
+.theme-dark {
+  .header-open {
+    background-color: $theme-light-dark-bg;
+  }
+}
