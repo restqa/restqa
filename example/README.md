@@ -29,7 +29,17 @@ This folder is containing a few files:
 
 ## 🎯 Run the example
 
-In order to run the test just use the command :
+In order to run the test you have 2 options:
+
+### 1. If you have restqa installed globally:
+
+```
+npm i -g @restqa/restqa
+restqa example
+```
+
+
+### 2. If you cloned the repository :
 
 ```
 npm run example
