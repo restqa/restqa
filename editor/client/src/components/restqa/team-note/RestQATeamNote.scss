@@ -1,0 +1,33 @@
+@import '@/assets/scss/vuexy/_variables.scss';
+
+.team-note{
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .quote {
+    padding-left: 15px; 
+
+    .message {
+      font-style: italic;
+    }
+
+    .from {
+      clear: left;
+      float: right;
+      font-size: 11px;
+    }
+
+    .stars {
+     float: right;
+     font-size: 10px;
+    }
+  }
+}
+

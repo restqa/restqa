@@ -1,6 +1,7 @@
 const Stream = require('stream')
 const { version } = require('../../package.json')
 const RestQA = require('../../src')
+const Remote = require('./services/remote')
 
 const Controllers = {}
 
@@ -72,6 +73,11 @@ Controllers.run = async function(req, res, next) {
   } catch(e) {
     next(e)
   }
+}
+
+Controllers.info = async function(req, res) {
+  const result = await Remote.info()
+  res.json(result)
 }
 
 module.exports = Controllers

@@ -12,7 +12,9 @@
     "lint": "eslint src/ bin/restqa",
     "example": "bin/restqa run example/",
     "editor:install": "npm install --prefix ./editor/client",
-    "editor:build": "npm run build --prefix ./editor/client"
+    "editor:build": "npm run build --prefix ./editor/client",
+    "editor:test": "npm run test --prefix ./editor/client",
+    "editor:test:watch": "npm run test:watch --prefix ./editor/client"
   },
   "keywords": [
     "api",
@@ -83,7 +85,11 @@
     ],
     "projects": [
       {
-        "displayName": "test"
+        "displayName": "test",
+        "testMatch": [
+          "<rootDir>/src/**/*.test.js",
+          "<rootDir>/editor/server/**/*.test.js"
+        ]
       },
       {
         "runner": "jest-runner-eslint",

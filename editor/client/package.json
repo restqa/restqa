@@ -1,11 +1,13 @@
 {
-  "name": "vuexy-vuejs-html-laravel-dashboard-admin-template",
+  "name": "@restqa/editor",
   "version": "4.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "vue-cli-service test:unit",
+    "test:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.2",
@@ -34,20 +36,55 @@
     "vue-tree-halower": "^1.8.0",
     "vue2-hammer": "^2.1.2",
     "vuedraggable": "^2.21.0",
-    "vuesax": "jd-0001/vuesax",
+    "vuesax": "^3.12.2",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
     "@fullhuman/postcss-purgecss": "^1.2.0",
     "@vue/cli-plugin-babel": "^3.7.0",
     "@vue/cli-plugin-eslint": "^3.7.0",
+    "@vue/cli-plugin-unit-jest": "^4.5.12",
     "@vue/cli-service": "^3.7.0",
+    "@vue/test-utils": "^1.2.0",
     "axios-mock-adapter": "^1.17.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3",
     "node-sass": "^4.12.0",
     "purgecss": "^1.3.0",
     "sass-loader": "^7.1.0",
     "script-loader": "0.7.2",
     "tailwindcss": "^1.0.1",
+    "vue-jest": "^3.0.7",
     "vue-template-compiler": "^2.6.10"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.vue$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ],
+    "testURL": "http://localhost/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/src/**.{js,vue}",
+      "!**/node_modules/**",
+      "!**src/main.js**",
+      "!**src/router.js**"
+    ]
   }
 }

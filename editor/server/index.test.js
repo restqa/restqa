@@ -2,6 +2,7 @@ const request = require('supertest')
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
+const { EventEmitter } = require('events')
 
 let filename
 
@@ -37,7 +38,7 @@ describe('#editor > Server', () => {
     test('throw error if the keyword is not incorrect',  async () => {
       const config = {}
       const server = require('./index')(config)
-      const response = await request(server).get('/api/steps?keyword=cool')
+      const response = await request(server).get('/api/restqa/steps?keyword=cool')
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('"cool" is not a valid argument. Available: given | when | then')
     })
@@ -68,7 +69,7 @@ environments:
       fs.writeFileSync(filename, content)
 
       const server = require('./index')(filename)
-      const response = await request(server).get('/api/steps?keyword=when')
+      const response = await request(server).get('/api/restqa/steps?keyword=when')
       expect(response.status).toBe(200)
       const expectedResult = [{
         Comment: 'Trigger the api request',
@@ -105,7 +106,7 @@ environments:
       fs.writeFileSync(filename, content)
 
       const server = require('./index')(filename)
-      const response = await request(server).get('/api/steps')
+      const response = await request(server).get('/api/restqa/steps')
       expect(response.status).toBe(200)
       expect(response.body.length > 10).toBe(true)
       expect(response.body.some(el => el.Keyword === 'given')).toBe(true)
@@ -119,7 +120,7 @@ environments:
       const config = {}
       const server = require('./index')(config)
       const response = await request(server)
-        .post('/api/generate')
+        .post('/api/restqa/generate')
         .send({cmd: 'ls -lah'})
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('You need to provide a curl command for me to generate an awesome scenario')
@@ -130,7 +131,7 @@ environments:
 
       const server = require('./index')(filename)
       const response = await request(server)
-        .post('/api/generate')
+        .post('/api/restqa/generate')
         .send({cmd: 'curl -X GET https://jsonplaceholder.typicode.com/todos/1'})
       expect(response.status).toBe(200)
       const expectedBody = {
@@ -166,7 +167,7 @@ Then I should receive a response with the status 200
         }
       }
       const response = await request(server)
-        .post('/api/install')
+        .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('The plugin "whatsapp" is not available. Use the command "restqa install" to retrive the list of available plugin')
@@ -182,7 +183,7 @@ Then I should receive a response with the status 200
         }
       }
       const response = await request(server)
-        .post('/api/install')
+        .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('Please specify the target environment')
@@ -222,7 +223,7 @@ environments:
         }
       }
       const response = await request(server)
-        .post('/api/install')
+        .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('"prod" is not an environment available in the config file, choose between : local')
@@ -262,7 +263,7 @@ environments:
         }
       }
       const response = await request(server)
-        .post('/api/install')
+        .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(201)
       const expectedResult = `version: 0.0.1
@@ -300,7 +301,7 @@ environments:
         env: 'prod'
       }
       const response = await request(server)
-        .post('/api/run')
+        .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(406)
       expect(response.body.message).toBe(`The configuration file "./.restqa.yml" doesn't exist.`)
@@ -331,10 +332,209 @@ environments:
         path: path.resolve('./bin/tests/features/success'),
       }
       const response = await request(server)
-        .post('/api/run')
+        .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(201)
       expect(response.body.message).toBe(`The configuration file "${path.resolve('.','.restqa.yml')}" doesn't exist.`)
+    })
+  })
+
+  describe('/info', () => {
+    test('share data from the remote restqa server', async () => {
+      const emitter = new EventEmitter()
+      const mockData = {
+        team: {
+          note: {
+            message: 'hello world',
+            from: 'Olivier',
+            avatar: 'https://test/olive.png'
+          }
+        }
+      }
+
+      const httpIncomingMessage = {
+        statusCode: 200,
+        headers: {
+          'content-type': 'application/json'
+        },
+        on: jest.fn((evt, fn) => {
+          if ('data' === evt) {
+            fn.call(this, Buffer.from(JSON.stringify(mockData)))
+          }
+        })
+      }
+
+      const mockRequest = jest.fn().mockImplementation((options, callback) => {
+        if (callback) {
+          callback(httpIncomingMessage)
+        }
+        emitter.end = jest.fn()
+        return emitter
+      })
+
+      jest.mock('https', () => {
+        return {
+          request: mockRequest
+        }
+      })
+
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+      const server = require('./index')(filename)
+      const response = await request(server).get('/api/info')
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(mockData)
+      expect(mockRequest.mock.calls).toHaveLength(1)
+      const expectedOption = {
+        hostname: 'restqa.io',
+        port: 443,
+        path: '/info',
+        method: 'GET'
+      }
+      expect(mockRequest.mock.calls[0][0]).toEqual(expectedOption)
+    })
+
+    test('share the default message if the result is not json body', async () => {
+      const mockData = '<html>'
+      const emitter = new EventEmitter()
+      const httpIncomingMessage = {
+        statusCode: 200,
+        headers: {
+          'content-type': 'text/html'
+        },
+        on: jest.fn((evt, fn) => {
+          if ('data' === evt) {
+            fn.call(this, Buffer.from(JSON.stringify(mockData)))
+          }
+        })
+      }
+
+      const mockRequest = jest.fn().mockImplementation((options, callback) => {
+        if (callback) {
+          callback(httpIncomingMessage)
+        }
+        emitter.end = jest.fn()
+        return emitter
+      })
+
+
+      jest.mock('https', () => {
+        return {
+          request: mockRequest
+        }
+      })
+
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+      const server = require('./index')(filename)
+      const response = await request(server).get('/api/info')
+      expect(response.status).toBe(200)
+      const defaultData = {
+        team: {
+          note: {
+            message: 'We are happy to have you in the RestQA Family, we are happy to support you on your testing journey. ❤️',
+            from: 'RestQA team',
+            avatar: '/logo.png'
+          }
+        }
+      }
+      expect(response.body).toEqual(defaultData)
+      expect(mockRequest.mock.calls).toHaveLength(1)
+    })
+
+    test('share the default information if the calls fail', async () => {
+      const httpIncomingMessage = {
+        statusCode: 500,
+        headers: {},
+        on: () => {
+          //emitter.emit('error', new Error('oups'))
+        }
+      }
+
+      const mockRequest = jest.fn().mockImplementation((options, callback) => {
+        if (callback) {
+          callback(httpIncomingMessage)
+        }
+        const req = {
+          on: (evt, fn) => {
+            fn(new Error('couocu'))
+          },
+          end: jest.fn()
+        }
+        return req
+      })
+
+
+      jest.mock('https', () => {
+        return {
+          request: mockRequest
+        }
+      })
+
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+      const server = require('./index')(filename)
+      const response = await request(server).get('/api/info')
+      expect(response.status).toBe(200)
+      const defaultData = {
+        team: {
+          note: {
+            message: 'We are happy to have you in the RestQA Family, we are happy to support you on your testing journey. ❤️',
+            from: 'RestQA team',
+            avatar: '/logo.png'
+          }
+        }
+      }
+      expect(response.body).toEqual(defaultData)
+      expect(mockRequest.mock.calls).toHaveLength(1)
     })
   })
 })

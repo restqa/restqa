@@ -59,7 +59,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/version'
-  /api/steps:
+  /api/restqa/steps:
     get:
       tags:
         - RestQA
@@ -96,7 +96,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/error500'
-  /api/generate:
+  /api/restqa/generate:
     post:
       tags:
         - RestQA
@@ -132,7 +132,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/error500'
-  /api/install:
+  /api/restqa/install:
     post:
       tags:
         - RestQA
@@ -178,7 +178,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/error500'
-  /api/run:
+  /api/restqa/run:
     post:
       tags:
         - RestQA
@@ -208,6 +208,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/error406'
+        '500':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/info:
+    get:
+      tags:
+        - API
+      deprecated: false
+      operationId: Information
+      summary: Retrieve a list usefull information
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/info'
         '500':
           description: Success
           content:
@@ -292,4 +312,25 @@ definitions:
         "undefined": 0
       }
     }
-          
+  info:
+    type: object
+    properties:
+      team:
+        type: object
+        properties:
+          note:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The team note to share
+                example: 'We love RestQA'
+              from:
+                type: string
+                description: Team member that representing the note
+                example: 'John Doe'
+              avatar:
+                type: string
+                description: Team member avatar
+                example: '/avatar/john.png'
+

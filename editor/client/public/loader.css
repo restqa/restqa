@@ -10,6 +10,10 @@
   left: calc(50% - 45px);
   top: 40%;
 }
+.loading-logo img{
+  width: 80px;
+}
+
 .loading {
   position: absolute;
   left: calc(50% - 35px);

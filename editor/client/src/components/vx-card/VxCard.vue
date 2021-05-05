@@ -10,7 +10,7 @@
 
             <!-- card title -->
             <div class="vx-card__title">
-                <h4 v-if="this.$props.title" :style="titleStyles" :class="titleClasses">{{ title }}</h4>
+                <h5 v-if="this.$props.title" :style="titleStyles" :class="titleClasses">{{ title }}</h5>
                 <h6 v-if="this.$props.subtitle" :style="subtitleStyles" :class="subtitleClasses">{{ subtitle }}</h6>
             </div>
 
@@ -26,6 +26,9 @@
                         <feather-icon icon="CodeIcon" :class="{'border border-solid border-primary border-t-0 border-r-0 border-l-0': showCode}" @click="toggleCode"></feather-icon>
                     </div>
                 </slot>
+            </div>
+            <div style="font-size:10px" class="vx-card__code-toggler sm:block" v-if="this.$props.emoji">
+              {{ emoji }}
             </div>
         </div>
 
@@ -66,6 +69,7 @@ export default{
   props: {
     title: String,
     subtitle: String,
+    emoji: String,
     actionButtons: {
       type: Boolean,
       default: false
