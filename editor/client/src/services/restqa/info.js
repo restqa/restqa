@@ -1,6 +1,6 @@
 import Http from '../http'
 
-async function retrieve() {
+async function retrieve () {
   const key = 'remote-info'
   let result = window.localStorage.getItem(key)
   result = result && JSON.parse(result)
@@ -14,13 +14,28 @@ async function retrieve() {
 
 
 async function getTeamNote () {
-  console.log((new Date()).getDay())
   const result  = await retrieve()
   return result.team.note
 }
 
+async function getTeamSponsors () {
+  const result  = await retrieve()
+  return result.team.sponsors
+}
 
+async function getTeamBlog () {
+  const result  = await retrieve()
+  return result.team.blog
+}
+
+async function getTeamVideo () {
+  const result  = await retrieve()
+  return result.team.video
+}
 
 export  {
-  getTeamNote
+  getTeamNote,
+  getTeamSponsors,
+  getTeamBlog,
+  getTeamVideo
 }

@@ -10,12 +10,13 @@ module.exports = {
         chunks: 'all'
       }
     }
-  }
-  // devServer: {
+  },
+  devServer: {
+    port: 8081
   //   overlay: {
   //     warnings: true,
   //     errors: true
   //   }
-  // }
+  }
 }
 
