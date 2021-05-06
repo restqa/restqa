@@ -8,13 +8,15 @@
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
     "test:functional": "bats bin/tests",
-    "lint:fix": "eslint --fix src/ bin/restqa",
-    "lint": "eslint src/ bin/restqa",
+    "lint:fix": "eslint --fix src/ bin/restqa editor/server",
+    "lint": "eslint src/ bin/restqa editor/server",
     "example": "bin/restqa run example/",
     "editor:install": "npm install --prefix ./editor/client",
+    "editor:serve": "npm run serve --prefix ./editor/client",
     "editor:build": "npm run build --prefix ./editor/client",
     "editor:test": "npm run test --prefix ./editor/client",
-    "editor:test:watch": "npm run test:watch --prefix ./editor/client"
+    "editor:test:watch": "npm run test:watch --prefix ./editor/client",
+    "editor:example": "npm run editor:build && ./bin/restqa editor -c ./bin/tests/features/success/.restqa.yml"
   },
   "keywords": [
     "api",
