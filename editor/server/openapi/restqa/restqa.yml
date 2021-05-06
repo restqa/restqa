@@ -318,6 +318,59 @@ definitions:
       team:
         type: object
         properties:
+          blog:
+            type: object
+            properties:
+              url:
+                type: string
+                example: 'https://medium.com/restqa'
+              lastest:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+                  date:
+                    type: string
+                    example: '2021-02-02 02:24:19'
+                    format: datetime
+                  image:
+                    type: string
+                    example: 'https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png'
+                  author:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: '@Olivierodo'
+                      avatar:
+                        type: string
+                        example: 'https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg'
+                  url:
+                    type: string
+                    example: 'https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291'
+          video:
+            type: object
+            properties:
+              url:
+                type: string
+                example: 'https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q'
+              lastest:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: 'RestQA'
+                  date:
+                    type: string
+                    example: '2021-04-17 03:00:30'
+                    format: datetime
+                  image:
+                    type: string
+                    example: 'https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg'
+                  url:
+                    type: string
+                    example: 'https://www.youtube.com/watch?v=EberYFGPZPo'
           note:
             type: object
             properties:
@@ -333,4 +386,21 @@ definitions:
                 type: string
                 description: Team member avatar
                 example: '/avatar/john.png'
+          sponsors:
+            type: array
+            items:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The url of the sponsors website
+                  example: 'https://atalent-consulting.com'
+                name:
+                  type: string
+                  description: The name of the sponsor
+                  example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+                logo:
+                  type: string
+                  description: The logo of the sponsor
+                  example: 'https://atalent-consulting.com/logo.png'
 

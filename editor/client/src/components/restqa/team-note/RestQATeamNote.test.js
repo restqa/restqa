@@ -1,5 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import RestQATeamNote	 from './RestQATeamNote.vue'
+import Loader from '../../utils/loader/Loader'
 
 afterEach(() => {
   jest.resetModules()
@@ -15,7 +16,7 @@ describe('RestQATeamNote', () => {
       avatar: '/starwars/obi.jpg'
     }
     const Service = {
-      get: jest.fn().mockResolvedValue(data)
+      getTeamNote: jest.fn().mockResolvedValue(data)
     }
 
     const component = shallowMount(RestQATeamNote, {
@@ -26,13 +27,19 @@ describe('RestQATeamNote', () => {
       }
     })
 
-    await component.vm.$nextTick()
-
-    expect(Service.get.mock.calls).toHaveLength(1)
-
-    await component.vm.$nextTick()
-
     expect(component.exists()).toBeTruthy()
+
+    expect(component.findComponent(Loader).isVisible()).toBeTruthy()
+    expect(component.find('.team-note').exists()).toBeFalsy()
+    
+    await component.vm.$nextTick()
+
+    expect(Service.getTeamNote.mock.calls).toHaveLength(1)
+
+    await component.vm.$nextTick()
+
+    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    expect(component.find('.team-note').isVisible()).toBeTruthy()
     expect(component.find('.message').text()).toEqual('"May the force be with you!"')
     expect(component.find('.from').text()).toEqual('Obi-Wan Kenobi')
     expect(component.find('img').attributes('src')).toEqual('/starwars/obi.jpg')
@@ -41,7 +48,7 @@ describe('RestQATeamNote', () => {
   test('renders default values if the response from the api is an error', async () => {
 
     const Service = {
-      get: jest.fn().mockRejectedValue(new Error('oups'))
+      getTeamNote: jest.fn().mockRejectedValue(new Error('oups'))
     }
 
     const component = shallowMount(RestQATeamNote, {
@@ -52,15 +59,21 @@ describe('RestQATeamNote', () => {
       }
     })
 
-    await component.vm.$nextTick()
-
-    expect(Service.get.mock.calls).toHaveLength(1)
-
-    await component.vm.$nextTick()
-
     expect(component.exists()).toBeTruthy()
+    expect(component.findComponent(Loader).isVisible()).toBeTruthy()
+    expect(component.find('.team-note').exists()).toBeFalsy()
+    
+    await component.vm.$nextTick()
+
+    expect(Service.getTeamNote.mock.calls).toHaveLength(1)
+
+    await component.vm.$nextTick()
+
+    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    expect(component.find('.team-note').isVisible()).toBeTruthy()
     expect(component.find('.message').text()).toEqual('"Thanks for testing with RestQA. It\'s a pleasure to support you on increasing the quality of your product."')
     expect(component.find('.from').text()).toEqual('RestQA')
     expect(component.find('img').attributes('src')).toEqual('/logo.png')
+    await component.vm.$nextTick()
   })
 })

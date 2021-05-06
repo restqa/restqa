@@ -1,6 +1,7 @@
 <template>
   <vx-card title="Team's note" emoji="❤️ ❤️ ❤️ ❤️ ❤️" class="mt-base" slot="no-body" >
-    <div class="team-note">
+    <Loader :show="!note.message" />
+    <div class="team-note" v-if="note.message" >
       <img  key="onlineImg" :src="note.avatar" alt="team user-img" class="rounded-full shadow-md cursor-pointer block" />
       <div class="quote">
         <div class="message">"{{ note.message }}"</div>
@@ -12,12 +13,14 @@
 
 <script>
 import VxCard from '../../vx-card/VxCard'
-import * as Service from '@/services/restqa/team-note'
+import Loader from '../../utils/loader/Loader'
+import * as Service from '@/services/restqa/info'
 
 export default {
   name: 'RestQATeamNote',
   components: {
-    VxCard
+    VxCard,
+    Loader
   },
   data () {
     return {
@@ -27,7 +30,7 @@ export default {
   },
   async beforeMount () {
     try {
-      this.note = await this.Service.get()
+      this.note = await this.Service.getTeamNote()
     } catch (e) {
       this.note = {
         message: 'Thanks for testing with RestQA. It\'s a pleasure to support you on increasing the quality of your product.',

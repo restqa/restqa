@@ -5,11 +5,11 @@ const Remote = require('./services/remote')
 
 const Controllers = {}
 
-Controllers.version = function(req, res) {
+Controllers.version = function (req, res) {
   res.json({ version })
 }
 
-Controllers.steps = function(req, res, next) {
+Controllers.steps = function (req, res, next) {
   try {
     const {
       keyword
@@ -26,12 +26,12 @@ Controllers.steps = function(req, res, next) {
     }).flat()
 
     res.json(result)
-  } catch(e) {
+  } catch (e) {
     next(e)
   }
 }
 
-Controllers.generate = async function(req, res, next) {
+Controllers.generate = async function (req, res, next) {
   try {
     const {
       cmd
@@ -39,13 +39,12 @@ Controllers.generate = async function(req, res, next) {
 
     const scenario = await RestQA.Generate(cmd)
     res.json({ scenario })
-    
-  } catch(e) {
+  } catch (e) {
     next(e)
   }
 }
 
-Controllers.install = async function(req, res, next) {
+Controllers.install = async function (req, res, next) {
   try {
     const options = req.body
     options.configFile = req.app.get('restqa.configuration')
@@ -53,13 +52,12 @@ Controllers.install = async function(req, res, next) {
     res
       .status(201)
       .json({ config })
-    
-  } catch(e) {
+  } catch (e) {
     next(e)
   }
 }
 
-Controllers.run = async function(req, res, next) {
+Controllers.run = async function (req, res, next) {
   try {
     const options = req.body
     options.configFile = req.app.get('restqa.configuration')
@@ -69,13 +67,12 @@ Controllers.run = async function(req, res, next) {
     res
       .status(201)
       .json(result)
-    
-  } catch(e) {
+  } catch (e) {
     next(e)
   }
 }
 
-Controllers.info = async function(req, res) {
+Controllers.info = async function (req, res) {
   const result = await Remote.info()
   res.json(result)
 }

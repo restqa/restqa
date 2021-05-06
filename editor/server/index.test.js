@@ -24,7 +24,7 @@ beforeEach(() => {
 
 describe('#editor > Server', () => {
   describe('/version', () => {
-    test('get version',  async () => {
+    test('get version', async () => {
       const pkg = require('../../package.json')
       const config = {}
       const server = require('./index')(config)
@@ -35,7 +35,7 @@ describe('#editor > Server', () => {
   })
 
   describe('/api/steps', () => {
-    test('throw error if the keyword is not incorrect',  async () => {
+    test('throw error if the keyword is not incorrect', async () => {
       const config = {}
       const server = require('./index')(config)
       const response = await request(server).get('/api/restqa/steps?keyword=cool')
@@ -43,7 +43,7 @@ describe('#editor > Server', () => {
       expect(response.body.message).toBe('"cool" is not a valid argument. Available: given | when | then')
     })
 
-    test('Return the expected steps',  async () => {
+    test('Return the expected steps', async () => {
       const content = `
 ---
 
@@ -80,7 +80,7 @@ environments:
       expect(response.body).toEqual(expectedResult)
     })
 
-    test('Return all the steps if no keyword is passed',  async () => {
+    test('Return all the steps if no keyword is passed', async () => {
       const content = `
 ---
 
@@ -116,23 +116,23 @@ environments:
   })
 
   describe('/api/generate', () => {
-    test('throw error if the command is not a curl command',  async () => {
+    test('throw error if the command is not a curl command', async () => {
       const config = {}
       const server = require('./index')(config)
       const response = await request(server)
         .post('/api/restqa/generate')
-        .send({cmd: 'ls -lah'})
+        .send({ cmd: 'ls -lah' })
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('You need to provide a curl command for me to generate an awesome scenario')
     })
 
-    test('Generate the curl command',  async () => {
+    test('Generate the curl command', async () => {
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
 
       const server = require('./index')(filename)
       const response = await request(server)
         .post('/api/restqa/generate')
-        .send({cmd: 'curl -X GET https://jsonplaceholder.typicode.com/todos/1'})
+        .send({ cmd: 'curl -X GET https://jsonplaceholder.typicode.com/todos/1' })
       expect(response.status).toBe(200)
       const expectedBody = {
         scenario: `
@@ -156,7 +156,7 @@ Then I should receive a response with the status 200
   })
 
   describe('/api/install', () => {
-    test('throw error if the integration to install doesn\'t exist',  async () => {
+    test('throw error if the integration to install doesn\'t exist', async () => {
       const config = './restqa.yml'
       const server = require('./index')(config)
       const options = {
@@ -173,7 +173,7 @@ Then I should receive a response with the status 200
       expect(response.body.message).toBe('The plugin "whatsapp" is not available. Use the command "restqa install" to retrive the list of available plugin')
     })
 
-    test('throw error if the env is not passed',  async () => {
+    test('throw error if the env is not passed', async () => {
       const config = './restqa.yml'
       const server = require('./index')(config)
       const options = {
@@ -189,7 +189,7 @@ Then I should receive a response with the status 200
       expect(response.body.message).toBe('Please specify the target environment')
     })
 
-    test('throw error if the env is not available',  async () => {
+    test('throw error if the env is not available', async () => {
       const content = `
 ---
 
@@ -229,7 +229,7 @@ environments:
       expect(response.body.message).toBe('"prod" is not an environment available in the config file, choose between : local')
     })
 
-    test('Install slack',  async () => {
+    test('Install slack', async () => {
       const content = `
 ---
 
@@ -294,7 +294,7 @@ environments:
   })
 
   describe('/api/run', () => {
-    test('throw error if the configuration file  doesn\'t exist',  async () => {
+    test('throw error if the configuration file  doesn\'t exist', async () => {
       const config = './.restqa.yml'
       const server = require('./index')(config)
       const options = {
@@ -304,10 +304,10 @@ environments:
         .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(406)
-      expect(response.body.message).toBe(`The configuration file "./.restqa.yml" doesn't exist.`)
+      expect(response.body.message).toBe('The configuration file "./.restqa.yml" doesn\'t exist.')
     })
 
-    test.skip('Run the test and get the result',  async () => {
+    test.skip('Run the test and get the result', async () => {
       const content = `
 ---
 
@@ -329,13 +329,13 @@ environments:
       const server = require('./index')(filename)
       const options = {
         env: 'local',
-        path: path.resolve('./bin/tests/features/success'),
+        path: path.resolve('./bin/tests/features/success')
       }
       const response = await request(server)
         .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(201)
-      expect(response.body.message).toBe(`The configuration file "${path.resolve('.','.restqa.yml')}" doesn't exist.`)
+      expect(response.body.message).toBe(`The configuration file "${path.resolve('.', '.restqa.yml')}" doesn't exist.`)
     })
   })
 
@@ -358,7 +358,7 @@ environments:
           'content-type': 'application/json'
         },
         on: jest.fn((evt, fn) => {
-          if ('data' === evt) {
+          if (evt === 'data') {
             fn.call(this, Buffer.from(JSON.stringify(mockData)))
           }
         })
@@ -419,7 +419,7 @@ environments:
           'content-type': 'text/html'
         },
         on: jest.fn((evt, fn) => {
-          if ('data' === evt) {
+          if (evt === 'data') {
             fn.call(this, Buffer.from(JSON.stringify(mockData)))
           }
         })
@@ -432,7 +432,6 @@ environments:
         emitter.end = jest.fn()
         return emitter
       })
-
 
       jest.mock('https', () => {
         return {
@@ -463,12 +462,41 @@ environments:
       expect(response.status).toBe(200)
       const defaultData = {
         team: {
+          blog: {
+            url: 'https://medium.com/restqa',
+            last: {
+              title: 'RestQA is here! Do your end-to-end API test integration, the right way!',
+              date: '2021-02-02 02:24:19',
+              image: 'https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png',
+              author: {
+                username: '@Olivierodo',
+                avatar: 'https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg'
+              },
+              url: 'https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291'
+            }
+          },
+          video: {
+            url: 'https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q',
+            last: {
+              title: 'RestQA',
+              date: '2021-04-17 03:00:30',
+              image: 'https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg',
+              url: 'https://www.youtube.com/watch?v=EberYFGPZPo'
+            }
+          },
           note: {
             message: 'We are happy to have you in the RestQA Family, we are happy to support you on your testing journey. ❤️',
             from: 'RestQA team',
             avatar: '/logo.png'
           }
-        }
+        },
+        sponsors: [
+          {
+            url: 'https://atalent-consulting.com',
+            name: 'RestQA is here! Do your end-to-end API test integration, the right way!',
+            logo: 'https://atalent-consulting.com/logo.png'
+          }
+        ]
       }
       expect(response.body).toEqual(defaultData)
       expect(mockRequest.mock.calls).toHaveLength(1)
@@ -479,7 +507,7 @@ environments:
         statusCode: 500,
         headers: {},
         on: () => {
-          //emitter.emit('error', new Error('oups'))
+          // emitter.emit('error', new Error('oups'))
         }
       }
 
@@ -496,7 +524,6 @@ environments:
         return req
       })
 
-
       jest.mock('https', () => {
         return {
           request: mockRequest
@@ -526,12 +553,41 @@ environments:
       expect(response.status).toBe(200)
       const defaultData = {
         team: {
+          blog: {
+            url: 'https://medium.com/restqa',
+            last: {
+              title: 'RestQA is here! Do your end-to-end API test integration, the right way!',
+              date: '2021-02-02 02:24:19',
+              image: 'https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png',
+              author: {
+                username: '@Olivierodo',
+                avatar: 'https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg'
+              },
+              url: 'https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291'
+            }
+          },
+          video: {
+            url: 'https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q',
+            last: {
+              title: 'RestQA',
+              date: '2021-04-17 03:00:30',
+              image: 'https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg',
+              url: 'https://www.youtube.com/watch?v=EberYFGPZPo'
+            }
+          },
           note: {
             message: 'We are happy to have you in the RestQA Family, we are happy to support you on your testing journey. ❤️',
             from: 'RestQA team',
             avatar: '/logo.png'
           }
-        }
+        },
+        sponsors: [
+          {
+            url: 'https://atalent-consulting.com',
+            name: 'RestQA is here! Do your end-to-end API test integration, the right way!',
+            logo: 'https://atalent-consulting.com/logo.png'
+          }
+        ]
       }
       expect(response.body).toEqual(defaultData)
       expect(mockRequest.mock.calls).toHaveLength(1)
