@@ -1,0 +1,6 @@
+bin:
+  init:
+    success:
+      welcome: 'Welcone to the Restqa community'
+      configFile: '.restqa.yml file created successfully'
+      createdFile: '%s file created successfully'
