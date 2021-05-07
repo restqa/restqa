@@ -33,7 +33,7 @@ info:
 
 servers:
   - url: 'http://localhost:8081'
-    description: The Editor API host
+    description: The Dashboard API host
     variables:
       environment:
         enum:
@@ -42,8 +42,8 @@ servers:
 tags:
   - name: RestQA
     description: Main feature of RestQA
-  #- name: Editor
-  #  description: Api supporting the editor
+  #- name: Dashboard
+  #  description: Api supporting the Dashboard
 paths:
   /version:
     get:

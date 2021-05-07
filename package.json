@@ -7,16 +7,16 @@
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
     "test:functional": "bats bin/tests",
-    "lint:fix": "eslint --fix src/ bin/restqa editor/server",
-    "lint": "eslint src/ bin/restqa editor/server",
+    "lint:fix": "eslint --fix src/ bin/restqa dashboard/server",
+    "lint": "eslint src/ bin/restqa dashboard/server",
     "example": "bin/restqa run example/",
-    "build": "npm run build --prefix ./editor/client",
-    "editor:install": "npm install --prefix ./editor/client",
-    "editor:serve": "npm run serve --prefix ./editor/client",
-    "editor:build": "npm run build",
-    "editor:test": "npm run test --prefix ./editor/client",
-    "editor:test:watch": "npm run test:watch --prefix ./editor/client",
-    "editor:example": "npm run editor:build && ./bin/restqa editor -c ./bin/tests/features/success/.restqa.yml"
+    "build": "npm run build --prefix ./dashboard/client",
+    "dashboard:install": "npm install --prefix ./dashboard/client",
+    "dashboard:serve": "npm run serve --prefix ./dashboard/client",
+    "dashboard:build": "npm run build",
+    "dashboard:test": "npm run test --prefix ./dashboard/client",
+    "dashboard:test:watch": "npm run test:watch --prefix ./dashboard/client",
+    "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml"
   },
   "keywords": [
     "api",
@@ -27,8 +27,8 @@
     "restqa"
   ],
   "files": [
-    "editor/client/dist",
-    "editor/server",
+    "dashboard/client/dist",
+    "dashboard/server",
     "src",
     "bin",
     "!**/**/*.test.js",
@@ -90,7 +90,7 @@
         "displayName": "test",
         "testMatch": [
           "<rootDir>/src/**/*.test.js",
-          "<rootDir>/editor/server/**/*.test.js"
+          "<rootDir>/dashboard/server/**/*.test.js"
         ]
       },
       {

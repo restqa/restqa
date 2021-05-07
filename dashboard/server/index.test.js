@@ -22,7 +22,7 @@ beforeEach(() => {
   }
 })
 
-describe('#editor > Server', () => {
+describe('#dashboard > Server', () => {
   describe('/version', () => {
     test('get version', async () => {
       const pkg = require('../../package.json')

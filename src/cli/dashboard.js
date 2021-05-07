@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const http = require('http')
 const logger = require('../utils/logger')
-const EditorServer = require('../../editor/server')
+const DashboardServer = require('../../dashboard/server')
 
 module.exports = function (program) {
   let {
@@ -22,10 +22,10 @@ module.exports = function (program) {
     throw new Error(`The configuration file "${config}" doesn't exist.`)
   }
 
-  return http.createServer(EditorServer(config))
+  return http.createServer(DashboardServer(config))
     .listen(port, err => {
       if (err) throw err
       logger.info(`📝  The configuration file ${config} has been loaded`)
-      logger.info(`🌎  The RestQA editor is started and available on the url: http://localhost:${port}`)
+      logger.info(`🌎  The RestQA dashboard is started and available on the url: http://localhost:${port}`)
     })
 }
