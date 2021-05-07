@@ -3,7 +3,6 @@
   "version": "0.0.26",
   "description": "An all in one test automation runner",
   "scripts": {
-    "start:library": "export $(cat .env | xargs) && ./bin/restqa run ./sample-project",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
@@ -11,9 +10,10 @@
     "lint:fix": "eslint --fix src/ bin/restqa editor/server",
     "lint": "eslint src/ bin/restqa editor/server",
     "example": "bin/restqa run example/",
+    "build": "npm run build --prefix ./editor/client",
     "editor:install": "npm install --prefix ./editor/client",
     "editor:serve": "npm run serve --prefix ./editor/client",
-    "editor:build": "npm run build --prefix ./editor/client",
+    "editor:build": "npm run build",
     "editor:test": "npm run test --prefix ./editor/client",
     "editor:test:watch": "npm run test:watch --prefix ./editor/client",
     "editor:example": "npm run editor:build && ./bin/restqa editor -c ./bin/tests/features/success/.restqa.yml"

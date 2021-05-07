@@ -1,5 +1,5 @@
 <template>
-  <vx-card title="Sponsors" class="mt-base" slot="no-body" >
+  <vx-card title="Sponsors" emoji="⭐️" class="mt-base" slot="no-body" >
     <Loader :show="!sponsors.length" />
     <div class="sponsors" v-if="sponsors.length" >
       <a v-for="(sponsor, index)  in sponsors"
