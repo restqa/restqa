@@ -386,21 +386,21 @@ definitions:
                 type: string
                 description: Team member avatar
                 example: '/avatar/john.png'
-          sponsors:
-            type: array
-            items:
-              type: object
-              properties:
-                url:
-                  type: string
-                  description: The url of the sponsors website
-                  example: 'https://atalent-consulting.com'
-                name:
-                  type: string
-                  description: The name of the sponsor
-                  example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
-                logo:
-                  type: string
-                  description: The logo of the sponsor
-                  example: 'https://atalent-consulting.com/logo.png'
+      sponsors:
+        type: array
+        items:
+          type: object
+          properties:
+            url:
+              type: string
+              description: The url of the sponsors website
+              example: 'https://atalent-consulting.com'
+            name:
+              type: string
+              description: The name of the sponsor
+              example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+            logo:
+              type: string
+              description: The logo of the sponsor
+              example: 'https://atalent-consulting.com/logo.png'
 

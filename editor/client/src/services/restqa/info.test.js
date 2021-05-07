@@ -32,7 +32,7 @@ describe('Service - RestQA - TeamNote', () => {
       expect(mockGet.mock.calls[0][0]).toEqual('/api/info')
     })
 
-    test('Return the Team note Information from the cache if it has been retrieved already', async () => {
+    test('Return the Team note Information from the cache because we are on the same day', async () => {
       const mockData = {
         data: {
           team: {
@@ -45,12 +45,19 @@ describe('Service - RestQA - TeamNote', () => {
         }
       }
 
-      const mockGet = jest.fn().mockResolvedValue(mockData)
+      const date = new Date()
+      window.localStorage.setItem('remote-info', JSON.stringify({
+        today: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+        data: mockData.data
+      }))
+
+      const mockGet = jest.fn()
       jest.mock('axios', () => {
         return {
           get: mockGet
         }
       })
+
       const Info = require('./info')
       const result1 = await Info.getTeamNote()
       expect(result1).toEqual(mockData.data.team.note)
@@ -58,12 +65,13 @@ describe('Service - RestQA - TeamNote', () => {
       const result2 = await Info.getTeamNote()
       expect(result2).toEqual(mockData.data.team.note)
 
-      expect(mockGet.mock.calls).toHaveLength(1)
-      expect(mockGet.mock.calls[0][0]).toEqual('/api/info')
+      const result3 = await Info.getTeamNote()
+      expect(result3).toEqual(mockData.data.team.note)
+
+      expect(mockGet.mock.calls).toHaveLength(0)
     })
 
-    test.skip('Return the Team note Information from the remote if the info from the cache from yesterday', async () => {
-      // Still some issue to mock the date
+    test('Return the Team note Information from the remote server because the current day is different from the one in the cache', async () => {
       const mockData = {
         data: {
           team: {
@@ -75,6 +83,12 @@ describe('Service - RestQA - TeamNote', () => {
           }
         }
       }
+
+      const date = new Date()
+      window.localStorage.setItem('remote-info', JSON.stringify({
+        today: '2021-01-01',
+        data: mockData.data
+      }))
 
       const mockGet = jest.fn().mockResolvedValue(mockData)
       jest.mock('axios', () => {
@@ -90,8 +104,11 @@ describe('Service - RestQA - TeamNote', () => {
       const result2 = await Info.getTeamNote()
       expect(result2).toEqual(mockData.data.team.note)
 
+      const result3 = await Info.getTeamNote()
+      expect(result3).toEqual(mockData.data.team.note)
+
       expect(mockGet.mock.calls).toHaveLength(1)
-      expect(mockGet.mock.calls[0][0]).toEqual('/api/info')
+      expect(mockGet.mock.calls[0][0]).toBe('/api/info')
     })
   })
 
@@ -165,13 +182,11 @@ describe('Service - RestQA - TeamNote', () => {
     test('Return the Team sponsors Information', async () => {
       const mockData = {
         data: {
-          team: {
-            sponsors: [{
-              url: "https://atalent-consulting.com",
-              name: "RestQA is here! Do your end-to-end API test integration, the right way!",
-              logo: "https://atalent-consulting.com/logo.png"
-            }]
-          }
+          sponsors: [{
+            url: "https://atalent-consulting.com",
+            name: "RestQA is here! Do your end-to-end API test integration, the right way!",
+            logo: "https://atalent-consulting.com/logo.png"
+          }]
         }
       }
 
@@ -183,7 +198,7 @@ describe('Service - RestQA - TeamNote', () => {
       })
       const Info = require('./info')
       const result = await Info.getTeamSponsors()
-      expect(result).toEqual(mockData.data.team.sponsors)
+      expect(result).toEqual(mockData.data.sponsors)
       expect(mockGet.mock.calls).toHaveLength(1)
     })
   })
