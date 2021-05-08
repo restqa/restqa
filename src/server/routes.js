@@ -1,5 +1,4 @@
 const express = require('express')
-const path = require('path')
 const Controllers = require('./controllers')
 
 module.exports = express.Router()

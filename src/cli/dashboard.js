@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const http = require('http')
 const logger = require('../utils/logger')
-const DashboardServer = require('../../dashboard/server')
+const DashboardServer = require('../server')
 const Config = require('../config')
 
 module.exports = function (program) {

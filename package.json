@@ -7,15 +7,15 @@
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
     "test:functional": "bats bin/tests",
-    "lint:fix": "eslint --fix src/ bin/restqa dashboard/server",
-    "lint": "eslint src/ bin/restqa dashboard/server",
+    "lint:fix": "eslint --fix src/ bin/restqa",
+    "lint": "eslint src/ bin/restqa",
     "example": "bin/restqa run example/",
-    "build": "npm run build --prefix ./dashboard/client",
-    "dashboard:install": "npm install --prefix ./dashboard/client",
-    "dashboard:serve": "npm run serve --prefix ./dashboard/client",
+    "build": "npm run build --prefix ./dashboard",
+    "dashboard:install": "npm install --prefix ./dashboard",
+    "dashboard:serve": "npm run serve --prefix ./dashboard",
     "dashboard:build": "npm run build",
-    "dashboard:test": "npm run test --prefix ./dashboard/client",
-    "dashboard:test:watch": "npm run test:watch --prefix ./dashboard/client",
+    "dashboard:test": "npm run test --prefix ./dashboard",
+    "dashboard:test:watch": "npm run test:watch --prefix ./dashboard",
     "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml",
     "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml\""
   },
@@ -28,8 +28,7 @@
     "restqa"
   ],
   "files": [
-    "dashboard/client/dist",
-    "dashboard/server",
+    "dashboard/dist",
     "src",
     "bin",
     "!**/**/*.test.js",
@@ -91,8 +90,7 @@
       {
         "displayName": "test",
         "testMatch": [
-          "<rootDir>/src/**/*.test.js",
-          "<rootDir>/dashboard/server/**/*.test.js"
+          "<rootDir>/src/**/*.test.js"
         ]
       },
       {

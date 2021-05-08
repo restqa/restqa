@@ -60,7 +60,7 @@ function info () {
         resolve(data)
       })
     })
-    req.on('error', error => {
+    req.on('error', () => {
       resolve(defaultInfo)
     })
     req.end()

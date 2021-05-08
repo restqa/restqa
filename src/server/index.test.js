@@ -23,8 +23,8 @@ beforeEach(() => {
 })
 
 describe('#dashboard > Server', () => {
-  describe.only('cors management', () => {
-    test('does not return allows headers if the origin is not on the default white list', async () =>{
+  describe('cors management', () => {
+    test('does not return allows headers if the origin is not on the default white list', async () => {
       const config = {}
       const server = require('./index')(config)
       const response = await request(server)
@@ -34,7 +34,7 @@ describe('#dashboard > Server', () => {
       expect(response.header['access-control-allow-headers']).toBeUndefined()
     })
 
-    test('return allows headers if the origin is on the default white list', async () =>{
+    test('return allows headers if the origin is on the default white list', async () => {
       const config = {}
       const server = require('./index')(config)
       const response = await request(server)
@@ -45,7 +45,7 @@ describe('#dashboard > Server', () => {
       expect(response.header['access-control-allow-headers']).toBe('Origin, X-Requested-With, Content-Type, Accept')
     })
 
-    test.only('return allows headers if the origin is on the config white list', async () =>{
+    test('return allows headers if the origin is on the config white list', async () => {
       const config = {}
       const options = {
         server: {
@@ -175,20 +175,20 @@ environments:
       expect(response.status).toBe(200)
       const expectedBody = {
         scenario: `
-Given I have the api gateway hosted on \"https://jsonplaceholder.typicode.com\"
-  And I have the path \"/todos/1\"
-  And I have the method \"GET\"
+Given I have the api gateway hosted on "https://jsonplaceholder.typicode.com"
+  And I have the path "/todos/1"
+  And I have the method "GET"
 When I run the API
 Then I should receive a response with the status 200
   And the response body should be equal to:
-  \"\"\"
+  """
 {
-  \"userId\": 1,
-  \"id\": 1,
-  \"title\": \"delectus aut autem\",
-  \"completed\": false
+  "userId": 1,
+  "id": 1,
+  "title": "delectus aut autem",
+  "completed": false
 }
-  \"\"\"`.trim()
+  """`.trim()
       }
       expect(response.body).toEqual(expectedBody)
     })

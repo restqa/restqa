@@ -7,17 +7,17 @@ module.exports = function (configFile, options = {}) {
     .use((req, res, next) => {
       const { origin } = req.headers
       const whiteList = [
-        //'http://localhost:3000'
+        'http://localhost:3000'
       ].concat((options.server && options.server.whiteList) || [])
 
       if (whiteList.includes(origin)) {
-        res.set("Access-Control-Allow-Origin", origin)
-        res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        res.set('Access-Control-Allow-Origin', origin)
+        res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
       }
       next()
     })
     .use(express.json())
-    .use(express.static(path.resolve(__dirname, '..', 'client', 'dist')))
+    .use(express.static(path.resolve(__dirname, '..', '..', 'dashboard',  'dist')))
     .use('/openapi', express.static(path.resolve(__dirname, '.', 'openapi')))
     .use(require('./routes'))
     .use((err, req, res, next) => {
