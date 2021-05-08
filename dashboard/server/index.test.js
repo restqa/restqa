@@ -23,6 +23,45 @@ beforeEach(() => {
 })
 
 describe('#dashboard > Server', () => {
+  describe.only('cors management', () => {
+    test('does not return allows headers if the origin is not on the default white list', async () =>{
+      const config = {}
+      const server = require('./index')(config)
+      const response = await request(server)
+        .get('/tes-cors')
+      expect(response.status).toBe(404)
+      expect(response.header['access-control-allow-origin']).toBeUndefined()
+      expect(response.header['access-control-allow-headers']).toBeUndefined()
+    })
+
+    test('return allows headers if the origin is on the default white list', async () =>{
+      const config = {}
+      const server = require('./index')(config)
+      const response = await request(server)
+        .get('/tes-cors')
+        .set('origin', 'http://localhost:3000')
+      expect(response.status).toBe(404)
+      expect(response.header['access-control-allow-origin']).toBe('http://localhost:3000')
+      expect(response.header['access-control-allow-headers']).toBe('Origin, X-Requested-With, Content-Type, Accept')
+    })
+
+    test.only('return allows headers if the origin is on the config white list', async () =>{
+      const config = {}
+      const options = {
+        server: {
+          whiteList: 'https://www.foo-bar.com'
+        }
+      }
+      const server = require('./index')(config, options)
+      const response = await request(server)
+        .get('/tes-cors')
+        .set('origin', 'https://www.foo-bar.com')
+      expect(response.status).toBe(404)
+      expect(response.header['access-control-allow-origin']).toBe('https://www.foo-bar.com')
+      expect(response.header['access-control-allow-headers']).toBe('Origin, X-Requested-With, Content-Type, Accept')
+    })
+  })
+
   describe('/version', () => {
     test('get version', async () => {
       const pkg = require('../../package.json')

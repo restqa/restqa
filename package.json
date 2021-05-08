@@ -16,7 +16,8 @@
     "dashboard:build": "npm run build",
     "dashboard:test": "npm run test --prefix ./dashboard/client",
     "dashboard:test:watch": "npm run test:watch --prefix ./dashboard/client",
-    "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml"
+    "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml",
+    "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml\""
   },
   "keywords": [
     "api",
@@ -63,6 +64,7 @@
     "bats-assert": "git+https://github.com/bats-core/bats-assert.git",
     "bats-file": "git+https://github.com/bats-core/bats-file.git",
     "bats-support": "git+https://github.com/bats-core/bats-support.git",
+    "concurrently": "^6.1.0",
     "eslint": "^7.21.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",

@@ -3,6 +3,7 @@ const path = require('path')
 const http = require('http')
 const logger = require('../utils/logger')
 const DashboardServer = require('../../dashboard/server')
+const Config = require('../config')
 
 module.exports = function (program) {
   let {
@@ -22,7 +23,10 @@ module.exports = function (program) {
     throw new Error(`The configuration file "${config}" doesn't exist.`)
   }
 
-  return http.createServer(DashboardServer(config))
+  const raw = Config.raw({ configFile: config })
+  const options = (raw.restqa || {}).dashboard
+
+  return http.createServer(DashboardServer(config, options))
     .listen(port, err => {
       if (err) throw err
       logger.info(`📝  The configuration file ${config} has been loaded`)
