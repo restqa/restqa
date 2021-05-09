@@ -48,6 +48,7 @@
     "express": "^4.17.1",
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
+    "socket.io": "^4.0.2",
     "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
   },
@@ -97,6 +98,7 @@
         "runner": "jest-runner-eslint",
         "displayName": "lint",
         "testMatch": [
+          "<rootDir>/bin/restqa",
           "<rootDir>/src/**/*.js"
         ]
       }

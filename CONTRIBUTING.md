@@ -10,6 +10,7 @@ What do you need to know about the unit tests ?
 * Style: [chicago school](https://dev.to/hiboabd/a-beginners-explanation-of-the-chicago-london-approaches-4o5f)
 * Command: `npm test`
 * Coverage command: `npm run test:coverage`
+* Test the Dashboard (vuejs): `npm run dashboard:test`
 
 
 ### Functionnal Tests

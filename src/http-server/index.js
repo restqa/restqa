@@ -17,7 +17,7 @@ module.exports = function (configFile, options = {}) {
       next()
     })
     .use(express.json())
-    .use(express.static(path.resolve(__dirname, '..', '..', 'dashboard',  'dist')))
+    .use(express.static(path.resolve(__dirname, '..', '..', 'dashboard', 'dist')))
     .use('/openapi', express.static(path.resolve(__dirname, '.', 'openapi')))
     .use(require('./routes'))
     .use((err, req, res, next) => {
