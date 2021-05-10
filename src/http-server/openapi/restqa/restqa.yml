@@ -259,19 +259,19 @@ definitions:
     items:
       type: object
       properties:
-        Plugin:
+        plugin:
           type: string
           example: '@restqa/restapi'
           description: 'The plugin supporting the step definition'
-        Keyword:
+        keyword:
           type: string
           example: 'when'
           description: 'The keyword matching the step definition'
-        Step:
+        step:
           type: string
           example: 'i run the request'
           description: 'The step definition matching phrase'
-        Comment:
+        comment:
           type: string
           example: 'Perform the api request'
           description: 'A comment about the step definition'

@@ -23,16 +23,21 @@ const router = new Router({
         // =============================================================================
         {
           path: '/',
-          //redirect: '/dashboard/restqa'
           redirect: '/comingsoon'
         },
         {
+          //path: '/',
           path: '/dashboard',
           name: 'dashboard-restgqa',
           component: () => import('./views/DashboardRestQA.vue'),
           meta: {
             rule: 'editor'
           }
+        },
+        {
+          path: '/project/steps',
+          name: 'project-steps',
+          component: () => import('./views/restqa/steps/RestQASteps.vue')
         }
       ]
     },

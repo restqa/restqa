@@ -22,6 +22,9 @@ describe('Service - RestQA - TeamNote', () => {
       const mockGet = jest.fn().mockResolvedValue(mockData)
       jest.mock('axios', () => {
         return {
+          create: function() {
+            return this
+          },
           get: mockGet
         }
       })
@@ -54,6 +57,9 @@ describe('Service - RestQA - TeamNote', () => {
       const mockGet = jest.fn()
       jest.mock('axios', () => {
         return {
+          create: function() {
+            return this
+          },
           get: mockGet
         }
       })
@@ -93,6 +99,9 @@ describe('Service - RestQA - TeamNote', () => {
       const mockGet = jest.fn().mockResolvedValue(mockData)
       jest.mock('axios', () => {
         return {
+          create: function() {
+            return this
+          },
           get: mockGet
         }
       })
@@ -137,6 +146,9 @@ describe('Service - RestQA - TeamNote', () => {
       const mockGet = jest.fn().mockResolvedValue(mockData)
       jest.mock('axios', () => {
         return {
+          create: function() {
+            return this
+          },
           get: mockGet
         }
       })
@@ -168,6 +180,9 @@ describe('Service - RestQA - TeamNote', () => {
       const mockGet = jest.fn().mockResolvedValue(mockData)
       jest.mock('axios', () => {
         return {
+          create: function() {
+            return this
+          },
           get: mockGet
         }
       })
@@ -193,6 +208,9 @@ describe('Service - RestQA - TeamNote', () => {
       const mockGet = jest.fn().mockResolvedValue(mockData)
       jest.mock('axios', () => {
         return {
+          create: function() {
+            return this
+          },
           get: mockGet
         }
       })

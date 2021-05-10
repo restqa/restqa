@@ -111,10 +111,10 @@ environments:
       const response = await request(server).get('/api/restqa/steps?keyword=when')
       expect(response.status).toBe(200)
       const expectedResult = [{
-        Comment: 'Trigger the api request',
-        Keyword: 'when',
-        Plugin: '@restqa/restqapi',
-        Step: 'I run the API'
+        comment: 'Trigger the api request',
+        keyword: 'when',
+        plugin: '@restqa/restqapi',
+        step: 'I run the API'
       }]
       expect(response.body).toEqual(expectedResult)
     })
@@ -148,9 +148,9 @@ environments:
       const response = await request(server).get('/api/restqa/steps')
       expect(response.status).toBe(200)
       expect(response.body.length > 10).toBe(true)
-      expect(response.body.some(el => el.Keyword === 'given')).toBe(true)
-      expect(response.body.some(el => el.Keyword === 'when')).toBe(true)
-      expect(response.body.some(el => el.Keyword === 'then')).toBe(true)
+      expect(response.body.some(el => el.keyword === 'given')).toBe(true)
+      expect(response.body.some(el => el.keyword === 'when')).toBe(true)
+      expect(response.body.some(el => el.keyword === 'then')).toBe(true)
     })
   })
 

@@ -17,13 +17,21 @@ Controllers.steps = function (req, res, next) {
 
     const keywords = (keyword && [keyword]) || ['given', 'when', 'then']
 
-    const result = keywords.map(keyword => {
-      const options = {
-        keyword,
-        configFile: req.app.get('restqa.configuration')
-      }
-      return RestQA.Steps(options)
-    }).flat()
+    const result = keywords
+      .map(keyword => {
+        const options = {
+          keyword,
+          configFile: req.app.get('restqa.configuration')
+        }
+        return RestQA.Steps(options)
+      })
+      .flat()
+      .map(item => ({
+        plugin: item.Plugin,
+        comment: item.Comment,
+        step: item.Step,
+        keyword: item.Keyword
+      }))
 
     res.json(result)
   } catch (e) {
