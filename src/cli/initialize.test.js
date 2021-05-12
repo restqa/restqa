@@ -153,7 +153,12 @@ describe('#Cli - Initialize', () => {
           },
           script: [
             'restqa run .'
-          ]
+          ],
+          artifacts: {
+            paths: [
+              'report'
+            ]
+          }
         }
       }
       expect(result).toEqual(expectedContent)
@@ -604,7 +609,12 @@ Given I have an example`
           },
           script: [
             'restqa run .'
-          ]
+          ],
+          artifacts: {
+            paths: [
+              'report'
+            ]
+          }
         }
       }
       expect(resultCi).toEqual(expectedContentCi)
