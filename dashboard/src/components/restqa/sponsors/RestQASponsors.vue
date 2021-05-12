@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import VxCard from '../../vx-card/VxCard'
+import VxCard from '../../global/vx-card/VxCard'
 import Loader from '../../utils/loader/Loader'
 import * as Service from '@/services/restqa/info'
 

@@ -5,7 +5,7 @@
       <div class="step-definition" :key="index" v-for="(step, index) in data">
         <div class="plugin">{{ step.plugin }}</div>
         <div class="keyword">{{ step.keyword }}</div>
-        <div class="step">{{ step.step }}</div>
+        <prism class="step" language="gherkin">{{ step.step }}</prism>
         <div class="comment">{{ step.comment }}</div>
       </div>
     </div>
@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import VxCard from '../../vx-card/VxCard'
+import Prism from 'vue-prism-component'
+import VxCard from '../../global/vx-card/VxCard'
 import Loader from '../../utils/loader/Loader'
 import * as Service from '@/services/restqa/project'
 
@@ -21,7 +22,8 @@ export default {
   name: 'RestQAProjectSteps',
   components: {
     VxCard,
-    Loader
+    Loader,
+    Prism
   },
   props: {
     keyword: {
