@@ -3,6 +3,23 @@ name: CI
 on: [push]
 
 jobs:
+  build-Dashboard:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm run dashboard:install
+      env:
+        CI: true
+    - run: npm run dashboard:test
+      env:
+        CI: true
   build-unix:
     runs-on: ubuntu-latest
     strategy:
@@ -20,8 +37,6 @@ jobs:
     - run: npm test
     - run: npm run test:functional
     - run: npm run example
-    - run: npm run dashboard:install
-    - run: npm run dashboard:test
 
   build-windows:
     runs-on: windows-latest
