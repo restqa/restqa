@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.26] - 2021-05-14
+## [0.0.26] - 2021-05-13
 
 ### Added
 * [Generation of the Performance test scenario compatible with artillery](https://docs.restqa.io/performance/artillery) | [@restqa/restqapi@0.0.18 plugin #66](https://github.com/restqa/restqapi/pull/66)
