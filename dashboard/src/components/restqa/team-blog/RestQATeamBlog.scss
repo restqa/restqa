@@ -1,0 +1,42 @@
+@import '@/assets/scss/vuexy/_variables.scss';
+
+.team-blog{
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .article {
+    h6.title {
+      margin-bottom: 10px;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+
+    img {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    div.date {
+      font-style: italic;
+      text-align: right;
+      font-size: 10px;
+    }
+
+    .author {
+        float: left;
+      img {
+        margin-right: 10px;
+        width: 30px;
+      }
+    }
+  }
+
+  .blog {
+    width: 100%;
+    text-align: center;
+  }
+}

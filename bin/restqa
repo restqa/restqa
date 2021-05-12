@@ -61,14 +61,13 @@ program
   .action(Cli.run)
 
 program
-  .command('editor')
-  .alias('e')
-  .alias('serve')
+  .command('dashboard')
+  .alias('d')
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
   .option('-p, --port <port>', 'Define the running port (default: 8081)')
-  .description('Launch the restqa editor web server')
+  .description('Launch the RestQA Dashboard web server')
   .usage('[options]')
-  .action(Cli.editor)
+  .action(Cli.dashboard)
 
 program
   .command('example')
@@ -93,7 +92,7 @@ main()
     logger.error('> ', e)
     process.exit(1)
   })
-  .finally( () => {
+  .finally(() => {
     if (notifier.update) {
       notifier.notify()
     }

@@ -1,0 +1,406 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  contact:
+    name: RestQA support
+    email: hello@mailqa.io
+  license:
+    name: RestQA
+    url: 'https://restqa.io'
+  title: RestQA 🦏
+  description: |
+    ## Description
+    
+    RestQA also provide a way to control your framework through a set of RestQA API.
+    
+    ### Why ?
+    
+    Actually some project are very specific and could face issue to run the test close to the target environment through Continuous integration.
+    But maybe we can think of a project that is on premise and the best way to test this api is to have an access from inside. Then you can just deploy RestQA on the same server and start playing with the api 🚀
+    
+    ### Installation.
+    
+    You only need 3 steps to access to theses apis:
+    
+    1. Install RestQA `npm i -g @restqa/restqa`
+    2. Initiate a RestQA project `restqa init`
+    3. Run the RestQA server  `restqa serve`
+    
+    
+    From there you should be able to access RestQA from it default port 8081 (https://localhot:8081)
+
+    If you face any issue feel free to connect with us on [Discord](https://restqa.io/chat)
+
+servers:
+  - url: 'http://localhost:8081'
+    description: The Dashboard API host
+    variables:
+      environment:
+        enum:
+          - local
+        default: local
+tags:
+  - name: RestQA
+    description: Main feature of RestQA
+  #- name: Dashboard
+  #  description: Api supporting the Dashboard
+paths:
+  /version:
+    get:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: version
+      summary: retrieve the current version of RestQA
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/version'
+  /api/restqa/steps:
+    get:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: stepDefinition
+      summary: Retrieve the list of step definition
+      parameters:
+      - name: keyword
+        in: query
+        required: false
+        schema:
+          type: string
+          example: when
+          enum:
+          - given
+          - when
+          - then
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/steps'
+        '406':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/restqa/generate:
+    post:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: generateScenario
+      summary: Generate a scenario from a curl command
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cmd:
+                  description: "Curl command to share"
+                  example: "curl https://jsonplaceholder.typicode.com/todos/1"
+                  type: "string"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/generate'
+        '406':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/restqa/install:
+    post:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: InstallIntegration
+      summary: Install an integration into the current configuration file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the integration to install
+                  example: "slack"
+                  type: "string"
+                env:
+                  description: The target environment to install the integration
+                  example: "slack"
+                  type: "string"
+                config:
+                  description: Depending on the integration you will need to provide some parameters, check the documentation
+                  example: {
+                    "url": "https://test.webhook.com"
+                  }
+                  type: "object"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/install'
+        '406':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/restqa/run:
+    post:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: InstallIntegration
+      summary: Install an integration into the current configuration file
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  description: The path of the feature file that need to be tested
+                  example: "./test.feature"
+                  type: "string"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/run'
+        '406':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/info:
+    get:
+      tags:
+        - API
+      deprecated: false
+      operationId: Information
+      summary: Retrieve a list usefull information
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/info'
+        '500':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+                    
+definitions:
+  error406:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "The configuration file has an issue"
+  error500:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "Internal server error"
+  version:
+    type: object
+    properties:
+      version:
+        type: string
+        example: 0.0.1
+  steps:
+    type: array
+    items:
+      type: object
+      properties:
+        plugin:
+          type: string
+          example: '@restqa/restapi'
+          description: 'The plugin supporting the step definition'
+        keyword:
+          type: string
+          example: 'when'
+          description: 'The keyword matching the step definition'
+        step:
+          type: string
+          example: 'i run the request'
+          description: 'The step definition matching phrase'
+        comment:
+          type: string
+          example: 'Perform the api request'
+          description: 'A comment about the step definition'
+  generate:
+    type: object
+    properties:
+      scenario:
+        type: string
+        example: 'Given I have the api gateway hosted on \"https://jsonplaceholder.typicode.com\"\n  And I have the path \"/todos/1\"\n  And I have the method \"GET\"\nWhen I run the API\nThen I should receive a response with the status 200\n  And the response body should be equal to:\n  \"\"\"\n{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"delectus aut autem\",\n  \"completed\": false\n}\n  \"\"\"'
+        description: 'The scenario generated from the curl command'
+  install:
+    type: object
+    properties:
+      config:
+        type: string
+        example: 'version: 0.0.1\nmetadata:\n  code: APP\n  name: app\n  description: Configuration generated by restqa init\nenvironments:\n  - name: local\n    default: true\n    plugins:\n      - name: \"@restqa/restqapi\"\n        config:\n          url: https://api.restqa.io\n    outputs:\n      - type: html\n        enabled: true\n      - type: slack\n        enabled: true\n        config:\n          url: http://test.com\n          onlyFailed: false\'
+        description: 'The new version of the file generated'
+  run:
+    type: object
+    example: {
+      "id": "03b27a9c-c9f2-4e4c-8a21-add5ab952b39",
+      "startTime": "2021-05-02T05:29:08+00:00",
+      "name": "app",
+      "key": "APP",
+      "env": "local",
+      "duration": 0.001,
+      "success": true,
+      "durationFormat": "00:00",
+      "timestamp": "2021-05-02T05:29:08+00:00",
+      "type": "testSuite",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "scenarios": {
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "undefined": 0
+      }
+    }
+  info:
+    type: object
+    properties:
+      team:
+        type: object
+        properties:
+          blog:
+            type: object
+            properties:
+              url:
+                type: string
+                example: 'https://medium.com/restqa'
+              lastest:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+                  date:
+                    type: string
+                    example: '2021-02-02 02:24:19'
+                    format: datetime
+                  image:
+                    type: string
+                    example: 'https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png'
+                  author:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        example: '@Olivierodo'
+                      avatar:
+                        type: string
+                        example: 'https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg'
+                  url:
+                    type: string
+                    example: 'https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291'
+          video:
+            type: object
+            properties:
+              url:
+                type: string
+                example: 'https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q'
+              lastest:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: 'RestQA'
+                  date:
+                    type: string
+                    example: '2021-04-17 03:00:30'
+                    format: datetime
+                  image:
+                    type: string
+                    example: 'https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg'
+                  url:
+                    type: string
+                    example: 'https://www.youtube.com/watch?v=EberYFGPZPo'
+          note:
+            type: object
+            properties:
+              message:
+                type: string
+                description: The team note to share
+                example: 'We love RestQA'
+              from:
+                type: string
+                description: Team member that representing the note
+                example: 'John Doe'
+              avatar:
+                type: string
+                description: Team member avatar
+                example: '/avatar/john.png'
+      sponsors:
+        type: array
+        items:
+          type: object
+          properties:
+            url:
+              type: string
+              description: The url of the sponsors website
+              example: 'https://atalent-consulting.com'
+            name:
+              type: string
+              description: The name of the sponsor
+              example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+            logo:
+              type: string
+              description: The logo of the sponsor
+              example: 'https://atalent-consulting.com/logo.png'
+
