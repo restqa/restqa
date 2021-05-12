@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * [Create new command: restqa example](./example) | [#76](https://github.com/restqa/restqa/pull/76)
 
 ### Update
-* [Update the Github action configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/github-action) | [#85](https://github.com/restqa/restqa/pull/85)
+* [Update the Github Action configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/github-action) | [#85](https://github.com/restqa/restqa/pull/85)
+* [Update the Gitlab-CI configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/gitlab-ci) | [#86](https://github.com/restqa/restqa/pull/86)
 
 ## [0.0.25] - 2021-05-04
 
