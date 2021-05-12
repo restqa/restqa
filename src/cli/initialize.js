@@ -198,6 +198,9 @@ initialize.generate = async function (options) {
                 image: 'restqa/restqa',
                 script: [
                   'restqa run .'
+                ],
+                artifacts: [
+                  'report/**'
                 ]
               }
             }]
