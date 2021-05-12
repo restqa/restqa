@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import RestQAProjectSteps from './RestQAProjectSteps.vue'
 import Loader from '../../utils/loader/Loader'
-import VxCard from '../../vx-card/VxCard'
+import VxCard from '../../global/vx-card/VxCard'
 
 afterEach(() => {
   jest.resetModules()
