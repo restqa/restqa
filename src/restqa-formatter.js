@@ -10,6 +10,7 @@ const restqa = {
 const config = new Config(restqa)
 
 const options = {
+  title: 'LET\'S EXPORT TEST RESULT...',
   key: config.metadata.code,
   name: config.metadata.name,
   env: config.environment.name,
