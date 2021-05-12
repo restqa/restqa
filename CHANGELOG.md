@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.26] - 2021-05-14
 
 ### Added
+* [Generation of the Performance test scenario compatible with artillery](https://docs.restqa.io/performance/artillery) | [@restqa/restqapi@0.0.18 plugin #66](https://github.com/restqa/restqapi/pull/66)
 * [Create new command: restqa example](./example) | [#76](https://github.com/restqa/restqa/pull/76)
 
 ### Update
