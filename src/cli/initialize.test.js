@@ -95,6 +95,13 @@ describe('#Cli - Initialize', () => {
               with: {
                 path: 'tests/'
               }
+            }, {
+              name: 'RestQA Report',
+              uses: 'actions/upload-artifact@v2',
+              with: {
+                name: 'restqa-report',
+                path: 'report'
+              }
             }]
           }
         }
