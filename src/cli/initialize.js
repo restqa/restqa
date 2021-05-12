@@ -178,7 +178,12 @@ initialize.generate = async function (options) {
             },
             script: [
               'restqa run .'
-            ]
+            ],
+            artifacts: {
+              paths: [
+                'report'
+              ]
+            }
           }
         }
         createYaml(path.resolve(folder, '.gitlab-ci.yml'), jsonContent)
