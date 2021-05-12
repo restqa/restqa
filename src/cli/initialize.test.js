@@ -204,6 +204,9 @@ describe('#Cli - Initialize', () => {
               image: 'restqa/restqa',
               script: [
                 'restqa run .'
+              ],
+              artifacts: [
+                'report/**'
               ]
             }
           }]
