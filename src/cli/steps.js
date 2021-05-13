@@ -6,11 +6,11 @@ const chalk = require('chalk')
 function getSteps (keyword, options) {
   const result = {}
 
-  const register = (cucumberFn, gerkin, comment, tag) => {
+  const register = (cucumberFn, gherkin, comment, tag) => {
     cucumberFn = cucumberFn.toLowerCase()
     result[cucumberFn] = result[cucumberFn] || []
     result[cucumberFn].push({
-      gerkin,
+      gherkin,
       comment,
       tag,
       plugin: options.plugin
@@ -25,9 +25,9 @@ function getSteps (keyword, options) {
     defineParameterType: () => {},
     setWorldConstructor: () => {},
     setDefaultTimeout: () => {},
-    Given: (gerkin, fn, comment, tag) => register('Given', gerkin, comment, tag),
-    When: (gerkin, fn, comment, tag) => register('When', gerkin, comment, tag),
-    Then: (gerkin, fn, comment, tag) => register('Then', gerkin, comment, tag)
+    Given: (gherkin, fn, comment, tag) => register('Given', gherkin, comment, tag),
+    When: (gherkin, fn, comment, tag) => register('When', gherkin, comment, tag),
+    Then: (gherkin, fn, comment, tag) => register('Then', gherkin, comment, tag)
   }
 
   Bootstrap(cucumber, options)
@@ -111,7 +111,7 @@ module.exports = function (keyword, program) {
     const el = {
       Plugin: r.plugin,
       Keyword: keyword,
-      Step: r.gerkin.replace(/\{([a-z]+)\}/g, chalk.yellow('{$1}')),
+      Step: print ? r.gherkin.replace(/\{([a-z]+)\}/g, chalk.yellow('{$1}')) : r.gherkin,
       Comment: r.comment
     }
 

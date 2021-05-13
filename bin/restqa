@@ -4,10 +4,7 @@ const { program } = require('commander')
 const pkg = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
-const Welcome = require('../src/utils/welcome')
 const updateNotifier = require('update-notifier')
-
-// Welcome()
 
 const notifier = updateNotifier({
   pkg,
@@ -61,14 +58,19 @@ program
   .action(Cli.run)
 
 program
-  .command('editor')
-  .alias('e')
-  .alias('serve')
+  .command('dashboard')
+  .alias('d')
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
   .option('-p, --port <port>', 'Define the running port (default: 8081)')
-  .description('Launch the restqa editor web server')
+  .description('Launch the RestQA Dashboard web server')
   .usage('[options]')
-  .action(Cli.editor)
+  .action(Cli.dashboard)
+
+program
+  .command('example')
+  .alias('ex')
+  .description('Run a simple RestQA example')
+  .action(Cli.example)
 
 program.on('--help', () => {
   /* eslint-disable no-console */
@@ -87,7 +89,7 @@ main()
     logger.error('> ', e)
     process.exit(1)
   })
-  .finally( () => {
+  .finally(() => {
     if (notifier.update) {
       notifier.notify()
     }

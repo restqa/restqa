@@ -1,9 +1,8 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "An all in one test automation runner",
   "scripts": {
-    "start:library": "export $(cat .env | xargs) && ./bin/restqa run ./sample-project",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
@@ -11,8 +10,14 @@
     "lint:fix": "eslint --fix src/ bin/restqa",
     "lint": "eslint src/ bin/restqa",
     "example": "bin/restqa run example/",
-    "editor:install": "npm install --prefix ./editor/client",
-    "editor:build": "npm run build --prefix ./editor/client"
+    "build": "npm run build --prefix ./dashboard",
+    "dashboard:install": "npm install --prefix ./dashboard",
+    "dashboard:serve": "npm run serve --prefix ./dashboard",
+    "dashboard:build": "npm run build",
+    "dashboard:test": "npm run test --prefix ./dashboard",
+    "dashboard:test:watch": "npm run test:watch --prefix ./dashboard",
+    "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml",
+    "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml\""
   },
   "keywords": [
     "api",
@@ -22,12 +27,19 @@
     "cucumber",
     "restqa"
   ],
+  "files": [
+    "dashboard/dist",
+    "src",
+    "bin",
+    "!**/**/*.test.js",
+    "!bin/tests"
+  ],
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "@restqa/cucumber-export": "^0.1.5",
+    "@restqa/cucumber-export": "^0.1.6",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
-    "@restqa/restqapi": "0.0.17",
+    "@restqa/restqapi": "0.0.18",
     "chalk": "^4.0.0",
     "commander": "^6.2.1",
     "console-table-printer": "^1.4.3",
@@ -36,6 +48,7 @@
     "express": "^4.17.1",
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
+    "socket.io": "^4.0.2",
     "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
   },
@@ -51,12 +64,14 @@
     "bats-assert": "git+https://github.com/bats-core/bats-assert.git",
     "bats-file": "git+https://github.com/bats-core/bats-file.git",
     "bats-support": "git+https://github.com/bats-core/bats-support.git",
+    "concurrently": "^6.1.0",
     "eslint": "^7.21.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.2.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
+    "got": "^11.8.2",
     "jest": "^26.6.3",
     "jest-runner-eslint": "^0.10.0",
     "supertest": "^6.1.3"
@@ -75,12 +90,16 @@
     ],
     "projects": [
       {
-        "displayName": "test"
+        "displayName": "test",
+        "testMatch": [
+          "<rootDir>/src/**/*.test.js"
+        ]
       },
       {
         "runner": "jest-runner-eslint",
         "displayName": "lint",
         "testMatch": [
+          "<rootDir>/bin/restqa",
           "<rootDir>/src/**/*.js"
         ]
       }

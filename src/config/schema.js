@@ -40,7 +40,11 @@ function validate (config) {
       ignore: Joi.array()
     }),
     restqa: Joi.object({
-      timeout: Joi.number()
+      timeout: Joi.number(),
+      tips: Joi.object({
+        enabled: Joi.boolean(),
+        messages: Joi.array()
+      })
     })
   })
 

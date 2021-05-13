@@ -147,6 +147,13 @@ initialize.generate = async function (options) {
                 with: {
                   path: 'tests/'
                 }
+              }, {
+                name: 'RestQA Report',
+                uses: 'actions/upload-artifact@v2',
+                with: {
+                  name: 'restqa-report',
+                  path: 'report'
+                }
               }]
             }
           }
@@ -171,7 +178,12 @@ initialize.generate = async function (options) {
             },
             script: [
               'restqa run .'
-            ]
+            ],
+            artifacts: {
+              paths: [
+                'report'
+              ]
+            }
           }
         }
         createYaml(path.resolve(folder, '.gitlab-ci.yml'), jsonContent)
@@ -186,6 +198,9 @@ initialize.generate = async function (options) {
                 image: 'restqa/restqa',
                 script: [
                   'restqa run .'
+                ],
+                artifacts: [
+                  'report/**'
                 ]
               }
             }]

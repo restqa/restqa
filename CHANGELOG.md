@@ -7,14 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.25] - 2021-05-01
+## [0.0.26] - 2021-05-13
+
+### Added
+* [Generation of the Performance test scenario compatible with artillery](https://docs.restqa.io/performance/artillery) | [@restqa/restqapi@0.0.18 plugin #66](https://github.com/restqa/restqapi/pull/66)
+* [Create new command: restqa example](./example) | [#76](https://github.com/restqa/restqa/pull/76)
+* Change the name of the command `restqa editor` to be `restqa dashboard` [preview](https://dashboard.restqa.io) | [#79](https://github.com/restqa/restqa/pull/79)
+
+### Update
+* [Update the Github Action configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/github-action) | [#85](https://github.com/restqa/restqa/pull/85)
+* [Update the Gitlab-CI configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/gitlab-ci) | [#86](https://github.com/restqa/restqa/pull/86)
+* [Update the Bitbucket Pipeline configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/bitbucket-pipeline) | [#87](https://github.com/restqa/restqa/pull/87)
+* [Share small tips with the command output](https://docs.restqa.io/getting-started/configuration#restqatips) | [#90](https://github.com/restqa/restqa/pull/90)
+
+## [0.0.25] - 2021-05-04
 
 ### Added
 * [Enable line App Alerting](https://docs.restqa.io/alerting/line) | [#65](https://github.com/restqa/restqa/pull/65)
 * [Extend RestQA capability through Plugins](https://docs.restqa.io/getting-started/plugins) | [#66](https://github.com/restqa/restqa/pull/66)
 * [Add an example folder](./example) | [#71](https://github.com/restqa/restqa/pull/71)
 * [Option to extend the timeout](http://docs.restqa.io/getting-started/configuration#restqatimeout) | [#72](https://github.com/restqa/restqa/pull/72)
-* 🎁 Setup the new command to start the Editor: `restga editor` | [#74](https://github.com/restqa/restqa/pull/74)
+* 🎁 Setup the new command to start the Editor: `restqa editor` | [#74](https://github.com/restqa/restqa/pull/74)
 
 ### Update
 * improve windows OS compatibility | [#67](https://github.com/restqa/restqa/pull/67)
@@ -124,7 +137,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.25...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.26...HEAD
+[0.0.26]: https://github.com/restqa/restqa/compare/0.0.25...0.0.26
 [0.0.25]: https://github.com/restqa/restqa/compare/0.0.24...0.0.25
 [0.0.24]: https://github.com/restqa/restqa/compare/0.0.23...0.0.24
 [0.0.23]: https://github.com/restqa/restqa/compare/0.0.22...0.0.23

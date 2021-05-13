@@ -1,0 +1,15 @@
+.rej
+*.rej
+*.orig
+bin/
+node_modules/
+vuesax-laravel-starter/node_modules/
+temp/
+versions/
+*.zip
+/bin
+package-lock.json
+docs/.vuepress/dist/
+yarn.lock
+yarn-error.log
+vuexy-shell-scripts

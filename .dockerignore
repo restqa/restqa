@@ -1,0 +1,10 @@
+bin/tests
+tests
+src/**/*.test.js
+coverage
+dashboard/**/*.test.js
+report
+.git
+Dockerfile
+.eslintrc.yml
+.github

@@ -95,6 +95,13 @@ describe('#Cli - Initialize', () => {
               with: {
                 path: 'tests/'
               }
+            }, {
+              name: 'RestQA Report',
+              uses: 'actions/upload-artifact@v2',
+              with: {
+                name: 'restqa-report',
+                path: 'report'
+              }
             }]
           }
         }
@@ -146,7 +153,12 @@ describe('#Cli - Initialize', () => {
           },
           script: [
             'restqa run .'
-          ]
+          ],
+          artifacts: {
+            paths: [
+              'report'
+            ]
+          }
         }
       }
       expect(result).toEqual(expectedContent)
@@ -192,6 +204,9 @@ describe('#Cli - Initialize', () => {
               image: 'restqa/restqa',
               script: [
                 'restqa run .'
+              ],
+              artifacts: [
+                'report/**'
               ]
             }
           }]
@@ -597,7 +612,12 @@ Given I have an example`
           },
           script: [
             'restqa run .'
-          ]
+          ],
+          artifacts: {
+            paths: [
+              'report'
+            ]
+          }
         }
       }
       expect(resultCi).toEqual(expectedContentCi)

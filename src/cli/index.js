@@ -4,5 +4,6 @@ module.exports = {
   generate: require('./generate'),
   initialize: require('./initialize'),
   install: require('./install'),
-  editor: require('./editor')
+  dashboard: require('./dashboard'),
+  example: require('./example')
 }

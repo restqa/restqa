@@ -1,34 +1,26 @@
-beforeEach(() => {
-  global.console = {
-    log: jest.fn()
-  }
-})
-
-afterEach(() => {
-  jest.resetModules()
-})
-
 const chalk = require('chalk')
+const got = require('got')
+
+beforeEach(() => {
+  jest.resetModules()
+  jest.resetAllMocks()
+})
 
 describe('# utils - logger', () => {
-  test('Share a welcome message if the flag is set to true and 1 message is passed', () => {
-    const Welcome = require('./welcome')
+  const Welcome = require('./welcome')
 
+  test('Share a welcome message if the flag is set to true and 1 message is passed', () => {
     const config = {
       enabled: true,
       messages: [
         chalk.bold.green('Hello my friend')
       ]
     }
-    Welcome(config)
-
-    expect(global.console.log.mock.calls).toHaveLength(1)
-    expect(global.console.log.mock.calls[0][0]).toEqual(chalk.bold.green('Hello my friend'))
+    const result = new Welcome(config)
+    expect(result.text).toEqual(chalk.bold.green('Hello my friend'))
   })
 
   test('Share a random welcome message if the flag is set to true and multiple message is passed', () => {
-    const Welcome = require('./welcome')
-
     const config = {
       enabled: true,
       messages: Array(1000).fill(0).map((_, i) => {
@@ -36,65 +28,73 @@ describe('# utils - logger', () => {
       })
     }
 
-    Welcome(config) // First call
-    Welcome(config) // Second call to test randomnes Normally, the result should be different
+    const result1 = new Welcome(config) // First call
+    const result2 = new Welcome(config) // Second call to test randomnes Normally, the result should be different
 
-    expect(global.console.log.mock.calls).toHaveLength(2)
+    expect(config.messages).toEqual(expect.arrayContaining([result1.text]))
+    expect(config.messages).toEqual(expect.arrayContaining([result2.text]))
 
-    const result1 = global.console.log.mock.calls[0][0]
-    const result2 = global.console.log.mock.calls[1][0]
-
-    expect(config.messages).toEqual(expect.arrayContaining([result1]))
-    expect(config.messages).toEqual(expect.arrayContaining([result2]))
-
-    expect(result1).not.toEqual(result2) // The first result should be different to the second result in order to validate the randomness
+    expect(result1.text).not.toEqual(result2.text) // The first result should be different to the second result in order to validate the randomness
   })
 
   test('Do not  Share a welcome message if the flag is set to false', () => {
-    const Welcome = require('./welcome')
-
     const config = {
       enabled: false,
       messages: [
         chalk.bold.green('Hello my friend')
       ]
     }
-    Welcome(config)
+    const { text } = new Welcome(config)
 
-    expect(global.console.log.mock.calls).toHaveLength(0)
+    expect(text).toBeFalsy()
   })
 
   test('Share the default Messages if no messages has been passed into the config', () => {
-    const Welcome = require('./welcome')
-
     const config = {
       enabled: true
     }
-    Welcome(config)
+    const result = new Welcome(config)
 
-    expect(global.console.log.mock.calls).toHaveLength(1)
-    expect(global.console.log.mock.calls[0][0]).not.toBeUndefined()
+    expect(result.text).not.toBeUndefined()
   })
 
   test('Share the default Messages if messages passed are empty into the config', () => {
-    const Welcome = require('./welcome')
-
     const config = {
       enabled: true,
       message: []
     }
-    Welcome(config)
+    const result = new Welcome(config)
 
-    expect(global.console.log.mock.calls).toHaveLength(1)
-    expect(global.console.log.mock.calls[0][0]).not.toBeUndefined()
+    expect(result.text).not.toBeUndefined()
   })
 
   test('Share the default Messages no config is passed', () => {
-    const Welcome = require('./welcome')
+    const result = new Welcome()
 
-    Welcome()
-
-    expect(global.console.log.mock.calls).toHaveLength(1)
-    expect(global.console.log.mock.calls[0][0]).not.toBeUndefined()
+    expect(result.text).not.toBeUndefined()
   })
 })
+
+test('Detect broken link from the messages', async () => {
+  const ignoreList = [
+  ]
+  const mockYellow = jest.fn()
+  jest.mock('chalk', () => {
+    return {
+      yellow: mockYellow,
+      red: jest.fn(),
+      green: jest.fn()
+    }
+  })
+  require('./welcome')
+
+  const list = mockYellow.mock.calls.filter(p => !ignoreList.includes(p[0])).flat()
+
+  for (const url of list) {
+    try {
+      await expect(got(url, { timeout: 2000 })).resolves.not.toBeUndefined()
+    } catch (err) {
+      throw new Error(`${url}: ${err.message}`)
+    }
+  }
+}, 100000)
