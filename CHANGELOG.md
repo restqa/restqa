@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * [Update the Github Action configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/github-action) | [#85](https://github.com/restqa/restqa/pull/85)
 * [Update the Gitlab-CI configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/gitlab-ci) | [#86](https://github.com/restqa/restqa/pull/86)
 * [Update the Bitbucket Pipeline configuration: Upload the test report as an artifact](https://docs.restqa.io/ci-cd/bitbucket-pipeline) | [#87](https://github.com/restqa/restqa/pull/87)
-* Custom message before exporting the result to the different outputs | [#88](https://github.com/restqa/restqa/pull/88)
+* [Share small tips with the command output](https://docs.restqa.io/getting-started/configuration#restqatips) | [#90](https://github.com/restqa/restqa/pull/90)
 
 ## [0.0.25] - 2021-05-04
 
