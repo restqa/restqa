@@ -30,6 +30,7 @@
   "files": [
     "dashboard/dist",
     "src",
+    "example",
     "bin",
     "!**/**/*.test.js",
     "!bin/tests"
