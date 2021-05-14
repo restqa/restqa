@@ -155,4 +155,49 @@ environments:
       expect(server.listening).toBe(true)
     })
   })
+
+  test('Get the http server  starting it', () => {
+    const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+    filename = path.resolve(process.cwd(), '.restqa.yml')
+    fs.writeFileSync(filename, content)
+
+    const mockLogger = {
+      info: jest.fn(),
+      log: jest.fn(),
+      success: jest.fn()
+    }
+
+    jest.mock('../utils/logger', () => {
+      return mockLogger
+    })
+
+    const Dashboard = require('./dashboard')
+    server = Dashboard({
+      serve: false
+    })
+
+    const http = require('http')
+    expect(mockLogger.info.mock.calls).toHaveLength(0)
+    expect(server.constructor.name).toBe(http.createServer().constructor.name)
+  })
 })

@@ -247,4 +247,49 @@ describe('# Index - Step', () => {
       })
     })
   })
+
+  describe('# Index - Dashboard', () => {
+    const http = require('http')
+    let filename
+    afterEach(() => {
+      if (filename && fs.existsSync(filename)) {
+        fs.unlinkSync(filename)
+        filename = undefined
+      }
+    })
+
+    test('Get the http server object', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const opt = {
+        configFile: filename
+      }
+
+      const { Dashboard } = require('./index')
+      const result = Dashboard(opt)
+      expect(result.constructor.name).toBe(http.createServer().constructor.name)
+    })
+  })
 })
