@@ -8,6 +8,7 @@ const Config = require('../config')
 module.exports = function (program) {
   let {
     port = 8081,
+    serve = true,
     config
   } = program
 
@@ -26,10 +27,15 @@ module.exports = function (program) {
   const raw = Config.raw({ configFile: config })
   const options = (raw.restqa || {}).dashboard
 
-  return http.createServer(DashboardServer(config, options))
-    .listen(port, err => {
-      if (err) throw err
-      logger.info(`📝  The configuration file ${config} has been loaded`)
-      logger.info(`🌎  The RestQA dashboard is started and available on the url: http://localhost:${port}`)
-    })
+  const httpSever = http.createServer(DashboardServer(config, options))
+
+  if (serve) {
+    return httpSever
+      .listen(port, err => {
+        if (err) throw err
+        logger.info(`📝  The configuration file ${config} has been loaded`)
+        logger.info(`🌎  The RestQA dashboard is started and available on the url: http://localhost:${port}`)
+      })
+  }
+  return httpSever
 }

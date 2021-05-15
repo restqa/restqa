@@ -2,13 +2,15 @@ const {
   generate,
   install,
   steps,
-  run
+  run,
+  dashboard
 } = require('./cli')
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
 
 async function Initialize () {
+  // @todo
 }
 
 /**
@@ -76,7 +78,7 @@ function Install (options) {
  *
  * @param {Object} options
  * @param {string} options.keyword - The path of the RestQA configuration file (given | then | when)
- * @param {string} options.config - The path of the RestQA configuration file
+ * @param {string} options.configFile - The path of the RestQA configuration file
  * @param {string} options.env - The target environment from the RestQA configuration file
  * @param {string} options.tags - The tag used to filter the steps
  *
@@ -108,7 +110,7 @@ function Steps (options) {
  * Execute RestQA test suite using specific configuration
  *
  * @param {Object} options
- * @param {string} options.config - The path of the RestQA configuration file
+ * @param {string} options.configFile - The path of the RestQA configuration file
  * @param {string} options.env - The target environment from the RestQA configuration file
  * @param {stream.Writable} options.stream - The stream to export the logs
  * @param {array} options.tags - The list of tags
@@ -157,10 +159,41 @@ async function Run (options) {
   return JSON.parse(result)
 }
 
+/**
+ * Expose the RestQA Dashboard using a specific configuration
+ *
+ * @param {Object} options
+ * @param {string} options.configFile - The path of the RestQA configuration file
+ *
+ * @return http.server
+ *
+ * @example
+ *
+ * const { Dashboard } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   configFile: './restqa.yml',
+ * }
+ *
+ * const server = Dashboard(options)
+ * server.listen(8000, () => {
+ *   console.log('The dashboard is running on the port 8000')
+ * })
+ */
+
+function Dashboard (options) {
+  const opt = {
+    config: options.configFile,
+    serve: false
+  }
+  return dashboard(opt)
+}
+
 module.exports = {
   Initialize,
   Generate,
   Install,
   Steps,
+  Dashboard,
   Run
 }
