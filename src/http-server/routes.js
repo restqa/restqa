@@ -3,6 +3,8 @@ const Controllers = require('./controllers')
 
 module.exports = express.Router()
   .get('/version', Controllers.version)
+  .post('/reports', Controllers.createReports)
+  .get('/reports', Controllers.getReports)
   .get('/api/restqa/steps', Controllers.steps)
   .post('/api/restqa/generate', Controllers.generate)
   .post('/api/restqa/install', Controllers.install)
