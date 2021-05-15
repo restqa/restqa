@@ -9,11 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.27] - 2021-05-xx
 
+### Added
+
+* [Expose the dashboard as a module method](https://docs.restqa.io/api/cli#dashboard) | [#91](https://github.com/restqa/restqa/pull/91)
 
 ### Bugfix
 
 * Dashboard UI
-
 
 ## [0.0.26] - 2021-05-13
 
