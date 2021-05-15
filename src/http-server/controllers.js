@@ -2,6 +2,8 @@ const Stream = require('stream')
 const { version } = require('../../package.json')
 const RestQA = require('../../src')
 const Remote = require('./services/remote')
+const Report = require('./services/report')
+const { URL } = require('url')
 
 const Controllers = {}
 
@@ -83,6 +85,45 @@ Controllers.run = async function (req, res, next) {
 Controllers.info = async function (req, res) {
   const result = await Remote.info()
   res.json(result)
+}
+
+Controllers.createReports = async function (req, res, next) {
+  try {
+    const { server } = req.app.get('restqa.options')
+    const outputFolder = server.report.outputFolder
+    const result = await Report.create(outputFolder, req.body)
+    result.url = new URL('http://foo.bar') // Sadly this class can't be instanciate without parameter so let me pass a fake one!
+    result.url.protocol = req.protocol
+    result.url.host = req.headers.host
+    result.url.pathname = server.report.urlPrefixPath + '/' + result.id
+    res
+      .status(201)
+      .json(result)
+  } catch (e) {
+    next(e)
+  }
+}
+
+Controllers.getReports = function (req, res, next) {
+  try {
+    const { server } = req.app.get('restqa.options')
+    const outputFolder = server.report.outputFolder
+    const list = Report.get(outputFolder)
+      .map(item => {
+        const result = {
+          id: item.id,
+          url: new URL('http://foo.bar') // Sadly this class can't be instanciate without parameter so let me pass a fake one!
+        }
+        result.url.protocol = req.protocol
+        result.url.host = req.headers.host
+        result.url.pathname = server.report.urlPrefixPath + '/' + item.id
+        return result
+      })
+    res.json(list)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
 }
 
 module.exports = Controllers

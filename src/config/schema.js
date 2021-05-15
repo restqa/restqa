@@ -41,6 +41,15 @@ function validate (config) {
     }),
     restqa: Joi.object({
       timeout: Joi.number(),
+      dashboard: Joi.object({
+        server: Joi.object({
+          whiteList: Joi.array(),
+          report: Joi.object({
+            urlPrefixPath: Joi.string(),
+            outputFolder: Joi.string()
+          })
+        })
+      }),
       tips: Joi.object({
         enabled: Joi.boolean(),
         messages: Joi.array()

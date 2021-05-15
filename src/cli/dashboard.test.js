@@ -76,6 +76,11 @@ environments:
         enabled: true
         config:
           path: 'my-report.json'
+restqa:
+  dashboard:
+    server:
+      whiteList:
+        - http://localhost:8080
       `
     filename = path.resolve(os.tmpdir(), '.restqa.yml')
     fs.writeFileSync(filename, content)

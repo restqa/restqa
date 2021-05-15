@@ -378,6 +378,146 @@ environments:
     })
   })
 
+  describe('/report', () => {
+    const rimraf = require('rimraf')
+    let reportFolder
+
+    beforeEach(() => {
+      if (fs.existsSync(reportFolder)) {
+        rimraf.sync(reportFolder)
+      }
+    })
+
+    afterEach(() => {
+      if (fs.existsSync(reportFolder)) {
+        rimraf.sync(reportFolder)
+      }
+    })
+
+    test('Create a report for a result using default value', async () => {
+      const jsonBody = {
+        id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
+      }
+
+      reportFolder = path.resolve(process.cwd(), 'reports')
+
+      const config = {}
+      const server = require('./index')(config)
+      const response = await request(server)
+        .post('/reports')
+        .send(jsonBody)
+      expect(response.status).toBe(201)
+      expect(response.body).toEqual({
+        id: jsonBody.id,
+        url: `http://${response.request.req._headers.host}/reports/${jsonBody.id}`
+      })
+      const expectedReport = path.resolve(reportFolder, jsonBody.id, 'index.html')
+      expect(fs.existsSync(expectedReport)).toBe(true)
+    })
+
+    test('Create a report for a result using passed options', async () => {
+      const jsonBody = {
+        id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
+      }
+
+      reportFolder = path.resolve(os.tmpdir(), 'reports')
+
+      const config = {}
+      const options = {
+        server: {
+          report: {
+            urlPrefixPath: '/reports-restqa',
+            outputFolder: reportFolder
+          }
+        }
+      }
+      const server = require('./index')(config, options)
+      const response = await request(server)
+        .post('/reports')
+        .send(jsonBody)
+      expect(response.status).toBe(201)
+      expect(response.body).toEqual({
+        id: jsonBody.id,
+        url: `http://${response.request.req._headers.host}/reports-restqa/${jsonBody.id}`
+      })
+      const expectedReport = path.resolve(reportFolder, jsonBody.id, 'index.html')
+      expect(fs.existsSync(expectedReport)).toBe(true)
+    })
+
+    test('Retrieve the list of report', async () => {
+      const jsonBody = {
+        id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
+      }
+
+      reportFolder = path.resolve(os.tmpdir(), 'reports-gets')
+      fs.mkdirSync(reportFolder)
+
+      const config = {}
+      const options = {
+        server: {
+          report: {
+            outputFolder: reportFolder
+          }
+        }
+      }
+
+      const server = require('./index')(config, options)
+
+      let response = await request(server)
+        .get('/reports')
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual([])
+
+      await request(server)
+        .post('/reports')
+        .send(jsonBody)
+
+      response = await request(server)
+        .get('/reports')
+
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual([{
+        id: jsonBody.id,
+        url: `http://${response.request.req._headers.host}/reports/${jsonBody.id}`
+      }])
+    })
+
+    test('Access to the dashboard', async () => {
+      const jsonBody = {
+        id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
+      }
+
+      reportFolder = path.resolve(os.tmpdir(), 'reports-gets')
+      fs.mkdirSync(reportFolder)
+
+      const config = {}
+      const options = {
+        server: {
+          report: {
+            urlPrefixPath: '/reports-restqa',
+            outputFolder: reportFolder
+          }
+        }
+      }
+
+      const server = require('./index')(config, options)
+
+      let response = await request(server)
+        .get(`/reports-restqa/${jsonBody.id}`)
+      expect(response.status).toBe(404)
+
+      await request(server)
+        .post('/reports')
+        .send(jsonBody)
+
+      response = await request(server)
+        .get(`/reports-restqa/${jsonBody.id}`)
+
+      expect(response.status).toBe(301)
+      expect(response.headers['content-type']).toEqual('text/html; charset=UTF-8')
+    })
+  })
+
   describe('/info', () => {
     test('share data from the remote restqa server', async () => {
       const emitter = new EventEmitter()
