@@ -146,7 +146,7 @@ teardown() {
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   assert_output --partial 'Comment'
-  assert_line --index 3 --partial '══════'
+  # assert_line --index 3 --partial '─────'
   assert_line --index 4 --partial '@restqa/restqapi'
   assert_line --index 4 --partial 'given'
   assert_line --index 4 --partial 'I have the api gateway'
@@ -154,7 +154,7 @@ teardown() {
   assert_line --index 5 --partial 'given'
   assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
   assert_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
-  assert_line --index 6 --partial '══════'
+  # assert_line --index 6 --partial '─────'
   refute_output --partial '@restqa/restqkube'
   refute_output --partial 'I have my cluster'
   refute_output --partial 'Create a cluster instance'
@@ -170,7 +170,7 @@ teardown() {
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   refute_output --partial 'Comment'
-  assert_line --index 3 --partial '══════'
+  # assert_line --index 3 --partial '─────'
   refute_line --index 4 --partial '@restqa/restqapi'
   assert_line --index 4 --partial 'given'
   assert_line --index 4 --partial 'I have the api gateway'
@@ -179,7 +179,7 @@ teardown() {
   assert_line --index 5 --partial 'given'
   assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
   refute_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
-  assert_line --index 6 --partial '══════'
+  # assert_line --index 6 --partial '─────'
 }
 
 @test "[STEPS]> Successfull multi-plugin but filter per tag and medium output" {
@@ -192,7 +192,7 @@ teardown() {
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   refute_output --partial 'Comment'
-  assert_line --index 3 --partial '══════'
+  # assert_line --index 3 --partial '─────'
   assert_line --index 4 --partial '@restqa/restqapi'
   assert_line --index 4 --partial 'given'
   assert_line --index 4 --partial 'I have the api gateway'
@@ -201,5 +201,5 @@ teardown() {
   assert_line --index 5 --partial 'given'
   assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
   refute_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
-  assert_line --index 6 --partial '══════'
+  # assert_line --index 6 --partial '─────'
 }
