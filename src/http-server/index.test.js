@@ -7,8 +7,6 @@ const { EventEmitter } = require('events')
 let filename
 
 afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
   if (filename && fs.existsSync(filename)) {
     fs.unlinkSync(filename)
     filename = undefined
@@ -22,12 +20,19 @@ beforeEach(() => {
   }
 })
 
+jest.mock('../utils/logger', () => {
+  return {
+    info: jest.fn()
+  }
+})
+
+const server = require('./index')
+
 describe('#dashboard > Server', () => {
   describe('cors management', () => {
     test('does not return allows headers if the origin is not on the default white list', async () => {
       const config = {}
-      const server = require('./index')(config)
-      const response = await request(server)
+      const response = await request(server(config))
         .get('/tes-cors')
       expect(response.status).toBe(404)
       expect(response.header['access-control-allow-origin']).toBeUndefined()
@@ -36,8 +41,7 @@ describe('#dashboard > Server', () => {
 
     test('return allows headers if the origin is on the default white list', async () => {
       const config = {}
-      const server = require('./index')(config)
-      const response = await request(server)
+      const response = await request(server(config))
         .get('/tes-cors')
         .set('origin', 'http://localhost:3000')
       expect(response.status).toBe(404)
@@ -52,8 +56,7 @@ describe('#dashboard > Server', () => {
           whiteList: 'https://www.foo-bar.com'
         }
       }
-      const server = require('./index')(config, options)
-      const response = await request(server)
+      const response = await request(server(config, options))
         .get('/tes-cors')
         .set('origin', 'https://www.foo-bar.com')
       expect(response.status).toBe(404)
@@ -66,8 +69,7 @@ describe('#dashboard > Server', () => {
     test('get version', async () => {
       const pkg = require('../../package.json')
       const config = {}
-      const server = require('./index')(config)
-      const response = await request(server).get('/version')
+      const response = await request(server(config)).get('/version')
       expect(response.status).toBe(200)
       expect(response.body.version).toBe(pkg.version)
     })
@@ -76,8 +78,7 @@ describe('#dashboard > Server', () => {
   describe('/api/steps', () => {
     test('throw error if the keyword is not incorrect', async () => {
       const config = {}
-      const server = require('./index')(config)
-      const response = await request(server).get('/api/restqa/steps?keyword=cool')
+      const response = await request(server(config)).get('/api/restqa/steps?keyword=cool')
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('"cool" is not a valid argument. Available: given | when | then')
     })
@@ -107,8 +108,7 @@ environments:
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
-      const server = require('./index')(filename)
-      const response = await request(server).get('/api/restqa/steps?keyword=when')
+      const response = await request(server(filename)).get('/api/restqa/steps?keyword=when')
       expect(response.status).toBe(200)
       const expectedResult = [{
         comment: 'Trigger the api request',
@@ -144,8 +144,7 @@ environments:
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
-      const server = require('./index')(filename)
-      const response = await request(server).get('/api/restqa/steps')
+      const response = await request(server(filename)).get('/api/restqa/steps')
       expect(response.status).toBe(200)
       expect(response.body.length > 10).toBe(true)
       expect(response.body.some(el => el.keyword === 'given')).toBe(true)
@@ -157,8 +156,7 @@ environments:
   describe('/api/generate', () => {
     test('throw error if the command is not a curl command', async () => {
       const config = {}
-      const server = require('./index')(config)
-      const response = await request(server)
+      const response = await request(server(config))
         .post('/api/restqa/generate')
         .send({ cmd: 'ls -lah' })
       expect(response.status).toBe(406)
@@ -168,8 +166,7 @@ environments:
     test('Generate the curl command', async () => {
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
 
-      const server = require('./index')(filename)
-      const response = await request(server)
+      const response = await request(server(filename))
         .post('/api/restqa/generate')
         .send({ cmd: 'curl -X GET https://jsonplaceholder.typicode.com/todos/1' })
       expect(response.status).toBe(200)
@@ -197,7 +194,6 @@ Then I should receive a response with the status 200
   describe('/api/install', () => {
     test('throw error if the integration to install doesn\'t exist', async () => {
       const config = './restqa.yml'
-      const server = require('./index')(config)
       const options = {
         name: 'whatsapp',
         env: 'prod',
@@ -205,7 +201,7 @@ Then I should receive a response with the status 200
           url: 'http://webhook.whatsapp.com/test'
         }
       }
-      const response = await request(server)
+      const response = await request(server(config))
         .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(406)
@@ -214,14 +210,13 @@ Then I should receive a response with the status 200
 
     test('throw error if the env is not passed', async () => {
       const config = './restqa.yml'
-      const server = require('./index')(config)
       const options = {
         name: 'slack',
         config: {
           url: 'http://webhook.slack.com/test'
         }
       }
-      const response = await request(server)
+      const response = await request(server(config))
         .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(406)
@@ -253,7 +248,6 @@ environments:
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
-      const server = require('./index')(filename)
       const options = {
         name: 'slack',
         env: 'prod',
@@ -261,7 +255,7 @@ environments:
           url: 'http://webhook.slack.com/test'
         }
       }
-      const response = await request(server)
+      const response = await request(server(filename))
         .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(406)
@@ -293,7 +287,6 @@ environments:
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
-      const server = require('./index')(filename)
       const options = {
         name: 'slack',
         env: 'local',
@@ -301,7 +294,7 @@ environments:
           url: 'http://webhook.slack.com/test'
         }
       }
-      const response = await request(server)
+      const response = await request(server(filename))
         .post('/api/restqa/install')
         .send(options)
       expect(response.status).toBe(201)
@@ -335,11 +328,10 @@ environments:
   describe('/api/run', () => {
     test('throw error if the configuration file  doesn\'t exist', async () => {
       const config = './.restqa.yml'
-      const server = require('./index')(config)
       const options = {
         env: 'prod'
       }
-      const response = await request(server)
+      const response = await request(server(config))
         .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(406)
@@ -365,12 +357,11 @@ environments:
       `
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
-      const server = require('./index')(filename)
       const options = {
         env: 'local',
         path: path.resolve('./bin/tests/features/success')
       }
-      const response = await request(server)
+      const response = await request(server(filename))
         .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(201)
@@ -402,15 +393,12 @@ environments:
       reportFolder = path.resolve(process.cwd(), 'reports')
 
       const config = {}
-      const server = require('./index')(config)
-      const response = await request(server)
+      const response = await request(server(config))
         .post('/reports')
         .send(jsonBody)
       expect(response.status).toBe(201)
-      expect(response.body).toEqual({
-        id: jsonBody.id,
-        url: `http://${response.request.req._headers.host}/reports/${jsonBody.id}`
-      })
+      expect(response.body.id).toEqual(jsonBody.id)
+      expect(response.body.url).toMatch(new RegExp(`http://127.0.0.1:(\\d{5})/reports/${jsonBody.id}`))
       const expectedReport = path.resolve(reportFolder, jsonBody.id, 'index.html')
       expect(fs.existsSync(expectedReport)).toBe(true)
     })
@@ -431,15 +419,12 @@ environments:
           }
         }
       }
-      const server = require('./index')(config, options)
-      const response = await request(server)
+      const response = await request(server(config, options))
         .post('/reports')
         .send(jsonBody)
       expect(response.status).toBe(201)
-      expect(response.body).toEqual({
-        id: jsonBody.id,
-        url: `http://${response.request.req._headers.host}/reports-restqa/${jsonBody.id}`
-      })
+      expect(response.body.id).toEqual(jsonBody.id)
+      expect(response.body.url).toMatch(new RegExp(`http://127.0.0.1:(\\d{5})/reports-restqa/${jsonBody.id}`))
       const expectedReport = path.resolve(reportFolder, jsonBody.id, 'index.html')
       expect(fs.existsSync(expectedReport)).toBe(true)
     })
@@ -461,25 +446,23 @@ environments:
         }
       }
 
-      const server = require('./index')(config, options)
-
-      let response = await request(server)
+      const svr = server(config, options)
+      let response = await request(svr)
         .get('/reports')
       expect(response.status).toBe(200)
       expect(response.body).toEqual([])
 
-      await request(server)
+      await request(svr)
         .post('/reports')
         .send(jsonBody)
 
-      response = await request(server)
+      response = await request(svr)
         .get('/reports')
 
       expect(response.status).toBe(200)
-      expect(response.body).toEqual([{
-        id: jsonBody.id,
-        url: `http://${response.request.req._headers.host}/reports/${jsonBody.id}`
-      }])
+      expect(response.body).toHaveLength(1)
+      expect(response.body[0].id).toEqual(jsonBody.id)
+      expect(response.body[0].url).toMatch(new RegExp(`http://127.0.0.1:(\\d{5})/reports/${jsonBody.id}`))
     })
 
     test('Access to the dashboard', async () => {
@@ -500,17 +483,16 @@ environments:
         }
       }
 
-      const server = require('./index')(config, options)
-
-      let response = await request(server)
+      const svr = server(config, options)
+      let response = await request(svr)
         .get(`/reports-restqa/${jsonBody.id}`)
       expect(response.status).toBe(404)
 
-      await request(server)
+      await request(svr)
         .post('/reports')
         .send(jsonBody)
 
-      response = await request(server)
+      response = await request(svr)
         .get(`/reports-restqa/${jsonBody.id}`)
 
       expect(response.status).toBe(301)
@@ -519,6 +501,11 @@ environments:
   })
 
   describe('/info', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
     test('share data from the remote restqa server', async () => {
       const emitter = new EventEmitter()
       const mockData = {
