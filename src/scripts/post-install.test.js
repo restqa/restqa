@@ -89,7 +89,7 @@ describe('post-install', () => {
       value: 'linux'
     })
 
-    folder = fs.mkdirSync(path.resolve(process.cwd(), 'node_modules', '@restqa', 'restqa'), { recursive: true })
+    folder = fs.mkdirSync(path.resolve(process.env.PWD, 'node_modules', '@restqa', 'restqa'), { recursive: true })
 
     require('./post-install')
     const expectedOutput = [
