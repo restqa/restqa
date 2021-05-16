@@ -18,7 +18,7 @@ const emptyLine = (N = 1) => Array(N).fill().forEach(_ => print()())
 const separator = () => print()('---')
 
 emptyLine(4)
-print()(`Thanks for trusting  ${chalk.green.bold('RestQA')} ${emoji('🦏 ')}to support you increasing your ${chalk.bold('Software Quality')}`)
+print()(`Thanks for trusting  ${chalk.green.bold('RestQA')} ${emoji('🦏 ')}to support you on increasing your ${chalk.bold('Software Quality')}`)
 print()(`If you like ${chalk.green.bold('RestQA')}, please give us a star ${emoji('⭐️ ')}on Github`)
 if (!fs.existsSync(path.resolve(process.cwd(), 'node_modules', '@restqa', 'restqa'))) {
   separator()
