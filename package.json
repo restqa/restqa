@@ -3,6 +3,8 @@
   "version": "0.0.27",
   "description": "An all in one test automation runner",
   "scripts": {
+    "prepublishOnly": "npm run build",
+    "postinstall": "node src/scripts/post-install.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -11,7 +13,6 @@
     "lint": "eslint src/ bin/restqa",
     "example": "bin/restqa run example/",
     "build": "npm run build --prefix ./dashboard",
-    "prepublishOnly": "npm run build",
     "dashboard:install": "npm install --prefix ./dashboard",
     "dashboard:serve": "npm run serve --prefix ./dashboard",
     "dashboard:build": "npm run build",
@@ -123,5 +124,5 @@
   "bugs": {
     "url": "https://github.com/restqa/restqa/issues"
   },
-  "homepage": "https://github.com/restqa/restqa#readme"
+  "homepage": "https://restqa.io"
 }
