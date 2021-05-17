@@ -50,7 +50,7 @@ describe('post-install', () => {
     ]
     expect(global.console.log).toHaveBeenCalledTimes(expectedOutput.length)
     expectedOutput.forEach((txt, i) => {
-      expect(global.console.log.mock.calls[i][0]).toEqual(txt)
+      expect(global.console.log.mock.calls[i][0]).toMatch(txt)
     })
   })
 
@@ -81,7 +81,7 @@ describe('post-install', () => {
     ]
     expect(global.console.log).toHaveBeenCalledTimes(expectedOutput.length)
     expectedOutput.forEach((txt, i) => {
-      expect(global.console.log.mock.calls[i][0]).toEqual(txt)
+      expect(global.console.log.mock.calls[i][0]).toMatch(txt)
     })
   })
 
@@ -112,7 +112,7 @@ describe('post-install', () => {
     ]
     expect(global.console.log).toHaveBeenCalledTimes(expectedOutput.length)
     expectedOutput.forEach((txt, i) => {
-      expect(global.console.log.mock.calls[i][0]).toEqual(txt)
+      expect(global.console.log.mock.calls[i][0]).toMatch(txt)
     })
   })
 })
