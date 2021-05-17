@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * [Expose the dashboard as a module method](https://docs.restqa.io/api/cli#dashboard) | [#91](https://github.com/restqa/restqa/pull/91)
 * Create a new endpoint on the RestQA server api **/reports** | [#93](https://github.com/restqa/restqa/pull/93)
+* Improve command line performance| [#94](https://github.com/restqa/restqa/pull/94)
 
 ### Bugfix
 
