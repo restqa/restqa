@@ -1,10 +1,9 @@
-const {
-  generate,
-  install,
-  steps,
-  run,
-  dashboard
-} = require('./cli')
+const generate = require('./cli/generate')
+const install = require('./cli/install')
+const steps = require('./cli/steps')
+const run = require('./cli/run')
+const dashboard = require('./cli/dashboard')
+
 const os = require('os')
 const fs = require('fs')
 const path = require('path')

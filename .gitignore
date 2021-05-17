@@ -6,3 +6,5 @@ my-report.json
 restqa-result.json
 **/report
 dist
+.clinic
+tests/
