@@ -6,8 +6,8 @@ const path = require('path')
 describe('post-install', () => {
   let folder
   beforeAll(function () {
-    console.log('-------------->', process.platform)
     this.originalPlatform = process.platform
+    this.originalTTY = process.stdout.isTTY
   })
 
   afterEach(() => {
@@ -20,9 +20,11 @@ describe('post-install', () => {
     if (folder) {
       rimraf.sync(folder)
     }
+    process.stdout.isTTY = this.originalTTY
   })
 
   test('Share a message to the user to get started with RestQA (global installation)', () => {
+    process.stdout.isTTY = true
     global.console = {
       log: jest.fn()
     }
@@ -53,6 +55,7 @@ describe('post-install', () => {
   })
 
   test('Share a message to the user to get started with RestQA on a windows system(global installation)', () => {
+    process.stdout.isTTY = true
     global.console = {
       log: jest.fn()
     }
@@ -83,6 +86,7 @@ describe('post-install', () => {
   })
 
   test('Share a message to the user to get started with RestQA (local installation)', () => {
+    process.stdout.isTTY = true
     global.console = {
       log: jest.fn()
     }
