@@ -20,7 +20,7 @@ const separator = () => print()('---')
 emptyLine(4)
 print()(`Thanks for trusting  ${chalk.green.bold('RestQA')} ${emoji('🦏 ')}to support you on increasing your ${chalk.bold('Software Quality')}`)
 print()(`If you like ${chalk.green.bold('RestQA')}, please give us a star ${emoji('⭐️ ')}on Github`)
-if (!fs.existsSync(path.resolve(process.env.PWD, 'node_modules', '@restqa', 'restqa'))) {
+if (!fs.existsSync(path.resolve(process.env.PWD || process.cwd(), 'node_modules', '@restqa', 'restqa'))) {
   separator()
   print()(`Get started easily by running the command${emoji(' 🚀')}:`)
   print('yellow')(chalk.bold('restqa init'))
