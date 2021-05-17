@@ -1,6 +1,4 @@
 const chalk = require('chalk')
-const fs = require('fs')
-const path = require('path')
 const isWin32 = process.platform === 'win32'
 
 const print = (color = null) => (str = '') => {
@@ -17,14 +15,16 @@ const emoji = emoji => process.stdout.isTTY && !isWin32 ? emoji : ''
 const emptyLine = (N = 1) => Array(N).fill().forEach(_ => print()())
 const separator = () => print()('---')
 
-emptyLine(4)
-print()(`Thanks for trusting  ${chalk.green.bold('RestQA')} ${emoji('🦏 ')}to support you on increasing your ${chalk.bold('Software Quality')}`)
-print()(`If you like ${chalk.green.bold('RestQA')}, please give us a star ${emoji('⭐️ ')}on Github`)
-if (!fs.existsSync(path.resolve(process.env.PWD || process.cwd(), 'node_modules', '@restqa', 'restqa'))) {
+try {
+  emptyLine(4)
+  print()(`Thanks for trusting  ${chalk.green.bold('RestQA')} ${emoji('🦏 ')}to support you on increasing your ${chalk.bold('Software Quality')}`)
+  print()(`If you like ${chalk.green.bold('RestQA')}, please give us a star ${emoji('⭐️ ')}on Github`)
   separator()
   print()(`Get started easily by running the command${emoji(' 🚀')}:`)
   print('yellow')(chalk.bold('restqa init'))
+  separator()
+  print('dim')('https://restqa.io')
+  emptyLine(3)
+} catch(err) {
+  console('Thank for installing RestQA')
 }
-separator()
-print('dim')('https://restqa.io')
-emptyLine(3)
