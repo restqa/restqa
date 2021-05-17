@@ -6,6 +6,7 @@ const path = require('path')
 describe('post-install', () => {
   let folder
   beforeAll(function () {
+    console.log('-------------->', process.platform)
     this.originalPlatform = process.platform
   })
 
