@@ -7,6 +7,7 @@ describe('post-install', () => {
   let folder
   beforeAll(function () {
     this.originalPlatform = process.platform
+    this.originalTTY = process.stdout.isTTY
   })
 
   afterEach(() => {
@@ -19,9 +20,11 @@ describe('post-install', () => {
     if (folder) {
       rimraf.sync(folder)
     }
+    process.stdout.isTTY = this.originalTTY
   })
 
   test('Share a message to the user to get started with RestQA (global installation)', () => {
+    process.stdout.isTTY = true
     global.console = {
       log: jest.fn()
     }
@@ -47,11 +50,12 @@ describe('post-install', () => {
     ]
     expect(global.console.log).toHaveBeenCalledTimes(expectedOutput.length)
     expectedOutput.forEach((txt, i) => {
-      expect(global.console.log.mock.calls[i][0]).toEqual(txt)
+      expect(global.console.log.mock.calls[i][0]).toMatch(txt)
     })
   })
 
   test('Share a message to the user to get started with RestQA on a windows system(global installation)', () => {
+    process.stdout.isTTY = true
     global.console = {
       log: jest.fn()
     }
@@ -77,11 +81,12 @@ describe('post-install', () => {
     ]
     expect(global.console.log).toHaveBeenCalledTimes(expectedOutput.length)
     expectedOutput.forEach((txt, i) => {
-      expect(global.console.log.mock.calls[i][0]).toEqual(txt)
+      expect(global.console.log.mock.calls[i][0]).toMatch(txt)
     })
   })
 
   test('Share a message to the user to get started with RestQA (local installation)', () => {
+    process.stdout.isTTY = true
     global.console = {
       log: jest.fn()
     }
@@ -89,7 +94,7 @@ describe('post-install', () => {
       value: 'linux'
     })
 
-    folder = fs.mkdirSync(path.resolve(process.env.PWD, 'node_modules', '@restqa', 'restqa'), { recursive: true })
+    folder = fs.mkdirSync(path.resolve(process.env.PWD || process.cwd(), 'node_modules', '@restqa', 'restqa'), { recursive: true })
 
     require('./post-install')
     const expectedOutput = [
@@ -107,7 +112,7 @@ describe('post-install', () => {
     ]
     expect(global.console.log).toHaveBeenCalledTimes(expectedOutput.length)
     expectedOutput.forEach((txt, i) => {
-      expect(global.console.log.mock.calls[i][0]).toEqual(txt)
+      expect(global.console.log.mock.calls[i][0]).toMatch(txt)
     })
   })
 })
