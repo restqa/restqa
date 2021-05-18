@@ -1,6 +1,12 @@
 bin:
   init:
     success:
-      welcome: 'Welcone to the Restqa community'
+      welcome: 'Welcome to the Restqa community'
       configFile: '.restqa.yml file created successfully'
       createdFile: '%s file created successfully'
+      firstRun: 'You are ready to run your first test scenario using the command: restqa run'
+service:
+  dashboard:
+    config_loaded: '📝  The configuration file %s has been loaded'
+    server_start: '🌎  The RestQA dashboard is started and available on the url: %s'
+
