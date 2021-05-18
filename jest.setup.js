@@ -34,6 +34,11 @@ global.JestQA = function(filename, unmount = false, debug = false) {
     return create(content, DEFAULT_CONFIG)
   }
 
+  const getLoggerMock = function() {
+    global.console.info = jest.fn()
+    return global.console.info
+  }
+
   const clean = function() {
     if (true === unmount) {
       _log(`unmount mock`)
@@ -81,6 +86,7 @@ global.JestQA = function(filename, unmount = false, debug = false) {
     getCurrent: () => current,
     createTmpFile,
     createCwdConfig,
+    getLoggerMock,
     hooks,
   }
 
