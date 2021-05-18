@@ -7,7 +7,7 @@ const Locale = require('./index')()
 describe('#locale', () => {
   test('get the value from a nested object', () => {
     const result = Locale.get('bin.init.success.welcome')
-    expect(result).toBe('Welcone to the Restqa community')
+    expect(result).toBe('Welcome to the Restqa community')
   })
 
   test('get undefined if the pkey is not found', () => {

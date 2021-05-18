@@ -17,7 +17,7 @@ module.exports = {
     this.log.apply(this, arguments)
   },
   log: function () {
-    console.log.apply(this, arguments)
+    console.info.apply(this, arguments)
   },
   success: function () {
     arguments[0] = Locale.get(arguments[0]) || arguments[0]
