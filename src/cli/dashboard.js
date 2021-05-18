@@ -33,8 +33,8 @@ module.exports = function (program) {
     return httpSever
       .listen(port, err => {
         if (err) throw err
-        logger.info(`📝  The configuration file ${config} has been loaded`)
-        logger.info(`🌎  The RestQA dashboard is started and available on the url: http://localhost:${port}`)
+        logger.info('service.dashboard.config_loaded', config)
+        logger.info('service.dashboard.server_start',`http://localhost:${port}`)
       })
   }
   return httpSever
