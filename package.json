@@ -86,11 +86,9 @@
     }
   },
   "jest": {
+    "verbose": true,
     "watchPlugins": [
       "jest-runner-eslint/watch-fix"
-    ],
-    "watchPathIgnorePatterns": [
-      "<rootDir>/reports/**"
     ],
     "moduleFileExtensions": [
       "js"
@@ -98,6 +96,9 @@
     "projects": [
       {
         "displayName": "test",
+        "setupFilesAfterEnv": [
+          "<rootDir>/jest.setup.js"
+        ],
         "testMatch": [
           "<rootDir>/src/**/*.test.js"
         ]
