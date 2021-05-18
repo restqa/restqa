@@ -25,6 +25,6 @@ try {
   separator()
   print('dim')('https://restqa.io')
   emptyLine(3)
-} catch(err) {
+} catch (err) {
   console('Thank for installing RestQA')
 }
