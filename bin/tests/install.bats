@@ -41,7 +41,7 @@ load 'common.sh'
 }
 
 @test "[INSTALL]> Get Error if the passed environemt doesn't exist (using the alias i)" {
-  answer="jjj" #jjj as 3 times the down arrow keys to select the html output because it doesn't ask any other question
+  answer="jjjj" #jjj as 3 times the down arrow keys to select the html output because it doesn't ask any other question
   run restqa i -c ./bin/tests/features/success/.restqa.yml -e prod <<< $answer
   assert_failure
   assert_output --partial ">  TypeError: \"prod\" is not an environment available in the config file, choose between : local"
