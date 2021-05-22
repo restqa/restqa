@@ -751,6 +751,148 @@ environments:
       expect(result).toEqual(expectedContent)
     })
 
+    test('Throw an error if the wehoook config doesn\'t contain url', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
+
+      const Install = require('./install')
+      const options = {
+        configFile: filename,
+        name: 'webhook',
+        env: 'uat',
+        config: {
+        }
+      }
+
+      expect(() => Install.generate(options)).toThrow('Please specify the Webhook url')
+    })
+
+    test('Add the webhook output into the configuration file in a specific environment', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
+
+      const Install = require('./install')
+      const options = {
+        name: 'webhook',
+        env: 'local',
+        configFile: filename,
+        config: {
+          url: 'https://webhook-example.com'
+        }
+      }
+
+      let result = Install.generate(options)
+      result = YAML.parse(result)
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'webhook',
+            enabled: true,
+            config: {
+              url: 'https://webhook-example.com'
+            }
+          }]
+        }, {
+          name: 'uat',
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://test.uat.com'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+    })
+
     test('Throw an error if the discord config doesn\'t contain the url', () => {
       const content = `
 ---
@@ -1299,6 +1441,9 @@ environments:
         }, {
           name: 'Line (outputs)',
           value: 'line'
+        }, {
+          name: 'Webhook (outputs)',
+          value: 'webhook'
         }, {
           name: 'Html (outputs)',
           value: 'html'
@@ -2278,6 +2423,90 @@ environments:
 
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
       expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "line" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
+    })
+
+    test('Install Webhook when there is only one environment available', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
+
+      const mockPrompt = jest.fn().mockResolvedValue({
+        configFile: filename,
+        config_url: 'https://example-webhook.com'
+      })
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        }
+      })
+
+      const Install = require('./install')
+      await Install('webhook')
+
+      expect(mockPrompt.mock.calls).toHaveLength(1)
+
+      expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What is the Webhook url?')
+      expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_url')
+
+      const result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'webhook',
+            enabled: true,
+            config: {
+              url: 'https://example-webhook.com'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "webhook" outputs addon has been configured successfully')
       expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
   })

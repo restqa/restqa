@@ -22,6 +22,8 @@ service:
     error:
       scenario_generation: "We couldn't create the sample scenario but no worries you can generate it using: restqa generate curl %s -o welcome.feature"
   install:
+    webhook:
+      question: 'What is the Webhook url?'
     success: 
       config_updated: 'The "%s" %s addon has been configured successfully'
       credential_warning: 'Do not forget to use environment variable to secure your sensitive information'
