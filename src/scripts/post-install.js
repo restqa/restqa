@@ -8,7 +8,7 @@ const print = (color = null) => (str = '') => {
   if (color) {
     str = chalk[color](str)
   }
-  console.log(str && leftPadding + str)
+  console.log(str && leftPadding + str) // eslint-disable-line no-console
 }
 
 const emoji = emoji => process.stdout.isTTY && !isWin32 ? emoji : ''

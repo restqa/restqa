@@ -1,9 +1,7 @@
 const path = require('path')
 
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
+const jestqa = new JestQA(__filename, true)
+afterEach(jestqa.afterEach)
 
 describe('# cli - example', () => {
   test('Run the example', async () => {

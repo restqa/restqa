@@ -1,12 +1,12 @@
-afterEach(() => {
-  jest.resetModules()
-})
+const jestqa = new JestQA(__filename, true)
+
+afterEach(jestqa.afterEach)
 
 const Locale = require('./index')()
 
 describe('#locale', () => {
   test('get the value from a nested object', () => {
-    const result = Locale.get('bin.init.success.welcome')
+    const result = Locale.get('service.init.success.welcome')
     expect(result).toBe('Welcome to the Restqa community')
   })
 

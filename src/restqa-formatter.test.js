@@ -1,19 +1,13 @@
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
 const Welcome = require('./utils/welcome')
-
-let filename
 
 const { MESSAGES } = new Welcome()
 
-beforeEach(() => {
-  jest.resetAllMocks()
-  jest.resetModules()
+const jestqa = new JestQA(__filename, true)
 
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
+
+jestqa.hooks.beforeEach = function () {
   delete process.env.RESTQA_ENV
   delete process.env.RESTQA_CONFIG
   delete process.env.RESTQA_TMP_FILE_EXPORT
@@ -25,7 +19,7 @@ beforeEach(() => {
   delete process.env.CI_COMMIT_SHA
   delete process.env.BITBUCKET_COMMIT
   delete process.env.RESTQA_COMMIT_SHA
-})
+}
 
 describe('restqa-formatter', () => {
   test('Export information with default information', () => {
@@ -60,8 +54,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockGetFormatter = jest.fn()
     jest.mock('@restqa/cucumber-export', () => {
@@ -126,9 +119,7 @@ restqa:
   tips:
     enabled: false
       `
-
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockGetFormatter = jest.fn()
     jest.mock('@restqa/cucumber-export', () => {
@@ -195,8 +186,7 @@ restqa:
       - This test is passing!
       `
 
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockGetFormatter = jest.fn()
     jest.mock('@restqa/cucumber-export', () => {
@@ -267,8 +257,7 @@ restqa:
     enabled: false
       `
 
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockGetFormatter = jest.fn()
     jest.mock('@restqa/cucumber-export', () => {
@@ -346,8 +335,7 @@ restqa:
     enabled: false
       `
 
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockGetFormatter = jest.fn()
     jest.mock('@restqa/cucumber-export', () => {
@@ -418,8 +406,7 @@ restqa:
     enabled: false
       `
 
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockGetFormatter = jest.fn()
     jest.mock('@restqa/cucumber-export', () => {
