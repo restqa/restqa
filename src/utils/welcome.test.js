@@ -76,12 +76,14 @@ describe('# utils - welcome', () => {
 
 test('Detect broken link from the messages', async () => {
   const ignoreList = [
+    'https://linkedin.com/company/restqa'
   ]
   const mockYellow = jest.fn()
   jest.mock('chalk', () => {
     return {
       yellow: mockYellow,
       red: jest.fn(),
+      blue: jest.fn(),
       green: jest.fn()
     }
   })
