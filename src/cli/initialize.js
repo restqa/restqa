@@ -4,6 +4,7 @@ const path = require('path')
 const inquirer = require('inquirer')
 const Generate = require('./generate')
 const logger = require('../utils/logger')
+const Locale = require('../locales')()
 
 const WELCOME_API_URL = 'https://restqa.io/welcome.json'
 
@@ -20,26 +21,26 @@ async function initialize (program) {
       type: 'input',
       name: 'name',
       default: answers.name,
-      message: 'Project name:'
+      message: Locale.get('service.init.questions.name')
     }, {
       type: 'input',
       name: 'description',
-      message: 'Description:',
+      message: Locale.get('service.init.questions.description'),
       default: answers.description
     }, {
       type: 'input',
       name: 'url',
-      message: 'Url of the project api:',
+      message: Locale.get('service.init.questions.url'),
       default: answers.url
     }, {
       type: 'input',
       name: 'env',
-      message: 'Environment name of this url (local) ?',
+      message: Locale.get('service.init.questions.environment'),
       default: answers.env
     }, {
       type: 'list',
       name: 'ci',
-      message: 'Do you need a continuous integration configuration ?',
+      message: Locale.get('service.init.questions.ci'),
       default: false,
       choices: [{
         name: 'Github Action',
@@ -59,7 +60,7 @@ async function initialize (program) {
       },
       new inquirer.Separator(),
       {
-        name: 'I want to configure the continuous integration by myself',
+        name: Locale.get('service.init.questions.no_ci'),
         value: false
       }]
     }]

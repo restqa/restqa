@@ -7,6 +7,13 @@ service:
     successful_message: '\n**** SCENARIO GENERATED SUCCESSFULLY ****\n'
     output_file_message: 'The Scenario has been added to the file "%s"'
   init:
+    questions:
+      name: 'Project name:'
+      description: 'Description:'
+      url: 'Url of the project api:'
+      environment: 'Environment name of this url (local) ?'
+      ci: 'Do you need a continuous integration configuration ?'
+      no_ci: 'I want to configure the continuous integration by myself'
     success:
       welcome: 'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
       ci: '%s configuration has been setup. 🔧'
