@@ -3,6 +3,7 @@ const YAML = require('yaml')
 const fs = require('fs')
 const inquirer = require('inquirer')
 const logger = require('../utils/logger')
+const Locale = require('../locales')('service.install')
 
 const LIST = {
   slack: {
@@ -61,6 +62,25 @@ const LIST = {
         config: {
           token: config.token,
           onlyFailed: false
+        }
+      }
+    }
+  },
+  webhook: {
+    type: 'outputs',
+    questions: [{
+      name: 'config_url',
+      message: Locale.get('webhook.question')
+    }],
+    get: (config) => {
+      if (!config.url) {
+        throw new Error('Please specify the Webhook url')
+      }
+      return {
+        type: 'webhook',
+        enabled: true,
+        config: {
+          url: config.url
         }
       }
     }
