@@ -9,4 +9,8 @@ extends:
   - plugin:jest/recommended
 parserOptions:
   ecmaVersion: 12
-rules: {}
+rules:
+  no-control-regex: 0
+  no-console: 2
+globals:
+  JestQA: true

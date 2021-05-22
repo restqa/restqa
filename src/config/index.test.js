@@ -1,24 +1,15 @@
 const fs = require('fs')
 const path = require('path')
 const os = require('os')
-let filename
 
-afterEach(() => {
-  jest.resetModules()
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
-})
+const jestqa = new JestQA(__filename, true)
 
-beforeEach(() => {
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-    filename = undefined
-  }
-})
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
 
 describe('#Config locate', () => {
   const Config = require('./index')
+
   test('Throw an error if the restqa config file doesn\t exist in the current file (no options passed)', () => {
     expect(() => {
       Config.locate()
@@ -26,8 +17,7 @@ describe('#Config locate', () => {
   })
 
   test('Return the file path if the config file is found', () => {
-    filename = path.resolve(process.cwd(), '.restqa.yml')
-    fs.writeFileSync(filename, 'the file content')
+    const filename = jestqa.createCwdConfig('the file content')
 
     const result = Config.locate()
     expect(result).toEqual(filename)
@@ -44,8 +34,7 @@ describe('#Config locate', () => {
   })
 
   test('Return the file path if the config file is found in a specific folder', () => {
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, 'the file content')
+    const filename = jestqa.createTmpFile('the file content', '.restqa.yml')
 
     const result = Config.locate({ configFile: filename })
     expect(result).toEqual(filename)
@@ -58,9 +47,8 @@ describe('#Config locate', () => {
   })
 
   test('Return the config file if the passed path contains a config file', () => {
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, 'the file content')
-    const result = Config.locate({ path: os.tmpdir() })
+    const filename = jestqa.createTmpFile('the file content', '.restqa.yml')
+    const result = Config.locate({ path: path.dirname(filename) })
     expect(result).toEqual(filename)
   })
 
@@ -71,9 +59,9 @@ describe('#Config locate', () => {
   })
 
   test('Return the config file if the passed path contains a config file and a specific config file name', () => {
-    filename = path.resolve(os.tmpdir(), '.example.yml')
+    const filename = jestqa.createTmpFile('the file content', '.example.yml')
     fs.writeFileSync(filename, 'the file content')
-    const result = Config.locate({ configFile: '.example.yml', path: os.tmpdir() })
+    const result = Config.locate({ configFile: '.example.yml', path: path.dirname(filename) })
     expect(result).toEqual(filename)
   })
 })

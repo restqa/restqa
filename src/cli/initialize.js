@@ -4,6 +4,7 @@ const path = require('path')
 const inquirer = require('inquirer')
 const Generate = require('./generate')
 const logger = require('../utils/logger')
+const Locale = require('../locales')()
 
 const WELCOME_API_URL = 'https://restqa.io/welcome.json'
 
@@ -20,26 +21,26 @@ async function initialize (program) {
       type: 'input',
       name: 'name',
       default: answers.name,
-      message: 'Project name:'
+      message: Locale.get('service.init.questions.name')
     }, {
       type: 'input',
       name: 'description',
-      message: 'Description:',
+      message: Locale.get('service.init.questions.description'),
       default: answers.description
     }, {
       type: 'input',
       name: 'url',
-      message: 'Url of the project api:',
+      message: Locale.get('service.init.questions.url'),
       default: answers.url
     }, {
       type: 'input',
       name: 'env',
-      message: 'Environment name of this url (local) ?',
+      message: Locale.get('service.init.questions.environment'),
       default: answers.env
     }, {
       type: 'list',
       name: 'ci',
-      message: 'Do you need a continuous integration configuration ?',
+      message: Locale.get('service.init.questions.ci'),
       default: false,
       choices: [{
         name: 'Github Action',
@@ -59,7 +60,7 @@ async function initialize (program) {
       },
       new inquirer.Separator(),
       {
-        name: 'I want to configure the continuous integration by myself',
+        name: Locale.get('service.init.questions.no_ci'),
         value: false
       }]
     }]
@@ -127,7 +128,7 @@ initialize.generate = async function (options) {
 
   createYaml(path.resolve(folder, '.restqa.yml'), restqaConfig)
 
-  logger.success('.restqa.yml file created successfully')
+  logger.success('service.init.success.welcome')
 
   if (ci) {
     switch (ci) {
@@ -159,11 +160,11 @@ initialize.generate = async function (options) {
           }
         }
 
-        const filepath = '.github/workflows/integration-test.yml'
-        createRecursiveFolder(filepath, folder)
-        createYaml(path.resolve(folder, filepath), jsonContent)
+        const filename = '.github/workflows/integration-test.yml'
+        createRecursiveFolder(filename, folder)
+        createYaml(path.resolve(folder, filename), jsonContent)
 
-        logger.success(filepath + ' file created successfully')
+        logger.success('service.init.success.ci', 'Github Action')
         break
       }
       case 'gitlab-ci': {
@@ -187,7 +188,7 @@ initialize.generate = async function (options) {
           }
         }
         createYaml(path.resolve(folder, '.gitlab-ci.yml'), jsonContent)
-        logger.success('.gitlab-ci.yml file created successfully')
+        logger.success('service.init.success.ci', 'Gitlab CI')
         break
       }
       case 'bitbucket-pipeline': {
@@ -207,7 +208,7 @@ initialize.generate = async function (options) {
           }
         }
         createYaml(path.resolve(folder, 'bitbucket-pipelines.yml'), jsonContent)
-        logger.success('bitbucket-pipelines.yml file created successfully')
+        logger.success('service.init.success.ci', 'Bitbucket Pipeline')
         break
       }
       case 'circle-ci': {
@@ -245,11 +246,11 @@ initialize.generate = async function (options) {
             }
           }
         }
-        const filepath = '.circleci/config.yml'
-        createRecursiveFolder(filepath, folder)
-        createYaml(path.resolve(folder, filepath), jsonContent)
+        const filename = '.circleci/config.yml'
+        createRecursiveFolder(filename, folder)
+        createYaml(path.resolve(folder, filename), jsonContent)
 
-        logger.success(filepath + ' file created successfully')
+        logger.success('service.init.success.ci', 'Circle CI')
         break
       }
       case 'travis': {
@@ -264,11 +265,11 @@ initialize.generate = async function (options) {
             ]
           }
         }
-        const filepath = '.travis.yml'
-        createRecursiveFolder(filepath, folder)
-        createYaml(path.resolve(folder, filepath), jsonContent)
+        const filename = '.travis.yml'
+        createRecursiveFolder(filename, folder)
+        createYaml(path.resolve(folder, filename), jsonContent)
 
-        logger.success(filepath + ' file created successfully')
+        logger.success('service.init.success.ci', 'Travis CI')
         break
       }
       default:
@@ -294,11 +295,11 @@ initialize.generate = async function (options) {
 
     fs.writeFileSync(path.resolve(folder, output), content.join('\n'))
 
-    logger.success('tests/integration/welcome-restqa.feature file created successfully')
+    logger.info('service.init.success.sample')
   } catch (err) {
-    logger.log(`tests/integration/welcome-restqa.feature couldn't be created but no worries you can generate it using: restqa generate curl ${WELCOME_API_URL} -o welcome.feature`)
+    logger.log('service.init.error.scenario_generation', WELCOME_API_URL)
   }
-  logger.info('You are ready to run your first test scenario using the command: restqa run')
+  logger.log('service.init.success.info')
 }
 
 function createYaml (filename, jsonContent) {

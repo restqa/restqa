@@ -3,6 +3,8 @@
   "version": "0.0.27",
   "description": "An all in one test automation runner",
   "scripts": {
+    "prepublishOnly": "npm run build",
+    "postinstall": "node src/scripts/post-install.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -43,7 +45,7 @@
     "@restqa/restqapi": "0.0.18",
     "chalk": "^4.0.0",
     "commander": "^6.2.1",
-    "console-table-printer": "^1.4.3",
+    "console-table-printer": "^2.9.0",
     "cucumber": "^6.0.5",
     "debug": "^4.3.1",
     "express": "^4.17.1",
@@ -84,11 +86,9 @@
     }
   },
   "jest": {
+    "verbose": true,
     "watchPlugins": [
       "jest-runner-eslint/watch-fix"
-    ],
-    "watchPathIgnorePatterns": [
-      "<rootDir>/reports/**"
     ],
     "moduleFileExtensions": [
       "js"
@@ -96,6 +96,9 @@
     "projects": [
       {
         "displayName": "test",
+        "setupFilesAfterEnv": [
+          "<rootDir>/jest.setup.js"
+        ],
         "testMatch": [
           "<rootDir>/src/**/*.test.js"
         ]
@@ -122,5 +125,5 @@
   "bugs": {
     "url": "https://github.com/restqa/restqa/issues"
   },
-  "homepage": "https://github.com/restqa/restqa#readme"
+  "homepage": "https://restqa.io"
 }

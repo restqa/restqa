@@ -2,28 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const os = require('os')
 
+const jestqa = new JestQA(__filename, true)
+
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
+
 describe('#bootstrap', () => {
   let filename
-
-  beforeEach(() => {
-    if (filename && fs.existsSync(filename)) {
-      fs.unlinkSync(filename)
-    }
-  })
-
-  afterEach(() => {
-    if (filename && fs.existsSync(filename)) {
-      fs.unlinkSync(filename)
-    }
-    jest.resetModules()
-    jest.resetAllMocks()
-  })
-
-  jest.mock('./utils/logger', () => {
-    return {
-      info: jest.fn()
-    }
-  })
 
   test('Throw error if the processor is undefined', () => {
     const Bootstrap = require('./bootstrap')
@@ -73,7 +58,6 @@ describe('#bootstrap', () => {
   })
 
   test('Load plugin @restqa/restqapi then run setup the processor', () => {
-    filename = path.resolve(os.tmpdir(), '.restqa-sample.yml')
     const content = `
 ---
 version: 0.0.1
@@ -97,7 +81,7 @@ environments:
       - type: html
         enabled: true
     `
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa-example.yml')
 
     const mockSetup = jest.fn()
     const mockInstancePlugin = {
@@ -169,6 +153,8 @@ environments:
     expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(1)
     expect(mockSetup.mock.calls).toHaveLength(1)
     expect(worldResult._data.get('[[ foo ]]')).toBe('bar')
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1)
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('🎯 The selected environment is: "local"')
   })
 
   test('Load plugin restqapi and restqkube then run setup the processor (+ setup the timeout)', () => {
