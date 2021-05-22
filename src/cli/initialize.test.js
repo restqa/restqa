@@ -79,10 +79,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('.github/workflows/integration-test.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('tests/integration/welcome-restqa.feature file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Github Action configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Gitlab-ci file if selected', async () => {
@@ -125,10 +125,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('.gitlab-ci.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('tests/integration/welcome-restqa.feature file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Gitlab CI configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Bitbucket pipeline file  if selected', async () => {
@@ -166,10 +166,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('bitbucket-pipelines.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('tests/integration/welcome-restqa.feature file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Bitbucket Pipeline configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Circle-ci pipeline file if selected', async () => {
@@ -227,10 +227,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('circleci/config.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('tests/integration/welcome-restqa.feature file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Circle CI configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create travis-ci pipeline file if selected', async () => {
@@ -266,10 +266,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('.travis.yml file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('tests/integration/welcome-restqa.feature file created successfully')
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Travis CI configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Do nothing if any CI hasn\'t been selected', async () => {
@@ -371,9 +371,9 @@ describe('#Cli - Initialize', () => {
 
         expect(jestqa.getLoggerMock().mock.calls).toHaveLength(3)
 
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('tests/integration/welcome-restqa.feature couldn\'t be created but no worries you can generate it using: restqa generate curl https://restqa.io/welcome.json -o welcome.feature')
-        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('We couldn\'t create the sample scenario but no worries you can generate it using: restqa generate curl https://restqa.io/welcome.json -o welcome.feature')
+        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('👉 More information: https://restqa.io/info')
 
         const content = fs.readFileSync(filename).toString('utf-8')
         const YAML = require('yaml')
@@ -433,9 +433,9 @@ describe('#Cli - Initialize', () => {
 
         expect(global.console.info.mock.calls).toHaveLength(3)
 
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('.restqa.yml file created successfully')
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('tests/integration/welcome-restqa.feature file created successfully')
-        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('You are ready to run your first test scenario using the command: restqa run')
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('👉 More information: https://restqa.io/info')
 
         const content = fs.readFileSync(filename).toString('utf-8')
         const YAML = require('yaml')

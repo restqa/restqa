@@ -127,7 +127,7 @@ initialize.generate = async function (options) {
 
   createYaml(path.resolve(folder, '.restqa.yml'), restqaConfig)
 
-  logger.success('service.init.success.config_file')
+  logger.success('service.init.success.welcome')
 
   if (ci) {
     switch (ci) {
@@ -163,7 +163,7 @@ initialize.generate = async function (options) {
         createRecursiveFolder(filename, folder)
         createYaml(path.resolve(folder, filename), jsonContent)
 
-        logger.success('service.init.success.created_file', filename)
+        logger.success('service.init.success.ci', 'Github Action')
         break
       }
       case 'gitlab-ci': {
@@ -187,7 +187,7 @@ initialize.generate = async function (options) {
           }
         }
         createYaml(path.resolve(folder, '.gitlab-ci.yml'), jsonContent)
-        logger.success('service.init.success.created_file', '.gitlab-ci.yml')
+        logger.success('service.init.success.ci', 'Gitlab CI')
         break
       }
       case 'bitbucket-pipeline': {
@@ -207,7 +207,7 @@ initialize.generate = async function (options) {
           }
         }
         createYaml(path.resolve(folder, 'bitbucket-pipelines.yml'), jsonContent)
-        logger.success('service.init.success.created_file', 'bitbucket-pipelines.yml')
+        logger.success('service.init.success.ci', 'Bitbucket Pipeline')
         break
       }
       case 'circle-ci': {
@@ -249,7 +249,7 @@ initialize.generate = async function (options) {
         createRecursiveFolder(filename, folder)
         createYaml(path.resolve(folder, filename), jsonContent)
 
-        logger.success('service.init.success.created_file', filename)
+        logger.success('service.init.success.ci', 'Circle CI')
         break
       }
       case 'travis': {
@@ -268,7 +268,7 @@ initialize.generate = async function (options) {
         createRecursiveFolder(filename, folder)
         createYaml(path.resolve(folder, filename), jsonContent)
 
-        logger.success('service.init.success.created_file', filename)
+        logger.success('service.init.success.ci', 'Travis CI')
         break
       }
       default:
@@ -294,11 +294,11 @@ initialize.generate = async function (options) {
 
     fs.writeFileSync(path.resolve(folder, output), content.join('\n'))
 
-    logger.success('service.init.success.created_file', 'tests/integration/welcome-restqa.feature')
+    logger.info('service.init.success.sample')
   } catch (err) {
-    logger.log('service.init.error.scenario_generation', 'tests/integration/welcome-restqa.feature', WELCOME_API_URL)
+    logger.log('service.init.error.scenario_generation', WELCOME_API_URL)
   }
-  logger.info('service.init.success.first_run')
+  logger.log('service.init.success.info')
 }
 
 function createYaml (filename, jsonContent) {

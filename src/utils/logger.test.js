@@ -28,7 +28,7 @@ describe('# utils - logger', () => {
       const logger = require('./logger')
       logger.error('service.init.success.welcome')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('Welcome to the Restqa community'))
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'))
     })
 
     test('log raw error if the pass parameter is an error Object', () => {
@@ -56,9 +56,9 @@ describe('# utils - logger', () => {
 
     test('Log the information coming from the locale file', () => {
       const logger = require('./logger')
-      logger.info('service.init.success.created_file', 'foo.bar')
+      logger.info('service.select_environment', 'foo.bar')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.blue('foo.bar file created successfully'))
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.blue('🎯 The selected environment is: "foo.bar"'))
     })
   })
 
@@ -72,9 +72,9 @@ describe('# utils - logger', () => {
 
     test('Log the information coming from the locale file', () => {
       const logger = require('./logger')
-      logger.success('service.init.success.created_file', 'foo.bar')
+      logger.success('service.select_environment', 'foo.bar')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.green('foo.bar file created successfully'))
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.green('🎯 The selected environment is: "foo.bar"'))
     })
   })
 
@@ -88,9 +88,9 @@ describe('# utils - logger', () => {
 
     test('Log the information coming from the locale file', () => {
       const logger = require('./logger')
-      logger.warning('service.init.success.created_file', 'foo.bar')
+      logger.warning('service.select_environment', 'foo.bar')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.yellow('foo.bar file created successfully'))
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.yellow('🎯 The selected environment is: "foo.bar"'))
     })
   })
 })

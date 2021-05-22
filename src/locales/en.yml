@@ -8,12 +8,12 @@ service:
     output_file_message: 'The Scenario has been added to the file "%s"'
   init:
     success:
-      welcome: 'Welcome to the Restqa community'
-      config_file: '.restqa.yml file created successfully'
-      created_file: '%s file created successfully'
-      first_run: 'You are ready to run your first test scenario using the command: restqa run'
+      welcome: 'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
+      ci: '%s configuration has been setup. 🔧'
+      sample: '🎁 We created a sample scenario, try it by using the command: restqa run'
+      info: '👉 More information: https://restqa.io/info'
     error:
-      scenario_generation: "%s couldn't be created but no worries you can generate it using: restqa generate curl %s -o welcome.feature"
+      scenario_generation: "We couldn't create the sample scenario but no worries you can generate it using: restqa generate curl %s -o welcome.feature"
   install:
     success: 
       config_updated: 'The "%s" %s addon has been configured successfully'
