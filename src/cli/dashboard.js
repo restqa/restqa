@@ -34,7 +34,7 @@ module.exports = function (program) {
       .listen(port, err => {
         if (err) throw err
         logger.info('service.dashboard.config_loaded', config)
-        logger.info('service.dashboard.server_start',`http://localhost:${port}`)
+        logger.info('service.dashboard.server_start', `http://localhost:${port}`)
       })
   }
   return httpSever

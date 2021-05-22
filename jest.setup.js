@@ -10,6 +10,19 @@ global.JestQA = function(filename, unmount = false, debug = false) {
 
   let current
 
+  const init = function() {
+    current = Object.seal({
+      id: testName + '-' + Math.floor(Math.random() * 10000000) + '-' + Date.now(),
+      files: [
+        DEFAULT_CONFIG
+      ],
+      folders: [],
+      debug: false
+    })
+    tests.push(current)
+    global.console.info = jest.fn()
+  }
+
   const _log = function(msg) {
     (debug ||  current.debug) && console.log(`/JESTSQA/{ ${testName} } ->`, msg)
     return true
@@ -26,16 +39,17 @@ global.JestQA = function(filename, unmount = false, debug = false) {
   }
 
   const createTmpFile = function(content, file) {
+    if (!current) init()
     filename = path.resolve(os.tmpdir(), testName, current.id, file)
     return create(content, filename)
   }
 
   const createCwdConfig = function(content) {
+    if (!current) init()
     return create(content, DEFAULT_CONFIG)
   }
 
   const getLoggerMock = function() {
-    global.console.info = jest.fn()
     return global.console.info
   }
 
@@ -54,20 +68,12 @@ global.JestQA = function(filename, unmount = false, debug = false) {
   }
 
   const hooks = Object.seal({
-    beforEach: null,
+    beforeEach: null,
     afterEach: null
   })
 
   const beforeEach = function() {
-    current = Object.seal({
-      id: testName + '-' + Math.floor(Math.random() * 10000000) + '-' + Date.now(),
-      files: [
-        DEFAULT_CONFIG
-      ],
-      folders: [],
-      debug: false
-    })
-    tests.push(current)
+    init()
     _log(`Creating test ${current.id}`)
     clean()
 
@@ -75,6 +81,7 @@ global.JestQA = function(filename, unmount = false, debug = false) {
   }
 
   const afterEach = function() {
+    if (!current) init()
     clean()
     hooks.afterEach && _log('calling hook afterEach') && hooks.afterEach.call(this)
     current = null

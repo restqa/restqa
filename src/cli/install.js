@@ -218,8 +218,8 @@ async function Install (name, program) {
   const result = Install.generate(answers)
   fs.writeFileSync(configFile, result)
 
-  logger.success(`The "${name}" ${LIST[name].type} addon has been configured successfully`)
-  logger.info('Do not forget to use environment variable to secure your sensitive information')
+  logger.success('service.install.success.config_updated', name, LIST[name].type)
+  logger.info('service.install.success.credential_warning')
 }
 
 Install.generate = function (options) {

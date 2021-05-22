@@ -3,10 +3,9 @@ const os = require('os')
 const fs = require('fs')
 const path = require('path')
 
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
+const jestqa = new JestQA(__filename, true)
+
+afterEach(jestqa.afterEach)
 
 describe('# Index - Generate', () => {
   test('Throw an error if the command is not a curl command', () => {
@@ -250,13 +249,6 @@ describe('# Index - Step', () => {
 
   describe('# Index - Dashboard', () => {
     const http = require('http')
-    let filename
-    afterEach(() => {
-      if (filename && fs.existsSync(filename)) {
-        fs.unlinkSync(filename)
-        filename = undefined
-      }
-    })
 
     test('Get the http server object', async () => {
       const content = `
@@ -280,8 +272,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const opt = {
         configFile: filename

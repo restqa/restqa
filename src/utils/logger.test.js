@@ -11,10 +11,9 @@ const chalk = require('chalk')
 describe('# utils - logger', () => {
   test('log log', () => {
     const logger = require('./logger')
-    logger.log('my msg', 'msg2')
+    logger.log('my msg %s %s', 'msg2', 'msg3')
     expect(global.console.info.mock.calls).toHaveLength(1)
-    expect(global.console.info.mock.calls[0][0]).toEqual('my msg')
-    expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+    expect(global.console.info.mock.calls[0][0]).toEqual('my msg msg2 msg3')
   })
 
   describe('log error', () => {
@@ -22,13 +21,12 @@ describe('# utils - logger', () => {
       const logger = require('./logger')
       logger.error('my error msg', 'msg2')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('my error msg'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('my error msg') + ' msg2')
     })
 
     test('log when the value is coming from then locale file', () => {
       const logger = require('./logger')
-      logger.error('bin.init.success.welcome')
+      logger.error('service.init.success.welcome')
       expect(global.console.info.mock.calls).toHaveLength(1)
       expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('Welcome to the Restqa community'))
     })
@@ -44,8 +42,7 @@ describe('# utils - logger', () => {
       const logger = require('./logger')
       logger.error('my error from %s', 'unit test')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('my error from %s'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('unit test')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.red('my error from unit test'))
     })
   })
 
@@ -54,16 +51,14 @@ describe('# utils - logger', () => {
       const logger = require('./logger')
       logger.info('my info msg', 'msg2')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.blue('my info msg'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.blue('my info msg') + ' msg2')
     })
 
     test('Log the information coming from the locale file', () => {
       const logger = require('./logger')
-      logger.info('bin.init.success.welcome', 'msg2')
+      logger.info('service.init.success.created_file', 'foo.bar')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.blue('Welcome to the Restqa community'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.blue('foo.bar file created successfully'))
     })
   })
 
@@ -72,16 +67,14 @@ describe('# utils - logger', () => {
       const logger = require('./logger')
       logger.success('my success msg', 'msg2')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.green('my success msg'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.green('my success msg') + ' msg2')
     })
 
     test('Log the information coming from the locale file', () => {
       const logger = require('./logger')
-      logger.success('bin.init.success.welcome', 'msg2')
+      logger.success('service.init.success.created_file', 'foo.bar')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.green('Welcome to the Restqa community'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.green('foo.bar file created successfully'))
     })
   })
 
@@ -90,16 +83,14 @@ describe('# utils - logger', () => {
       const logger = require('./logger')
       logger.warning('my success msg', 'msg2')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.yellow('my success msg'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.yellow('my success msg') + ' msg2')
     })
 
     test('Log the information coming from the locale file', () => {
       const logger = require('./logger')
-      logger.warning('bin.init.success.welcome', 'msg2')
+      logger.warning('service.init.success.created_file', 'foo.bar')
       expect(global.console.info.mock.calls).toHaveLength(1)
-      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.yellow('Welcome to the Restqa community'))
-      expect(global.console.info.mock.calls[0][1]).toEqual('msg2')
+      expect(global.console.info.mock.calls[0][0]).toEqual(chalk.bold.yellow('foo.bar file created successfully'))
     })
   })
 })

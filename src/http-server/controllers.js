@@ -121,7 +121,6 @@ Controllers.getReports = function (req, res, next) {
       })
     res.json(list)
   } catch (e) {
-    console.log(e)
     next(e)
   }
 }

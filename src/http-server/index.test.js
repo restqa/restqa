@@ -2,6 +2,7 @@ const request = require('supertest')
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
+const rimraf = require('rimraf')
 const { EventEmitter } = require('events')
 
 let filename
@@ -17,6 +18,13 @@ beforeEach(() => {
   if (filename && fs.existsSync(filename)) {
     fs.unlinkSync(filename)
     filename = undefined
+  }
+})
+
+let buggedReportforlder
+afterAll(() => {
+  if (buggedReportforlder && fs.existsSync(buggedReportforlder)) {
+    rimraf.sync(buggedReportforlder)
   }
 })
 
@@ -370,7 +378,6 @@ environments:
   })
 
   describe('/report', () => {
-    const rimraf = require('rimraf')
     let reportFolder
 
     beforeEach(() => {
@@ -390,7 +397,7 @@ environments:
         id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
       }
 
-      reportFolder = path.resolve(process.cwd(), 'reports')
+      buggedReportforlder = path.resolve(process.cwd(), 'reports')
 
       const config = {}
       const response = await request(server(config))
@@ -399,7 +406,7 @@ environments:
       expect(response.status).toBe(201)
       expect(response.body.id).toEqual(jsonBody.id)
       expect(response.body.url).toMatch(new RegExp(`http://127.0.0.1:(\\d{5})/reports/${jsonBody.id}`))
-      const expectedReport = path.resolve(reportFolder, jsonBody.id, 'index.html')
+      const expectedReport = path.resolve(buggedReportforlder, jsonBody.id, 'index.html')
       expect(fs.existsSync(expectedReport)).toBe(true)
     })
 

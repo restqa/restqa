@@ -1,32 +1,15 @@
-const fs = require('fs')
-const path = require('path')
-const os = require('os')
 const chalk = require('chalk')
 
-let filename
+const jestqa = new JestQA(__filename, true)
 
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
-})
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
 
-beforeEach(() => {
+jestqa.hooks.beforeEach = () => {
   delete process.env.RESTQA_CONFIG
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-    filename = undefined
-  }
-})
+}
 
 describe('#Cli - Steps', () => {
-  jest.mock('../utils/logger', () => {
-    return {
-      info: jest.fn()
-    }
-  })
   test('Throw an error if the keyword is not passed', () => {
     const Steps = require('./steps')
     expect(() => {
@@ -81,8 +64,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
     const opt = {
       env: 'prod',
       config: filename
@@ -115,8 +97,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqapi', () => {
       return function () {
@@ -210,8 +191,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqapi', () => {
       return function () {
@@ -354,8 +334,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqmocki', () => {
       return function () {
@@ -445,8 +424,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqmocki', () => {
       return function () {
@@ -539,8 +517,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqmocki', () => {
       return function () {
@@ -636,8 +613,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa-multiple.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqmocki', () => {
       return function () {
@@ -722,8 +698,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa-tag.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     jest.mock('@restqa/restqapi', () => {
       return function () {

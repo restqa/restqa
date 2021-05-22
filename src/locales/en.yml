@@ -1,12 +1,20 @@
-bin:
-  init:
-    success:
-      welcome: 'Welcome to the Restqa community'
-      configFile: '.restqa.yml file created successfully'
-      createdFile: '%s file created successfully'
-      firstRun: 'You are ready to run your first test scenario using the command: restqa run'
 service:
+  select_environment: '🎯 The selected environment is: "%s"'
   dashboard:
     config_loaded: '📝  The configuration file %s has been loaded'
     server_start: '🌎  The RestQA dashboard is started and available on the url: %s'
-
+  generate:
+    successful_message: '\n**** SCENARIO GENERATED SUCCESSFULLY ****\n'
+    output_file_message: 'The Scenario has been added to the file "%s"'
+  init:
+    success:
+      welcome: 'Welcome to the Restqa community'
+      config_file: '.restqa.yml file created successfully'
+      created_file: '%s file created successfully'
+      first_run: 'You are ready to run your first test scenario using the command: restqa run'
+    error:
+      scenario_generation: "%s couldn't be created but no worries you can generate it using: restqa generate curl %s -o welcome.feature"
+  install:
+    success: 
+      config_updated: 'The "%s" %s addon has been configured successfully'
+      credential_warning: 'Do not forget to use environment variable to secure your sensitive information'
