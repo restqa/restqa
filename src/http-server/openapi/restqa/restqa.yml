@@ -61,6 +61,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/version'
+  /config:
+    get:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: config
+      summary: Retrieve the Restqa Configuration
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/config'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
   /api/restqa/initialize:
     post:
       tags:
@@ -450,6 +482,74 @@ definitions:
         type: string
         example: 'https://exmaple.com/reports/27e2d826-a2fd-4f01-abec-8471333112a5'
         description: 'The url of the generated html report'
+  config:
+    type: object
+    properties:
+      version:
+        type: string
+        example: 0.0.1
+        description: 'The version of the configuration'
+      metadata:
+        type: object
+        properties:
+          code: 
+            type: string
+            example: 'BACKEND-API'
+            description: 'Code of the project'
+          name: 
+            type: string
+            example: 'backend api'
+            description: 'Name of the project'
+          description: 
+            type: string
+            example: 'Backend api used by all the frontends'
+            description: 'Description of your project'
+      environments:
+        type: array
+        items:
+          type: object
+          properties:
+            name: 
+              type: string
+              example: 'uat'
+              description: 'The name of the environements'
+            default: 
+              type: boolean
+              example: true
+              description: 'Define is this environment is the default env'
+            plugins: 
+              type: array
+              description: 'List of plugin enabled for the current environement'
+              items:
+                type: object
+                description: 'Plugin definition'
+                properties:
+                  name:
+                    type: string
+                    description: 'Name of the plugin'
+                    example: '@restqa/restqapi'
+                  config:
+                    type: object
+                    description: 'The configuration of the plugin'
+                    properties:
+                      url:
+                        type: string
+                        description: 'The url of api that required to be tested'
+                        example: 'https://api.example.com'
+            outputs: 
+              type: array
+              items:
+                type: object
+                description: 'The url of the generated html report'
+                properties:
+                  type:
+                    type: string
+                    example: 'html'
+                  enabled:
+                    type: boolean
+                    examplpe: true
+                  config:
+                    type: object
   info:
     type: object
     properties:

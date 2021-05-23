@@ -5,11 +5,23 @@ const RestQA = require('../../src')
 const Remote = require('./services/remote')
 const Report = require('./services/report')
 const { URL } = require('url')
+const YAML = require('yaml')
+const fs = require('fs')
 
 const Controllers = {}
 
 Controllers.version = function (req, res) {
   res.json({ version })
+}
+
+Controllers.config = function (req, res, next) {
+  try {
+    const content = fs.readFileSync(req.app.get('restqa.configuration')).toString('utf-8')
+    const result = YAML.parse(content)
+    res.json(result)
+  } catch (e) {
+    next(e)
+  }
 }
 
 Controllers.steps = function (req, res, next) {

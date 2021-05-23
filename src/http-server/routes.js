@@ -14,6 +14,7 @@ function NoConfigForbidden (req, res, next) {
 
 module.exports = express.Router()
   .get('/version', Controllers.version)
+  .get('/config', NoConfigForbidden, Controllers.config)
   .post('/reports', Controllers.createReports)
   .get('/reports', Controllers.getReports)
   .post('/api/restqa/initialize', Controllers.initialize)

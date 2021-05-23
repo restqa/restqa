@@ -5,6 +5,7 @@ const fs = require('fs')
 const os = require('os')
 const rimraf = require('rimraf')
 const { EventEmitter } = require('events')
+const YAML = require('yaml')
 
 let filename
 
@@ -87,6 +88,46 @@ describe('#dashboard > Server', () => {
       const response = await request(server(config)).get('/version')
       expect(response.status).toBe(200)
       expect(response.body.version).toBe(pkg.version)
+    })
+  })
+
+  describe('/config', () => {
+    test('throw error if server is running on "NO CONFIG" mode', async () => {
+      const config = false
+      const response = await request(server(config)).get('/config')
+      expect(response.status).toBe(403)
+      expect(response.body.message).toBe('Please initiate your RestQA project before using this endpoint.')
+    })
+
+    test('Return the configuration', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: 'restqa/restqapi'
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const response = await request(server(filename))
+        .get('/config')
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(YAML.parse(content))
     })
   })
 
