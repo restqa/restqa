@@ -126,7 +126,8 @@ initialize.generate = async function (options) {
     }]
   }
 
-  createYaml(path.resolve(folder, '.restqa.yml'), restqaConfig)
+  const configFilename = path.resolve(folder, '.restqa.yml')
+  createYaml(configFilename, restqaConfig)
 
   logger.success('service.init.success.welcome')
 
@@ -300,6 +301,7 @@ initialize.generate = async function (options) {
     logger.log('service.init.error.scenario_generation', WELCOME_API_URL)
   }
   logger.log('service.init.success.info')
+  return configFilename
 }
 
 function createYaml (filename, jsonContent) {
