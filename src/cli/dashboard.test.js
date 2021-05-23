@@ -91,6 +91,23 @@ restqa:
     })
   })
 
+  test('Start the server without a config file and using the --no-config option', () => {
+    const Dashboard = require('./dashboard')
+    const config = {
+      config: false
+    }
+    server = Dashboard(config)
+    return new Promise((resolve, reject) => {
+      server.on('listening', () => {
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('🤞  Launching the server on "NO CONFIG" mode')
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
+        resolve()
+      })
+      expect(server.listening).toBe(true)
+    })
+  })
+
   test('Start the server the default config', () => {
     const content = `
 ---

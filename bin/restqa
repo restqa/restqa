@@ -61,6 +61,7 @@ program
 program
   .command('dashboard')
   .alias('d')
+  .option('--no-config', 'Run the dashboad on "no config" mode')
   .option('-c, --config <config>', 'Use a specific .restqa.yml file')
   .option('-p, --port <port>', 'Define the running port (default: 8081)')
   .description('Launch the RestQA Dashboard web server')

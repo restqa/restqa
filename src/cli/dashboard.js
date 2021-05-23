@@ -16,16 +16,18 @@ module.exports = function (program) {
     throw new Error('The port should be a number. (example: 8081)')
   }
 
-  if (!config) {
-    config = path.resolve(process.cwd(), '.restqa.yml')
-  }
+  let options = {}
+  if (config !== false) {
+    if (!config) {
+      config = path.resolve(process.cwd(), '.restqa.yml')
+    }
 
-  if (!fs.existsSync(config)) {
-    throw new Error(`The configuration file "${config}" doesn't exist.`)
+    if (!fs.existsSync(config)) {
+      throw new Error(`The configuration file "${config}" doesn't exist.`)
+    }
+    const raw = Config.raw({ configFile: config })
+    options = (raw.restqa || {}).dashboard
   }
-
-  const raw = Config.raw({ configFile: config })
-  const options = (raw.restqa || {}).dashboard
 
   const httpSever = http.createServer(DashboardServer(config, options))
 
@@ -33,7 +35,11 @@ module.exports = function (program) {
     return httpSever
       .listen(port, err => {
         if (err) throw err
-        logger.info('service.dashboard.config_loaded', config)
+        if (config) {
+          logger.info('service.dashboard.config_loaded', config)
+        } else {
+          logger.info('service.dashboard.no_config')
+        }
         logger.info('service.dashboard.server_start', `http://localhost:${port}`)
       })
   }

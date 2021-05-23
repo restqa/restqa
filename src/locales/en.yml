@@ -2,6 +2,7 @@ service:
   select_environment: '🎯 The selected environment is: "%s"'
   dashboard:
     config_loaded: '📝  The configuration file %s has been loaded'
+    no_config: '🤞  Launching the server on "NO CONFIG" mode'
     server_start: '🌎  The RestQA dashboard is started and available on the url: %s'
   generate:
     successful_message: '\n**** SCENARIO GENERATED SUCCESSFULLY ****\n'
