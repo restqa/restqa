@@ -163,6 +163,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/steps'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
         '406':
           description: Processing Error
           content:
@@ -245,6 +251,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/install'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
         '406':
           description: Processing Error
           content:
@@ -281,6 +293,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/example/reportJSON'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
         '406':
           description: Processing Error
           content:
@@ -362,6 +380,12 @@ paths:
                 $ref: '#/definitions/error500'
                     
 definitions:
+  error403:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "You can't perform this action"
   error406:
     type: object
     properties:

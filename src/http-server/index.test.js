@@ -91,8 +91,15 @@ describe('#dashboard > Server', () => {
   })
 
   describe('/api/steps', () => {
+    test('throw error if server is running on "NO CONFIG" mode', async () => {
+      const config = false
+      const response = await request(server(config)).get('/api/restqa/steps?keyword=cool')
+      expect(response.status).toBe(403)
+      expect(response.body.message).toBe('Please initiate your RestQA project before using this endpoint.')
+    })
+
     test('throw error if the keyword is not incorrect', async () => {
-      const config = {}
+      const config = '.restqa.yml'
       const response = await request(server(config)).get('/api/restqa/steps?keyword=cool')
       expect(response.status).toBe(406)
       expect(response.body.message).toBe('"cool" is not a valid argument. Available: given | when | then')
@@ -316,6 +323,13 @@ Then I should receive a response with the status 200
   })
 
   describe('/api/install', () => {
+    test('throw error if server is running on "NO CONFIG" mode', async () => {
+      const config = false
+      const response = await request(server(config)).post('/api/restqa/install')
+      expect(response.status).toBe(403)
+      expect(response.body.message).toBe('Please initiate your RestQA project before using this endpoint.')
+    })
+
     test('throw error if the integration to install doesn\'t exist', async () => {
       const config = './restqa.yml'
       const options = {
@@ -450,6 +464,13 @@ environments:
   })
 
   describe('/api/run', () => {
+    test('throw error if server is running on "NO CONFIG" mode', async () => {
+      const config = false
+      const response = await request(server(config)).post('/api/restqa/run')
+      expect(response.status).toBe(403)
+      expect(response.body.message).toBe('Please initiate your RestQA project before using this endpoint.')
+    })
+
     test('throw error if the configuration file  doesn\'t exist', async () => {
       const config = './.restqa.yml'
       const options = {
