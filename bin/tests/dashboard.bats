@@ -9,9 +9,11 @@ load 'common.sh'
   assert_success
   [ "${lines[0]}" =  "Usage: restqa dashboard|d [options]" ]
   [ "${lines[1]}" =  "Launch the RestQA Dashboard web server" ]
-  [ "${lines[3]}" =  "  -c, --config <config>  Use a specific .restqa.yml file" ]
-  [ "${lines[4]}" =  "  -p, --port <port>      Define the running port (default: 8081)" ]
-  [ "${lines[5]}" =  "  -h, --help             display help for command" ]
+  [ "${lines[2]}" =  "Options:" ]
+  [ "${lines[3]}" =  "  --no-config            Run the dashboad on \"no config\" mode" ]
+  [ "${lines[4]}" =  "  -c, --config <config>  Use a specific .restqa.yml file" ]
+  [ "${lines[5]}" =  "  -p, --port <port>      Define the running port (default: 8081)" ]
+  [ "${lines[6]}" =  "  -h, --help             display help for command" ]
 }
 
 ## Validation
