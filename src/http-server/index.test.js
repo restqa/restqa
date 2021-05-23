@@ -1,3 +1,4 @@
+const nock = require('nock')
 const request = require('supertest')
 const path = require('path')
 const fs = require('fs')
@@ -6,6 +7,8 @@ const rimraf = require('rimraf')
 const { EventEmitter } = require('events')
 
 let filename
+
+const jestqa = new JestQA(__filename, false)
 
 afterEach(() => {
   if (filename && fs.existsSync(filename)) {
@@ -26,11 +29,15 @@ afterAll(() => {
   if (buggedReportforlder && fs.existsSync(buggedReportforlder)) {
     rimraf.sync(buggedReportforlder)
   }
+  nock.cleanAll()
+  nock.enableNetConnect()
 })
 
 jest.mock('../utils/logger', () => {
   return {
-    info: jest.fn()
+    info: jest.fn(),
+    log: jest.fn(),
+    success: jest.fn()
   }
 })
 
@@ -161,6 +168,106 @@ environments:
     })
   })
 
+  describe('/api/initialize', () => {
+    test('throw error if name is not defined', async () => {
+      const folder = jestqa.getTmpFolder()
+      const config = {}
+      const response = await request(server(config))
+        .post('/api/restqa/initialize')
+        .send({
+          folder
+        })
+      expect(response.status).toBe(406)
+      expect(response.body.message).toBe('Please share a project name.')
+    })
+
+    test('throw error if description is not defined', async () => {
+      const folder = jestqa.getTmpFolder()
+      const config = {}
+      const response = await request(server(config))
+        .post('/api/restqa/initialize')
+        .send({
+          name: 'Backend api',
+          folder
+        })
+      expect(response.status).toBe(406)
+      expect(response.body.message).toBe('Please share a project description.')
+    })
+
+    test('throw error if url is not defined', async () => {
+      const folder = jestqa.getTmpFolder()
+      const config = {}
+      const response = await request(server(config))
+        .post('/api/restqa/initialize')
+        .send({
+          name: 'Backend api',
+          description: 'All the API used by the different frontends',
+          folder
+        })
+      expect(response.status).toBe(406)
+      expect(response.body.message).toBe('Please share a project url.')
+    })
+
+    test('throw error if env is not defined', async () => {
+      const folder = jestqa.getTmpFolder()
+      const config = {}
+      const response = await request(server(config))
+        .post('/api/restqa/initialize')
+        .send({
+          name: 'Backend api',
+          description: 'All the API used by the different frontends',
+          url: 'https://api.example.com',
+          folder
+        })
+      expect(response.status).toBe(406)
+      expect(response.body.message).toBe('Please share a project url environment.')
+    })
+
+    test('throw error if ci tool is invalid', async () => {
+      const folder = jestqa.getTmpFolder()
+      const config = {}
+      const response = await request(server(config))
+        .post('/api/restqa/initialize')
+        .send({
+          name: 'Backend api',
+          description: 'All the API used by the different frontends',
+          url: 'https://api.example.com',
+          ci: 'gocd',
+          env: 'uat',
+          folder
+        })
+      expect(response.status).toBe(406)
+      expect(response.body.message).toBe('The continous integration "gocd" is not supported by RestQa')
+    })
+
+    test('Create a new restqa project', async () => {
+      nock('https://restqa.io')
+        .get('/welcome.json')
+        .reply(200, {
+          foo: 'bar'
+        })
+
+      const folder = jestqa.getTmpFolder()
+      const config = {}
+      const response = await request(server(config))
+        .post('/api/restqa/initialize')
+        .send({
+          name: 'Backend api',
+          description: 'All the API used by the different frontends',
+          url: 'https://api.example.com',
+          env: 'uat',
+          ci: 'gitlab-ci',
+          folder
+        })
+      expect(response.status).toBe(200)
+      expect(response.body.configuration).toBe(path.join(folder, '.restqa.yml'))
+      expect(response.body.folder).toEqual(folder)
+      expect(fs.existsSync(path.join(folder, '.restqa.yml'))).toBe(true)
+      expect(fs.existsSync(path.join(folder, '.gitlab-ci.yml'))).toBe(true)
+      expect(fs.existsSync(path.join(folder, 'tests', 'integration', 'welcome-restqa.feature'))).toBe(true)
+    })
+  })
+
   describe('/api/generate', () => {
     test('throw error if the command is not a curl command', async () => {
       const config = {}
@@ -172,6 +279,15 @@ environments:
     })
 
     test('Generate the curl command', async () => {
+      nock('https://jsonplaceholder.typicode.com')
+        .get('/todos/1')
+        .reply(200, {
+          userId: 1,
+          id: 1,
+          title: 'delectus aut autem',
+          completed: false
+        })
+
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
 
       const response = await request(server(filename))

@@ -17,8 +17,8 @@ const path = require('path')
  * @param {string} options.description - The description of the project
  * @param {string} options.env - The default environment of your project
  * @param {string} options.url - The api url of the current environement
- * @param {options} options.ci - Continuous integration tool that required to be setup
- * @param {options} options.folder - Define the folder where to initiate restqa
+ * @param {options} (optional) options.ci - Continuous integration tool that required to be setup
+ * @param {options} (optional) options.folder - Define the folder where to initiate restqa
  *
  * @return String - path of the configuration file
  *

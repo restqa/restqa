@@ -61,6 +61,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/version'
+  /api/restqa/initialize:
+    post:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: initialize
+      summary: Initialize a RestQA project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - env
+                - url
+              properties:
+                name:
+                  description: The project name
+                  example: "Backend api"
+                  type: "string"
+                description:
+                  description: The project description
+                  example: "All the API used by the different frontends"
+                  type: "string"
+                env:
+                  description: Define the first environement required to be setup
+                  example: "local"
+                  type: "string"
+                url:
+                  description: The host url of the api that required to be tested
+                  example: "https://api.example.com"
+                  type: "string"
+                ci:
+                  description: Define the continuous integration setup wanted
+                  example: "github-action"
+                  type: "string"
+                  enum:
+                    - 'github-action'
+                    - 'gitlab-ci'
+                    - 'bitbucket-pipeline'
+                    - 'circle-ci'
+                    - 'travis'
+                    - 'jenkins'
+                folder:
+                  description: Define the location where the project needs to be initialized
+                  example: "./test-integrations"
+                  type: "string"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  configuration:
+                    type: string
+                    description: 'Location of the restqa configuration file'
+                    example: '/home/john/project/.restqa.yml'
+                  folder:
+                    type: string
+                    description: 'Location of the restqa project folder'
+                    example: '/home/john/project'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
   /api/restqa/steps:
     get:
       tags:

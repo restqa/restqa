@@ -82,54 +82,20 @@ initialize.generate = async function (options) {
   } = options
 
   if (!name) {
-    throw new Error('Please share a project name.')
+    throw new ReferenceError('Please share a project name.')
   }
 
   if (!description) {
-    throw new Error('Please share a project description.')
+    throw new ReferenceError('Please share a project description.')
   }
 
   if (!url) {
-    throw new Error('Please share a project url.')
+    throw new ReferenceError('Please share a project url.')
   }
 
   if (!env) {
-    throw new Error('Please share a project url environment.')
+    throw new ReferenceError('Please share a project url environment.')
   }
-
-  const restqaConfig = {
-    version: '0.0.1',
-    metadata: {
-      code: name.replace(/[^A-Z0-9]+/ig, '-').toUpperCase(),
-      name,
-      description
-    },
-    environments: [{
-      name: env,
-      default: true,
-      plugins: [{
-        name: '@restqa/restqapi',
-        config: {
-          url
-        }
-      }],
-      outputs: [{
-        type: 'html',
-        enabled: true
-      }, {
-        type: 'file',
-        enabled: true,
-        config: {
-          path: 'restqa-result.json'
-        }
-      }]
-    }]
-  }
-
-  const configFilename = path.resolve(folder, '.restqa.yml')
-  createYaml(configFilename, restqaConfig)
-
-  logger.success('service.init.success.welcome')
 
   if (ci) {
     switch (ci) {
@@ -274,9 +240,43 @@ initialize.generate = async function (options) {
         break
       }
       default:
-        throw new Error(`The continous integration "${ci}" is not supported by RestQa`)
+        throw new ReferenceError(`The continous integration "${ci}" is not supported by RestQa`)
     }
   }
+
+  const restqaConfig = {
+    version: '0.0.1',
+    metadata: {
+      code: name.replace(/[^A-Z0-9]+/ig, '-').toUpperCase(),
+      name,
+      description
+    },
+    environments: [{
+      name: env,
+      default: true,
+      plugins: [{
+        name: '@restqa/restqapi',
+        config: {
+          url
+        }
+      }],
+      outputs: [{
+        type: 'html',
+        enabled: true
+      }, {
+        type: 'file',
+        enabled: true,
+        config: {
+          path: 'restqa-result.json'
+        }
+      }]
+    }]
+  }
+
+  const configFilename = path.resolve(folder, '.restqa.yml')
+  createYaml(configFilename, restqaConfig)
+
+  logger.success('service.init.success.welcome')
 
   try {
     const curl = ['curl', WELCOME_API_URL]

@@ -1,4 +1,5 @@
 const Stream = require('stream')
+const path = require('path')
 const { version } = require('../../package.json')
 const RestQA = require('../../src')
 const Remote = require('./services/remote')
@@ -36,6 +37,18 @@ Controllers.steps = function (req, res, next) {
       }))
 
     res.json(result)
+  } catch (e) {
+    next(e)
+  }
+}
+
+Controllers.initialize = async function (req, res, next) {
+  try {
+    const result = await RestQA.Initialize(req.body || {})
+    res.json({
+      configuration: result,
+      folder: path.dirname(result)
+    })
   } catch (e) {
     next(e)
   }
