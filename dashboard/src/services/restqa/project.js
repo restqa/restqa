@@ -10,7 +10,19 @@ async function getStepDefinition (keyword) {
   return result.data
 }
 
+async function getConfig () {
+  const result = await Http().get('/config')
+  return result.data
+}
+
+async function initialize (data) {
+  const result = await Http().post('/api/restqa/initialize', data)
+  return result.data
+}
+
 export  {
-  getStepDefinition
+  getStepDefinition,
+  getConfig,
+  initialize
 }
 
