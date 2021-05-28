@@ -53,6 +53,7 @@ export default {
           text: '🚀🚀 Your project has been created successfully!',
           type: 'success'
         }
+        this.$store.dispatch('config')
       } catch (e) {
         this.alert = {
           text: e.message,
@@ -60,7 +61,6 @@ export default {
         }
       }
       this.loader = false
-
     }
   }
 }

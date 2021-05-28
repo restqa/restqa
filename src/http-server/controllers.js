@@ -61,6 +61,7 @@ Controllers.initialize = async function (req, res, next) {
       configuration: result,
       folder: path.dirname(result)
     })
+    req.app.set('restqa.configuration', result)
   } catch (e) {
     next(e)
   }

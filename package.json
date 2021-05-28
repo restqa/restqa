@@ -19,7 +19,7 @@
     "dashboard:test": "npm run test --prefix ./dashboard",
     "dashboard:test:watch": "npm run test:watch --prefix ./dashboard",
     "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml",
-    "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml\""
+    "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard --no-config\""
   },
   "keywords": [
     "api",

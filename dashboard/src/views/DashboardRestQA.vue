@@ -1,18 +1,18 @@
 <template>
   <div id="dashboard-analytics">
-    <div class="vx-col w-full lg:w-1/3 mb-base" >
+    <div class="vx-col w-full lg:w-1/3 mb-base" v-if="!hasConfig">
       <RestQAProjectInit />
     </div>
-    <div class="vx-col w-full lg:w-1/3 mb-base" >
+    <div class="vx-col w-full lg:w-1/3 mb-base"  v-if="hasConfig">
       <RestQATeamNote />
     </div>
-    <div class="vx-col w-full lg:w-1/3 mb-base" >
+    <div class="vx-col w-full lg:w-1/3 mb-base"  v-if="hasConfig">
       <RestQATeamBlog />
     </div>
-    <div class="vx-col w-full lg:w-1/3 mb-base" >
+    <div class="vx-col w-full lg:w-1/3 mb-base"  v-if="hasConfig">
       <RestQATeamVideo />
     </div>
-    <div class="vx-col w-full lg:w-1/3 mb-base" >
+    <div class="vx-col w-full lg:w-1/3 mb-base"  v-if="hasConfig">
       <RestQASponsors />
     </div>
   </div>
@@ -26,9 +26,6 @@ import RestQASponsors from '@/components/restqa/sponsors/RestQASponsors.vue'
 import RestQAProjectInit from '@/components/restqa/project-init/RestQAProjectInit.vue'
 
 export default {
-  data () {
-    return {}
-  },
   components: {
     RestQATeamNote,
     RestQATeamBlog,
@@ -36,7 +33,13 @@ export default {
     RestQASponsors,
     RestQAProjectInit
   },
+  computed: {
+    hasConfig () {
+      return Boolean(this.$store.getters.config)
+    }
+  },
   created () {
+    this.$store.dispatch('config')
   }
 }
 </script>

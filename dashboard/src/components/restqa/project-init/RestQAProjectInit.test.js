@@ -1,7 +1,12 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
 import RestQAProjectInit from './RestQAProjectInit.vue'
 import Loader from '../../utils/loader/Loader'
 import { ForbiddenError, ValidationError } from '../../../services/http'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+
 
 afterEach(() => {
   jest.resetModules()
@@ -9,6 +14,25 @@ afterEach(() => {
 })
 
 describe('RestQAProjectInit', () => {
+  let actions
+  let store
+
+  beforeEach(() => {
+    actions = {
+      config: jest.fn()
+    }
+
+    store = new Vuex.Store({
+      modules: {
+        restqa: {
+          state: {},
+          actions,
+          getters: {}
+        }
+      }
+    })
+  })
+
   test('Should show an error if the name is not defined when we try to trigger the initialization', async () => {
     const err = new ValidationError('Please share a project name.')
     const Service = {
@@ -17,7 +41,7 @@ describe('RestQAProjectInit', () => {
     const component = shallowMount(RestQAProjectInit, {
       data() {
         return {
-          Service 
+          Service
         }
       }
     })
@@ -115,6 +139,8 @@ describe('RestQAProjectInit', () => {
       })
     }
     const component = shallowMount(RestQAProjectInit, {
+      localVue,
+      store,
       data() {
         return {
           Service 
@@ -152,6 +178,7 @@ describe('RestQAProjectInit', () => {
     
     expect(Service.initialize).toHaveBeenCalledTimes(1)
     expect(Service.initialize.mock.calls[0][0]).toEqual(expectedData)
+    expect(actions.config).toHaveBeenCalledTimes(1)
 
     await component.vm.$nextTick()
 

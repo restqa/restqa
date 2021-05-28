@@ -297,7 +297,8 @@ environments:
 
       const folder = jestqa.getTmpFolder()
       const config = {}
-      const response = await request(server(config))
+      const srv = server(config)
+      const response = await request(srv)
         .post('/api/restqa/initialize')
         .send({
           name: 'Backend api',
@@ -313,6 +314,9 @@ environments:
       expect(fs.existsSync(path.join(folder, '.restqa.yml'))).toBe(true)
       expect(fs.existsSync(path.join(folder, '.gitlab-ci.yml'))).toBe(true)
       expect(fs.existsSync(path.join(folder, 'tests', 'integration', 'welcome-restqa.feature'))).toBe(true)
+
+      const responseConfig = await request(srv).get('/config')
+      expect(responseConfig.status).toBe(200)
     })
   })
 
