@@ -28,7 +28,7 @@ Welcome.prototype.MESSAGES = [
    `"${chalk.green('restqa steps')}" then gives you all the Then step definition available`,
    `Use the tag ${chalk.blue('@skip')} to ignore a feature or a scenario`,
    `Get your data from an excel file : ${chalk.yellow('https://docs.restqa.io/data/excel')}`,
-   `🍺 Help us to grow by sharing your love about ${chalk.red('RestQA')}) on the social media.`,
+   `🍺 Help us to grow by sharing your love about ${chalk.red('RestQA')} on the social media.`,
    `Support us on Linkedin: ${chalk.yellow('https://linkedin.com/company/restqa')}`,
    `👀 Have you tried to run the command: ${chalk.green('restqa install')}`,
    `🎁 Something is happening… Try : ${chalk.green('restqa dashboard')}`,
