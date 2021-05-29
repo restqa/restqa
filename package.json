@@ -19,7 +19,8 @@
     "dashboard:test": "npm run test --prefix ./dashboard",
     "dashboard:test:watch": "npm run test:watch --prefix ./dashboard",
     "dashboard:example": "npm run dashboard:build && ./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml",
-    "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard -c ./bin/tests/features/success/.restqa.yml\""
+    "dashboard:dev": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard -c ./bin/tests/features/multi-env/.restqa.yml\"",
+    "dashboard:dev:no-config": "concurrently \"npm run dashboard:serve\" \"./bin/restqa dashboard --no-config\""
   },
   "keywords": [
     "api",
@@ -77,6 +78,7 @@
     "got": "^11.8.2",
     "jest": "^26.6.3",
     "jest-runner-eslint": "^0.10.0",
+    "nock": "^13.0.11",
     "rimraf": "^3.0.2",
     "supertest": "^6.1.3"
   },

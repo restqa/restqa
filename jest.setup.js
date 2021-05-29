@@ -38,9 +38,18 @@ global.JestQA = function(filename, unmount = false, debug = false) {
     return filename
   }
 
+  const getTmpFolder = function() {
+    if (!current) init()
+    const folderName = path.resolve(os.tmpdir(), testName, current.id)
+    if (!fs.existsSync(folderName)) {
+      fs.mkdirSync(folderName, {recursive: true})
+    }
+    return folderName
+  }
+
   const createTmpFile = function(content, file) {
     if (!current) init()
-    filename = path.resolve(os.tmpdir(), testName, current.id, file)
+    filename = path.resolve(getTmpFolder(), file)
     return create(content, filename)
   }
 
@@ -65,6 +74,10 @@ global.JestQA = function(filename, unmount = false, debug = false) {
         _log(`deleting file ${file}`)
         fs.existsSync(file) && fs.unlinkSync(file)
       })
+
+    if (fs.existsSync(getTmpFolder())) {
+      rimraf.sync(getTmpFolder())
+    }
   }
 
   const hooks = Object.seal({
@@ -91,6 +104,7 @@ global.JestQA = function(filename, unmount = false, debug = false) {
     beforeEach,
     afterEach,
     getCurrent: () => current,
+    getTmpFolder,
     createTmpFile,
     createCwdConfig,
     getLoggerMock,

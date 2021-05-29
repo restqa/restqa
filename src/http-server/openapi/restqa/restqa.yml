@@ -61,6 +61,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/version'
+  /config:
+    get:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: config
+      summary: Retrieve the Restqa Configuration
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/config'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/restqa/initialize:
+    post:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: initialize
+      summary: Initialize a RestQA project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - description
+                - env
+                - url
+              properties:
+                name:
+                  description: The project name
+                  example: "Backend api"
+                  type: "string"
+                description:
+                  description: The project description
+                  example: "All the API used by the different frontends"
+                  type: "string"
+                env:
+                  description: Define the first environement required to be setup
+                  example: "local"
+                  type: "string"
+                url:
+                  description: The host url of the api that required to be tested
+                  example: "https://api.example.com"
+                  type: "string"
+                ci:
+                  description: Define the continuous integration setup wanted
+                  example: "github-action"
+                  type: "string"
+                  enum:
+                    - 'github-action'
+                    - 'gitlab-ci'
+                    - 'bitbucket-pipeline'
+                    - 'circle-ci'
+                    - 'travis'
+                    - 'jenkins'
+                folder:
+                  description: Define the location where the project needs to be initialized
+                  example: "./test-integrations"
+                  type: "string"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  configuration:
+                    type: string
+                    description: 'Location of the restqa configuration file'
+                    example: '/home/john/project/.restqa.yml'
+                  folder:
+                    type: string
+                    description: 'Location of the restqa project folder'
+                    example: '/home/john/project'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
   /api/restqa/steps:
     get:
       tags:
@@ -86,6 +195,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/steps'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
         '406':
           description: Processing Error
           content:
@@ -168,6 +283,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/install'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
         '406':
           description: Processing Error
           content:
@@ -204,6 +325,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/example/reportJSON'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
         '406':
           description: Processing Error
           content:
@@ -285,6 +412,12 @@ paths:
                 $ref: '#/definitions/error500'
                     
 definitions:
+  error403:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "You can't perform this action"
   error406:
     type: object
     properties:
@@ -349,6 +482,74 @@ definitions:
         type: string
         example: 'https://exmaple.com/reports/27e2d826-a2fd-4f01-abec-8471333112a5'
         description: 'The url of the generated html report'
+  config:
+    type: object
+    properties:
+      version:
+        type: string
+        example: 0.0.1
+        description: 'The version of the configuration'
+      metadata:
+        type: object
+        properties:
+          code: 
+            type: string
+            example: 'BACKEND-API'
+            description: 'Code of the project'
+          name: 
+            type: string
+            example: 'backend api'
+            description: 'Name of the project'
+          description: 
+            type: string
+            example: 'Backend api used by all the frontends'
+            description: 'Description of your project'
+      environments:
+        type: array
+        items:
+          type: object
+          properties:
+            name: 
+              type: string
+              example: 'uat'
+              description: 'The name of the environements'
+            default: 
+              type: boolean
+              example: true
+              description: 'Define is this environment is the default env'
+            plugins: 
+              type: array
+              description: 'List of plugin enabled for the current environement'
+              items:
+                type: object
+                description: 'Plugin definition'
+                properties:
+                  name:
+                    type: string
+                    description: 'Name of the plugin'
+                    example: '@restqa/restqapi'
+                  config:
+                    type: object
+                    description: 'The configuration of the plugin'
+                    properties:
+                      url:
+                        type: string
+                        description: 'The url of api that required to be tested'
+                        example: 'https://api.example.com'
+            outputs: 
+              type: array
+              items:
+                type: object
+                description: 'The url of the generated html report'
+                properties:
+                  type:
+                    type: string
+                    example: 'html'
+                  enabled:
+                    type: boolean
+                    examplpe: true
+                  config:
+                    type: object
   info:
     type: object
     properties:
