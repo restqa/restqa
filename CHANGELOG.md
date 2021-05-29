@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.28] - 2021-06-XX
+
 ## [0.0.27] - 2021-05-29
 
 ### Added
@@ -152,7 +154,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.27...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.28...HEAD
+[0.0.28]: https://github.com/restqa/restqa/compare/0.0.26...0.0.28
 [0.0.27]: https://github.com/restqa/restqa/compare/0.0.26...0.0.27
 [0.0.26]: https://github.com/restqa/restqa/compare/0.0.25...0.0.26
 [0.0.25]: https://github.com/restqa/restqa/compare/0.0.24...0.0.25
