@@ -131,9 +131,9 @@ module.exports = async function (parentProgram) {
       }
 
       fs.appendFileSync(filename, content.join('\n'))
-      logger.success(`The Scenario has been added to the file "${program.output}"`)
+      logger.success('service.generate.output_file_message', program.output)
     } else if (print === true) {
-      logger.success('\n', '**** SCENARIO GENERATED SUCCESSFULLY ****', '\n')
+      logger.success('service.generate.successful_message')
       logger.log(result)
     }
 

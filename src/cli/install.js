@@ -3,6 +3,7 @@ const YAML = require('yaml')
 const fs = require('fs')
 const inquirer = require('inquirer')
 const logger = require('../utils/logger')
+const Locale = require('../locales')('service.install')
 
 const LIST = {
   slack: {
@@ -61,6 +62,25 @@ const LIST = {
         config: {
           token: config.token,
           onlyFailed: false
+        }
+      }
+    }
+  },
+  webhook: {
+    type: 'outputs',
+    questions: [{
+      name: 'config_url',
+      message: Locale.get('webhook.question')
+    }],
+    get: (config) => {
+      if (!config.url) {
+        throw new Error('Please specify the Webhook url')
+      }
+      return {
+        type: 'webhook',
+        enabled: true,
+        config: {
+          url: config.url
         }
       }
     }
@@ -218,8 +238,8 @@ async function Install (name, program) {
   const result = Install.generate(answers)
   fs.writeFileSync(configFile, result)
 
-  logger.success(`The "${name}" ${LIST[name].type} addon has been configured successfully`)
-  logger.info('Do not forget to use environment variable to secure your sensitive information')
+  logger.success('service.install.success.config_updated', name, LIST[name].type)
+  logger.info('service.install.success.credential_warning')
 }
 
 Install.generate = function (options) {

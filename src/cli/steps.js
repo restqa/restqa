@@ -93,10 +93,7 @@ module.exports = function (keyword, program) {
     columns.pop()
   }
 
-  const table = new Table({
-    style: 'fatBorder', // style of border of the table
-    columns
-  })
+  const table = new Table({ columns })
 
   let steps = getSteps(keyword, options)
 

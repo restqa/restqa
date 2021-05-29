@@ -22,7 +22,17 @@ Welcome.prototype.MESSAGES = [
   `Share your feedback 👍 to us: ${chalk.yellow('https://restqa.io/feedback')}`,
   `${chalk.green('Follow us')} on ${chalk.red('Twitter')} to stay up to date: ${chalk.yellow('https://twitter.com/restqa')}`,
   `You can ${chalk.green('contribute')} to ${chalk.red('RestQA')} just by giving us a start ⭐️ on Github: ${chalk.yellow('https://github.com/restqa/restqa')}`,
-  `Check our ${chalk.red('blog post')}: ${chalk.yellow('https://medium.com/restqa')} 🤓`
+  `Check our ${chalk.red('blog post')}: ${chalk.yellow('https://medium.com/restqa')} 🤓`,
+   `"${chalk.green('restqa genrate')}" command that you can use to generate scenario from a curl command 😍`,
+   `🔑 Do not forget to use environment variable for your ${chalk.green('credential')}!`,
+   `"${chalk.green('restqa steps')}" then gives you all the Then step definition available`,
+   `Use the tag ${chalk.blue('@skip')} to ignore a feature or a scenario`,
+   `Get your data from an excel file : ${chalk.yellow('https://docs.restqa.io/data/excel')}`,
+   `🍺 Help us to grow by sharing your love about ${chalk.red('RestQA')} on the social media.`,
+   `Support us on Linkedin: ${chalk.yellow('https://linkedin.com/company/restqa')}`,
+   `👀 Have you tried to run the command: ${chalk.green('restqa install')}`,
+   `🎁 Something is happening… Try : ${chalk.green('restqa dashboard')}`,
+   `💌 Join our newsletter: ${chalk.yellow('https://restqa.io/#/subscribe')}`
 ]
 
 Welcome.prototype.toString = function () {

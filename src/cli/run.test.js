@@ -1,16 +1,14 @@
-const fs = require('fs')
 const path = require('path')
 const os = require('os')
-let filename
 
-beforeEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
+const jestqa = new JestQA(__filename, true)
+
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
 
 describe('#Cli - Run', () => {
   test('Throw error if the passed file doesnt exist', async () => {
-    filename = path.resolve(os.tmpdir(), '.restqa.fake.yml')
+    const filename = path.resolve(os.tmpdir(), '.restqa.fake.yml')
 
     const options = {
       config: filename,
@@ -21,6 +19,7 @@ describe('#Cli - Run', () => {
   })
 
   test('Throw error if tag is not starting with a @', async () => {
+    const filename = path.resolve(os.tmpdir(), '.restqa.fake.yml')
     const options = {
       config: filename,
       stream: 'std-out-example',
@@ -55,8 +54,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
       shouldExitImmediately: true,
@@ -131,8 +129,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
       shouldExitImmediately: true,
@@ -156,7 +153,7 @@ environments:
     const Run = require('./run')
     const options = {
       args: [
-        os.tmpdir()
+        path.dirname(filename)
       ]
     }
     await Run(options)
@@ -171,7 +168,7 @@ environments:
         '../src/restqa-formatter:.restqa.log',
         '--format-options',
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
-        os.tmpdir()
+        path.dirname(filename)
       ],
       cwd: path.join(__dirname, '../'),
       stdout: process.stdout
@@ -203,8 +200,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
       shouldExitImmediately: false,
@@ -273,8 +269,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
       shouldExitImmediately: false,
@@ -351,8 +346,7 @@ environments:
         config:
           path: 'my-report.json'
     `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const mockCucumberRun = jest.fn().mockRejectedValue(new Error('This is an error'))
 
@@ -369,14 +363,6 @@ environments:
     })
 
     const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
-    const mockLogger = {
-      info: jest.fn(),
-      error: jest.fn()
-    }
-
-    jest.mock('../utils/logger', () => {
-      return mockLogger
-    })
 
     const Run = require('./run')
     const options = {
@@ -402,7 +388,7 @@ environments:
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption)
     expect(mockCucumberRun.mock.calls).toHaveLength(1)
     expect(mockExit).toHaveBeenCalledWith(1)
-    expect(mockLogger.error.mock.calls).toHaveLength(1)
-    expect(mockLogger.error.mock.calls[0][0]).toEqual(new Error('This is an error'))
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1)
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('This is an error')
   })
 })

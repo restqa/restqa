@@ -1,14 +1,45 @@
-const {
-  generate,
-  install,
-  steps,
-  run
-} = require('./cli')
+const generate = require('./cli/generate')
+const install = require('./cli/install')
+const steps = require('./cli/steps')
+const run = require('./cli/run')
+const dashboard = require('./cli/dashboard')
+const initialize = require('./cli/initialize')
+
 const os = require('os')
 const fs = require('fs')
 const path = require('path')
 
-async function Initialize () {
+/**
+ * Initialize a restqa project
+ *
+ * @param {Object} options
+ * @param {string} options.name - The name of the project
+ * @param {string} options.description - The description of the project
+ * @param {string} options.env - The default environment of your project
+ * @param {string} options.url - The api url of the current environement
+ * @param {options} (optional) options.ci - Continuous integration tool that required to be setup
+ * @param {options} (optional) options.folder - Define the folder where to initiate restqa
+ *
+ * @return String - path of the configuration file
+ *
+ * @example
+ *
+ * const { Initialize } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   name: 'my application',
+ *   description: 'This application is used for sample',
+ *   env: 'local',
+ *   url: 'https://api.example.com',
+ *   ci: 'github-action',
+ *   folder: './integration-tests'
+ * }
+ *
+ * const result = await Initialize(options)
+ * console.log(result)
+ */
+async function Initialize (options) {
+  return initialize.generate(options)
 }
 
 /**
@@ -76,7 +107,7 @@ function Install (options) {
  *
  * @param {Object} options
  * @param {string} options.keyword - The path of the RestQA configuration file (given | then | when)
- * @param {string} options.config - The path of the RestQA configuration file
+ * @param {string} options.configFile - The path of the RestQA configuration file
  * @param {string} options.env - The target environment from the RestQA configuration file
  * @param {string} options.tags - The tag used to filter the steps
  *
@@ -108,7 +139,7 @@ function Steps (options) {
  * Execute RestQA test suite using specific configuration
  *
  * @param {Object} options
- * @param {string} options.config - The path of the RestQA configuration file
+ * @param {string} options.configFile - The path of the RestQA configuration file
  * @param {string} options.env - The target environment from the RestQA configuration file
  * @param {stream.Writable} options.stream - The stream to export the logs
  * @param {array} options.tags - The list of tags
@@ -157,10 +188,41 @@ async function Run (options) {
   return JSON.parse(result)
 }
 
+/**
+ * Expose the RestQA Dashboard using a specific configuration
+ *
+ * @param {Object} options
+ * @param {string} options.configFile - The path of the RestQA configuration file
+ *
+ * @return http.server
+ *
+ * @example
+ *
+ * const { Dashboard } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   configFile: './restqa.yml',
+ * }
+ *
+ * const server = Dashboard(options)
+ * server.listen(8000, () => {
+ *   console.log('The dashboard is running on the port 8000')
+ * })
+ */
+
+function Dashboard (options) {
+  const opt = {
+    config: options.configFile,
+    serve: false
+  }
+  return dashboard(opt)
+}
+
 module.exports = {
   Initialize,
   Generate,
   Install,
   Steps,
+  Dashboard,
   Run
 }

@@ -3,32 +3,11 @@ process.setMaxListeners(Infinity)
 const fs = require('fs')
 const YAML = require('yaml')
 const os = require('os')
-const path = require('path')
 
-let filename
+const jestqa = new JestQA(__filename, true)
 
-beforeEach(() => {
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
-
-  jest.mock('../utils/logger', () => {
-    return {
-      info: jest.fn(),
-      log: jest.fn(),
-      success: jest.fn()
-    }
-  })
-})
-
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
-})
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
 
 describe('#Cli - install', () => {
   describe('generate', () => {
@@ -103,8 +82,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -148,8 +126,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -190,8 +167,7 @@ environments:
         config:
           url: http://test.uat.com
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -283,8 +259,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -331,8 +306,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -378,8 +352,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -475,8 +448,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -523,8 +495,7 @@ environments:
           path: 'my-report.json'
       `
 
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -570,8 +541,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -669,8 +639,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -716,8 +685,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -783,6 +751,148 @@ environments:
       expect(result).toEqual(expectedContent)
     })
 
+    test('Throw an error if the wehoook config doesn\'t contain url', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
+
+      const Install = require('./install')
+      const options = {
+        configFile: filename,
+        name: 'webhook',
+        env: 'uat',
+        config: {
+        }
+      }
+
+      expect(() => Install.generate(options)).toThrow('Please specify the Webhook url')
+    })
+
+    test('Add the webhook output into the configuration file in a specific environment', () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+  - name: uat
+    plugins:
+      - name: restqapi
+        config:
+          url: http://test.uat.com
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
+
+      const Install = require('./install')
+      const options = {
+        name: 'webhook',
+        env: 'local',
+        configFile: filename,
+        config: {
+          url: 'https://webhook-example.com'
+        }
+      }
+
+      let result = Install.generate(options)
+      result = YAML.parse(result)
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'webhook',
+            enabled: true,
+            config: {
+              url: 'https://webhook-example.com'
+            }
+          }]
+        }, {
+          name: 'uat',
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://test.uat.com'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+    })
+
     test('Throw an error if the discord config doesn\'t contain the url', () => {
       const content = `
 ---
@@ -815,8 +925,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -862,8 +971,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -961,8 +1069,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -1052,8 +1159,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const Install = require('./install')
       const options = {
@@ -1143,8 +1249,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createCwdConfig(content)
 
       const Install = require('./install')
       const options = {
@@ -1241,8 +1346,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
+      const filename = jestqa.createCwdConfig(content)
       const mockPrompt = jest.fn()
         .mockResolvedValueOnce({
           name: 'slack'
@@ -1300,18 +1404,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn()
         .mockResolvedValueOnce({
@@ -1348,6 +1441,9 @@ environments:
         }, {
           name: 'Line (outputs)',
           value: 'line'
+        }, {
+          name: 'Webhook (outputs)',
+          value: 'webhook'
         }, {
           name: 'Html (outputs)',
           value: 'html'
@@ -1427,10 +1523,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "slack" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install slack when there is multiple environment available', async () => {
@@ -1465,18 +1560,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn().mockResolvedValue({
         env: 'uat',
@@ -1554,10 +1638,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "slack" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install slack when there is multiple environment available but the environement is passed', async () => {
@@ -1592,19 +1675,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
-
+      const filename = jestqa.createCwdConfig(content)
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
         config_url: 'https://www.slack-incoming.com/test',
@@ -1680,10 +1751,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "slack" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install slack when there is only one environment available but specify the configuration file', async () => {
@@ -1708,18 +1778,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -1781,11 +1840,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "slack" outputs addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "slack" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install discord when there is only one environment available', async () => {
@@ -1810,18 +1867,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -1880,11 +1926,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "discord" outputs addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "discord" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install html when there is only one environment available', async () => {
@@ -1909,18 +1953,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename
@@ -1972,11 +2005,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "html" outputs addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "html" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install file when there is only one environment available', async () => {
@@ -2001,18 +2032,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename
@@ -2064,11 +2084,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "file" outputs addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "file" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install http-html-report when there is only one environment available', async () => {
@@ -2093,18 +2111,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename
@@ -2156,11 +2163,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "http-html-report" outputs addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "http-html-report" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install excel (CSV) when there is only one environment available', async () => {
@@ -2185,18 +2190,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content)
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2253,11 +2247,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "excel" data addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "excel" data addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install google-sheet when there is only one environment available', async () => {
@@ -2282,18 +2274,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2355,11 +2336,9 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "google-sheet" data addon has been configured successfully')
-
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "google-sheet" data addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
 
     test('Install line when there is only one environment available', async () => {
@@ -2384,18 +2363,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      filename = '.restqa.yml'
-      fs.writeFileSync(filename, content)
-
-      const mockLogger = {
-        info: jest.fn(),
-        log: jest.fn(),
-        success: jest.fn()
-      }
-
-      jest.mock('../utils/logger', () => {
-        return mockLogger
-      })
+      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2453,11 +2421,93 @@ environments:
       }
       expect(result).toEqual(expectedContent)
 
-      expect(mockLogger.success.mock.calls).toHaveLength(1)
-      expect(mockLogger.success.mock.calls[0][0]).toEqual('The "line" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "line" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
+    })
 
-      expect(mockLogger.info.mock.calls).toHaveLength(1)
-      expect(mockLogger.info.mock.calls[0][0]).toEqual('Do not forget to use environment variable to secure your sensitive information')
+    test('Install Webhook when there is only one environment available', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The description of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
+
+      const mockPrompt = jest.fn().mockResolvedValue({
+        configFile: filename,
+        config_url: 'https://example-webhook.com'
+      })
+
+      jest.mock('inquirer', () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        }
+      })
+
+      const Install = require('./install')
+      await Install('webhook')
+
+      expect(mockPrompt.mock.calls).toHaveLength(1)
+
+      expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What is the Webhook url?')
+      expect(mockPrompt.mock.calls[0][0][0].name).toEqual('config_url')
+
+      const result = YAML.parse(fs.readFileSync(filename).toString('utf-8'))
+
+      const expectedContent = {
+        version: '0.0.1',
+        metadata: {
+          code: 'API',
+          name: 'My test API',
+          description: 'The description of the test api'
+        },
+        environments: [{
+          name: 'local',
+          default: true,
+          plugins: [{
+            name: 'restqapi',
+            config: {
+              url: 'http://localhost:3000'
+            }
+          }],
+          outputs: [{
+            type: 'file',
+            enabled: true,
+            config: {
+              path: 'my-report.json'
+            }
+          }, {
+            type: 'webhook',
+            enabled: true,
+            config: {
+              url: 'https://example-webhook.com'
+            }
+          }]
+        }]
+      }
+      expect(result).toEqual(expectedContent)
+
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The "webhook" outputs addon has been configured successfully')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Do not forget to use environment variable to secure your sensitive information')
     })
   })
 })

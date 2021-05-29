@@ -5,6 +5,24 @@ beforeEach(() => {
 })
 
 describe('Service - RestQA - TeamNote', () => {
+  let mockGet
+  jest.mock('axios', () => {
+    const originalModule = jest.requireActual('axios')
+    return {
+      ...originalModule,
+      create: function() {
+        return this
+      },
+      get: function () {
+        return mockGet.apply(this, arguments)
+      }
+    }
+  })
+
+  afterEach(() => {
+    mockGet = undefined
+  })
+
   describe('team note', () => {
     test('Return the Team note Information', async () => {
       const mockData = {
@@ -19,15 +37,7 @@ describe('Service - RestQA - TeamNote', () => {
         }
       }
 
-      const mockGet = jest.fn().mockResolvedValue(mockData)
-      jest.mock('axios', () => {
-        return {
-          create: function() {
-            return this
-          },
-          get: mockGet
-        }
-      })
+      mockGet = jest.fn().mockResolvedValue(mockData)
       const Info = require('./info')
       const result = await Info.getTeamNote()
       expect(result).toEqual(mockData.data.team.note)
@@ -54,15 +64,7 @@ describe('Service - RestQA - TeamNote', () => {
         data: mockData.data
       }))
 
-      const mockGet = jest.fn()
-      jest.mock('axios', () => {
-        return {
-          create: function() {
-            return this
-          },
-          get: mockGet
-        }
-      })
+      mockGet = jest.fn()
 
       const Info = require('./info')
       const result1 = await Info.getTeamNote()
@@ -96,15 +98,7 @@ describe('Service - RestQA - TeamNote', () => {
         data: mockData.data
       }))
 
-      const mockGet = jest.fn().mockResolvedValue(mockData)
-      jest.mock('axios', () => {
-        return {
-          create: function() {
-            return this
-          },
-          get: mockGet
-        }
-      })
+      mockGet = jest.fn().mockResolvedValue(mockData)
 
       const Info = require('./info')
       const result1 = await Info.getTeamNote()
@@ -143,15 +137,7 @@ describe('Service - RestQA - TeamNote', () => {
         }
       }
 
-      const mockGet = jest.fn().mockResolvedValue(mockData)
-      jest.mock('axios', () => {
-        return {
-          create: function() {
-            return this
-          },
-          get: mockGet
-        }
-      })
+      mockGet = jest.fn().mockResolvedValue(mockData)
       const Info = require('./info')
       const result = await Info.getTeamBlog()
       expect(result).toEqual(mockData.data.team.blog)
@@ -177,15 +163,7 @@ describe('Service - RestQA - TeamNote', () => {
         }
       }
 
-      const mockGet = jest.fn().mockResolvedValue(mockData)
-      jest.mock('axios', () => {
-        return {
-          create: function() {
-            return this
-          },
-          get: mockGet
-        }
-      })
+      mockGet = jest.fn().mockResolvedValue(mockData)
       const Info = require('./info')
       const result = await Info.getTeamVideo()
       expect(result).toEqual(mockData.data.team.video)
@@ -205,15 +183,7 @@ describe('Service - RestQA - TeamNote', () => {
         }
       }
 
-      const mockGet = jest.fn().mockResolvedValue(mockData)
-      jest.mock('axios', () => {
-        return {
-          create: function() {
-            return this
-          },
-          get: mockGet
-        }
-      })
+      mockGet = jest.fn().mockResolvedValue(mockData)
       const Info = require('./info')
       const result = await Info.getTeamSponsors()
       expect(result).toEqual(mockData.data.sponsors)

@@ -1,33 +1,22 @@
-const os = require('os')
 const path = require('path')
-const fs = require('fs')
 
-let filename
 let server
 
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-    filename = undefined
-  }
+const jestqa = new JestQA(__filename, true)
 
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
+jestqa.hooks.beforeEach = function () {
   if (server) {
     server.close()
   }
-})
+}
 
-beforeEach(() => {
-  if (filename && fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-    filename = undefined
-  }
-
+jestqa.hooks.afterEach = function () {
   if (server) {
     server.close()
   }
-})
+}
 
 describe('# cli - dashboard', () => {
   test('Throw an error if passed port is not a number', () => {
@@ -55,7 +44,7 @@ describe('# cli - dashboard', () => {
     return expect(() => Dashboard(program)).toThrow(`The configuration file "${path.resolve(process.cwd(), '.restqa.yml')}" doesn't exist.`)
   })
 
-  test('Start the server with a specific config', () => {
+  test('Start the server with a specific config', function () {
     const content = `
 ---
 
@@ -76,19 +65,13 @@ environments:
         enabled: true
         config:
           path: 'my-report.json'
+restqa:
+  dashboard:
+    server:
+      whiteList:
+        - http://localhost:8080
       `
-    filename = path.resolve(os.tmpdir(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
-
-    const mockLogger = {
-      info: jest.fn(),
-      log: jest.fn(),
-      success: jest.fn()
-    }
-
-    jest.mock('../utils/logger', () => {
-      return mockLogger
-    })
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
     const Dashboard = require('./dashboard')
     const program = {
@@ -99,9 +82,26 @@ environments:
     server = Dashboard(program)
     return new Promise((resolve, reject) => {
       server.on('listening', () => {
-        expect(mockLogger.info.mock.calls).toHaveLength(2)
-        expect(mockLogger.info.mock.calls[0][0]).toEqual(`📝  The configuration file ${filename} has been loaded`)
-        expect(mockLogger.info.mock.calls[1][0]).toEqual('🌎  The RestQA dashboard is started and available on the url: http://localhost:8001')
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(`📝  The configuration file ${filename} has been loaded`)
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8001')
+        resolve()
+      })
+      expect(server.listening).toBe(true)
+    })
+  })
+
+  test('Start the server without a config file and using the --no-config option', () => {
+    const Dashboard = require('./dashboard')
+    const config = {
+      config: false
+    }
+    server = Dashboard(config)
+    return new Promise((resolve, reject) => {
+      server.on('listening', () => {
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('🤞  Launching the server on "NO CONFIG" mode')
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
         resolve()
       })
       expect(server.listening).toBe(true)
@@ -130,29 +130,51 @@ environments:
         config:
           path: 'my-report.json'
       `
-    filename = path.resolve(process.cwd(), '.restqa.yml')
-    fs.writeFileSync(filename, content)
-
-    const mockLogger = {
-      info: jest.fn(),
-      log: jest.fn(),
-      success: jest.fn()
-    }
-
-    jest.mock('../utils/logger', () => {
-      return mockLogger
-    })
-
+    const filename = jestqa.createCwdConfig(content)
     const Dashboard = require('./dashboard')
     server = Dashboard({})
     return new Promise((resolve, reject) => {
       server.on('listening', () => {
-        expect(mockLogger.info.mock.calls).toHaveLength(2)
-        expect(mockLogger.info.mock.calls[0][0]).toEqual(`📝  The configuration file ${filename} has been loaded`)
-        expect(mockLogger.info.mock.calls[1][0]).toEqual('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(`📝  The configuration file ${filename} has been loaded`)
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
         resolve()
       })
       expect(server.listening).toBe(true)
     })
+  })
+
+  test('Get the http server instance', () => {
+    const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+    jestqa.createCwdConfig(content)
+
+    const Dashboard = require('./dashboard')
+    server = Dashboard({
+      serve: false
+    })
+
+    const http = require('http')
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(0)
+    expect(server.constructor.name).toBe(http.createServer().constructor.name)
   })
 })

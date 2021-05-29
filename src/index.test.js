@@ -3,10 +3,9 @@ const os = require('os')
 const fs = require('fs')
 const path = require('path')
 
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
+const jestqa = new JestQA(__filename, true)
+
+afterEach(jestqa.afterEach)
 
 describe('# Index - Generate', () => {
   test('Throw an error if the command is not a curl command', () => {
@@ -67,6 +66,41 @@ describe('# Index - Generate', () => {
       ]
     }
     expect(mockGenerate.mock.calls[0][0]).toEqual(expectedOption)
+  })
+})
+
+describe('# Index - Initialize', () => {
+  test('Throw an error if ci is not valid', () => {
+    const options = {
+      url: 'http://test.com',
+      env: 'test',
+      description: 'my description',
+      folder: jestqa.getTmpFolder()
+    }
+    const { Initialize } = require('./index')
+    return expect(Initialize(options)).rejects.toThrow('Please share a project name.')
+  })
+
+  test('Initiate a new project', async () => {
+    jestqa.getLoggerMock()
+    const mockGenerate = jest.fn().mockResolvedValue('result')
+    jest.mock('./cli/generate', () => {
+      return mockGenerate
+    })
+    const folder = jestqa.getTmpFolder()
+    const options = {
+      name: 'sample',
+      url: 'http://test.com',
+      env: 'test',
+      description: 'my description',
+      ci: 'gitlab-ci',
+      folder
+    }
+    const { Initialize } = require('./index')
+    const result = await Initialize(options)
+    expect(result).toEqual(path.join(folder, '.restqa.yml'))
+    expect(fs.existsSync(path.join(folder, '.gitlab-ci.yml'))).toBe(true)
+    expect(fs.existsSync(path.join(folder, 'tests', 'integration', 'welcome-restqa.feature'))).toBe(true)
   })
 })
 
@@ -245,6 +279,43 @@ describe('# Index - Step', () => {
           '@success'
         ]
       })
+    })
+  })
+
+  describe('# Index - Dashboard', () => {
+    const http = require('http')
+
+    test('Get the http server object', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+      `
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
+
+      const opt = {
+        configFile: filename
+      }
+
+      const { Dashboard } = require('./index')
+      const result = Dashboard(opt)
+      expect(result.constructor.name).toBe(http.createServer().constructor.name)
     })
   })
 })

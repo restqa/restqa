@@ -39,7 +39,7 @@ module.exports = function (processor, options = {}) {
   if (config.restqa && config.restqa.timeout) {
     processor.setDefaultTimeout(config.restqa.timeout)
   }
-  logger.info(`🎯 The selected environment is: "${config.environment.name}"`)
+  logger.info('service.select_environment', config.environment.name)
 
   function pluginLoader (plugin) {
     options.plugin = plugin.name

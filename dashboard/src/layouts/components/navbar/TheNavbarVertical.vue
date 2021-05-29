@@ -12,6 +12,8 @@
 
         <vs-spacer />
 
+        <RestQASelectConfig />
+
         <cart-drop-down />
 
         <notification-drop-down />
@@ -29,6 +31,7 @@ import Bookmarks            from './components/Bookmarks.vue'
 import CartDropDown         from './components/CartDropDown.vue'
 import NotificationDropDown from './components/NotificationDropDown.vue'
 import ProfileDropDown      from './components/ProfileDropDown.vue'
+import RestQASelectConfig   from '@/components/restqa/select-config/RestQASelectConfig.vue'
 
 export default {
   name: 'the-navbar-vertical',
@@ -42,7 +45,8 @@ export default {
     Bookmarks,
     CartDropDown,
     NotificationDropDown,
-    ProfileDropDown
+    ProfileDropDown,
+    RestQASelectConfig
   },
   computed: {
     navbarColorLocal () {

@@ -1,12 +1,11 @@
 const chalk = require('chalk')
 const got = require('got')
 
-beforeEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
+const jestqa = new JestQA(__filename, true)
 
-describe('# utils - logger', () => {
+beforeEach(jestqa.beforeEach)
+
+describe('# utils - welcome', () => {
   const Welcome = require('./welcome')
 
   test('Share a welcome message if the flag is set to true and 1 message is passed', () => {
@@ -77,12 +76,14 @@ describe('# utils - logger', () => {
 
 test('Detect broken link from the messages', async () => {
   const ignoreList = [
+    'https://linkedin.com/company/restqa'
   ]
   const mockYellow = jest.fn()
   jest.mock('chalk', () => {
     return {
       yellow: mockYellow,
       red: jest.fn(),
+      blue: jest.fn(),
       green: jest.fn()
     }
   })

@@ -1,12 +1,27 @@
 const Stream = require('stream')
+const path = require('path')
 const { version } = require('../../package.json')
 const RestQA = require('../../src')
 const Remote = require('./services/remote')
+const Report = require('./services/report')
+const { URL } = require('url')
+const YAML = require('yaml')
+const fs = require('fs')
 
 const Controllers = {}
 
 Controllers.version = function (req, res) {
   res.json({ version })
+}
+
+Controllers.config = function (req, res, next) {
+  try {
+    const content = fs.readFileSync(req.app.get('restqa.configuration')).toString('utf-8')
+    const result = YAML.parse(content)
+    res.json(result)
+  } catch (e) {
+    next(e)
+  }
 }
 
 Controllers.steps = function (req, res, next) {
@@ -34,6 +49,19 @@ Controllers.steps = function (req, res, next) {
       }))
 
     res.json(result)
+  } catch (e) {
+    next(e)
+  }
+}
+
+Controllers.initialize = async function (req, res, next) {
+  try {
+    const result = await RestQA.Initialize(req.body || {})
+    res.json({
+      configuration: result,
+      folder: path.dirname(result)
+    })
+    req.app.set('restqa.configuration', result)
   } catch (e) {
     next(e)
   }
@@ -83,6 +111,44 @@ Controllers.run = async function (req, res, next) {
 Controllers.info = async function (req, res) {
   const result = await Remote.info()
   res.json(result)
+}
+
+Controllers.createReports = async function (req, res, next) {
+  try {
+    const { server } = req.app.get('restqa.options')
+    const outputFolder = server.report.outputFolder
+    const result = await Report.create(outputFolder, req.body)
+    result.url = new URL('http://foo.bar') // Sadly this class can't be instanciate without parameter so let me pass a fake one!
+    result.url.protocol = req.protocol
+    result.url.host = req.headers.host
+    result.url.pathname = server.report.urlPrefixPath + '/' + result.id
+    res
+      .status(201)
+      .json(result)
+  } catch (e) {
+    next(e)
+  }
+}
+
+Controllers.getReports = function (req, res, next) {
+  try {
+    const { server } = req.app.get('restqa.options')
+    const outputFolder = server.report.outputFolder
+    const list = Report.get(outputFolder)
+      .map(item => {
+        const result = {
+          id: item.id,
+          url: new URL('http://foo.bar') // Sadly this class can't be instanciate without parameter so let me pass a fake one!
+        }
+        result.url.protocol = req.protocol
+        result.url.host = req.headers.host
+        result.url.pathname = server.report.urlPrefixPath + '/' + item.id
+        return result
+      })
+    res.json(list)
+  } catch (e) {
+    next(e)
+  }
 }
 
 module.exports = Controllers

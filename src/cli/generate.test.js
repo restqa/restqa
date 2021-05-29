@@ -1,25 +1,13 @@
+const path = require('path')
 const fs = require('fs')
-const filename = process.cwd() + '/test.feature'
+const jestqa = new JestQA(__filename, true)
 
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-  if (fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
-})
-
-beforeEach(() => {
-  global.console = {
-    log: jest.fn(),
-    error: jest.fn()
-  }
-  if (fs.existsSync(filename)) {
-    fs.unlinkSync(filename)
-  }
-})
+beforeEach(jestqa.beforeEach)
+afterEach(jestqa.afterEach)
 
 describe('# cli - generator', () => {
+  global.console.error = jest.fn()
+
   test('Throw an error if the command is not a curl command', () => {
     const Generate = require('./generate')
     const program = {
@@ -135,6 +123,9 @@ describe('# cli - generator', () => {
     }
     expect(mockGenerator.mock.calls).toHaveLength(1)
     expect(mockGenerator.mock.calls[0][0]).toEqual(expectOptions)
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('**** SCENARIO GENERATED SUCCESSFULLY ****')
+    expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Given I have an example')
   })
 
   test('Get the Scenario with only cookies set', async () => {
@@ -166,6 +157,8 @@ describe('# cli - generator', () => {
     }
     expect(mockGenerator.mock.calls).toHaveLength(1)
     expect(mockGenerator.mock.calls[0][0]).toEqual(expectOptions)
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('**** SCENARIO GENERATED SUCCESSFULLY ****')
+    expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('Given I have an example')
   })
 
   test('Get the Scenario with json request body but not method specified into the command', async () => {
@@ -420,6 +413,8 @@ describe('# cli - generator', () => {
   })
 
   test('Write the scenario into a file when file doesn\'t exist', async () => {
+    const filename = path.resolve(process.cwd(), 'test.feature')
+    jestqa.getCurrent().files.push(filename)
     const resultScenario = `
         Given I have an example
       `.trim()
@@ -460,9 +455,13 @@ Given I have an example
       `.trim()
 
     expect(contentFile).toEqual(expectedScenario + '\n\n\n\n\n')
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1)
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('The Scenario has been added to the file "test.feature"')
   })
 
   test('Write the scenario into a file when file already exist', async () => {
+    const filename = path.resolve(process.cwd(), 'test1.feature')
+    jestqa.getCurrent().files.push(filename)
     const existingContent = `
 Feature: Generated new scenario
 
@@ -486,7 +485,7 @@ Given I have an example
         'curl',
         'https://examples/quotes/legacy/bw15',
         '-o',
-        'test.feature'
+        'test1.feature'
       ]
     }
 
