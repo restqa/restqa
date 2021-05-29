@@ -3,6 +3,9 @@
     <div class="vx-col w-full lg:w-1/3 mb-base" v-if="!hasConfig">
       <RestQAProjectInit />
     </div>
+    <div class="vx-col w-full lg:w-1/3 mb-base" v-if="hasConfig">
+      <RestQAProjectConfig />
+    </div>
     <div class="vx-col w-full lg:w-1/3 mb-base"  v-if="hasConfig">
       <RestQATeamNote />
     </div>
@@ -24,6 +27,7 @@ import RestQATeamBlog from '@/components/restqa/team-blog/RestQATeamBlog.vue'
 import RestQATeamVideo from '@/components/restqa/team-video/RestQATeamVideo.vue'
 import RestQASponsors from '@/components/restqa/sponsors/RestQASponsors.vue'
 import RestQAProjectInit from '@/components/restqa/project-init/RestQAProjectInit.vue'
+import RestQAProjectConfig from '@/components/restqa/project-config/RestQAProjectConfig.vue'
 
 export default {
   components: {
@@ -31,7 +35,8 @@ export default {
     RestQATeamBlog,
     RestQATeamVideo,
     RestQASponsors,
-    RestQAProjectInit
+    RestQAProjectInit,
+    RestQAProjectConfig
   },
   computed: {
     hasConfig () {

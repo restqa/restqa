@@ -4,6 +4,9 @@ const mutations = {
   },
   loadingConfig (state, bool) {
     state.loadingConfig = bool
+  },
+  selectedEnv (state, val) {
+    state.selectedEnv = val
   }
 }
 

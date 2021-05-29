@@ -3,7 +3,7 @@ import mutations from './mutations'
 describe('mutations', () => {
   describe('config', () => {
     
-    const { config, loadingConfig } = mutations
+    const { config, loadingConfig, selectedEnv } = mutations
 
     test('update Config states', () => {
       const state = {
@@ -28,6 +28,16 @@ describe('mutations', () => {
       loadingConfig(state, true)
 
       expect(state.loadingConfig).toEqual(true)
+    })
+
+    test('update selectedEnv states', () => {
+      const state = {
+        selectedEnv: null
+      }
+
+      selectedEnv(state, 'uat')
+
+      expect(state.selectedEnv).toEqual('uat')
     })
   })
 })
