@@ -1,5 +1,50 @@
 # Contribution
 
+## Dashboard
+
+The RestQA dashboard is a built with the VueJs technologie.
+
+### Getting started
+
+#### Install the dependencies:
+
+```
+npm run dashboard:install
+```
+
+#### Dashboard sample
+
+```
+npm run dashboard:example
+```
+
+
+#### Run the dashboard on dev mode without the backend apis
+
+```
+npm run dashboard:serve
+```
+
+#### Run the dashboard on dev mode with the backend apis
+
+
+```
+npm run dashboard:dev
+```
+
+Or using the no-config mode
+
+```
+npm run dashboard:dev:no-config
+```
+
+#### Build the Dashboard
+
+```
+npm run dashboard:build
+```
+
+
 ## Tests
 
 ### Unit Tests

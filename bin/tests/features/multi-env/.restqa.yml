@@ -15,5 +15,5 @@ environments:
     plugins:
       - name: restqapi
         config:
-          url: https://api.restqa.io
+          url: https://uat.api.restqa.io
 
