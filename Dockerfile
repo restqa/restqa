@@ -1,6 +1,6 @@
   
 # The instructions for the first stage
-FROM node:12-alpine as builder
+FROM node:12  as builder
 LABEL maintainer="RestQa <team@restqa.io>"
 LABEL app="restqa"
 LABEL name="restqa"
@@ -8,14 +8,13 @@ LABEL description="An all in one test automation runner"
 LABEL repository="https://github.com/restqa/restqa"
 LABEL url="https://restqa.io/restqa"
 
-RUN apk --no-cache add python make g++
 
 COPY package*.json ./
-COPY dashboard ./dashboard
 
 RUN npm install --production
 RUN npm ci --only=production
 
+COPY dashboard ./dashboard
 RUN npm install -g @vue/cli-service
 RUN npm run dashboard:install
 RUN npm run dashboard:build
