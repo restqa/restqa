@@ -1,4 +1,4 @@
-@import '@/assets/scss/vuexy/_variables.scss';
+$primary: #c6539c;
 
 .team-video{
 
@@ -8,10 +8,16 @@
 
   .video {
     width: 100%;
-    h6.title {
-      margin-bottom: 10px;
-      &:hover {
-        color: $primary;
+    a {
+      text-decoration: none;
+      h6.title {
+        padding: 0 0 0 0px;
+        margin: 0px 0 15px 0px;
+        font-size: 15px;
+        text-align: left;
+        &:hover {
+          color: $primary;
+        }
       }
     }
 
@@ -29,7 +35,7 @@
 
   .channel {
     width: 100%;
-    text-align: center;
+    text-align: right;
   }
 }
 

@@ -1,42 +1,29 @@
 <template>
-  <vx-card title="Team's note" emoji="❤️ ❤️ ❤️ ❤️ ❤️" class="mt-base" slot="no-body" >
-    <Loader :show="!note.message" />
+  <card title="Team's note" emoji="❤️ ❤️ ❤️ ❤️ ❤️" :loading="!note.message" class="mt-base">
     <div class="team-note" v-if="note.message" >
-      <img  key="onlineImg" :src="note.avatar" alt="team user-img" class="rounded-full shadow-md cursor-pointer block" />
+      <avatar :src="note.avatar" size="large" alt="team user-img" />
       <div class="quote">
         <div class="message">"{{ note.message }}"</div>
         <div class="from">{{ note.from }}</div>
       </div>
     </div>
-  </vx-card>
+  </card>
 </template>
 
 <script>
-import VxCard from '../../global/vx-card/VxCard'
-import Loader from '../../utils/loader/Loader'
-import * as Service from '@/services/restqa/info'
+import Card from '@/components/UI/card/Card'
+import Avatar from '@/components/UI/avatar/Avatar'
 
 export default {
   name: 'RestQATeamNote',
   components: {
-    VxCard,
-    Loader
+    Card,
+    Avatar
   },
-  data () {
-    return {
-      Service,
-      note: {}
-    }
-  },
-  async beforeMount () {
-    try {
-      this.note = await this.Service.getTeamNote()
-    } catch (e) {
-      this.note = {
-        message: 'Thanks for testing with RestQA. It\'s a pleasure to support you on increasing the quality of your product.',
-        from: 'RestQA',
-        avatar: '/logo.png'
-      }
+  computed: {
+    note() {
+      const  { note } = (this.$store.getters.info && this.$store.getters.info.team) || { note: {}  }
+      return note
     }
   }
 }

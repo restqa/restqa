@@ -5,7 +5,9 @@ describe('state', () => {
     const expectedState = {
       config: null,
       loadingConfig: false,
-      selectedEnv: null
+      selectedEnv: null,
+      info: null,
+      steps: null,
     }
     expect(state).toEqual(expectedState)
   })

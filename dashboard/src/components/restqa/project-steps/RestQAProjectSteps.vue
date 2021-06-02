@@ -1,29 +1,23 @@
 <template>
-  <vx-card :title="title" class="mt-base" slot="no-body" >
-    <Loader :show="!data.length" />
-    <div class="step-definitions" v-if="data.length">
+  <card :title="title" :loading="null === data">
+    <div class="step-definitions" >
       <div class="step-definition" :key="index" v-for="(step, index) in data">
         <div class="plugin">{{ step.plugin }}</div>
         <div class="keyword">{{ step.keyword }}</div>
-        <prism class="step" language="gherkin">{{ step.step }}</prism>
+        <pre class="step" language="gherkin">{{ step.step }}</pre>
         <div class="comment">{{ step.comment }}</div>
       </div>
     </div>
-  </vx-card>
+  </card>
 </template>
 
 <script>
-import Prism from 'vue-prism-component'
-import VxCard from '../../global/vx-card/VxCard'
-import Loader from '../../utils/loader/Loader'
-import * as Service from '@/services/restqa/project'
+import Card from '@/components/UI/card/Card'
 
 export default {
   name: 'RestQAProjectSteps',
   components: {
-    VxCard,
-    Loader,
-    Prism
+    Card
   },
   props: {
     keyword: {
@@ -31,14 +25,7 @@ export default {
     },
     data: {
       type: Array,
-      default: () => []
-    }
-  },
-  data () {
-    return {
-      steps: [],
-      searchTerm: '',
-      Service
+      default: null
     }
   },
   computed: {

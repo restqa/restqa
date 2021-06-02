@@ -1,4 +1,7 @@
-import { getConfig } from '@/services/restqa/project'
+import { getConfig, getStepDefinition } from '@/services/restqa/project'
+import Info from '@/services/restqa/info'
+
+import DefaultInfo from '@/assets/data/info.json'
 
 const actions = {
   config ({ commit }) {
@@ -13,6 +16,23 @@ const actions = {
   },
   selectedEnv ({ commit }, val) {
     commit('selectedEnv', val)
+  },
+  info({ commit }) {
+    return Info.get()
+      .then(result => {
+        commit('info', result)
+      })
+      .catch(() => {
+        commit('info', DefaultInfo)
+      })
+  },
+  steps({ commit }) {
+    return getStepDefinition()
+      .then(result => {
+        commit('steps', result)
+      })
+      .catch(() => {
+      })
   }
 }
 

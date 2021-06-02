@@ -1,4 +1,7 @@
 const mutations = {
+  info (state, obj) {
+    state.info = obj
+  },
   config (state, obj) {
     state.config = obj
   },
@@ -7,6 +10,9 @@ const mutations = {
   },
   selectedEnv (state, val) {
     state.selectedEnv = val
+  },
+  steps (state, val) {
+    state.steps = val
   }
 }
 

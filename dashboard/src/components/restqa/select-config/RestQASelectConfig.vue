@@ -1,5 +1,5 @@
 <template>
-<div v-if="hasEnv">
+<div>
   <label for="environments">Environrments: </label>
   <select id="environments"  v-model="env" @change="update">
     <option v-for="(name, index) in environments" :key="index" :value="name">{{ name }}</option>
@@ -11,16 +11,10 @@ export default {
   name: 'RestQASelectConfig',
   data() {
     return {
-      env: null
+      env:  this.$store.getters.selectedEnv
     }
   },
   computed: {
-    hasEnv () {
-      if (!this.env) {
-        this.env = this.$store.getters.selectedEnv
-      }
-      return Boolean(this.$store.getters.environments.length)
-    },
     environments () {
       return this.$store.getters.environments
     }

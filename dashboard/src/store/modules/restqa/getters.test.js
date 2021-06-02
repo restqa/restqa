@@ -90,4 +90,30 @@ describe('getters', () => {
       expect(result).toEqual({ foo: 'bar' })
     })
   })
+
+  describe('getSteps', () => {
+    test('get the step definition', () => {
+      const state = {
+        steps: [{
+          foo: 'bar'
+        }]
+      }
+
+      const result = getters.steps(state)
+      expect(result).toEqual([{ foo: 'bar' }])
+    })
+  })
+
+  describe('getInfo', () => {
+    test('get the current info', () => {
+      const state = {
+        info: {
+          foo: 'bar'
+        }
+      }
+
+      const result = getters.info(state)
+      expect(result).toEqual({ foo: 'bar' })
+    })
+  })
 })
