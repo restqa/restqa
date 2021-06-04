@@ -4,13 +4,13 @@ import store from './store/store'
 
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
+import './assets/theme/restqa/index.css'
+import './assets/scss/element-variables.scss'
 
 import App from './App.vue';
 
-const app = createApp(App)
-
-app.use(ElementPlus)
-app.use(router)
-app.use(store)
-
-app.mount('#app')
+createApp(App)
+  .use(ElementPlus)
+  .use(router)
+  .use(store)
+  .mount('#app')

@@ -1,7 +1,7 @@
 <template>
   <card title="Team's note" emoji="❤️ ❤️ ❤️ ❤️ ❤️" :loading="!note.message" class="mt-base">
     <div class="team-note" v-if="note.message" >
-      <avatar :src="note.avatar" size="large" alt="team user-img" />
+      <avatar class="avatar" :src="note.avatar" size="large" alt="team user-img" />
       <div class="quote">
         <div class="message">"{{ note.message }}"</div>
         <div class="from">{{ note.from }}</div>

@@ -9,7 +9,7 @@
         </a>
       </div>
       <div class="channel">
-        <a :href="video.url" target="_blank">Access to all the video</a>
+        <el-link :href="video.url" target="_blank" type="primary">Access to all the video</el-link>
       </div>
     </div>
   </card>

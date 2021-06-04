@@ -1,0 +1,11 @@
+/* theme color */
+//$--color-primary: teal;
+
+/* icon font path, required */
+//$--font-path: '~element-plus/lib/theme-chalk/fonts';
+//@import "~element-plus/packages/theme-chalk/src/index";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700');
+
+body {
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
+}

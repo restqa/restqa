@@ -48,7 +48,6 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('config')
     this.$store.dispatch('info')
   }
 }

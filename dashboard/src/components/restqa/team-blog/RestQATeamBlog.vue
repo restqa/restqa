@@ -12,7 +12,7 @@
         </a>
       </div>
       <div class="blog">
-        <a :href="blog.url" target="_blank">Access to all the articles</a>
+        <el-link :href="blog.url" target="_blank" type="primary">Access to all the article</el-link>
       </div>
     </div>
   </card>

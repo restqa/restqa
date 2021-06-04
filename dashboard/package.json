@@ -18,6 +18,7 @@
     "vuex": "^4.0.1"
   },
   "devDependencies": {
+    "@chenfengyuan/vue-countdown": "^2.0.0-beta",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "^4.5.13",

@@ -1,5 +1,6 @@
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
+import ElementPlus from 'element-plus';
 import RestQASelectConfig from './RestQASelectConfig.vue'
 
 describe('RestQASelectConfig', () => {
@@ -31,17 +32,18 @@ describe('RestQASelectConfig', () => {
     const options = {
       global: {
         plugins: [
-          store
+          store,
+          ElementPlus
         ]
       }
     }
-    const component = shallowMount(RestQASelectConfig, options)
+    const component = mount(RestQASelectConfig, options)
 
     expect(component.exists()).toBeTruthy()
-    //expect(component.isVisible()).toBeTruthy()
+    await component.vm.$nextTick()
 
-    const select = component.find('select#environments')
-    const envs = select.findAll('option')
+    const select = component.findComponent('.select')
+    const envs = select.findAllComponents('.option')
     expect(envs.length).toEqual(2)
     expect(envs[0].text()).toEqual('local')
     expect(envs[1].text()).toEqual('uat')
@@ -50,7 +52,7 @@ describe('RestQASelectConfig', () => {
 
     await component.vm.$nextTick()
 
-    envs[1].setSelected()
+    await envs[1].trigger('click')
 
     await component.vm.$nextTick()
 

@@ -12,9 +12,7 @@
       </a>
     </div>
     <div class="join">
-     <a href="https://github.com/sponsors/restqa" target="_blank">
-       Your logo here
-     </a>
+     <el-link href="https://github.com/sponsors/restqa" target="_blank">Your logo here</el-link>
     </div>
   </card>
 </template>
