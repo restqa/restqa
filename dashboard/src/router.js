@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import Store from './store/store'
 
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
@@ -39,6 +40,12 @@ const router = createRouter({
       }
     ]
   }]
+})
+
+router.beforeEach((to) => {
+  if (to.name !== 'homepage' && null === Store.getters.config) {
+    return {'name': 'homepage'}
+  }
 })
 
 router.afterEach((to) => {

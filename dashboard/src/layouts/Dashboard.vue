@@ -30,7 +30,7 @@ export default {
     PartialHeader,
     PartialSideBar,
     PartialFooter
-  }
+ }
 }
 </script>
 
