@@ -689,7 +689,7 @@ environments:
     })
   })
 
-  describe('/info', () => {
+  describe('/api/info', () => {
     beforeEach(() => {
       jest.resetModules()
       jest.resetAllMocks()
@@ -759,7 +759,7 @@ environments:
       const expectedOption = {
         hostname: 'restqa.io',
         port: 443,
-        path: '/info',
+        path: '/api/info',
         method: 'GET'
       }
       expect(mockRequest.mock.calls[0][0]).toEqual(expectedOption)

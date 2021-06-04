@@ -45,7 +45,7 @@ function info () {
   const options = {
     hostname: BASE_URL,
     port: 443,
-    path: '/info',
+    path: '/api/info',
     method: 'GET'
   }
 
