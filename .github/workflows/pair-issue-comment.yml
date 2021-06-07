@@ -1,0 +1,23 @@
+name: Issue - Add Pair programming comment
+on:
+  issues:
+    types:
+      - labeled
+jobs:
+  add-comment:
+    if: github.event.label.name == 'pair with maintainer'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Download the template
+        id: step_one
+        run: |
+             echo 'TEMPLATE<<EOF' >> $GITHUB_ENV
+             curl https://raw.githubusercontent.com/olivierodo/pair-with-me/master/.github/issues/pair-template.md >> $GITHUB_ENV
+             echo 'EOF' >> $GITHUB_ENV
+      - name: Add comment on the issue
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: ${{ env.TEMPLATE }}
