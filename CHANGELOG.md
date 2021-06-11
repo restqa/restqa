@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * [Add Jenkins CI integration](https://docs.restqa.io/ci-cd/jenkins) | [#105](https://github.com/restqa/restqa/pull/105)
 
+### Bug fix
+
+* Fix missing scenario on the html report | [#63](https://github.com/restqa/cucumber-export/pull/63)
+* Fix the restqa dashboad command with the default parameter | [#108](https://github.com/restqa/restqa/pull/108)
+
 ## [0.0.27] - 2021-05-29
 
 ### Added
