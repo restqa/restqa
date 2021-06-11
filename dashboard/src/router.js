@@ -44,7 +44,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   if (to.name !== 'homepage' && null === Store.getters.config) {
-    return {'name': 'homepage'}
+    //return {'name': 'homepage'}
   }
 })
 

@@ -21,7 +21,7 @@ describe('RestQAProjectSteps', () => {
     const component = mount(RestQAProjectSteps, options)
     expect(component.exists()).toBeTruthy()
 
-    expect(component.findComponent({ name: 'card'}).vm.title).toBe('Keyword: Given')
+    expect(component.findComponent({ name: 'card'}).vm.title).toBe('Given')
     expect(component.findComponent({ name: 'card'}).vm.loading).toBe(true)
     
     const data = [{
@@ -38,21 +38,16 @@ describe('RestQAProjectSteps', () => {
 
     component.setProps({ data })
 
-    expect(component.findComponent({ name: 'card'}).vm.loading).toBe(true)
+    await component.vm.$nextTick()
+
+    expect(component.findComponent({ name: 'card'}).vm.title).toBe('Given - 2 step definitions')
+    expect(component.findComponent({ name: 'card'}).vm.loading).toBe(false)
 
     await component.vm.$nextTick()
 
-    expect(component.find('.step-definitions').isVisible()).toBeTruthy()
-
-    const expectedSteps = component.findAll('.step-definition')
-    expect(expectedSteps[0].find('.plugin').text()).toEqual('@restqa/restqapi')
-    expect(expectedSteps[0].find('.keyword').text()).toEqual('Given')
-    expect(expectedSteps[0].find('.step').text()).toEqual('I have the api gateway')
-    expect(expectedSteps[0].find('.comment').text()).toEqual('Initiate the api call')
-    expect(expectedSteps[1].find('.plugin').text()).toEqual('@restqa/faker-plugin')
-    expect(expectedSteps[1].find('.keyword').text()).toEqual('Given')
-    expect(expectedSteps[1].find('.step').text()).toEqual('I have the cookie')
-    expect(expectedSteps[1].find('.comment').text()).toEqual('Adding the cookie')
+    const expectedSteps = component.findComponent('.step-definition')
+    expect(expectedSteps.findComponent('.step').vm.prop).toEqual('step')
+    expect(expectedSteps.findComponent('.step').vm.label).toEqual('Step Definition')
   })
 
   test('renders the step definition, when the props data is passed', async () => {
@@ -85,19 +80,13 @@ describe('RestQAProjectSteps', () => {
     expect(component.exists()).toBeTruthy()
     await component.vm.$nextTick()
 
-    expect(component.findComponent({ name: 'card'}).vm.title).toBe('Keyword: Given')
+    expect(component.findComponent({ name: 'card'}).vm.title).toBe('Given - 2 step definitions')
     expect(component.findComponent({ name: 'card'}).vm.loading).toBe(false)
-    expect(component.find('.step-definitions').isVisible()).toBeTruthy()
 
-    const expectedSteps = component.findAll('.step-definition')
-    expect(expectedSteps[0].find('.plugin').text()).toEqual('@restqa/restqapi')
-    expect(expectedSteps[0].find('.keyword').text()).toEqual('Given')
-    expect(expectedSteps[0].find('.step').text()).toEqual('I have the api gateway')
-    expect(expectedSteps[0].find('.comment').text()).toEqual('Initiate the api call')
-    expect(expectedSteps[1].find('.plugin').text()).toEqual('@restqa/faker-plugin')
-    expect(expectedSteps[1].find('.keyword').text()).toEqual('Given')
-    expect(expectedSteps[1].find('.step').text()).toEqual('I have the cookie')
-    expect(expectedSteps[1].find('.comment').text()).toEqual('Adding the cookie')
+    const expectedSteps = component.findComponent('.step-definition')
+
+    expect(expectedSteps.findComponent('.step').vm.prop).toEqual('step')
+    expect(expectedSteps.findComponent('.step').vm.label).toEqual('Step Definition')
   })
 })
 

@@ -168,7 +168,7 @@ describe('RestQASteps', () => {
 
     await component.vm.$nextTick()
 
-    const input = component.find('.search')
+    const input = component.findComponent('.search')
     await input.setValue('call')
 
     expect(wrappers[0].props('keyword')).toBe('given')
@@ -230,7 +230,7 @@ describe('RestQASteps', () => {
 
     await component.vm.$nextTick()
 
-    const input = component.find('.search')
+    const input = component.findComponent('.search')
     await input.setValue('status code')
 
     expect(wrappers[0].props('keyword')).toBe('given')

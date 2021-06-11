@@ -1,6 +1,8 @@
 <template>
   <div id="step-definition">
-    <input type="text" v-model="searchTerm" class="search" />
+    <el-input placeholder="Please input" v-model="searchTerm" class="search" clear="search" clearable></el-input>
+    <br />
+    <br />
     <RestQAProjectSteps :keyword="keyword" :key="index" :data="steps[keyword]" v-for="(keyword, index) in keywords" />
   </div>
 </template>
@@ -8,6 +10,12 @@
 <script>
 
 import RestQAProjectSteps from '@/components/restqa/project-steps/RestQAProjectSteps.vue'
+
+const keywords = [
+  'given',
+  'when',
+  'then'
+]
 
 export default {
   name: 'Steps',
@@ -18,11 +26,7 @@ export default {
     return {
       list: this.$store.getters.steps,
       searchTerm: '',
-      keywords: [
-        'given',
-        'when',
-        'then'
-      ]
+      keywords
     }
   },
   computed: {
