@@ -272,6 +272,48 @@ describe('#Cli - Initialize', () => {
       expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
+    test('Create Jenkinsfile if jenkins is  selected', async () => {
+      const filename = path.resolve(process.cwd(), 'Jenkinsfile')
+      jestqa.getCurrent().files.push(filename)
+
+      const Initialize = require('./initialize')
+      const options = {
+        name: 'sample',
+        url: 'http://test.com',
+        env: 'test',
+        description: 'my description',
+        ci: 'jenkins'
+      }
+      await Initialize.generate(options)
+
+      const content = fs.readFileSync(filename).toString('utf-8')
+      const expectedContent = `
+pipeline {
+    agent { label 'master' }
+
+    stages {
+        stage('RestQA') {
+            steps {
+                script {
+                    sh "ls -lah"
+                    sh "docker run -v \${env.WORKSPACE}:/app restqa/restqa"
+                    
+                    archiveArtifacts artifacts: 'report/'
+                }
+            }
+        }
+    }
+}`.trim()
+
+      expect(content).toEqual(expectedContent)
+
+      expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Jenkins configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
+    })
+
     test('Do nothing if any CI hasn\'t been selected', async () => {
       const Initialize = require('./initialize')
       const options = {
@@ -578,6 +620,28 @@ Given I have an example`
         'Do you need a continuous integration configuration ?'
       ]
       expect(mockPrompt.mock.calls[0][0].map(_ => _.message)).toEqual(expectedQuestions)
+      const expectedCI = [{
+        name: 'Github Action',
+        value: 'github-action'
+      }, {
+        name: 'Gitlab Ci',
+        value: 'gitlab-ci'
+      }, {
+        name: 'Bitbucket Pipelines',
+        value: 'bitbucket-pipeline'
+      }, {
+        name: 'Circle Ci',
+        value: 'circle-ci'
+      }, {
+        name: 'Travis Ci',
+        value: 'travis'
+      },
+      {
+        name: 'Jenkins',
+        value: 'jenkins'
+      }
+      ]
+      expect(mockPrompt.mock.calls[0][0][4].choices).toEqual(expect.arrayContaining(expectedCI))
     })
 
     test('Generate a restqa config Generate it without having it ask any questions', async () => {
