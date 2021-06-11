@@ -41,7 +41,7 @@
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "@restqa/cucumber-export": "^0.1.7",
+    "@restqa/cucumber-export": "^0.1.8",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
     "@restqa/restqapi": "0.0.18",
     "chalk": "^4.0.0",
