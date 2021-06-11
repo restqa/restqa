@@ -3,7 +3,13 @@ import mutations from './mutations'
 describe('mutations', () => {
   describe('config', () => {
     
-    const { config, loadingConfig, selectedEnv } = mutations
+    const {
+      config,
+      loadingConfig,
+      selectedEnv,
+      info,
+      steps
+    } = mutations
 
     test('update Config states', () => {
       const state = {
@@ -38,6 +44,26 @@ describe('mutations', () => {
       selectedEnv(state, 'uat')
 
       expect(state.selectedEnv).toEqual('uat')
+    })
+
+    test('update steps definition', () => {
+      const state = {
+        steps: null
+      }
+
+      steps(state, [{ foo: 'bar' }])
+
+      expect(state.steps).toEqual([{ foo: 'bar' }])
+    })
+
+    test('update loadingConfig states', () => {
+      const state = {
+        info: null
+      }
+
+      info(state, { foo: 'bar' })
+
+      expect(state.info).toEqual({ foo: 'bar' })
     })
   })
 })

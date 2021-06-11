@@ -1,37 +1,27 @@
 <template>
-  <vx-card title="Latest video" emoji="🎬" class="mt-base" slot="no-body" >
-    <Loader :show="!video.url" />
+  <card title="Latest video" emoji="🎬" :loading="!video.url">
     <div class="team-video" v-if="video.url" >
       <div class="video">
         <div class="date">{{ date }}</div>
         <a :href="video.last.url" target="_blank">
-          <img :src="video.last.image" />
+          <img class="image" :src="video.last.image" />
           <h6 class="title">{{ video.last.title }}</h6>
         </a>
       </div>
       <div class="channel">
-        <a :href="video.url" target="_blank">Access to all the video</a>
+        <el-link :href="video.url" target="_blank" type="primary">Access to all the video</el-link>
       </div>
     </div>
-  </vx-card>
+  </card>
 </template>
 
 <script>
-import VxCard from '../../global/vx-card/VxCard'
-import Loader from '../../utils/loader/Loader'
-import * as Service from '@/services/restqa/info'
+import Card from '@/components/UI/card/Card'
 
 export default {
   name: 'RestQATeamVideo',
   components: {
-    VxCard,
-    Loader
-  },
-  data () {
-    return {
-      Service,
-      video: {}
-    }
+    Card
   },
   computed: {
     date () {
@@ -42,21 +32,10 @@ export default {
         day: 'numeric'
       }
       return d.toLocaleDateString('en-CA', options)
-    }
-  },
-  async beforeMount () {
-    try {
-      this.video = await this.Service.getTeamVideo()
-    } catch (e) {
-      this.video = {
-        url: 'https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q',
-        last: {
-          title: 'RestQA trailer',
-          date: '2021-04-17 03:00:30',
-          image: 'https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg',
-          url: 'https://www.youtube.com/watch?v=EberYFGPZPo'
-        }
-      }
+    },
+    video () {
+      const  { video } = (this.$store.getters.info && this.$store.getters.info.team) || { video: {}  }
+      return video
     }
   }
 }

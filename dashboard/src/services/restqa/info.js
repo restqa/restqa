@@ -1,6 +1,6 @@
 import Http from '../http'
 
-async function retrieve () {
+async function get () {
   const key = 'remote-info'
   const date = new Date()
   const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
@@ -18,30 +18,6 @@ async function retrieve () {
   return result.data
 }
 
-
-async function getTeamNote () {
-  const result  = await retrieve()
-  return result.team.note
-}
-
-async function getTeamSponsors () {
-  const result  = await retrieve()
-  return result.sponsors
-}
-
-async function getTeamBlog () {
-  const result  = await retrieve()
-  return result.team.blog
-}
-
-async function getTeamVideo () {
-  const result  = await retrieve()
-  return result.team.video
-}
-
-export  {
-  getTeamNote,
-  getTeamSponsors,
-  getTeamBlog,
-  getTeamVideo
+export default  {
+  get
 }

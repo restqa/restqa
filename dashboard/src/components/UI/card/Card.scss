@@ -1,0 +1,38 @@
+.card {
+
+  font-family: Montserrat,Helvetica,Arial,sans-serif;
+  width: 100%;
+
+  div.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 20px;
+    padding: 0 0 5px 0;
+    margin: 0 0 20px 0;
+    border-bottom: 1px solid #EBEEF5;
+
+    h5 {
+      line-height: 1.2px;
+      font-size: 16px;
+      margin: 14px 0;
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
+
+  div.body {
+
+    min-height: 60px;
+
+    line-height: 15px;
+    display: block;
+
+    img.image {
+      width: 100%;
+      display: block;
+    }
+  }
+}

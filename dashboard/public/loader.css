@@ -8,7 +8,7 @@
 .loading-logo{
   position: absolute;
   left: calc(50% - 45px);
-  top: 40%;
+  top: 35%;
 }
 .loading-logo img{
   width: 80px;
@@ -25,6 +25,7 @@
   box-sizing: border-box;
   border: 3px solid transparent;
 }
+
 .loading .effect-1,  .loading .effect-2{
   position: absolute;
   width: 100%;

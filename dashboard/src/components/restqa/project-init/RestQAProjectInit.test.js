@@ -1,68 +1,66 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
-import RestQAProjectInit from './RestQAProjectInit.vue'
-import Loader from '../../utils/loader/Loader'
+import *  as  Service from '../../../services/restqa/project'
+jest.mock('../../..//services/restqa/project')
+
+import { mount } from '@vue/test-utils'
+import { createStore } from 'vuex'
+import ElementPlus from 'element-plus';
+import Store from '@/store/modules/restqa'
 import { ForbiddenError, ValidationError } from '../../../services/http'
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
-
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
+import  RestQAProjectInit from './RestQAProjectInit.vue'
 
 describe('RestQAProjectInit', () => {
-  let actions
+
   let store
+  let mockConfigAction = jest.fn()
 
+  Store.actions.config = mockConfigAction
+
+  Service.initialize = jest.fn()
+  
   beforeEach(() => {
-    actions = {
-      config: jest.fn()
-    }
-
-    store = new Vuex.Store({
+    jest.clearAllMocks()
+    store = createStore({
       modules: {
-        restqa: {
-          state: {},
-          actions,
-          getters: {}
-        }
+        restqa: Store
       }
     })
   })
+
 
   test('Should show an error if the name is not defined when we try to trigger the initialization', async () => {
     const err = new ValidationError('Please share a project name.')
-    const Service = {
-      initialize: jest.fn().mockRejectedValue(err)
-    }
-    const component = shallowMount(RestQAProjectInit, {
-      data() {
-        return {
-          Service
-        }
-      }
-    })
-    expect(component.exists()).toBeTruthy()
-    expect(component.findComponent(Loader).exists()).toBeTruthy()
-    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    Service.initialize.mockRejectedValue(err)
 
-    const inputs = [
-      'name',
-      'description',
-      'url',
-      'env',
-      'btn'
-    ].reduce((obj, item) => {
-      obj[item] = component.find(`#${item}`)
-      return obj
-    }, {})
+    const options = {
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ],
+        mocks: {
+          $notify: jest.fn()
+        }
+      },
+      shallow: false
+    }
+    const component = mount(RestQAProjectInit, options)
+
+
+    expect(component.exists()).toBeTruthy()
+
+    const inputs =  {
+      'name': component.findComponent({ ref: 'form' }).findAll('input')[0],
+      'description': component.findComponent({ ref: 'form' }).findAll('input')[1],
+      'url': component.findComponent({ ref: 'form' }).findAll('input')[2],
+      'env': component.findComponent({ ref: 'form' }).findAll('input')[3],
+      'btn': component.findComponent({ ref: 'form' }).find('button')
+    }
+
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeFalsy()
 
     await inputs.btn.trigger('click')
 
-    expect(component.findComponent(Loader).props('show')).toBeTruthy()
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeTruthy()
 
     await component.vm.$nextTick()
     
@@ -72,46 +70,50 @@ describe('RestQAProjectInit', () => {
 
     await component.vm.$nextTick()
 
-    const alert = component.find('.alert')
-    expect(alert.classes('warning')).toBe(true)
-    expect(alert.isVisible()).toBeTruthy()
-    expect(alert.text()).toEqual('Please share a project name.')
-
-    await component.vm.$nextTick()
-
-    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    expect(options.global.mocks.$notify).toHaveBeenCalledTimes(1)
+    const expectedNotification = {
+      title: 'Oups',
+      message: 'Please share a project name.',
+      type: 'warning'
+    }
+    expect(options.global.mocks.$notify.mock.calls[0][0]).toEqual(expectedNotification)
+    expect(mockConfigAction).toHaveBeenCalledTimes(0)
   })
 
   test('Should show an error if the backend has a server error', async () => {
-    const err = new Error('Backend server error')
-    const Service = {
-      initialize: jest.fn().mockRejectedValue(err)
-    }
-    const component = shallowMount(RestQAProjectInit, {
-      data() {
-        return {
-          Service 
-        }
-      }
-    })
-    expect(component.exists()).toBeTruthy()
-    expect(component.findComponent(Loader).exists()).toBeTruthy()
-    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    const err = new Error('Backend error')
+    Service.initialize.mockRejectedValue(err)
 
-    const inputs = [
-      'name',
-      'description',
-      'url',
-      'env',
-      'btn'
-    ].reduce((obj, item) => {
-      obj[item] = component.find(`#${item}`)
-      return obj
-    }, {})
+    const options = {
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ],
+        mocks: {
+          $notify: jest.fn()
+        }
+      },
+      shallow: false
+    }
+    const component = mount(RestQAProjectInit, options)
+
+
+    expect(component.exists()).toBeTruthy()
+
+    const inputs =  {
+      'name': component.findComponent({ ref: 'form' }).findAll('input')[0],
+      'description': component.findComponent({ ref: 'form' }).findAll('input')[1],
+      'url': component.findComponent({ ref: 'form' }).findAll('input')[2],
+      'env': component.findComponent({ ref: 'form' }).findAll('input')[3],
+      'btn': component.findComponent({ ref: 'form' }).find('button')
+    }
+
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeFalsy()
 
     await inputs.btn.trigger('click')
 
-    expect(component.findComponent(Loader).props('show')).toBeTruthy()
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeTruthy()
 
     await component.vm.$nextTick()
     
@@ -121,35 +123,45 @@ describe('RestQAProjectInit', () => {
 
     await component.vm.$nextTick()
 
-    const alert = component.find('.alert')
-    expect(alert.classes('error')).toBe(true)
-    expect(alert.isVisible()).toBeTruthy()
-    expect(alert.text()).toEqual('Backend server error')
-
-    await component.vm.$nextTick()
-
-    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    expect(options.global.mocks.$notify).toHaveBeenCalledTimes(1)
+    const expectedNotification = {
+      title: 'Oups',
+      message: 'Backend error',
+      type: 'error'
+    }
+    expect(options.global.mocks.$notify.mock.calls[0][0]).toEqual(expectedNotification)
+    expect(mockConfigAction).toHaveBeenCalledTimes(0)
   })
 
   test('Should initalize the project', async () => {
-    const Service = {
-      initialize: jest.fn().mockResolvedValue({
-        folder: '/tmp/project/',
-        configuration: '/tmp/project/.restqa.yml'
-      })
-    }
-    const component = shallowMount(RestQAProjectInit, {
-      localVue,
-      store,
-      data() {
-        return {
-          Service 
-        }
-      }
+    Service.initialize.mockResolvedValue({
+      folder: '/tmp/project/',
+      configuration: '/tmp/project/.restqa.yml'
     })
+
+    const options = {
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ],
+        mocks: {
+          $notify: jest.fn()
+        }
+      },
+      shallow: false
+    }
+    const component = mount(RestQAProjectInit, options)
+
     expect(component.exists()).toBeTruthy()
-    expect(component.findComponent(Loader).exists()).toBeTruthy()
-    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+
+    const inputs =  {
+      'name': component.findComponent({ ref: 'form' }).findAll('input')[0],
+      'description': component.findComponent({ ref: 'form' }).findAll('input')[1],
+      'url': component.findComponent({ ref: 'form' }).findAll('input')[2],
+      'env': component.findComponent({ ref: 'form' }).findAll('input')[3],
+      'btn': component.findComponent({ ref: 'form' }).find('button')
+    }
 
     const expectedData = {
       name: 'backend api',
@@ -158,38 +170,35 @@ describe('RestQAProjectInit', () => {
       env: 'prod'
     }
 
-    const inputs = [
-      'name',
-      'description',
-      'url',
-      'env',
-    ].reduce((obj, item) => {
-      obj[item] = component.find(`#${item}`)
-      obj[item].setValue(expectedData[item])
-      return obj
-    }, {})
+    inputs.name.setValue(expectedData.name)
+    inputs.description.setValue(expectedData.description)
+    inputs.url.setValue(expectedData.url)
+    inputs.env.setValue(expectedData.env)
 
-    inputs.btn = component.find('#btn')
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeFalsy()
+
     await inputs.btn.trigger('click')
 
-    expect(component.findComponent(Loader).props('show')).toBeTruthy()
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeTruthy()
+
 
     await component.vm.$nextTick()
+
+    expect(component.findComponent({ 'name': 'card' }).vm.loading).toBeFalsy()
     
     expect(Service.initialize).toHaveBeenCalledTimes(1)
     expect(Service.initialize.mock.calls[0][0]).toEqual(expectedData)
-    expect(actions.config).toHaveBeenCalledTimes(1)
 
     await component.vm.$nextTick()
 
-    const alert = component.find('.alert')
-    expect(alert.classes('success')).toBe(true)
-    expect(alert.isVisible()).toBeTruthy()
-    expect(alert.text()).toEqual('🚀🚀 Your project has been created successfully!')
-
-    await component.vm.$nextTick()
-
-    expect(component.findComponent(Loader).props('show')).toBeFalsy()
+    expect(options.global.mocks.$notify).toHaveBeenCalledTimes(1)
+    const expectedNotification = {
+      title: 'Let\'s go!',
+      message: '🚀🚀 Your project has been created successfully!',
+      type: 'success'
+    }
+    expect(options.global.mocks.$notify.mock.calls[0][0]).toEqual(expectedNotification)
+    expect(mockConfigAction).toHaveBeenCalledTimes(1)
   })
 })
 

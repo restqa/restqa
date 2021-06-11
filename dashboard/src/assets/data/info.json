@@ -1,0 +1,38 @@
+{
+    "sponsors": [
+        {
+            "logo": "https://restqa.io/atalent.png",
+            "name": "RestQA is here! Do your end-to-end API test integration, the right way!",
+            "url": "https://atalent-consulting.com"
+        }
+    ],
+    "team": {
+        "blog": {
+            "last": {
+                "author": {
+                    "avatar": "https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg",
+                    "username": "@Olivierodo"
+                },
+                "date": "2021-02-02 02:24:19",
+                "image": "https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png",
+                "title": "RestQA is here! Do your end-to-end API test integration, the right way!",
+                "url": "https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291"
+            },
+            "url": "https://medium.com/restqa"
+        },
+        "note": {
+            "avatar": "/logo.png",
+            "from": "RestQA team",
+            "message": "We are happy to have you in the RestQA Family, we are happy to support you on your testing journey."
+        },
+        "video": {
+            "last": {
+                "date": "2021-04-17 03:00:30",
+                "image": "https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg",
+                "title": "RestQA",
+                "url": "https://www.youtube.com/watch?v=EberYFGPZPo"
+            },
+            "url": "https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q"
+        }
+    }
+}
