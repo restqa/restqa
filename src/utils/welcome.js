@@ -32,7 +32,17 @@ Welcome.prototype.MESSAGES = [
    `Support us on Linkedin: ${chalk.yellow('https://linkedin.com/company/restqa')}`,
    `👀 Have you tried to run the command: ${chalk.green('restqa install')}`,
    `🎁 Something is happening… Try : ${chalk.green('restqa dashboard')}`,
-   `💌 Join our newsletter: ${chalk.yellow('https://restqa.io/#/subscribe')}`
+   `💌 Join our newsletter: ${chalk.yellow('https://restqa.io/#/subscribe')}`,
+   `${chalk.red('Jenkins')} is now supported. 🤓 Try the command: restqa init`,
+   `📆 ${chalk.green('Book a session')} to pair to do a feature with the maintainer: ${chalk.yellow('https://restqa.io/pair')}`,
+   `${chalk.green('Create')} your own plugin using the ${chalk.red('Yo generator')} 🔌: ${chalk.yellow('https://github.com/restqa/generator-plugin')}`,
+   `Do not forget to ${chalk.green('add a linter')} to your ${chalk.red('Gherkin')} files 🧹: ${chalk.yellow('https://github.com/restqa/gherkin-linter-action')}`,
+   `How do you like our ${chalk.red('new trailer')} 🎬 ? ${chalk.yellow('https://www.youtube.com/watch?v=EberYFGPZPo')}`,
+   `Feel free to ${chalk.green('contact us')} through ${chalk.red('twitter')} 🐣: ${chalk.yellow('https://twitter.com/restqa')}`,
+   `💡 Create your own ${chalk.red('RestQA')} report by using the ${chalk.green('webhooks')}: restqa install webhook`,
+   `🏄 Configure ${chalk.red('multiple environments')} simply by updating the ${chalk.green('.restqa.yml file')}`,
+   `Create more value for your ${chalk.green('team')} by using Gherkin as a ${chalk.red('living documentation')} 🎳`,
+   `We are expanding our ${chalk.red('plugin ecosystem')}, let us know which plugin you would be interested. 👀`
 ]
 
 Welcome.prototype.toString = function () {

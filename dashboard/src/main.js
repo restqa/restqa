@@ -1,79 +1,16 @@
-import Vue from 'vue'
-import App from './App.vue'
-
-// Vuesax Component Framework
-import Vuesax from 'vuesax'
-import 'material-icons/iconfont/material-icons.css' //Material Icons
-import 'vuesax/dist/vuesax.css' // Vuesax
-Vue.use(Vuesax)
-
-
-// Theme Configurations
-import '../themeConfig.js'
-
-
-// Globally Registered Components
-import './globalComponents.js'
-
-
-// Styles: SCSS
-import './assets/scss/main.scss'
-
-
-// Tailwind
-import '@/assets/css/main.css'
-
-
-// Vue Router
+import { createApp } from 'vue'
 import router from './router'
-
-
-// Vuex Store
 import store from './store/store'
 
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
+import './assets/theme/restqa/index.css'
+import './assets/scss/element-variables.scss'
 
-// i18n
-import i18n from './i18n/i18n'
+import App from './App.vue';
 
-
-// Vuexy Admin Filters
-import './filters/filters'
-
-
-// Clipboard
-import VueClipboard from 'vue-clipboard2'
-Vue.use(VueClipboard)
-
-
-// VeeValidate
-import VeeValidate from 'vee-validate'
-Vue.use(VeeValidate)
-
-
-// Vuejs - Vue wrapper for hammerjs
-import { VueHammer } from 'vue2-hammer'
-Vue.use(VueHammer)
-
-
-// PrismJS
-import 'prismjs'
-import 'prismjs/themes/prism-tomorrow.css'
-
-
-// Feather font icon
-require('./assets/css/iconfont.css')
-
-
-// Vue select css
-// Note: In latest version you have to add it separately
-// import 'vue-select/dist/vue-select.css';
-
-
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store,
-  i18n,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App)
+  .use(ElementPlus)
+  .use(router)
+  .use(store)
+  .mount('#app')

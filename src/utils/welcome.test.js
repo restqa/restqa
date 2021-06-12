@@ -76,7 +76,8 @@ describe('# utils - welcome', () => {
 
 test('Detect broken link from the messages', async () => {
   const ignoreList = [
-    'https://linkedin.com/company/restqa'
+    'https://linkedin.com/company/restqa',
+    'https://restqa.io/pair'
   ]
   const mockYellow = jest.fn()
   jest.mock('chalk', () => {

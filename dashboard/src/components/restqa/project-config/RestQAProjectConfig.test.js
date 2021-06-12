@@ -1,38 +1,26 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
+import { mount } from '@vue/test-utils'
+import { createStore } from 'vuex'
+import ElementPlus from 'element-plus';
 import RestQAProjectConfig from './RestQAProjectConfig.vue'
+import Store from '@/store/modules/restqa'
 
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
-
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
-
-describe('RestQAProjectInit', () => {
+describe('RestQAProjectConfig', () => {
   let store
-  let mockConfig
-  let mockEnv
+
+  Store.actions.config = ({ commit }, val) => {
+    commit('config', val)
+  }
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
-        restqa: {
-          state: {},
-          actions: {},
-          getters: {
-            config: () => mockConfig,
-            selectedEnv: () => mockEnv
-          }
-        }
+        restqa: Store
       }
     })
   })
 
   test('Should show the config information, only one environement', async () => {
-    mockConfig = {
+    let mockConfig = {
       version: '0.0.1',
       metadata: {
         code: 'FEATURE',
@@ -61,41 +49,50 @@ describe('RestQAProjectInit', () => {
       }]
     }
 
+    store.dispatch('config', mockConfig)
+
     const options = {
-      localVue,
-      store
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ]
+      },
+      shallow: false
     }
-    const component = shallowMount(RestQAProjectConfig, options)
+
+    const component = mount(RestQAProjectConfig, options)
+    expect(component.findComponent({ 'name': 'card' }).find('.header').text()).toMatch('Project Configuration (LOCAL)')
+
 
     expect(component.exists()).toBeTruthy()
 
+    const descriptions= component.findComponent('.config')
+
     const fields  = [
-      'key',
-      'name',
-      'description',
-      'url',
-      'env',
-    ].reduce((obj, item) => {
-      obj[item] = component.find(`span.${item}`)
+      'URL',
+      'CODE',
+      'NAME',
+      'DESCRIPTION',
+      'OUTPUTS',
+    ].reduce((obj, key) => {
+      const trs = descriptions.findAll('tr td').forEach((td, i, arr) => {
+        if (td.text() == key) {
+          obj[key] = arr[i + 1].text()
+        }
+      })
       return obj
     }, {})
 
-    await component.vm.$nextTick()
-    
-    expect(fields.key.text()).toEqual(mockConfig.metadata.code)
-    expect(fields.name.text()).toEqual(mockConfig.metadata.name)
-    expect(fields.description.text()).toEqual(mockConfig.metadata.description)
-    expect(fields.env.text()).toEqual(mockConfig.environments[0].name)
-    expect(fields.url.text()).toEqual('https://docs.restqa.io')
-    const outputs = component.findAll('ul li')
-    expect(outputs.length).toEqual(2)
-    expect(outputs.at(0).text()).toEqual('html')
-    expect(outputs.at(1).text()).toEqual('file')
+    expect(fields['CODE']).toEqual(mockConfig.metadata.code)
+    expect(fields['NAME']).toEqual(mockConfig.metadata.name)
+    expect(fields['DESCRIPTION']).toEqual(mockConfig.metadata.description)
+    expect(fields['URL']).toEqual('https://docs.restqa.io')
+    expect(fields['OUTPUTS']).toEqual('htmlfile')
   })
 
   test('Should show the config information from the selected environment', async () => {
-    mockEnv = 'uat'
-    mockConfig = {
+    let mockConfig = {
       version: '0.0.1',
       metadata: {
         code: 'FEATURE',
@@ -141,34 +138,71 @@ describe('RestQAProjectInit', () => {
       }]
     }
 
+    store.dispatch('config', mockConfig)
+    store.dispatch('selectedEnv', 'uat')
+
     const options = {
-      localVue,
-      store
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ]
+      },
+      shallow: false
     }
-    const component = shallowMount(RestQAProjectConfig, options)
+
+    const component = mount(RestQAProjectConfig, options)
+    expect(component.findComponent({ 'name': 'card' }).find('.header').text()).toMatch('Project Configuration (UAT)')
 
     expect(component.exists()).toBeTruthy()
 
-    const fields  = [
-      'key',
-      'name',
-      'description',
-      'url',
-      'env',
-    ].reduce((obj, item) => {
-      obj[item] = component.find(`span.${item}`)
+    const descriptions= component.findComponent('.config')
+
+    let fields  = [
+      'URL',
+      'CODE',
+      'NAME',
+      'DESCRIPTION',
+      'OUTPUTS',
+    ].reduce((obj, key) => {
+      const trs = descriptions.findAll('tr td').forEach((td, i, arr) => {
+        if (td.text() == key) {
+          obj[key] = arr[i + 1].text()
+        }
+      })
       return obj
     }, {})
 
+    expect(fields['CODE']).toEqual(mockConfig.metadata.code)
+    expect(fields['NAME']).toEqual(mockConfig.metadata.name)
+    expect(fields['DESCRIPTION']).toEqual(mockConfig.metadata.description)
+    expect(fields['URL']).toEqual('https://uat.restqa.io')
+    expect(fields['OUTPUTS']).toEqual('html')
+
+    store.dispatch('selectedEnv', 'local')
+
     await component.vm.$nextTick()
-    
-    expect(fields.key.text()).toEqual(mockConfig.metadata.code)
-    expect(fields.name.text()).toEqual(mockConfig.metadata.name)
-    expect(fields.description.text()).toEqual(mockConfig.metadata.description)
-    expect(fields.env.text()).toEqual('uat')
-    expect(fields.url.text()).toEqual('https://uat.restqa.io')
-    const outputs = component.findAll('ul li')
-    expect(outputs.length).toEqual(1)
-    expect(outputs.at(0).text()).toEqual('html')
+
+    expect(component.findComponent({ 'name': 'card' }).find('.header').text()).toMatch('Project Configuration (LOCAL)')
+    fields  = [
+      'URL',
+      'CODE',
+      'NAME',
+      'DESCRIPTION',
+      'OUTPUTS',
+    ].reduce((obj, key) => {
+      const trs = descriptions.findAll('tr td').forEach((td, i, arr) => {
+        if (td.text() == key) {
+          obj[key] = arr[i + 1].text()
+        }
+      })
+      return obj
+    }, {})
+
+    expect(fields['CODE']).toEqual(mockConfig.metadata.code)
+    expect(fields['NAME']).toEqual(mockConfig.metadata.name)
+    expect(fields['DESCRIPTION']).toEqual(mockConfig.metadata.description)
+    expect(fields['URL']).toEqual('http://localhost:3000')
+    expect(fields['OUTPUTS']).toEqual('htmlfile')
   })
 })

@@ -44,7 +44,7 @@ teardown() {
 @test "[STEPS]> Get an error if the .restqa.yml is not found" {
   run restqa steps given
   assert_failure
-  assert_output --partial ">  ReferenceError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist."
+  assert_output --partial "ReferenceError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist."
 }
 
 @test "[STEPS]> Get an error if the keyword doesn't exist" {
@@ -56,13 +56,13 @@ teardown() {
 @test "[STEPS]> Get Error if the passed environemt doesn't exist (using the alias st)" {
   run restqa st -c ./bin/tests/features/success/.restqa.yml -e prod given
   assert_failure
-  assert_output --partial ">  Error: \"prod\" is not an environment available in the config file, choose between : local"
+  assert_output --partial "Error: \"prod\" is not an environment available in the config file, choose between : local"
 }
 
 @test "[STEPS]> Get Error if the output is not valid" {
   run restqa st -c ./bin/tests/features/success/.restqa.yml -o hello given
   assert_failure
-  assert_output --partial ">  TypeError: \"hello\" is not a valid output. Available: short | medium | large"
+  assert_output --partial "TypeError: \"hello\" is not a valid output. Available: short | medium | large"
 }
 
 ## Happy

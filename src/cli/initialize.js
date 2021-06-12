@@ -58,6 +58,10 @@ async function initialize (program) {
         name: 'Travis Ci',
         value: 'travis'
       },
+      {
+        name: 'Jenkins',
+        value: 'jenkins'
+      },
       new inquirer.Separator(),
       {
         name: Locale.get('service.init.questions.no_ci'),
@@ -239,6 +243,30 @@ initialize.generate = async function (options) {
         logger.success('service.init.success.ci', 'Travis CI')
         break
       }
+      case 'jenkins': {
+        const content = `
+ pipeline {
+    agent { label 'master' }
+
+    stages {
+        stage('RestQA') {
+            steps {
+                script {
+                    sh "ls -lah"
+                    sh "docker run -v \${env.WORKSPACE}:/app restqa/restqa"
+                    
+                    archiveArtifacts artifacts: 'report/'
+                }
+            }
+        }
+    }
+}`.trim()
+        const filename = 'Jenkinsfile'
+        fs.writeFileSync(path.resolve(folder, filename), content)
+        logger.success('service.init.success.ci', 'Jenkins')
+        break
+      }
+
       default:
         throw new ReferenceError(`The continous integration "${ci}" is not supported by RestQa`)
     }

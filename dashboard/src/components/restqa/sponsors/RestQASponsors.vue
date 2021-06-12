@@ -1,7 +1,6 @@
 <template>
-  <vx-card title="Sponsors" emoji="⭐️" class="mt-base" slot="no-body" >
-    <Loader :show="!sponsors.length" />
-    <div class="sponsors" v-if="sponsors.length" >
+  <card title="Sponsors" emoji="⭐️" :loading="null === sponsors">
+    <div class="sponsors" v-if="sponsors" >
       <a v-for="(sponsor, index)  in sponsors"
         :key="index"
         :href="sponsor.url"
@@ -9,49 +8,30 @@
         class="sponsor"
         target="_blank"
         >
-        <img  :src="sponsor.logo" :alt="sponsor.name" />
+        <img :src="sponsor.logo" :alt="sponsor.name" />
       </a>
     </div>
     <div class="join">
-     <a href="https://github.com/sponsors/restqa" target="_blank">
-       Your logo here
-     </a>
+     <el-link href="https://github.com/sponsors/restqa" target="_blank">Your logo here</el-link>
     </div>
-  </vx-card>
+  </card>
 </template>
 
 <script>
-import VxCard from '../../global/vx-card/VxCard'
-import Loader from '../../utils/loader/Loader'
-import * as Service from '@/services/restqa/info'
+import Card from '@/components/UI/card/Card'
 
 export default {
-  name: 'RestQATeamNote',
+  name: 'RestQASponsors',
   components: {
-    VxCard,
-    Loader
+    Card
   },
-  data () {
-    return {
-      Service,
-      sponsors: []
-    }
-  },
-  async beforeMount () {
-    try {
-      this.sponsors = await this.Service.getTeamSponsors()
-    } catch (e) {
-      this.sponsors = [
-        {
-          url: 'https://atalent-consulting.com',
-          name: 'Atalent Consulting',
-          logo: 'https://atalent-consulting.com/logo.png'
-        }
-      ]
+  computed: {
+    sponsors() {
+      const  { sponsors } = this.$store.getters.info || { sponsors: null }
+      return sponsors
     }
   }
 }
 </script>
-
 <style src="./RestQASponsors.scss" lang="scss" scoped />
 

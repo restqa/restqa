@@ -7,21 +7,21 @@ load 'common.sh'
 @test "[RUN]> Get an error if the .restqa.yml is not found" {
   run restqa run ./bin/tests/features
   assert_failure
-  [ "${lines[0]}" =  ">  TypeError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist." ]
+  [ "${lines[0]}" =  "TypeError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist." ]
 }
 
 @test "[RUN]> Get an error if the passed config file is not found (--config)" {
   run restqa run --config .fake.yml ./bin/tests/features
   #debug "${status}" "${output}" "${lines}"
   assert_failure
-  [ "${lines[0]}" =  ">  TypeError: The configuration file \".fake.yml\" doesn't exist." ]
+  [ "${lines[0]}" =  "TypeError: The configuration file \".fake.yml\" doesn't exist." ]
 }
 
 @test "[RUN]> Get an error if the passed config file is not found (-c)" {
   run restqa run -c .fake.yml ./bin/tests/features
   #debug "${status}" "${output}" "${lines}"
   assert_failure
-  [ "${lines[0]}" =  ">  TypeError: The configuration file \".fake.yml\" doesn't exist." ]
+  [ "${lines[0]}" =  "TypeError: The configuration file \".fake.yml\" doesn't exist." ]
 }
 
 ## Help
@@ -124,7 +124,7 @@ load 'common.sh'
 @test "[RUN]> TAG > Error if the tag doesn't start with the symbol @" {
   run restqa run -t select -c ./bin/tests/features/tags/.restqa.yml ./bin/tests/features/tags/
   assert_failure
-  assert_output --partial '>  Error: The tags should start with the symbol "@" (example: @select)'
+  assert_output --partial 'Error: The tags should start with the symbol "@" (example: @select)'
 }
 
 @test "[RUN]> TAG > Run on the scenario taggdd" {

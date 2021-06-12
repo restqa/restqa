@@ -1,4 +1,7 @@
 const getters = {
+  info (state) {
+    return state.info
+  },
   config (state) {
     return state.config
   },
@@ -10,6 +13,9 @@ const getters = {
   },
   environments (state) {
     return (state.config && state.config.environments && state.config.environments.map(_ => _.name)) || []
+  },
+  steps (state) {
+    return state.steps
   }
 }
 

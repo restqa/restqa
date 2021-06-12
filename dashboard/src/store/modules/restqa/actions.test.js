@@ -1,12 +1,28 @@
 let mockConfig
 import { ForbiddenError} from '../../../services/http'
 
-jest.mock('../../../services/restqa/project', () => {
+let mockGet
+let mockPost
+
+jest.mock('axios', () => {
+  const originalModule = jest.requireActual('axios')
   return {
-    getConfig: function () {
-      return mockConfig.apply(this, arguments)
+    ...originalModule,
+    create: function() {
+      return this
+    },
+    get: function () {
+      return mockGet.apply(this, arguments)
+    },
+    post: function () {
+      return mockPost.apply(this, arguments)
     }
   }
+})
+
+beforeEach(() => {
+  mockGet = undefined
+  mockPost = undefined
 })
 
 import actions from './actions'
@@ -43,7 +59,7 @@ describe('actions', () => {
         }]
       }
 
-      mockConfig = jest.fn().mockResolvedValue(data)
+      mockGet = jest.fn().mockResolvedValue({ data })
 
       const context = {
         commit: jest.fn()
@@ -110,7 +126,7 @@ describe('actions', () => {
         }]
       }
 
-      mockConfig = jest.fn().mockResolvedValue(data)
+      mockGet = jest.fn().mockResolvedValue({ data })
 
       const context = {
         commit: jest.fn()
@@ -130,7 +146,7 @@ describe('actions', () => {
     })
 
     test('Get the unsuccessful config', async () => {
-      mockConfig = jest.fn().mockRejectedValue(new ForbiddenError('No access'))
+      mockGet = jest.fn().mockRejectedValue(new ForbiddenError('No access'))
 
       const context = {
         commit: jest.fn()
@@ -149,6 +165,41 @@ describe('actions', () => {
     })
   })
 
+  describe('info', () => {
+
+    test('Should commit the default information when the remote call fails', async () => {
+      mockGet = jest.fn().mockRejectedValue(new Error('oups'))
+
+      const data = require('../../../assets/data/info.json')
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.info(context)
+      expect(context.commit).toHaveBeenCalledTimes(1)
+      expect(context.commit.mock.calls[0][0]).toEqual('info')
+      expect(context.commit.mock.calls[0][1]).toEqual(data)
+    })
+
+    test('Should commit the information retrieved from the remote server', async () => {
+      const data = {
+        foo: 'bar'
+      }
+
+      mockGet = jest.fn().mockResolvedValueOnce({ data })
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.info(context)
+      expect(context.commit).toHaveBeenCalledTimes(1)
+      expect(context.commit.mock.calls[0][0]).toEqual('info')
+      expect(context.commit.mock.calls[0][1]).toEqual(data)
+    })
+  })
+
   describe('selectedEnv', () => {
     test('setup the selectedEnv', async () => {
 
@@ -162,6 +213,47 @@ describe('actions', () => {
 
       expect(context.commit.mock.calls[0][0]).toEqual('selectedEnv')
       expect(context.commit.mock.calls[0][1]).toEqual(true)
+    })
+  })
+
+  describe('steps', () => {
+    test('Get the Full list of steps', async () => {
+      const data = [{
+          plugin: '@restqa/restqapi',
+          keyword: 'Given',
+          step: 'I have the api gateway',
+          comment: 'Initiate the api call'
+        }, {
+          plugin: '@restqa/restqapi',
+          keyword: 'When',
+          step: 'I call the api',
+          comment: 'perform the api call'
+      }]
+
+      mockGet = jest.fn().mockResolvedValue({ data })
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.steps(context)
+
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('steps')
+      expect(context.commit.mock.calls[0][1]).toEqual(data)
+    })
+
+    test('No updates if there is an issue on retrieving the steps', async () => {
+      mockGet = jest.fn().mockRejectedValue(new Error('backend server'))
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.steps(context)
+
+      expect(context.commit).toHaveBeenCalledTimes(0)
     })
   })
 })

@@ -1,15 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
+import { mount } from '@vue/test-utils'
+import { createStore } from 'vuex'
+import ElementPlus from 'element-plus';
 import RestQASelectConfig from './RestQASelectConfig.vue'
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
-
-afterEach(() => {
-  jest.resetModules()
-  jest.resetAllMocks()
-})
 
 describe('RestQASelectConfig', () => {
   let store
@@ -20,7 +12,7 @@ describe('RestQASelectConfig', () => {
   }
 
   beforeEach(() => {
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         restqa: {
           state: {},
@@ -34,41 +26,33 @@ describe('RestQASelectConfig', () => {
     })
   })
 
-  test('Should not show the config environments if the list is empty', () => {
-    mockEnvs = []
-    const options = {
-      localVue,
-      store
-    }
-    const component = shallowMount(RestQASelectConfig, options)
-
-    expect(component.exists()).toBeTruthy()
-    expect(component.isVisible()).toBeFalsy()
-  })
-
   test('Should show the config environments', async () => {
     mockEnvs = ['local', 'uat']
     mockSelectedEnv = 'local'
     const options = {
-      localVue,
-      store
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ]
+      }
     }
-    const component = shallowMount(RestQASelectConfig, options)
+    const component = mount(RestQASelectConfig, options)
 
     expect(component.exists()).toBeTruthy()
-    expect(component.isVisible()).toBeTruthy()
+    await component.vm.$nextTick()
 
-    const select = component.find('select#environments')
-    const envs = select.findAll('option')
+    const select = component.findComponent('.select')
+    const envs = select.findAllComponents('.option')
     expect(envs.length).toEqual(2)
-    expect(envs.at(0).text()).toEqual('local')
-    expect(envs.at(1).text()).toEqual('uat')
+    expect(envs[0].text()).toEqual('local')
+    expect(envs[1].text()).toEqual('uat')
     
     expect(component.vm.$data.env).toEqual('local')
 
     await component.vm.$nextTick()
 
-    envs.at(1).setSelected()
+    await envs[1].trigger('click')
 
     await component.vm.$nextTick()
 

@@ -11,10 +11,11 @@ module.exports = {
   error: function () {
     if (!(arguments[0] instanceof Error)) {
       arguments[0] = Locale.get(arguments[0]) || arguments[0]
+    } else {
+      debug(arguments[0])
     }
     arguments[0] = chalk.bold.red.call(this, arguments[0])
     _log.apply(this, arguments)
-    debug(arguments[0])
   },
   info: function () {
     arguments[0] = Locale.get(arguments[0]) || arguments[0]

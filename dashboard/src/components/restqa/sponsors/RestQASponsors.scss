@@ -1,5 +1,3 @@
-@import '@/assets/scss/vuexy/_variables.scss';
-
 .sponsors {
   display: flex;
   flex-direction: row;
@@ -25,7 +23,7 @@ div.join {
   text-align: center;
 
   a {
-    text-decoration:underline;
+    text-decoration: underline;
   }
 }
 

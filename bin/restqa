@@ -5,6 +5,9 @@ const pkg = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
 const updateNotifier = require('update-notifier')
+const path = require('path')
+
+const DEFAULT_CONFIG = path.resolve(process.cwd(), '.restqa.yml')
 
 const notifier = updateNotifier({
   pkg,
@@ -62,7 +65,7 @@ program
   .command('dashboard')
   .alias('d')
   .option('--no-config', 'Run the dashboad on "no config" mode')
-  .option('-c, --config <config>', 'Use a specific .restqa.yml file')
+  .option('-c, --config <config>', 'Use a specific .restqa.yml file', DEFAULT_CONFIG)
   .option('-p, --port <port>', 'Define the running port (default: 8081)')
   .description('Launch the RestQA Dashboard web server')
   .usage('[options]')
@@ -88,7 +91,7 @@ async function main () {
 
 main()
   .catch(e => {
-    logger.error('> ', e)
+    logger.error(e)
     process.exit(1)
   })
   .finally(() => {
