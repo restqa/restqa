@@ -21,13 +21,13 @@ load 'common.sh'
 @test "[DASHBOARD]> Get an error if the port is not a number" {
   run restqa dashboard --port hello
   assert_failure
-  assert_output --partial '>  Error: The port should be a number. (example: 8081)'
+  assert_output --partial 'Error: The port should be a number. (example: 8081)'
 }
 
 @test "[DASHBOARD]> Get an error if the config doesn't exist" {
   run restqa dashboard --config hello.yml
   assert_failure
-  assert_output --partial ">  Error: The configuration file \"hello.yml\" doesn't exist."
+  assert_output --partial "Error: The configuration file \"hello.yml\" doesn't exist."
 }
 
 @test "[DASHBOARD]> Run with the default parameters" {

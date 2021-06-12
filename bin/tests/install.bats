@@ -31,20 +31,20 @@ load 'common.sh'
 @test "[INSTALL]> Get an error if the .restqa.yml is not found" {
   run restqa install
   assert_failure
-  assert_output --partial ">  ReferenceError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist."
+  assert_output --partial "ReferenceError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist."
 }
 
 @test "[INSTALL]> Get an error if the plugin doesn't exist" {
   run restqa install foo-bar
   assert_failure
-  assert_output --partial '>  Error: The plugin "foo-bar" is not available. Use the command "restqa install" to retrive the list of available plugin'
+  assert_output --partial 'Error: The plugin "foo-bar" is not available. Use the command "restqa install" to retrive the list of available plugin'
 }
 
 @test "[INSTALL]> Get Error if the passed environemt doesn't exist (using the alias i)" {
   answer="jjjj" #jjj as 3 times the down arrow keys to select the html output because it doesn't ask any other question
   run restqa i -c ./bin/tests/features/success/.restqa.yml -e prod <<< $answer
   assert_failure
-  assert_output --partial ">  TypeError: \"prod\" is not an environment available in the config file, choose between : local"
+  assert_output --partial "TypeError: \"prod\" is not an environment available in the config file, choose between : local"
 }
 
 @test "[INSTALL]> Successfull install of the html output but getting prompt message if the configuration file contains multiple environment" {
