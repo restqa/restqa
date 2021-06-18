@@ -116,4 +116,28 @@ describe('getters', () => {
       expect(result).toEqual({ foo: 'bar' })
     })
   })
+
+  describe('getFeatures', () => {
+    test('get the current feature list', () => {
+      const state = {
+        features: [
+          '/test.foo'
+        ]
+      }
+
+      const result = getters.features(state)
+      expect(result).toEqual([ '/test.foo' ])
+    })
+  })
+
+  describe('selectedFile', () => {
+    test('get the current selected file', () => {
+      const state = {
+        selectedFile: '/test.foo'
+      }
+
+      const result = getters.selectedFile(state)
+      expect(result).toEqual('/test.foo')
+    })
+  })
 })

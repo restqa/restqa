@@ -37,6 +37,13 @@ const router = createRouter({
         meta: {
           title: 'Step definition'
         }
+      }, {
+        path: '/editor',
+        name: 'editor',
+        component: () => import('./views/editor/Editor.vue'),
+        meta: {
+          title: 'Editor'
+        }
       }
     ]
   }]

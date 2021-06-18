@@ -27,6 +27,8 @@ module.exports = function (configFile, options = {}) {
     .use((err, req, res, next) => {
       if (err instanceof TypeError || err instanceof ReferenceError) {
         res.status(406)
+      } else if (err instanceof RangeError) {
+        res.status(404)
       } else {
         res.status(500)
       }

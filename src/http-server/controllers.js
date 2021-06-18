@@ -4,6 +4,7 @@ const { version } = require('../../package.json')
 const RestQA = require('../../src')
 const Remote = require('./services/remote')
 const Report = require('./services/report')
+const Project = require('./services/project')
 const { URL } = require('url')
 const YAML = require('yaml')
 const fs = require('fs')
@@ -148,6 +149,27 @@ Controllers.getReports = function (req, res, next) {
     res.json(list)
   } catch (e) {
     next(e)
+  }
+}
+
+Controllers.getFeatures = function (req, res, next) {
+  const { server } = req.app.get('restqa.options')
+  const result = Project.features(server.testFolder)
+  res.json(result)
+}
+
+Controllers.getFeaturesFile = function (req, res, next) {
+  const { server } = req.app.get('restqa.options')
+  const file = req.params[0]
+  try {
+    const result = fs.readFileSync(path.resolve(server.testFolder, file)).toString('utf-8')
+    res.send(result)
+  } catch (e) {
+    let err = e
+    if (e.code === 'ENOENT') {
+      err = new RangeError(`The file "${file}" doesn't exist in the folder "${server.testFolder}"`)
+    }
+    next(err)
   }
 }
 

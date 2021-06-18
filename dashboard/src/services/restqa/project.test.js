@@ -125,4 +125,70 @@ describe('Service - RestQA - Projects', () => {
       expect(mockGet.mock.calls[0][1]).toEqual({ params: { keyword: 'given' } })
     })
   })
+
+  describe('Features', () => {
+    test('retrieve the list of feature files', async () => {
+      const mockData = {
+        data: [
+          'integration/id/delete-todos-id.feature',
+          'integration/id/get-todos-id.feature',
+          'integration/id/patch-todos-id.feature',
+          'integration/id/put-todos-id.feature',
+          'integration/post-todos.feature',
+          'integration/get-todos.feature'
+        ]
+      }
+      mockGet = jest.fn().mockResolvedValue(mockData)
+
+      const result = await Project.getFeatures()
+      const expectedResult = [{
+        label: 'integration',
+        children: [{
+          label: 'id',
+          children: [{
+            label: 'delete-todos-id.feature',
+            children: [],
+            filename: 'integration/id/delete-todos-id.feature',
+          }, {
+            label: 'get-todos-id.feature',
+            children: [],
+            filename: 'integration/id/get-todos-id.feature',
+          }, {
+            label: 'patch-todos-id.feature',
+            children: [],
+            filename: 'integration/id/patch-todos-id.feature',
+          }, {
+            label: 'put-todos-id.feature',
+            children: [],
+            filename: 'integration/id/put-todos-id.feature',
+          }]
+        }, {
+          label: 'post-todos.feature',
+          children: [],
+          filename: 'integration/post-todos.feature',
+        }, {
+          label: 'get-todos.feature',
+          children: [],
+          filename: 'integration/get-todos.feature',
+        }]
+      }]
+      expect(result).toEqual(expectedResult)
+      expect(mockGet.mock.calls).toHaveLength(1)
+      expect(mockGet.mock.calls[0][0]).toEqual('/api/project/features')
+    })
+
+    test('Get the content of a feature file', async () => {
+      const mockData = `
+       Feature ...
+      `.trim()
+
+      mockGet = jest.fn().mockResolvedValue({data: mockData})
+
+      const result = await Project.getFeatureFile('foo.feature')
+      const expectedResult = mockData
+      expect(result).toEqual(expectedResult)
+      expect(mockGet.mock.calls).toHaveLength(1)
+      expect(mockGet.mock.calls[0][0]).toEqual('/api/project/features/foo.feature')
+    })
+  })
 })

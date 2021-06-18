@@ -948,4 +948,127 @@ environments:
       expect(mockRequest.mock.calls).toHaveLength(1)
     })
   })
+
+  describe('/api/project/features', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
+    test('Retrieve the list of tests', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+      const options = {
+        env: 'local',
+        path: path.resolve('./example/tests/integration')
+      }
+      const srvOption = {
+        server: {
+          testFolder: path.resolve(__dirname, '../../example/tests')
+        }
+      }
+      const response = await request(server(filename, srvOption))
+        .get('/api/project/features')
+        .send(options)
+      expect(response.status).toBe(200)
+      const expectedBody = [
+        'integration/delete-todos-id.feature',
+        'integration/get-todos-id.feature',
+        'integration/get-todos.feature',
+        'integration/patch-todos.feature',
+        'integration/post-todos.feature',
+        'integration/put-todos.feature'
+      ]
+      expect(response.body).toEqual(expectedBody)
+    })
+  })
+
+  describe('/api/project/features/{path}', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
+    test('Retrieve the content of a specific feature', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const srvOption = {
+        server: {
+          testFolder: path.resolve(__dirname, '../../example/tests')
+        }
+      }
+      const featureFilename = 'integration/delete-todos-id.feature'
+      const response = await request(server(filename, srvOption))
+        .get('/api/project/features/' + featureFilename)
+      expect(response.status).toBe(200)
+      const expectedBody = fs.readFileSync(path.resolve(__dirname, '../../example/tests', featureFilename)).toString('utf-8')
+      expect(response.text).toEqual(expectedBody)
+    })
+
+    test('throw error if the file doesnt exist', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const srvOption = {
+        server: {
+          testFolder: path.resolve(__dirname, '../../example/tests')
+        }
+      }
+      const response = await request(server(filename, srvOption))
+        .get('/api/project/features/foo-bar.feature')
+      expect(response.status).toBe(404)
+      expect(response.body).toEqual({
+        message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
+      })
+    })
+  })
 })

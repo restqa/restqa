@@ -8,7 +8,9 @@ describe('mutations', () => {
       loadingConfig,
       selectedEnv,
       info,
-      steps
+      steps,
+      features,
+      selectedFile
     } = mutations
 
     test('update Config states', () => {
@@ -64,6 +66,26 @@ describe('mutations', () => {
       info(state, { foo: 'bar' })
 
       expect(state.info).toEqual({ foo: 'bar' })
+    })
+
+    test('update feature state', () => {
+      const state = {
+        features: []
+      }
+
+      features(state, [{ foo: 'bar' }])
+
+      expect(state.features).toEqual([{ foo: 'bar' }])
+    })
+
+    test('update feature state', () => {
+      const state = {
+        selectedFile: 'test.feature'
+      }
+
+      selectedFile(state, 'new-test.feature')
+
+      expect(state.selectedFile).toEqual('new-test.feature')
     })
   })
 })
