@@ -5,7 +5,7 @@ const Welcome = require('./utils/welcome')
 const restqa = {
   env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
   configFile: process.env.RESTQA_CONFIG,
-  tmpFileExport: process.env.RESTQA_TMP_FILE_EXPORT
+  tmpFileExport: global.restqa && global.restqa.tmpExport
 }
 
 const config = new Config(restqa)
@@ -28,10 +28,10 @@ const options = {
 
 if (restqa.tmpFileExport) {
   options.outputs.push({
-    type: 'file',
+    type: 'stream',
     enabled: true,
     config: {
-      path: restqa.tmpFileExport
+      instance: restqa.tmpFileExport
     }
   })
 }

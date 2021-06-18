@@ -509,6 +509,11 @@ environments:
   })
 
   describe('/api/run', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false
       const response = await request(server(config)).post('/api/restqa/run')
@@ -528,7 +533,7 @@ environments:
       expect(response.body.message).toBe('The configuration file "./.restqa.yml" doesn\'t exist.')
     })
 
-    test.skip('Run the test and get the result', async () => {
+    test('Run the test and get the result', async () => {
       const content = `
 ---
 
@@ -547,15 +552,23 @@ environments:
       `
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
+
+      jest.mock('../index', () => {
+        return {
+          Run: jest.fn().mockResolvedValue({ foo: 'bar' })
+        }
+      })
+      const server = require('./index')(filename)
+
       const options = {
         env: 'local',
-        path: path.resolve('./bin/tests/features/success')
+        path: 'tests/'
       }
-      const response = await request(server(filename))
+      const response = await request(server)
         .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(201)
-      expect(response.body.message).toBe(`The configuration file "${path.resolve('.', '.restqa.yml')}" doesn't exist.`)
+      expect(response.body).toEqual({ foo: 'bar' })
     })
   })
 
