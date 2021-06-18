@@ -5,9 +5,6 @@ const run = require('./cli/run')
 const dashboard = require('./cli/dashboard')
 const initialize = require('./cli/initialize')
 
-const os = require('os')
-const fs = require('fs')
-const path = require('path')
 const Stream = require('stream')
 
 /**
@@ -180,7 +177,6 @@ function Run (options) {
   global.restqa = global.restqa || {}
   global.restqa.tmpExport = stream
 
-
   let args
 
   if (options.path) {
@@ -196,7 +192,6 @@ function Run (options) {
   }).then(() => {
     return result
   })
-
 }
 
 /**
