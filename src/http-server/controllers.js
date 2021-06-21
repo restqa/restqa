@@ -96,10 +96,13 @@ Controllers.install = async function (req, res, next) {
 
 Controllers.run = async function (req, res, next) {
   try {
+    const { server } = req.app.get('restqa.options')
+
     const options = req.body
     options.configFile = req.app.get('restqa.configuration')
     options.stream = new Stream.Writable()
     options.stream._write = () => {}
+    options.path = path.resolve(server.testFolder, options.path || '')
     const result = await RestQA.Run(options)
     res
       .status(201)

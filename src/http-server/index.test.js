@@ -553,9 +553,10 @@ environments:
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
+      const mockRun = jest.fn().mockResolvedValue({ foo: 'bar' })
       jest.mock('../index', () => {
         return {
-          Run: jest.fn().mockResolvedValue({ foo: 'bar' })
+          Run: mockRun
         }
       })
       const server = require('./index')(filename)
@@ -569,6 +570,55 @@ environments:
         .send(options)
       expect(response.status).toBe(201)
       expect(response.body).toEqual({ foo: 'bar' })
+    })
+
+    test('Run the test and get the result reusing the test folder', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const mockRun = jest.fn().mockResolvedValue({ foo: 'bar' })
+      jest.mock('../index', () => {
+        return {
+          Run: mockRun
+        }
+      })
+
+      const srvOption = {
+        server: {
+          testFolder: path.resolve(__dirname, '../../example/tests')
+        }
+      }
+      const server = require('./index')(filename, srvOption)
+
+      const options = {
+        env: 'local',
+        path: 'integration/delete-todos-id.feature'
+      }
+      const response = await request(server)
+        .post('/api/restqa/run')
+        .send(options)
+      expect(response.status).toBe(201)
+      expect(response.body).toEqual({ foo: 'bar' })
+      const expectedResult = {
+        path: path.join(srvOption.server.testFolder, options.path)
+      }
+      expect(mockRun.mock.calls[0][0].path).toEqual(expectedResult.path)
     })
   })
 

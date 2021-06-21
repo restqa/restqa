@@ -45,5 +45,6 @@ function formatOptions (options) {
   options.server.report.urlPrefixPath = options.server.report.urlPrefixPath || '/reports'
   // @todo: add a validation to ensure the urlPrefixPathreport starts with a '/'
   options.server.report.outputFolder = options.server.report.outputFolder || path.resolve(process.cwd(), 'reports')
+  options.server.testFolder = options.server.testFolder || process.cwd()
   return options
 }
