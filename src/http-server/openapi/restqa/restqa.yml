@@ -130,7 +130,7 @@ paths:
       tags:
         - Project
       deprecated: false
-      operationId: projectFeatureFile
+      operationId: getProjectFeatureFile
       summary: Return the content of a specific feature
       responses:
         '200':
@@ -139,6 +139,38 @@ paths:
             text/plain:
               schema:
                 $ref: '#/definitions/featureFile'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+    put:
+      tags:
+        - Project
+      deprecated: false
+      operationId: updateProjectFeatureFile
+      summary: Update the content of a specific feature
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              $ref: '#/definitions/featureFile'
+      responses:
+        '204':
+          description: Success
         '403':
           description: Forbiden Error
           content:

@@ -176,4 +176,25 @@ Controllers.getFeaturesFile = function (req, res, next) {
   }
 }
 
+Controllers.updateFeaturesFile = function (req, res, next) {
+  const { server } = req.app.get('restqa.options')
+  const file = req.params[0]
+  try {
+    const filepath = path.resolve(server.testFolder, file)
+    if (!fs.existsSync(filepath)) {
+      const e = new Error('')
+      e.code = 'ENOENT'
+      throw e
+    }
+    fs.writeFileSync(filepath, req.body)
+    res.sendStatus(204)
+  } catch (e) {
+    let err = e
+    if (e.code === 'ENOENT') {
+      err = new RangeError(`The file "${file}" doesn't exist in the folder "${server.testFolder}"`)
+    }
+    next(err)
+  }
+}
+
 module.exports = Controllers

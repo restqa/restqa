@@ -6,6 +6,7 @@ describe('Service - RestQA - Projects', () => {
 
   let mockGet
   let mockPost
+  let mockPut
   jest.mock('axios', () => {
     const originalModule = jest.requireActual('axios')
     return {
@@ -18,6 +19,9 @@ describe('Service - RestQA - Projects', () => {
       },
       post: function () {
         return mockPost.apply(this, arguments)
+      },
+      put: function () {
+        return mockPut.apply(this, arguments)
       }
     }
   })
@@ -25,6 +29,7 @@ describe('Service - RestQA - Projects', () => {
   afterEach(() => {
     mockGet = undefined
     mockPost = undefined
+    mockPut = undefined
   })
 
   const Project = require('./project')
@@ -210,6 +215,26 @@ describe('Service - RestQA - Projects', () => {
       expect(result).toEqual(expectedResult)
       expect(mockGet.mock.calls).toHaveLength(1)
       expect(mockGet.mock.calls[0][0]).toEqual('/api/project/features/foo.feature')
+    })
+
+    test('update the content of a feature file', async () => {
+      const data = `
+       Feature ...
+      `.trim()
+
+      mockPut = jest.fn().mockResolvedValue(null)
+
+      const result = await Project.saveFeatureFile('foo.feature', data)
+      expect(result).toEqual(true)
+      expect(mockPut.mock.calls).toHaveLength(1)
+      expect(mockPut.mock.calls[0][0]).toEqual('/api/project/features/foo.feature')
+      expect(mockPut.mock.calls[0][1]).toEqual(data)
+      const expectOption = {
+        headers: {
+          'content-Type' : 'text/plain' 
+        }
+      }
+      expect(mockPut.mock.calls[0][2]).toEqual(expectOption)
     })
   })
 })

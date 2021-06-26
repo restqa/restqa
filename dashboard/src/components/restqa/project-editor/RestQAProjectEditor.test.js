@@ -79,6 +79,67 @@ describe('RestQAProjectEditor', () => {
     expect(component.vm.currentTab).toBe('integration/bar-foo.feature')
   })
 
+  test('Create a new tab and update the tab name if the content file is unsaved', async () => {
+
+    const options = {
+      global: {
+        plugins: [
+          store,
+          ElementPlus
+        ]
+      },
+    }
+
+    const component = mount(RestQAProjectEditor, options)
+    expect(component.exists()).toBeTruthy()
+
+    const card = component.findComponent({ name: 'card'})
+    expect(card.vm.title ).toBe(null)
+    expect(card.vm.loading).toBe(false)
+
+    const empty = card.findComponent({ name: 'el-empty'})
+    expect(empty.vm.description).toBe('Select a feature file')
+    expect(empty.isVisible()).toBe(true)
+    await component.vm.$nextTick()
+
+    expect(component.vm.tabs).toHaveLength(0)
+    expect(component.vm.currentTab).toBe(null)
+
+    component.vm.$options.watch.file.call(component.vm, 'integration/foo-bar.feature')
+
+    await component.vm.$nextTick()
+
+    expect(component.vm.tabs).toHaveLength(1)
+    expect(component.vm.tabs).toEqual([{
+      title: 'foo-bar',
+      name: 'integration/foo-bar.feature'
+    }])
+    expect(component.vm.currentTab).toBe('integration/foo-bar.feature')
+    expect(component.findComponent({ name: 'card'}).vm.title).toBe('integration/foo-bar.feature')
+
+    component.vm.$options.watch.file.call(component.vm, 'integration/bar-foo.feature')
+
+    await component.vm.$nextTick()
+
+    expect(component.vm.tabs).toHaveLength(2)
+    expect(component.vm.tabs).toEqual([{
+      title: 'foo-bar',
+      name: 'integration/foo-bar.feature'
+    }, {
+      title: 'bar-foo',
+      name: 'integration/bar-foo.feature'
+    }])
+    expect(component.vm.currentTab).toBe('integration/bar-foo.feature')
+
+    component.vm.unsaved('integration/foo-bar.feature', true)
+
+    expect(component.vm.tabs[0].title).toBe('foo-bar •')
+
+    component.vm.unsaved('integration/foo-bar.feature', false)
+
+    expect(component.vm.tabs[0].title).toBe('foo-bar')
+  })
+
   test('Using a tab already open instead of opening a new one if it was already open', async () => {
 
     const options = {

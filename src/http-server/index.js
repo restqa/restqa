@@ -16,9 +16,11 @@ module.exports = function (configFile, options = {}) {
       if (whiteList.includes(origin)) {
         res.set('Access-Control-Allow-Origin', origin)
         res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+        res.set('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS')
       }
       next()
     })
+    .use(express.text())
     .use(express.json())
     .use(express.static(path.resolve(__dirname, '..', '..', 'dashboard', 'dist')))
     .use(require('./routes'))

@@ -48,6 +48,16 @@ async function getFeatureFile(name) {
   return data
 }
 
+async function saveFeatureFile(name, content) {
+  const options = {
+    headers: {
+      'content-Type' : 'text/plain' 
+    }
+  }
+  await Http().put('/api/project/features/' + name, content, options)
+  return true
+}
+
 async function testFeature(path) {
   const { data } = await Http().post('/api/restqa/run', { path })
   return {
@@ -62,6 +72,7 @@ export  {
   initialize,
   getFeatures,
   getFeatureFile,
+  saveFeatureFile,
   testFeature
 }
 

@@ -10,7 +10,7 @@
         <template #label>
           <span><i :class="tab.icon" class="tab-header"></i> {{ tab.title }}</span>
         </template>
-        <ide :file="tab.name" />
+        <ide :file="tab.name" @unsave="unsaved" />
         <runner :file="tab.name" @status="updateStatus" />
       </el-tab-pane>
     </el-tabs>
@@ -50,6 +50,19 @@ export default {
         let icon = val.success ? 'el-icon-success' : 'el-icon-error'
         this.tabs[tabIndex].icon = icon
       }
+    },
+    unsaved (file, state) {
+      const char = ' •'
+      this.tabs = this.tabs.map(tab => {
+        if (file === tab.name && !tab.title.includes(char) && state)  {
+          tab.title = tab.title + char
+        }
+
+        if (file === tab.name && !state) {
+          tab.title = tab.title.replace(char, '')
+        }
+        return tab
+      })
     },
     manageTabs(title, action) {
       this.$store.dispatch('selectedFile', 'eee')

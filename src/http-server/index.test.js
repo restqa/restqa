@@ -1068,8 +1068,9 @@ environments:
       jest.resetAllMocks()
     })
 
-    test('Retrieve the content of a specific feature', async () => {
-      const content = `
+    describe('Retrieve content file', () => {
+      test('Retrieve the content of a specific feature', async () => {
+        const content = `
 ---
 
 version: 0.0.1
@@ -1084,25 +1085,60 @@ environments:
       - name: '@restqa/restqapi'
         config:
           url: http://localhost:3000
-      `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+        `
+        filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
 
-      const srvOption = {
-        server: {
-          testFolder: path.resolve(__dirname, '../../example/tests')
+        const srvOption = {
+          server: {
+            testFolder: path.resolve(__dirname, '../../example/tests')
+          }
         }
-      }
-      const featureFilename = 'integration/delete-todos-id.feature'
-      const response = await request(server(filename, srvOption))
-        .get('/api/project/features/' + featureFilename)
-      expect(response.status).toBe(200)
-      const expectedBody = fs.readFileSync(path.resolve(__dirname, '../../example/tests', featureFilename)).toString('utf-8')
-      expect(response.text).toEqual(expectedBody)
+        const featureFilename = 'integration/delete-todos-id.feature'
+        const response = await request(server(filename, srvOption))
+          .get('/api/project/features/' + featureFilename)
+        expect(response.status).toBe(200)
+        const expectedBody = fs.readFileSync(path.resolve(__dirname, '../../example/tests', featureFilename)).toString('utf-8')
+        expect(response.text).toEqual(expectedBody)
+      })
+
+      test('throw error if the file doesnt exist', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: path.resolve(__dirname, '../../example/tests')
+          }
+        }
+        const response = await request(server(filename, srvOption))
+          .get('/api/project/features/foo-bar.feature')
+        expect(response.status).toBe(404)
+        expect(response.body).toEqual({
+          message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
+        })
+      })
     })
 
-    test('throw error if the file doesnt exist', async () => {
-      const content = `
+    describe('Save content file', () => {
+      test('Save the content of a specific feature', async () => {
+        let content = `
 ---
 
 version: 0.0.1
@@ -1117,20 +1153,60 @@ environments:
       - name: '@restqa/restqapi'
         config:
           url: http://localhost:3000
-      `
-      filename = path.resolve(os.tmpdir(), '.restqa.yml')
-      fs.writeFileSync(filename, content)
+        `
+        let filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
 
-      const srvOption = {
-        server: {
-          testFolder: path.resolve(__dirname, '../../example/tests')
+        content = 'foo bar'
+        const featureFilename = 'unit-test.feature'
+        filename = path.resolve(os.tmpdir(), featureFilename)
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: os.tmpdir()
+          }
         }
-      }
-      const response = await request(server(filename, srvOption))
-        .get('/api/project/features/foo-bar.feature')
-      expect(response.status).toBe(404)
-      expect(response.body).toEqual({
-        message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
+        const response = await request(server(filename, srvOption))
+          .put('/api/project/features/' + featureFilename)
+          .set('Content-Type', 'text/plain')
+          .send('this is the new content')
+        expect(response.status).toBe(204)
+        const fileContent = fs.readFileSync(path.resolve(os.tmpdir(), featureFilename)).toString('utf-8')
+        expect(fileContent).toEqual('this is the new content')
+      })
+
+      test('throw error if the file doesnt exist', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: path.resolve(__dirname, '../../example/tests')
+          }
+        }
+        const response = await request(server(filename, srvOption))
+          .put('/api/project/features/foo-bar.feature')
+        expect(response.status).toBe(404)
+        expect(response.body).toEqual({
+          message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
+        })
       })
     })
   })
