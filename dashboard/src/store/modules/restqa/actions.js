@@ -1,4 +1,4 @@
-import { getConfig, getStepDefinition, getFeatures } from '@/services/restqa/project'
+import { getConfig, getStepDefinition, getFeatures, testFeature } from '@/services/restqa/project'
 import Info from '@/services/restqa/info'
 
 import DefaultInfo from '@/assets/data/info.json'
@@ -44,6 +44,14 @@ const actions = {
   },
   selectedFile({ commit }, val) {
     val.filename && commit('selectedFile', val.filename)
+  },
+  testFeature({ commit }, path) {
+    return testFeature(path)
+      .then(res => res)
+      .catch(error => ({ path, error }))
+      .then(result => {
+        commit('testResult', result)
+      })
   }
 }
 

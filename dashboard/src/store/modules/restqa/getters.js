@@ -22,6 +22,9 @@ const getters = {
   },
   selectedFile(state) {
     return state.selectedFile
+  },
+  testResult(state) {
+    return state.testResult
   }
 }
 

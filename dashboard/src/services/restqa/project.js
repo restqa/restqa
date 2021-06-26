@@ -48,11 +48,20 @@ async function getFeatureFile(name) {
   return data
 }
 
+async function testFeature(path) {
+  const { data } = await Http().post('/api/restqa/run', { path })
+  return {
+    path,
+    data
+  }
+}
+
 export  {
   getStepDefinition,
   getConfig,
   initialize,
   getFeatures,
-  getFeatureFile
+  getFeatureFile,
+  testFeature
 }
 

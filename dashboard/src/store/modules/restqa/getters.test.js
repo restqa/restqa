@@ -140,4 +140,17 @@ describe('getters', () => {
       expect(result).toEqual('/test.foo')
     })
   })
+
+  describe('testResult', () => {
+    test('get the test result', () => {
+      const state = {
+        testResult: {
+          foo: 'bar'
+        }
+      }
+
+      const result = getters.testResult(state)
+      expect(result).toEqual({ foo: 'bar' })
+    })
+  })
 })

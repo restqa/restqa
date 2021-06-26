@@ -7,7 +7,7 @@ const logger = require('../src/utils/logger')
 const updateNotifier = require('update-notifier')
 const path = require('path')
 
-const DEFAULT_CONFIG = path.resolve(process.cwd(), '.restqa.yml')
+const DEFAULT_CONFIG = process.env.RESTQA_CONFIG || path.resolve(process.cwd(), '.restqa.yml')
 
 const notifier = updateNotifier({
   pkg,

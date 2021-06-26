@@ -41,7 +41,7 @@
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "@restqa/cucumber-export": "^0.1.8",
+    "@restqa/cucumber-export": "^0.1.9",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
     "@restqa/restqapi": "0.0.18",
     "chalk": "^4.0.0",
@@ -50,6 +50,7 @@
     "cucumber": "^6.0.5",
     "debug": "^4.3.1",
     "express": "^4.17.1",
+    "glob": "^7.1.7",
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
     "socket.io": "^4.0.2",

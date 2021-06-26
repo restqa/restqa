@@ -336,4 +336,47 @@ describe('actions', () => {
       expect(context.commit).toHaveBeenCalledTimes(0)
     })
   })
+
+  describe('testResult', () => {
+    test('Run a feature file', async () => {
+      const data = {
+        path: 'foo-bar.feature',
+        data: {
+          foo: {
+            bar: 'result'
+          }
+        }
+      }
+
+      mockPost = jest.fn().mockResolvedValue(data)
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.testFeature(context, 'foo-bar.feature')
+
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('testResult')
+      expect(context.commit.mock.calls[0][1]).toEqual(data)
+    })
+
+    test('Update an error if there is an issue on run of the features', async () => {
+      const err = new Error('backend server')
+      mockPost = jest.fn().mockRejectedValue(err)
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.testFeature(context, 'foo-bar.feature')
+
+      expect(context.commit.mock.calls[0][0]).toEqual('testResult')
+      expect(context.commit.mock.calls[0][1]).toEqual({
+        path: 'foo-bar.feature',
+        error: err
+      })
+    })
+  })
 })

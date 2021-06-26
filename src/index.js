@@ -165,7 +165,6 @@ function Steps (options) {
  */
 
 function Run (options) {
-  delete require.cache[require.resolve('./restqa-formatter.js')]
   let result
   const optStream = {
     write: (chunk, encoding, next) => {
@@ -191,6 +190,9 @@ function Run (options) {
     args
   }).then(() => {
     return result
+  }).finally(() => {
+    delete require.cache[require.resolve('./restqa-formatter.js')]
+    delete require.cache[require.resolve('./setup.js')]
   })
 }
 

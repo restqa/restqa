@@ -10,7 +10,8 @@ describe('mutations', () => {
       info,
       steps,
       features,
-      selectedFile
+      selectedFile,
+      testResult
     } = mutations
 
     test('update Config states', () => {
@@ -86,6 +87,16 @@ describe('mutations', () => {
       selectedFile(state, 'new-test.feature')
 
       expect(state.selectedFile).toEqual('new-test.feature')
+    })
+
+    test('update feature result', () => {
+      const state = {
+        testResult: { foo : 'bar' }
+      }
+
+      testResult(state, { bar: 'foo' })
+
+      expect(state.testResult).toEqual({ bar: 'foo' })
     })
   })
 })

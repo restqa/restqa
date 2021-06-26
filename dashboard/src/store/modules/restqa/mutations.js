@@ -19,6 +19,9 @@ const mutations = {
   },
   selectedFile (state, val) {
     state.selectedFile = val
+  },
+  testResult (state, val) {
+    state.testResult = val
   }
 }
 

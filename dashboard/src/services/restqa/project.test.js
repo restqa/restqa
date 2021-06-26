@@ -83,6 +83,27 @@ describe('Service - RestQA - Projects', () => {
     })
   })
 
+  describe('testFeature', () => {
+    test('Retrieve the test result', async () => {
+      const data = {
+        foo: {
+          bar: 'result'
+        }
+      }
+      mockPost = jest.fn().mockResolvedValue({ data })
+
+      const path = 'foo-bar.feature'
+      const result = await Project.testFeature(path)
+      expect(result).toEqual({
+        path,
+        data
+      })
+      expect(mockPost.mock.calls).toHaveLength(1)
+      expect(mockPost.mock.calls[0][0]).toEqual('/api/restqa/run')
+      expect(mockPost.mock.calls[0][1]).toEqual({ path })
+    })
+  })
+
   describe('Steps', () => {
     test('Return the Steps all the steps defintions', async () => {
       const mockData = {
