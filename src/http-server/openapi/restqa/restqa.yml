@@ -93,6 +93,103 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/error500'
+  /api/project/features:
+    get:
+      tags:
+        - Project
+      deprecated: false
+      operationId: projectFeatures
+      summary: Retrieve the list of features available on the current project
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/features'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+  /api/project/features/{path}:
+    get:
+      tags:
+        - Project
+      deprecated: false
+      operationId: getProjectFeatureFile
+      summary: Return the content of a specific feature
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/definitions/featureFile'
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+    put:
+      tags:
+        - Project
+      deprecated: false
+      operationId: updateProjectFeatureFile
+      summary: Update the content of a specific feature
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              $ref: '#/definitions/featureFile'
+      responses:
+        '204':
+          description: Success
+        '403':
+          description: Forbiden Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error403'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
+
   /api/restqa/initialize:
     post:
       tags:
@@ -641,6 +738,22 @@ definitions:
               type: string
               description: The logo of the sponsor
               example: 'https://atalent-consulting.com/logo.png'
+
+  features:
+    type: array
+    items:
+      type: string
+      example: './tests/customer-info.feature'
+  featureFile:
+    type: string
+    example: >
+      Feature: Example Feature
+
+
+      Scenario: My first scenario
+
+      Given I have the api gateway
+      ...
 
 
 example:

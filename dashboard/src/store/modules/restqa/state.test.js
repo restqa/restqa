@@ -8,6 +8,8 @@ describe('state', () => {
       selectedEnv: null,
       info: null,
       steps: null,
+      features: [],
+      selectedFile: null
     }
     expect(state).toEqual(expectedState)
   })

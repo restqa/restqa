@@ -13,6 +13,15 @@ const mutations = {
   },
   steps (state, val) {
     state.steps = val
+  },
+  features (state, val) {
+    state.features = val
+  },
+  selectedFile (state, val) {
+    state.selectedFile = val
+  },
+  testResult (state, val) {
+    state.testResult = val
   }
 }
 

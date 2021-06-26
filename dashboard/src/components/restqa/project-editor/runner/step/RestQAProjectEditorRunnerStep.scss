@@ -1,0 +1,44 @@
+.step-definition{
+
+  padding-left: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  &.passed {
+    .keyword {
+      color: #67c23a;
+    }
+  }
+
+  &.failed {
+    .keyword {
+      color: #f56c6c;
+    }
+  }
+
+  .keyword {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .step {
+  }
+
+  .btn {
+    float: right;
+  }
+
+  .debug {
+    padding: 3px;
+    //box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    overflow: auto;
+
+    &.debug-info{
+      background: #f4f4f5;
+    }
+
+    &.debug-error{
+      background: #fef0f0;
+    }
+  }
+}

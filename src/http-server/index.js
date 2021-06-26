@@ -16,9 +16,11 @@ module.exports = function (configFile, options = {}) {
       if (whiteList.includes(origin)) {
         res.set('Access-Control-Allow-Origin', origin)
         res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+        res.set('Access-Control-Allow-Methods', 'POST, GET, PUT, OPTIONS')
       }
       next()
     })
+    .use(express.text())
     .use(express.json())
     .use(express.static(path.resolve(__dirname, '..', '..', 'dashboard', 'dist')))
     .use(require('./routes'))
@@ -27,6 +29,8 @@ module.exports = function (configFile, options = {}) {
     .use((err, req, res, next) => {
       if (err instanceof TypeError || err instanceof ReferenceError) {
         res.status(406)
+      } else if (err instanceof RangeError) {
+        res.status(404)
       } else {
         res.status(500)
       }
@@ -43,5 +47,6 @@ function formatOptions (options) {
   options.server.report.urlPrefixPath = options.server.report.urlPrefixPath || '/reports'
   // @todo: add a validation to ensure the urlPrefixPathreport starts with a '/'
   options.server.report.outputFolder = options.server.report.outputFolder || path.resolve(process.cwd(), 'reports')
+  options.server.testFolder = options.server.testFolder || process.cwd()
   return options
 }

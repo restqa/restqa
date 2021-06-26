@@ -16,6 +16,15 @@ const getters = {
   },
   steps (state) {
     return state.steps
+  },
+  features(state) {
+    return state.features
+  },
+  selectedFile(state) {
+    return state.selectedFile
+  },
+  testResult(state) {
+    return state.testResult
   }
 }
 

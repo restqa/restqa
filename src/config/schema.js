@@ -43,6 +43,7 @@ function validate (config) {
       timeout: Joi.number(),
       dashboard: Joi.object({
         server: Joi.object({
+          testFolder: Joi.string(),
           whiteList: Joi.array(),
           report: Joi.object({
             urlPrefixPath: Joi.string(),

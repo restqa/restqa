@@ -5,9 +5,7 @@ const run = require('./cli/run')
 const dashboard = require('./cli/dashboard')
 const initialize = require('./cli/initialize')
 
-const os = require('os')
-const fs = require('fs')
-const path = require('path')
+const Stream = require('stream')
 
 /**
  * Initialize a restqa project
@@ -166,26 +164,36 @@ function Steps (options) {
  * console.log(result)
  */
 
-async function Run (options) {
-  const uuid = Math.floor(Math.random() * 10000000)
-  const filename = path.resolve(os.tmpdir(), `restqa-result-${uuid}.json`)
-  process.env.RESTQA_TMP_FILE_EXPORT = filename
+function Run (options) {
+  let result
+  const optStream = {
+    write: (chunk, encoding, next) => {
+      result = JSON.parse(chunk.toString('utf-8'))
+      next()
+    }
+  }
+  const stream = new Stream.Writable(optStream)
+  global.restqa = global.restqa || {}
+  global.restqa.tmpExport = stream
+
   let args
 
   if (options.path) {
     args = [options.path]
   }
 
-  await run({
+  return run({
     config: options.configFile,
     env: options.env,
     stream: options.stream,
     tags: options.tags || [],
     args
+  }).then(() => {
+    return result
+  }).finally(() => {
+    delete require.cache[require.resolve('./restqa-formatter.js')]
+    delete require.cache[require.resolve('./setup.js')]
   })
-
-  const result = fs.readFileSync(filename).toString('utf-8')
-  return JSON.parse(result)
 }
 
 /**

@@ -216,6 +216,42 @@ describe('actions', () => {
     })
   })
 
+  describe('selectedFile', () => {
+    test('setup the selectedFile', async () => {
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const evt = {
+        label: 'test.feature',
+        filename: 'root/folder/test.feature',
+        children: []
+      }
+      const result = await actions.selectedFile(context, evt)
+
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('selectedFile')
+      expect(context.commit.mock.calls[0][1]).toEqual(evt.filename)
+    })
+
+    test('Do not commit if the selected file doesnt contains a filename', async () => {
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const evt = {
+        label: 'test.feature',
+        children: []
+      }
+      const result = await actions.selectedFile(context, evt)
+
+      expect(context.commit).toHaveBeenCalledTimes(0)
+    })
+  })
+
   describe('steps', () => {
     test('Get the Full list of steps', async () => {
       const data = [{
@@ -254,6 +290,93 @@ describe('actions', () => {
       const result = await actions.steps(context)
 
       expect(context.commit).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('features', () => {
+    test('Get the Full list of features', async () => {
+      const data = [
+        'root/foo/bar'
+      ]
+
+      mockGet = jest.fn().mockResolvedValue({ data })
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.features(context)
+
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('features')
+      const expectedresult = [{
+        label: 'root',
+        children: [{
+          label: 'foo',
+          children: [{
+            label: 'bar',
+            filename: 'root/foo/bar',
+            children: []
+          }]
+        }]
+      }]
+      expect(context.commit.mock.calls[0][1]).toEqual(expectedresult)
+    })
+
+    test('No updates if there is an issue on retrieving the features', async () => {
+      mockGet = jest.fn().mockRejectedValue(new Error('backend server'))
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.features(context)
+
+      expect(context.commit).toHaveBeenCalledTimes(0)
+    })
+  })
+
+  describe('testResult', () => {
+    test('Run a feature file', async () => {
+      const data = {
+        path: 'foo-bar.feature',
+        data: {
+          foo: {
+            bar: 'result'
+          }
+        }
+      }
+
+      mockPost = jest.fn().mockResolvedValue(data)
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.testFeature(context, 'foo-bar.feature')
+
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('testResult')
+      expect(context.commit.mock.calls[0][1]).toEqual(data)
+    })
+
+    test('Update an error if there is an issue on run of the features', async () => {
+      const err = new Error('backend server')
+      mockPost = jest.fn().mockRejectedValue(err)
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.testFeature(context, 'foo-bar.feature')
+
+      expect(context.commit.mock.calls[0][0]).toEqual('testResult')
+      expect(context.commit.mock.calls[0][1]).toEqual({
+        path: 'foo-bar.feature',
+        error: err
+      })
     })
   })
 })

@@ -1,3 +1,4 @@
+const Stream = require('stream')
 const Welcome = require('./utils/welcome')
 
 const { MESSAGES } = new Welcome()
@@ -10,7 +11,6 @@ afterEach(jestqa.afterEach)
 jestqa.hooks.beforeEach = function () {
   delete process.env.RESTQA_ENV
   delete process.env.RESTQA_CONFIG
-  delete process.env.RESTQA_TMP_FILE_EXPORT
   delete process.env.GITHUB_REPOSITORY
   delete process.env.CI_PROJECT_PATH
   delete process.env.BITBUCKET_REPO_SLUG
@@ -19,6 +19,8 @@ jestqa.hooks.beforeEach = function () {
   delete process.env.CI_COMMIT_SHA
   delete process.env.BITBUCKET_COMMIT
   delete process.env.RESTQA_COMMIT_SHA
+
+  delete global.restqa
 }
 
 describe('restqa-formatter', () => {
@@ -270,7 +272,11 @@ restqa:
     process.env.RESTQA_ENV = 'uat'
     process.env.GITHUB_REPOSITORY = 'restqa/restqa-github'
     process.env.GITHUB_SHA = '6666f1b8b568ff6101a9a7fe20bce64f3db1983'
-    process.env.RESTQA_TMP_FILE_EXPORT = '/tmp/myfile.json'
+
+    global.restqa = {
+      tmpExport: new Stream.Writable()
+
+    }
 
     require('./restqa-formatter')
 
@@ -289,10 +295,10 @@ restqa:
           path: 'my-report.uat.json'
         }
       }, {
-        type: 'file',
+        type: 'stream',
         enabled: true,
         config: {
-          path: '/tmp/myfile.json'
+          instance: global.restqa.tmpExport
         }
       }]
     }

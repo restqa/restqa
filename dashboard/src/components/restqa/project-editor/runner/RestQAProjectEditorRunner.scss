@@ -1,0 +1,29 @@
+.btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.result {
+
+  padding: 5px;
+
+  h4 {
+    padding-top: 20px;
+    text-align: center;
+  }
+
+  span.title {
+    margin-left: 16px;
+    &.failed {
+      color: red;
+    }
+
+    &.skipped {
+      color: orange;
+    }
+
+    &.passed {
+      color: green;
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <card :title="title" :loading="null === data">
     <el-table :data="data" class="step-definition" style="width: 100%">
       <el-table-column class="expand" type="expand">
-        <template class="ee" #default="props">
+        <template  #default="props">
           <el-descriptions title="Detaild"  :column="1" border>
             <el-descriptions-item label="Keyword">{{ props.row.keyword }}</el-descriptions-item>
             <el-descriptions-item label="Comment">{{ props.row.comment }}</el-descriptions-item>
