@@ -4,27 +4,27 @@ beforeEach(() => {
   window.localStorage.removeItem('remote-info')
 })
 
-describe('Service - RestQA - info', () => {
-  let mockGet
-  jest.mock('axios', () => {
-    const originalModule = jest.requireActual('axios')
-    return {
-      ...originalModule,
-      create: function() {
-        return this
-      },
-      get: function () {
-        return mockGet.apply(this, arguments)
-      }
+let mockGet
+jest.mock('axios', () => {
+  const originalModule = jest.requireActual('axios')
+  return {
+    ...originalModule,
+    create: function() {
+      return this
+    },
+    get: function () {
+      return mockGet.apply(this, arguments)
     }
-  })
+  }
+})
 
-  afterEach(() => {
-    mockGet = undefined
-  })
+afterEach(() => {
+  mockGet = undefined
+})
 
+
+describe('Service - RestQA - info', () => {
   describe('Retrive info', () => {
-
     const mockData = {
       data: {
         sponsors: [{
@@ -118,6 +118,22 @@ describe('Service - RestQA - info', () => {
       expect(mockGet.mock.calls).toHaveLength(1)
       expect(mockGet.mock.calls[0][0]).toBe('/api/info')
     })
+  })
+})
+
+describe('Service - RestQA - tips', () => {
+  test('Retrieve tips data', async () => {
+    const mockData = {
+      data: {
+        message: 'This is my tips'
+      }
+    }
+    mockGet = jest.fn().mockResolvedValue(mockData)
+    const Info = require('./info').default
+    const result = await Info.tips()
+    expect(result).toEqual(mockData.data)
+    expect(mockGet.mock.calls).toHaveLength(1)
+    expect(mockGet.mock.calls[0][0]).toEqual('/api/tips')
   })
 })
 

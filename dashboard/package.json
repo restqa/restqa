@@ -17,10 +17,11 @@
     "vue": "^3.0.0",
     "vue-prism-editor": "^2.0.0-alpha.2",
     "vue-router": "^4.0.8",
+    "vue3-clipboard": "^1.0.0",
+    "@chenfengyuan/vue-countdown": "^2.0.0-beta",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
-    "@chenfengyuan/vue-countdown": "^2.0.0-beta",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "^4.5.13",

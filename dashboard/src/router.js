@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Store from './store/store'
 
+const isBeta = Boolean((new Date('07/01/2021 00:00:00').getTime() - new Date().getTime()) > 0)
+
 const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   scrollBehavior () {
@@ -10,7 +12,7 @@ const router = createRouter({
     }
   },
   routes: [{
-    path: '/',
+    path: isBeta ? '/' : '/coming-soon',
     component: () => import('./layouts/FullPage.vue'),
     children: [{
       path: '',
@@ -21,7 +23,7 @@ const router = createRouter({
       }
     }]
   }, {
-    path: '/beta',
+    path: isBeta ? '/beta' : '/',
     component: () => import('./layouts/Dashboard.vue'),
     children: [{
         path: '',
