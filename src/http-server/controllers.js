@@ -6,8 +6,8 @@ const Remote = require('./services/remote')
 const Report = require('./services/report')
 const Project = require('./services/project')
 const { URL } = require('url')
-const YAML = require('yaml')
 const fs = require('fs')
+const Welcome = require('../utils/welcome')
 
 const Controllers = {}
 
@@ -17,9 +17,7 @@ Controllers.version = function (req, res) {
 
 Controllers.config = function (req, res, next) {
   try {
-    const content = fs.readFileSync(req.app.get('restqa.configuration')).toString('utf-8')
-    const result = YAML.parse(content)
-    res.json(result)
+    res.json(Project.config(req.app.get('restqa.configuration')))
   } catch (e) {
     next(e)
   }
@@ -195,6 +193,20 @@ Controllers.updateFeaturesFile = function (req, res, next) {
     }
     next(err)
   }
+}
+
+Controllers.tips = function (req, res) {
+  const config = Project.config(req.app.get('restqa.configuration'))
+
+  const pattern = [
+    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+    '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+  ].join('|') // regex taken from the library https://github.com/chalk/ansi-regex
+
+  const tips = new Welcome((config.restqa || {}).tips)
+  res.json({
+    message: tips.toString().replace(new RegExp(pattern, 'g'), '')
+  })
 }
 
 module.exports = Controllers

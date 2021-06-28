@@ -752,6 +752,81 @@ environments:
     })
   })
 
+  describe('/api/tips', () => {
+    const Welcome = require('../utils/welcome')
+
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
+    test('retrieve a random tip', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const srvOption = {}
+      const response = await request(server(filename, srvOption))
+        .get('/api/tips')
+      expect(response.status).toBe(200)
+      const expectedList = (new Welcome()).MESSAGES.map(str => {
+        const pattern = [
+          '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+          '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+        ].join('|')
+        return str.replace(new RegExp(pattern, 'g'), '')
+      })
+      expect(expectedList).toContain(response.body.message)
+    })
+
+    test('retrieve a tip coming from the configuration', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+restqa:
+  tips:
+    enabled: true
+    messages:
+    - This is a custom tips
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const srvOption = {}
+      const response = await request(server(filename, srvOption))
+        .get('/api/tips')
+      expect(response.status).toBe(200)
+      expect(response.body.message).toContain('This is a custom tips')
+    })
+  })
+
   describe('/api/info', () => {
     beforeEach(() => {
       jest.resetModules()
