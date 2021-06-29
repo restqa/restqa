@@ -36,8 +36,8 @@ function info () {
     sponsors: [
       {
         url: 'https://atalent-consulting.com',
-        name: 'RestQA is here! Do your end-to-end API test integration, the right way!',
-        logo: 'https://atalent-consulting.com/logo.png'
+        name: 'Atalent Consulting',
+        logo: 'https://atalent-consulting.com/sponsor.png'
       }
     ]
   }
