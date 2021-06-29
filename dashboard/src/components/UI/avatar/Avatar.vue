@@ -1,5 +1,5 @@
 <template>
-   <el-avatar class="component" fit="cover" shape="circle" :size="size" :src="src"></el-avatar>
+   <img :src="src" :class="size" />
 </template>
 
 <script>
@@ -18,7 +18,13 @@ export default {
 
 </script>
 
-<style lang="scss">
-  .component {
+<style lang="scss" scoped>
+  img {
+    border-radius: 50%;
+
+    &.large {
+      width: 60px;
+      height: 60px;
+    }
   }
 </style>
