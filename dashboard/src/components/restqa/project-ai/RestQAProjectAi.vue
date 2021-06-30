@@ -1,5 +1,5 @@
 <template>
-  <card title="Artificial Intelligence models (coming soon 🚀)" emoji="🤖">
+  <card title="Artificial Intelligence Assistant (coming soon 🚀)" emoji="🤖">
     <div class="container">
       <div class="ai" v-for="(el, index) in list" :key="index">
         <img :src="el.img" />
