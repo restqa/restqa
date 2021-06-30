@@ -509,6 +509,11 @@ environments:
   })
 
   describe('/api/run', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false
       const response = await request(server(config)).post('/api/restqa/run')
@@ -528,7 +533,7 @@ environments:
       expect(response.body.message).toBe('The configuration file "./.restqa.yml" doesn\'t exist.')
     })
 
-    test.skip('Run the test and get the result', async () => {
+    test('Run the test and get the result', async () => {
       const content = `
 ---
 
@@ -547,15 +552,73 @@ environments:
       `
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
+
+      const mockRun = jest.fn().mockResolvedValue({ foo: 'bar' })
+      jest.mock('../index', () => {
+        return {
+          Run: mockRun
+        }
+      })
+      const server = require('./index')(filename)
+
       const options = {
         env: 'local',
-        path: path.resolve('./bin/tests/features/success')
+        path: 'tests/'
       }
-      const response = await request(server(filename))
+      const response = await request(server)
         .post('/api/restqa/run')
         .send(options)
       expect(response.status).toBe(201)
-      expect(response.body.message).toBe(`The configuration file "${path.resolve('.', '.restqa.yml')}" doesn't exist.`)
+      expect(response.body).toEqual({ foo: 'bar' })
+    })
+
+    test('Run the test and get the result reusing the test folder', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const mockRun = jest.fn().mockResolvedValue({ foo: 'bar' })
+      jest.mock('../index', () => {
+        return {
+          Run: mockRun
+        }
+      })
+
+      const srvOption = {
+        server: {
+          testFolder: path.resolve(__dirname, '../../example/tests')
+        }
+      }
+      const server = require('./index')(filename, srvOption)
+
+      const options = {
+        env: 'local',
+        path: 'integration/delete-todos-id.feature'
+      }
+      const response = await request(server)
+        .post('/api/restqa/run')
+        .send(options)
+      expect(response.status).toBe(201)
+      expect(response.body).toEqual({ foo: 'bar' })
+      const expectedResult = {
+        path: path.join(srvOption.server.testFolder, options.path)
+      }
+      expect(mockRun.mock.calls[0][0].path).toEqual(expectedResult.path)
     })
   })
 
@@ -686,6 +749,81 @@ environments:
 
       expect(response.status).toBe(301)
       expect(response.headers['content-type']).toEqual('text/html; charset=UTF-8')
+    })
+  })
+
+  describe('/api/tips', () => {
+    const Welcome = require('../utils/welcome')
+
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
+    test('retrieve a random tip', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const srvOption = {}
+      const response = await request(server(filename, srvOption))
+        .get('/api/tips')
+      expect(response.status).toBe(200)
+      const expectedList = (new Welcome()).MESSAGES.map(str => {
+        const pattern = [
+          '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+          '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+        ].join('|')
+        return str.replace(new RegExp(pattern, 'g'), '')
+      })
+      expect(expectedList).toContain(response.body.message)
+    })
+
+    test('retrieve a tip coming from the configuration', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+restqa:
+  tips:
+    enabled: true
+    messages:
+    - This is a custom tips
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const srvOption = {}
+      const response = await request(server(filename, srvOption))
+        .get('/api/tips')
+      expect(response.status).toBe(200)
+      expect(response.body.message).toContain('This is a custom tips')
     })
   })
 
@@ -848,8 +986,8 @@ environments:
         sponsors: [
           {
             url: 'https://atalent-consulting.com',
-            name: 'RestQA is here! Do your end-to-end API test integration, the right way!',
-            logo: 'https://atalent-consulting.com/logo.png'
+            name: 'Atalent Consulting',
+            logo: 'https://atalent-consulting.com/sponsor.png'
           }
         ]
       }
@@ -939,13 +1077,212 @@ environments:
         sponsors: [
           {
             url: 'https://atalent-consulting.com',
-            name: 'RestQA is here! Do your end-to-end API test integration, the right way!',
-            logo: 'https://atalent-consulting.com/logo.png'
+            name: 'Atalent Consulting',
+            logo: 'https://atalent-consulting.com/sponsor.png'
           }
         ]
       }
       expect(response.body).toEqual(defaultData)
       expect(mockRequest.mock.calls).toHaveLength(1)
+    })
+  })
+
+  describe('/api/project/features', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
+    test('Retrieve the list of tests', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+      const options = {
+        env: 'local',
+        path: path.resolve('./example/tests/integration')
+      }
+      const srvOption = {
+        server: {
+          testFolder: path.resolve(__dirname, '../../example/tests')
+        }
+      }
+      const response = await request(server(filename, srvOption))
+        .get('/api/project/features')
+        .send(options)
+      expect(response.status).toBe(200)
+      const expectedBody = [
+        'integration/delete-todos-id.feature',
+        'integration/get-todos-id.feature',
+        'integration/get-todos.feature',
+        'integration/patch-todos.feature',
+        'integration/post-todos.feature',
+        'integration/put-todos.feature'
+      ]
+      expect(response.body).toEqual(expectedBody)
+    })
+  })
+
+  describe('/api/project/features/{path}', () => {
+    beforeEach(() => {
+      jest.resetModules()
+      jest.resetAllMocks()
+    })
+
+    describe('Retrieve content file', () => {
+      test('Retrieve the content of a specific feature', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: path.resolve(__dirname, '../../example/tests')
+          }
+        }
+        const featureFilename = 'integration/delete-todos-id.feature'
+        const response = await request(server(filename, srvOption))
+          .get('/api/project/features/' + featureFilename)
+        expect(response.status).toBe(200)
+        const expectedBody = fs.readFileSync(path.resolve(__dirname, '../../example/tests', featureFilename)).toString('utf-8')
+        expect(response.text).toEqual(expectedBody)
+      })
+
+      test('throw error if the file doesnt exist', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: path.resolve(__dirname, '../../example/tests')
+          }
+        }
+        const response = await request(server(filename, srvOption))
+          .get('/api/project/features/foo-bar.feature')
+        expect(response.status).toBe(404)
+        expect(response.body).toEqual({
+          message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
+        })
+      })
+    })
+
+    describe('Save content file', () => {
+      test('Save the content of a specific feature', async () => {
+        let content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        let filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        content = 'foo bar'
+        const featureFilename = 'unit-test.feature'
+        filename = path.resolve(os.tmpdir(), featureFilename)
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: os.tmpdir()
+          }
+        }
+        const response = await request(server(filename, srvOption))
+          .put('/api/project/features/' + featureFilename)
+          .set('Content-Type', 'text/plain')
+          .send('this is the new content')
+        expect(response.status).toBe(204)
+        const fileContent = fs.readFileSync(path.resolve(os.tmpdir(), featureFilename)).toString('utf-8')
+        expect(fileContent).toEqual('this is the new content')
+      })
+
+      test('throw error if the file doesnt exist', async () => {
+        const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          server: {
+            testFolder: path.resolve(__dirname, '../../example/tests')
+          }
+        }
+        const response = await request(server(filename, srvOption))
+          .put('/api/project/features/foo-bar.feature')
+        expect(response.status).toBe(404)
+        expect(response.body).toEqual({
+          message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
+        })
+      })
     })
   })
 })

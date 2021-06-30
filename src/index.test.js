@@ -1,5 +1,4 @@
 const Stream = require('stream')
-const os = require('os')
 const fs = require('fs')
 const path = require('path')
 
@@ -183,14 +182,16 @@ describe('# Index - Step', () => {
         fs.unlinkSync(filename)
         filename = undefined
       }
+      global.restqa = global.restqa || {}
+      global.restqa.tmpExport = null
     })
 
     test('Get result from run', async () => {
-      jest.spyOn(Math, 'random').mockImplementation(() => '0.6140915758927235')
-      filename = path.resolve(os.tmpdir(), 'restqa-result-6140915.json')
       const mockRun = jest.fn().mockImplementation(() => {
         // simulate the writting of an file export from cucumber-export module
-        fs.writeFileSync(filename, JSON.stringify({ foo: 'bar' }))
+        global.restqa.tmpExport.write(Buffer.from(JSON.stringify({ foo: 'bar' })))
+        global.restqa.tmpExport.end()
+
         return Promise.resolve('result')
       })
 
@@ -207,8 +208,10 @@ describe('# Index - Step', () => {
         path: 'tests/'
       }
 
+      expect(global.restqa.tmpExport).toBeNull()
       const { Run } = require('./index')
       await expect(Run(opt)).resolves.toEqual({ foo: 'bar' })
+      expect(global.restqa.tmpExport).not.toBeNull()
       expect(mockRun.mock.calls).toHaveLength(1)
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',
@@ -220,11 +223,11 @@ describe('# Index - Step', () => {
     })
 
     test('Get result from run without path', async () => {
-      jest.spyOn(Math, 'random').mockImplementation(() => '0.6140915758927235')
-      filename = path.resolve(os.tmpdir(), 'restqa-result-6140915.json')
       const mockRun = jest.fn().mockImplementation(() => {
         // simulate the writting of an file export from cucumber-export module
-        fs.writeFileSync(filename, JSON.stringify({ foo: 'bar' }))
+        global.restqa.tmpExport.write(Buffer.from(JSON.stringify({ foo: 'bar' })))
+        global.restqa.tmpExport.end()
+
         return Promise.resolve('result')
       })
 
@@ -241,7 +244,9 @@ describe('# Index - Step', () => {
       }
 
       const { Run } = require('./index')
+      expect(global.restqa.tmpExport).toBeNull()
       await expect(Run(opt)).resolves.toEqual({ foo: 'bar' })
+      expect(global.restqa.tmpExport).not.toBeNull()
       expect(mockRun.mock.calls).toHaveLength(1)
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',
@@ -269,7 +274,9 @@ describe('# Index - Step', () => {
       }
 
       const { Run } = require('./index')
+      expect(global.restqa.tmpExport).toBeNull()
       await expect(Run(opt)).rejects.toEqual(new Error('Issue with the file'))
+      expect(global.restqa.tmpExport).not.toBeNull()
       expect(mockRun.mock.calls).toHaveLength(1)
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: '/tmp/.restqa.yml',

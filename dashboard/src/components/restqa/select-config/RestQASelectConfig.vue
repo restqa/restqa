@@ -1,6 +1,6 @@
 <template>
 <div>
-  <label for="environments">Current environment: </label>
+  <label for="environments">🎯 Current environment: </label>
   <el-select class="select" id="environments"  v-model="env"  @change="update">
     <el-option class="option" v-for="(name, index) in environments" :key="index" :label="name" :value="name"></el-option>
   </el-select>

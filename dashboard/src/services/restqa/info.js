@@ -18,6 +18,12 @@ async function get () {
   return result.data
 }
 
-export default  {
-  get
+async function tips () {
+  const result = await Http().get('/api/tips')
+  return result.data
+}
+
+export default {
+  get,
+  tips
 }

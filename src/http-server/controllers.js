@@ -4,9 +4,10 @@ const { version } = require('../../package.json')
 const RestQA = require('../../src')
 const Remote = require('./services/remote')
 const Report = require('./services/report')
+const Project = require('./services/project')
 const { URL } = require('url')
-const YAML = require('yaml')
 const fs = require('fs')
+const Welcome = require('../utils/welcome')
 
 const Controllers = {}
 
@@ -16,9 +17,7 @@ Controllers.version = function (req, res) {
 
 Controllers.config = function (req, res, next) {
   try {
-    const content = fs.readFileSync(req.app.get('restqa.configuration')).toString('utf-8')
-    const result = YAML.parse(content)
-    res.json(result)
+    res.json(Project.config(req.app.get('restqa.configuration')))
   } catch (e) {
     next(e)
   }
@@ -95,10 +94,13 @@ Controllers.install = async function (req, res, next) {
 
 Controllers.run = async function (req, res, next) {
   try {
+    const { server } = req.app.get('restqa.options')
+
     const options = req.body
     options.configFile = req.app.get('restqa.configuration')
     options.stream = new Stream.Writable()
     options.stream._write = () => {}
+    options.path = path.resolve(server.testFolder, options.path || '')
     const result = await RestQA.Run(options)
     res
       .status(201)
@@ -149,6 +151,62 @@ Controllers.getReports = function (req, res, next) {
   } catch (e) {
     next(e)
   }
+}
+
+Controllers.getFeatures = function (req, res, next) {
+  const { server } = req.app.get('restqa.options')
+  const result = Project.features(server.testFolder)
+  res.json(result)
+}
+
+Controllers.getFeaturesFile = function (req, res, next) {
+  const { server } = req.app.get('restqa.options')
+  const file = req.params[0]
+  try {
+    const result = fs.readFileSync(path.resolve(server.testFolder, file)).toString('utf-8')
+    res.send(result)
+  } catch (e) {
+    let err = e
+    if (e.code === 'ENOENT') {
+      err = new RangeError(`The file "${file}" doesn't exist in the folder "${server.testFolder}"`)
+    }
+    next(err)
+  }
+}
+
+Controllers.updateFeaturesFile = function (req, res, next) {
+  const { server } = req.app.get('restqa.options')
+  const file = req.params[0]
+  try {
+    const filepath = path.resolve(server.testFolder, file)
+    if (!fs.existsSync(filepath)) {
+      const e = new Error('')
+      e.code = 'ENOENT'
+      throw e
+    }
+    fs.writeFileSync(filepath, req.body)
+    res.sendStatus(204)
+  } catch (e) {
+    let err = e
+    if (e.code === 'ENOENT') {
+      err = new RangeError(`The file "${file}" doesn't exist in the folder "${server.testFolder}"`)
+    }
+    next(err)
+  }
+}
+
+Controllers.tips = function (req, res) {
+  const config = Project.config(req.app.get('restqa.configuration'))
+
+  const pattern = [
+    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+    '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+  ].join('|') // regex taken from the library https://github.com/chalk/ansi-regex
+
+  const tips = new Welcome((config.restqa || {}).tips)
+  res.json({
+    message: tips.toString().replace(new RegExp(pattern, 'g'), '')
+  })
 }
 
 module.exports = Controllers

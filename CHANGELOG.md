@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.29] - 2021-06-29
+
+### Added
+
+* [Enable the user interface for restqa](https://docs.restqa.io/getting-started/dashboard) | [#110](https://github.com/restqa/restqa/pull/110) [#111](https://github.com/restqa/restqa/pull/111)
+
+
+### Bug fix
+
+* Fix the Run method from the restqa instance | [#73](https://github.com/restqa/restqa/pull/73)
+
+### Update
+
+* Bump @restqa/cucumber-export@0.1.9
+
 ## [0.0.28] - 2021-06-12
 
 ### Added
@@ -163,8 +178,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.28...HEAD
-[0.0.28]: https://github.com/restqa/restqa/compare/0.0.26...0.0.28
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.29...HEAD
+[0.0.29]: https://github.com/restqa/restqa/compare/0.0.28...0.0.29
+[0.0.28]: https://github.com/restqa/restqa/compare/0.0.27...0.0.28
 [0.0.27]: https://github.com/restqa/restqa/compare/0.0.26...0.0.27
 [0.0.26]: https://github.com/restqa/restqa/compare/0.0.25...0.0.26
 [0.0.25]: https://github.com/restqa/restqa/compare/0.0.24...0.0.25

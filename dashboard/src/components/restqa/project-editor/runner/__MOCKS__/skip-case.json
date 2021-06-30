@@ -1,0 +1,433 @@
+{
+  "id": "65bb30b2-e0fa-4b66-a333-3830a7bc901a",
+  "startTime": "2021-06-21T09:25:50+00:00",
+  "name": "jsonplaceholder from typecode",
+  "key": "JSON-PLACEHOLDER",
+  "env": "local",
+  "duration": 0.68,
+  "success": true,
+  "durationFormat": "00:00",
+  "timestamp": "2021-06-21T09:25:50+00:00",
+  "type": "testSuite",
+  "total": 1,
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0,
+  "scenarios": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 1,
+    "undefined": 0
+  },
+  "features": [
+    {
+      "keyword": "Feature",
+      "line": 1,
+      "id": "put-/todos/{id}",
+      "tags": [],
+      "uri": "../example/tests/integration/put-todos.feature",
+      "elements": [
+        {
+          "id": "put-/todos/{id};update-of-a-todo",
+          "keyword": "Scenario",
+          "line": 3,
+          "name": "Update of a Todo",
+          "tags": [],
+          "type": "scenario",
+          "steps": [
+            {
+              "keyword": "Before",
+              "hidden": true,
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:5"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "Given ",
+              "line": 4,
+              "name": "I have the api gateway",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 5,
+              "name": "I have the path \"/todos/1\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 6,
+              "name": "I have the method \"PUT\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 1000000
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 7,
+              "name": "the payload contains \"userId\" as \"1\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 8,
+              "name": "the payload contains \"title\" as \"A new RestQA post\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 9,
+              "name": "the payload contains \"completed\" as true",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "When ",
+              "line": 10,
+              "name": "I run the API",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:11"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 678000000
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "Then ",
+              "line": 11,
+              "name": "I should receive a response with the status 200",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 12,
+              "name": "the response body at \"userId\" should equal \"1\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 1000000
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 13,
+              "name": "the response body at \"id\" should equal 1",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 14,
+              "name": "the response body at \"title\" should equal \"A new RestQA post\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 15,
+              "name": "the response body at \"completed\" should equal true",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "keyword": "After",
+              "hidden": true,
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:39"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              },
+              "embeddings": [
+                {
+                  "data": "{\"apis\":[{\"request\":{\"hostname\":\"jsonplaceholder.typicode.com\",\"port\":\"\",\"protocol\":\"https:\",\"pathname\":\"/todos/1\",\"hooks\":{\"afterResponse\":[null]},\"method\":\"put\",\"json\":{\"userId\":\"1\",\"title\":\"A new RestQA post\",\"completed\":true},\"headers\":{\"x-correlation-id\":\"test-e2e-put-437-1624267549747\",\"user-agent\":\"restqa (https://github.com/restqa/restqa)\"},\"responseType\":\"json\"},\"response\":{\"body\":{\"userId\":\"1\",\"title\":\"A new RestQA post\",\"completed\":true,\"id\":1},\"timing\":668,\"headers\":{\"date\":\"Mon, 21 Jun 2021 09:25:50 GMT\",\"content-type\":\"application/json; charset=utf-8\",\"transfer-encoding\":\"chunked\",\"connection\":\"close\",\"x-powered-by\":\"Express\",\"x-ratelimit-limit\":\"1000\",\"x-ratelimit-remaining\":\"999\",\"x-ratelimit-reset\":\"1624267605\",\"vary\":\"Origin, Accept-Encoding\",\"access-control-allow-credentials\":\"true\",\"cache-control\":\"no-cache\",\"pragma\":\"no-cache\",\"expires\":\"-1\",\"x-content-type-options\":\"nosniff\",\"etag\":\"W/\\\"53-2OD37Tq8mkBjzsUGbEAV6hkcRow\\\"\",\"via\":\"1.1 vegur\",\"cf-cache-status\":\"DYNAMIC\",\"cf-request-id\":\"0acf7d0516000010d243241000000001\",\"expect-ct\":\"max-age=604800, report-uri=\\\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\\\"\",\"report-to\":\"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https:\\\\/\\\\/a.nel.cloudflare.com\\\\/report\\\\/v2?s=99AM5Q1ut70d21WibES8aJN8zS%2FQC5UbFQbNsZqnARR3srHrzlu4%2BgoBw89HnVP5rhSsxYgwakJJQ%2Bm9TE8l6%2BTwhoJZCPikEaqWVzeCXTmiMl2Ef1qm0%2Bbk19HMV6VAYG1xsym2rr2JUA%3D%3D\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"nel\":\"{\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"server\":\"cloudflare\",\"cf-ray\":\"662c311b5e8210d2-BKK\",\"content-encoding\":\"br\",\"alt-svc\":\"h3-27=\\\":443\\\"; ma=86400, h3-28=\\\":443\\\"; ma=86400, h3-29=\\\":443\\\"; ma=86400, h3=\\\":443\\\"; ma=86400\"},\"statusCode\":200,\"request\":{\"path\":\"/todos/1\",\"method\":\"put\",\"prefix\":\"[PUT /todos/1]\"}}}]}",
+                  "mime_type": "application/json"
+                }
+              ]
+            }
+          ],
+          "step_passed": 14,
+          "step_failed": 0,
+          "step_skipped": 0,
+          "step_undefined": 0,
+          "result": true,
+          "status": "passed",
+          "duration": 0.68,
+          "timestamp": "2021-06-21T09:25:50+00:00",
+          "metadata": {
+            "id": "65bb30b2-e0fa-4b66-a333-3830a7bc901a",
+            "startTime": "2021-06-21T09:25:50+00:00",
+            "name": "jsonplaceholder from typecode",
+            "key": "JSON-PLACEHOLDER",
+            "env": "local",
+            "duration": 0.68,
+            "success": true,
+            "durationFormat": "00:00"
+          }
+        },
+        {
+          "id": "put-/todos/{id};update-of-a-todo-when-the-todo-doesn't-exist",
+          "keyword": "Scenario",
+          "line": 18,
+          "name": "Update of a Todo when the todo doesn't exist",
+          "tags": [
+            {
+              "name": "@skip",
+              "line": 17
+            }
+          ],
+          "type": "scenario",
+          "steps": [
+            {
+              "keyword": "Before",
+              "hidden": true,
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:5"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              }
+            },
+            {
+              "keyword": "Before",
+              "hidden": true,
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:12"
+              },
+              "result": {
+                "status": "skipped",
+                "duration": 0
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "Given ",
+              "line": 19,
+              "name": "I have the api gateway",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 20,
+              "name": "I have the path \"/todos/1919191\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 21,
+              "name": "I have the method \"PUT\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 22,
+              "name": "the payload contains \"userId\" as \"1\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 23,
+              "name": "the payload contains \"title\" as \"A new RestQA post\"",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "And ",
+              "line": 24,
+              "name": "the payload contains \"completed\" as true",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "When ",
+              "line": 25,
+              "name": "I run the API",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:11"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "arguments": [],
+              "keyword": "Then ",
+              "line": 26,
+              "name": "I should receive a response with the status 500",
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+              },
+              "result": {
+                "status": "skipped"
+              }
+            },
+            {
+              "keyword": "After",
+              "hidden": true,
+              "match": {
+                "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:39"
+              },
+              "result": {
+                "status": "passed",
+                "duration": 0
+              },
+              "embeddings": [
+                {
+                  "data": "{\"apis\":[]}",
+                  "mime_type": "application/json"
+                }
+              ]
+            }
+          ],
+          "step_passed": 2,
+          "step_failed": 0,
+          "step_skipped": 9,
+          "step_undefined": 0,
+          "result": false,
+          "status": "skipped",
+          "duration": 0,
+          "timestamp": "2021-06-21T09:25:50+00:00",
+          "metadata": {
+            "id": "65bb30b2-e0fa-4b66-a333-3830a7bc901a",
+            "startTime": "2021-06-21T09:25:50+00:00",
+            "name": "jsonplaceholder from typecode",
+            "key": "JSON-PLACEHOLDER",
+            "env": "local",
+            "duration": 0.68,
+            "success": true,
+            "durationFormat": "00:00"
+          }
+        }
+      ],
+      "total": 2,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 1,
+      "undefined": 0,
+      "result": false,
+      "duration": 0.68,
+      "timestamp": "2021-06-21T09:25:50+00:00",
+      "type": "feature",
+      "feature_name": "PUT /todos/{id}",
+      "metadata": {
+        "id": "65bb30b2-e0fa-4b66-a333-3830a7bc901a",
+        "startTime": "2021-06-21T09:25:50+00:00",
+        "name": "jsonplaceholder from typecode",
+        "key": "JSON-PLACEHOLDER",
+        "env": "local",
+        "duration": 0.68,
+        "success": true,
+        "durationFormat": "00:00"
+      }
+    }
+  ]
+}

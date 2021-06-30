@@ -1,0 +1,13 @@
+$primary: #8C40FF;
+
+.tips{
+  width: 100%;
+  
+  .message {
+    a {
+      text-decoration: none;
+      color: $primary;
+    }
+  }
+}
+

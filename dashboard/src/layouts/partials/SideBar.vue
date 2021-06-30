@@ -22,12 +22,10 @@ const menu = [{
   route: 'homepage',
   label: 'Dashboard',
   icon: 'el-icon-house',
-/*
  }, {
    route: 'editor',
    label: 'Editor',
    icon: 'el-icon-document',
-*/
  }, {
   route: 'steps',
   label: 'Step definition',
