@@ -406,7 +406,8 @@ pipeline {
           url: 'http://test.sample.com',
           env: 'production',
           description: 'This is my description',
-          folder: os.tmpdir()
+          folder: os.tmpdir(),
+          telemetry: false
         }
 
         await Initialize.generate(options)
@@ -447,7 +448,10 @@ pipeline {
                 path: 'restqa-result.json'
               }
             }]
-          }]
+          }],
+          restqa: {
+            telemetry: false
+          }
         }
 
         expect(result).toEqual(expectedContent)
@@ -468,7 +472,8 @@ pipeline {
           url: 'http://test.sample.com',
           env: 'production',
           description: 'This is my description',
-          folder: os.tmpdir()
+          folder: os.tmpdir(),
+          telemetry: true
         }
 
         await Initialize.generate(options)
@@ -509,7 +514,10 @@ pipeline {
                 path: 'restqa-result.json'
               }
             }]
-          }]
+          }],
+          restqa: {
+            telemetry: true
+          }
         }
         expect(result).toEqual(expectedContent)
 
@@ -537,7 +545,8 @@ Given I have an example`
         url: 'http://test.new.sample.com',
         env: 'local',
         description: 'This is my new description',
-        ci: 'gitlab-ci'
+        ci: 'gitlab-ci',
+        telemetry: false
       })
 
       jest.mock('inquirer', () => {
@@ -608,7 +617,10 @@ Given I have an example`
               path: 'restqa-result.json'
             }
           }]
-        }]
+        }],
+        restqa: {
+          telemetry: false
+        }
       }
       expect(result).toEqual(expectedContent)
       expect(mockPrompt.mock.calls).toHaveLength(1)
@@ -617,7 +629,8 @@ Given I have an example`
         'Description:',
         'Url of the project api:',
         'Environment name of this url (local) ?',
-        'Do you need a continuous integration configuration ?'
+        'Do you need a continuous integration configuration ?',
+        'May RestQA report anonymous usage statistics to improve the tool over time ?'
       ]
       expect(mockPrompt.mock.calls[0][0].map(_ => _.message)).toEqual(expectedQuestions)
       const expectedCI = [{
@@ -691,7 +704,10 @@ Given I have an example`
               path: 'restqa-result.json'
             }
           }]
-        }]
+        }],
+        restqa: {
+          telemetry: true
+        }
       }
       expect(result).toEqual(expectedContent)
       expect(mockPrompt.mock.calls).toHaveLength(0)
