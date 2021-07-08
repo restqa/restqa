@@ -130,13 +130,13 @@ environments:
         config:
           path: 'my-report.json'
       `
-    const filename = jestqa.createCwdConfig(content)
+    const config = jestqa.createTmpFile(content, '.restqa.yml')
     const Dashboard = require('./dashboard')
-    server = Dashboard({})
+    server = Dashboard({ config })
     return new Promise((resolve, reject) => {
       server.on('listening', () => {
         expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(`📝  The configuration file ${filename} has been loaded`)
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(`📝  The configuration file ${config} has been loaded`)
         expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
         resolve()
       })
@@ -166,11 +166,12 @@ environments:
         config:
           path: 'my-report.json'
       `
-    jestqa.createCwdConfig(content)
+    const config = jestqa.createTmpFile(content, '.restqa.yml')
 
     const Dashboard = require('./dashboard')
     server = Dashboard({
-      serve: false
+      serve: false,
+      config
     })
 
     const http = require('http')

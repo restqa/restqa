@@ -1249,7 +1249,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa')
 
       const Install = require('./install')
       const options = {
@@ -1346,7 +1346,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
       const mockPrompt = jest.fn()
         .mockResolvedValueOnce({
           name: 'slack'
@@ -1367,7 +1367,8 @@ environments:
       })
       const Install = require('./install')
       const opt = {
-        env: 'testing'
+        env: 'testing',
+        config: filename
       }
       return expect(Install('slack', opt)).rejects.toThrow('"testing" is not an environment available in the config file, choose between : local, uat')
     })
@@ -1404,7 +1405,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn()
         .mockResolvedValueOnce({
@@ -1426,7 +1427,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install()
+      await Install(undefined, { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(2)
       expect(mockPrompt.mock.calls[0][0][0].message).toEqual('What do you want to install?')
@@ -1560,7 +1561,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         env: 'uat',
@@ -1577,7 +1578,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('slack')
+      await Install('slack', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
       expect(mockPrompt.mock.calls[0][0][0].message).toEqual('On which environment would you like to install the "slack" outputs?')
@@ -1675,7 +1676,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
         config_url: 'https://www.slack-incoming.com/test',
@@ -1691,7 +1692,8 @@ environments:
 
       const Install = require('./install')
       const opt = {
-        env: 'uat'
+        env: 'uat',
+        config: filename
       }
       await Install('slack', opt)
 
@@ -1778,7 +1780,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -1867,7 +1869,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -1883,7 +1885,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('discord')
+      await Install('discord', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -1953,7 +1955,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename
@@ -1967,7 +1969,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('html')
+      await Install('html', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -2032,7 +2034,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename
@@ -2046,7 +2048,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('file')
+      await Install('file', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -2111,7 +2113,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename
@@ -2125,7 +2127,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('http-html-report')
+      await Install('http-html-report', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -2190,7 +2192,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content)
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2205,7 +2207,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('excel')
+      await Install('excel', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -2274,7 +2276,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2290,7 +2292,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('google-sheet')
+      await Install('google-sheet', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -2363,7 +2365,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2378,7 +2380,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('line')
+      await Install('line', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
@@ -2448,7 +2450,7 @@ environments:
         config:
           path: 'my-report.json'
       `
-      const filename = jestqa.createCwdConfig(content, '.restqa.yml')
+      const filename = jestqa.createTmpFile(content, '.restqa.yml')
 
       const mockPrompt = jest.fn().mockResolvedValue({
         configFile: filename,
@@ -2463,7 +2465,7 @@ environments:
       })
 
       const Install = require('./install')
-      await Install('webhook')
+      await Install('webhook', { config: filename })
 
       expect(mockPrompt.mock.calls).toHaveLength(1)
 
