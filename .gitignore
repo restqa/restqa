@@ -8,3 +8,4 @@ restqa-result.json
 dist
 .clinic
 tests/
+!bin/tests

@@ -18,6 +18,10 @@ beforeAll(function () {
 jestqa.hooks.beforeEach = function () {
   jest.useFakeTimers('modern')
   jest.setSystemTime(date.getTime())
+  const filename = path.resolve(os.homedir(), '.config', 'restqa.pref')
+  if (fs.existsSync(filename)) {
+    fs.unlinkSync(filename)
+  }
 }
 
 jestqa.hooks.afterEach = function () {

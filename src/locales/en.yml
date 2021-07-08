@@ -29,3 +29,5 @@ service:
     success: 
       config_updated: 'The "%s" %s addon has been configured successfully'
       credential_warning: 'Do not forget to use environment variable to secure your sensitive information'
+  telemetry:
+    toggle: '🕵️ The telemetry has been %s.'

@@ -93,7 +93,6 @@ initialize.generate = async function (options) {
     telemetry
   } = options
 
-
   if (!name) {
     throw new ReferenceError('Please share a project name.')
   }
