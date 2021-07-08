@@ -4,6 +4,7 @@ const path = require('path')
 const inquirer = require('inquirer')
 const Generate = require('./generate')
 const logger = require('../utils/logger')
+const Telemetry = require('../utils/telemetry')
 const Locale = require('../locales')()
 
 const WELCOME_API_URL = 'https://restqa.io/welcome.json'
@@ -91,6 +92,7 @@ initialize.generate = async function (options) {
     folder,
     telemetry
   } = options
+
 
   if (!name) {
     throw new ReferenceError('Please share a project name.')
@@ -279,6 +281,9 @@ initialize.generate = async function (options) {
     }
   }
 
+  const _telemetry = new Telemetry()
+  _telemetry.toggle(telemetry)
+
   const restqaConfig = {
     version: '0.0.1',
     metadata: {
@@ -305,10 +310,7 @@ initialize.generate = async function (options) {
           path: 'restqa-result.json'
         }
       }]
-    }],
-    restqa: {
-      telemetry
-    }
+    }]
   }
 
   const configFilename = path.resolve(folder, '.restqa.yml')
