@@ -1,5 +1,6 @@
 import { getConfig, getStepDefinition, getFeatures, testFeature } from '@/services/restqa/project'
 import Info from '@/services/restqa/info'
+import { getPreferences } from '@/services/restqa/user'
 
 import DefaultInfo from '@/assets/data/info.json'
 
@@ -52,6 +53,12 @@ const actions = {
       .then(result => {
         commit('testResult', result)
       })
+  },
+  preferences({ commit }) {
+    return getPreferences()
+      .then(res => res)
+      .catch(() => ({}))
+      .then(res => commit('preferences', res))
   }
 }
 

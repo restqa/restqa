@@ -18,7 +18,7 @@ const notifier = updateNotifier({
 const telemetry = new Telemetry({
   name: pkg.name,
   version: pkg.version,
-  trackingCode: 'U-0000001'
+  trackingCode: 'UA-118770210-7'
 })
 
 program
@@ -87,7 +87,6 @@ program
   .alias('ex')
   .description('Run a simple RestQA example')
   .action(Cli('example'))
-
 
 program
   .command('telemetry')

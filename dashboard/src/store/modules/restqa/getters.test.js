@@ -141,6 +141,19 @@ describe('getters', () => {
     })
   })
 
+  describe('preferences', () => {
+    test('get the user preferences', () => {
+      const state = {
+        preferences: {
+          telemetry: true
+        }
+      }
+
+      const result = getters.preferences(state)
+      expect(result).toEqual({ telemetry: true })
+    })
+  })
+
   describe('testResult', () => {
     test('get the test result', () => {
       const state = {

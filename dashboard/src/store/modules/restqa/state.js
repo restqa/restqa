@@ -6,6 +6,7 @@ const state = {
   steps: null,
   features: [],
   selectedFile: null,
+  preferences: {}
 }
 
 export default state

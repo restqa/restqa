@@ -9,7 +9,8 @@ describe('state', () => {
       info: null,
       steps: null,
       features: [],
-      selectedFile: null
+      selectedFile: null,
+      preferences: {}
     }
     expect(state).toEqual(expectedState)
   })

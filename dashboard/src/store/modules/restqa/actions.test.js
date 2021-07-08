@@ -379,4 +379,43 @@ describe('actions', () => {
       })
     })
   })
+
+  describe('config', () => {
+
+    test('Get the successful user preferences', async () => {
+      const data = {
+        telemetry: true
+      }
+
+      mockGet = jest.fn().mockResolvedValue({ data })
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.preferences(context)
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('preferences')
+      expect(context.commit.mock.calls[0][1]).toEqual(data)
+    })
+
+    test('Get the unsuccessful user preferences', async () => {
+      const data = {
+        telemetry: true
+      }
+
+      mockGet = jest.fn().mockRejectedValue(new Error('oups'))
+
+      const context = {
+        commit: jest.fn()
+      }
+
+      const result = await actions.preferences(context)
+      expect(context.commit).toHaveBeenCalledTimes(1)
+
+      expect(context.commit.mock.calls[0][0]).toEqual('preferences')
+      expect(context.commit.mock.calls[0][1]).toEqual({})
+    })
+  })
 })

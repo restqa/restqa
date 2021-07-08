@@ -7,6 +7,7 @@ const Report = require('./services/report')
 const Project = require('./services/project')
 const { URL } = require('url')
 const fs = require('fs')
+const os = require('os')
 const Welcome = require('../utils/welcome')
 
 const Controllers = {}
@@ -207,6 +208,15 @@ Controllers.tips = function (req, res) {
   res.json({
     message: tips.toString().replace(new RegExp(pattern, 'g'), '')
   })
+}
+
+Controllers.preferences = function (req, res) {
+  const filepath = path.resolve(os.homedir(), '.config', 'restqa.pref')
+  let content = '{}'
+  if (fs.existsSync(filepath)) {
+    content = fs.readFileSync(filepath, 'utf-8')
+  }
+  res.json(JSON.parse(content))
 }
 
 module.exports = Controllers
