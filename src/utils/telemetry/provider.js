@@ -1,8 +1,14 @@
 const querystring = require('querystring')
 const debug = require('debug')('restqa')
 const https = require('https')
+const fs = require('fs')
 
 module.exports = function (payload) {
+  const { preferenceFile } = payload
+  const content = JSON.parse(fs.readFileSync(preferenceFile).toString('utf-8')) || {}
+  const consent = content.telemetry || false
+  if (consent === false) return
+
   const now = Date.now()
   const data = querystring.stringify({
     v: 1,
