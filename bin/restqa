@@ -24,8 +24,7 @@ const telemetry = new Telemetry({
 program
   .version(pkg.version)
   .hook('preAction', (parent, cmd) => {
-    cmd.on('telemetry:consent', val => telemetry.consent = val)
-    cmd.on('telemetry:track', telemetry.track)
+    telemetry.track('cli', cmd.name(), cmd.args.join(' '))
   })
 
 program
@@ -109,6 +108,7 @@ async function main () {
 
 main()
   .catch(e => {
+    telemetry.track('error', e.message, process.argv.join(' '))
     logger.error(e)
     process.exit(1)
   })
