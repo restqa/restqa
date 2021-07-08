@@ -37,19 +37,21 @@ module.exports = async function (parentProgram) {
       .exitOverride()
       .parse(['runner', ...args])
 
-    if (program.args.length === 0 && !program.url) {
+    const opt = program.opts()
+
+    if (program.args.length === 0 && !opt.url) {
       throw new Error('You need to provide an url into your curl command')
     }
 
     const options = {
-      url: program.url || program.args[0]
+      url: opt.url || program.args[0]
     }
 
-    if (program.request) {
-      options.method = program.request
+    if (opt.request) {
+      options.method = opt.request
     }
 
-    program.header.forEach(item => {
+    opt.header.forEach(item => {
       options.headers = options.headers || {}
       item = item.split(':')
       const key = item[0]
@@ -57,30 +59,30 @@ module.exports = async function (parentProgram) {
       options.headers[key] = value
     })
 
-    if (program.user) {
-      const [username, password] = program.user.split(':')
+    if (opt.user) {
+      const [username, password] = opt.user.split(':')
       options.user = {
         username,
         password
       }
     }
 
-    if (program.insecure) {
+    if (opt.insecure) {
       options.ignoreSsl = true
     }
 
     options.isJson = (((options.headers && options.headers['content-type']) || '').indexOf('json') !== -1)
 
-    if (program.dataBinary) {
+    if (opt.dataBinary) {
       options.method = options.method || 'POST'
       if (options.isJson) {
-        program.dataBinary = JSON.parse(program.dataBinary)
+        opt.dataBinary = JSON.parse(opt.dataBinary)
       }
-      options.body = program.dataBinary
+      options.body = opt.dataBinary
     }
 
-    program.data.concat(program.dataRaw).forEach(item => {
-      options.method = program.request || 'POST'
+    opt.data.concat(opt.dataRaw).forEach(item => {
+      options.method = opt.request || 'POST'
       if (options.isJson) {
         options.body = JSON.parse(item)
       } else {
@@ -92,8 +94,8 @@ module.exports = async function (parentProgram) {
       }
     })
 
-    program.form.forEach(item => {
-      options.method = program.request || 'POST'
+    opt.form.forEach(item => {
+      options.method = opt.request || 'POST'
       options.form = options.form || {}
       item = item.split('=')
       const key = item[0]
@@ -101,20 +103,20 @@ module.exports = async function (parentProgram) {
       options.form[key] = value
     })
 
-    if (program.cookie) {
+    if (opt.cookie) {
       options.headers = options.headers || {}
-      options.headers.cookie = program.cookie
+      options.headers.cookie = opt.cookie
     }
 
-    if (program.userAgent) {
+    if (opt.userAgent) {
       options.headers = options.headers || {}
-      options.headers['user-agent'] = program.userAgent
+      options.headers['user-agent'] = opt.userAgent
     }
 
     const result = await Generator(options)
 
-    if (program.output) {
-      const filename = path.resolve(process.cwd(), program.output)
+    if (opt.output) {
+      const filename = path.resolve(process.cwd(), opt.output)
       const headers = [
         'Feature: Generated scenario',
         ''
@@ -131,7 +133,7 @@ module.exports = async function (parentProgram) {
       }
 
       fs.appendFileSync(filename, content.join('\n'))
-      logger.success('service.generate.output_file_message', program.output)
+      logger.success('service.generate.output_file_message', opt.output)
     } else if (print === true) {
       logger.success('service.generate.successful_message')
       logger.log(result)

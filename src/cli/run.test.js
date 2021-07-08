@@ -107,6 +107,85 @@ environments:
     expect(mockExit).toHaveBeenCalledWith(0)
   })
 
+  test('Run the cucumber success tests with passed stdout, with the args passed as commander', async () => {
+    const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://host.docker.internal:4046
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+    `
+    const filename = jestqa.createTmpFile(content, '.restqa.yml')
+
+    const mockCucumberRun = jest.fn().mockResolvedValue({
+      shouldExitImmediately: true,
+      success: true
+    })
+
+    const mockCucumberCli = jest.fn().mockImplementation(() => {
+      return {
+        run: mockCucumberRun
+      }
+    })
+
+    jest.mock('cucumber', () => {
+      return {
+        Cli: mockCucumberCli
+      }
+    })
+
+    const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {})
+
+    const Run = require('./run')
+    const options = {
+      config: filename,
+      stream: 'std-out-example'
+    }
+
+    const program = {
+      args: [
+        '.',
+        os.tmpdir()
+      ]
+    }
+
+    await Run(options, program)
+    expect(mockCucumberCli.mock.calls).toHaveLength(1)
+    const expectedRunOption = {
+      argv: [
+        'node',
+        'cucumber-js',
+        '--require',
+        '../src/setup.js',
+        '--format',
+        '../src/restqa-formatter:.restqa.log',
+        '--format-options',
+        '{"snippetSyntax": "../src/restqa-snippet.js"}',
+        path.resolve('.', '{*.feature,!(node_modules)', '**', '*.feature}'),
+        os.tmpdir()
+      ],
+      cwd: path.join(__dirname, '../'),
+      stdout: 'std-out-example'
+    }
+    expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption)
+    expect(mockCucumberRun.mock.calls).toHaveLength(1)
+    expect(mockExit).toHaveBeenCalledWith(0)
+  })
+
   test('Run the cucumber failing tests with default stdout', async () => {
     const content = `
 ---
