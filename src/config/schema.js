@@ -40,6 +40,7 @@ function validate (config) {
       ignore: Joi.array()
     }),
     restqa: Joi.object({
+      telemetry: Joi.boolean().default(true),
       timeout: Joi.number(),
       dashboard: Joi.object({
         server: Joi.object({
