@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Enable new command to mange the telemtry : `restqa telemetry off` | [#119](https://github.com/restqa/restqa/pull/119)
+* Enable new command to mange the telemetry : `restqa telemetry off` | [#119](https://github.com/restqa/restqa/pull/119)
 
 ### Update
 
