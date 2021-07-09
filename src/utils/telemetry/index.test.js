@@ -154,7 +154,7 @@ describe('# utils - telemetry - index', () => {
       expect(mockRequestEnd).toHaveBeenCalledTimes(1)
     })
 
-    test('Create a telemetry instance and do not push the data if the consent options is set as false', () => {
+    test('Create a telemetry instance and do not push the data if the consent options is set as false then override using the environement variable', () => {
       const mockRequestWrite = jest.fn()
       const mockRequestEnd = jest.fn()
 
@@ -199,6 +199,12 @@ describe('# utils - telemetry - index', () => {
       telemetry.track('eventCategory', 'eventAction', 'eventLabel', 'eventValue')
 
       expect(mockRequest).toHaveBeenCalledTimes(0)
+
+      process.env.RESTQA_TELEMETRY = 'on'
+
+      telemetry.track('eventCategory', 'eventAction', 'eventLabel', 'eventValue')
+
+      expect(mockRequest).toHaveBeenCalledTimes(1)
     })
   })
 })

@@ -6,7 +6,10 @@ const fs = require('fs')
 module.exports = function (payload) {
   const { preferenceFile } = payload
   const content = JSON.parse(fs.readFileSync(preferenceFile).toString('utf-8')) || {}
-  const consent = content.telemetry || false
+  let consent = content.telemetry || false
+  if (process.env.RESTQA_TELEMETRY) {
+    consent = process.env.RESTQA_TELEMETRY === 'on'
+  }
   if (consent === false) return
 
   const now = Date.now()
