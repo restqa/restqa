@@ -17,7 +17,7 @@ createApp(App)
   .use(VueGtag, {
     isEnabled: false,
     property: {
-      id: "UA-118770210-7"
+      id: "UA-118770210-1"
     }
   })
   .mount('#app')

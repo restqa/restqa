@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Update
 
-<<<<<<< HEAD
 * [Bump commander@8.0.0](https://github.com/tj/commander.js/releases/tag/v8.0.0)
 * [Bump @restqa/cucumber-export@0.1.10](https://github.com/restqa/cucumber-export/releases/tag/0.1.10)
 * [Bump @restqa/restqapi@0.0.19](https://github.com/restqa/restqapi/releases/tag/0.0.19)

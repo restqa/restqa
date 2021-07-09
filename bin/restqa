@@ -18,7 +18,7 @@ const notifier = updateNotifier({
 const telemetry = new Telemetry({
   name: pkg.name,
   version: pkg.version,
-  trackingCode: 'UA-118770210-7'
+  trackingCode: 'UA-118770210-1'
 })
 
 program
