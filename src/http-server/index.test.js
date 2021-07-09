@@ -95,6 +95,9 @@ describe('#dashboard > Server', () => {
     test('Return the user preferences', async () => {
       const content = JSON.stringify({ telemetry: true })
       filename = path.resolve(os.homedir(), '.config', 'restqa.pref')
+      const dirpath = path.dirname(filename)
+      fs.mkdirSync(dirpath, { recursive: true })
+
       fs.writeFileSync(filename, content)
 
       const response = await request(server())
