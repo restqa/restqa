@@ -128,5 +128,6 @@
   "bugs": {
     "url": "https://github.com/restqa/restqa/issues"
   },
-  "homepage": "https://restqa.io"
+  "homepage": "https://restqa.io",
+  "trackingCode": "UA-118770210-1"
 }
