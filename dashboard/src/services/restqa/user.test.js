@@ -43,8 +43,8 @@ describe('Service - RestQA - User', () => {
 
       const result = await User.getPreferences()
       expect(result).toEqual(data)
-      expect(mockGet.mock.calls).toHaveLength(1)
-      expect(mockGet.mock.calls[0][0]).toEqual('/preferences')
+      expect(mockGet).toHaveBeenCalledTimes(1)
+      expect(mockGet).toHaveBeenCalledWith('/preferences')
     })
   })
 })

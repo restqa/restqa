@@ -380,7 +380,7 @@ describe('actions', () => {
     })
   })
 
-  describe('config', () => {
+  describe('preferences', () => {
 
     test('Get the successful user preferences', async () => {
       const data = {
@@ -394,10 +394,8 @@ describe('actions', () => {
       }
 
       const result = await actions.preferences(context)
-      expect(context.commit).toHaveBeenCalledTimes(1)
 
-      expect(context.commit.mock.calls[0][0]).toEqual('preferences')
-      expect(context.commit.mock.calls[0][1]).toEqual(data)
+      expect(context.commit).toHaveBeenCalledWith('preferences', data)
     })
 
     test('Get the unsuccessful user preferences', async () => {
@@ -412,10 +410,7 @@ describe('actions', () => {
       }
 
       const result = await actions.preferences(context)
-      expect(context.commit).toHaveBeenCalledTimes(1)
-
-      expect(context.commit.mock.calls[0][0]).toEqual('preferences')
-      expect(context.commit.mock.calls[0][1]).toEqual({})
+      expect(context.commit).toHaveBeenCalledWith('preferences', {})
     })
   })
 })

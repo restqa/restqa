@@ -23,8 +23,8 @@ const mutations = {
   testResult (state, val) {
     state.testResult = val
   },
-  preferences (state, val) {
-    state.preferences = val
+  preferences (state, preferencesObject) {
+    state.preferences = preferencesObject
   }
 }
 
