@@ -31,3 +31,4 @@ service:
       credential_warning: 'Do not forget to use environment variable to secure your sensitive information'
   telemetry:
     toggle: '🕵️ The telemetry has been %s.'
+    detail: 'More detail on %s'
