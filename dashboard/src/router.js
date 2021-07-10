@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Store from './store/store'
+import { trackRouter } from "vue-gtag-next";
 
 const isBeta = Boolean((new Date('07/01/2021 00:00:00').getTime() - new Date().getTime()) > 0)
 
@@ -64,5 +65,7 @@ router.afterEach((to) => {
     appLoading.style.display = 'none'
   }
 })
+
+trackRouter(router)
 
 export default router

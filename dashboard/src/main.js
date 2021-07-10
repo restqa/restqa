@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import VueGtag from "vue-gtag-next"
 import router from './router'
 import store from './store/store'
 
@@ -13,4 +14,10 @@ createApp(App)
   .use(ElementPlus)
   .use(router)
   .use(store)
+  .use(VueGtag, {
+    isEnabled: false,
+    property: {
+      id: "UA-118770210-1"
+    }
+  })
   .mount('#app')

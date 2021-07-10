@@ -25,6 +25,9 @@ const getters = {
   },
   testResult(state) {
     return state.testResult
+  },
+  preferences(state) {
+    return state.preferences
   }
 }
 
