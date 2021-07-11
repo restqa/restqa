@@ -91,6 +91,29 @@ describe('#dashboard > Server', () => {
     })
   })
 
+  describe('/preferences', () => {
+    test('Return the user preferences', async () => {
+      const content = JSON.stringify({ telemetry: true })
+      filename = path.resolve(os.homedir(), '.config', 'restqa.pref')
+      const dirpath = path.dirname(filename)
+      fs.mkdirSync(dirpath, { recursive: true })
+
+      fs.writeFileSync(filename, content)
+
+      const response = await request(server())
+        .get('/preferences')
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual(JSON.parse(content))
+    })
+
+    test('Return the user preferences if the file doesn\'t exist', async () => {
+      const response = await request(server())
+        .get('/preferences')
+      expect(response.status).toBe(200)
+      expect(response.body).toEqual({})
+    })
+  })
+
   describe('/config', () => {
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false

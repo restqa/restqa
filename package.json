@@ -1,6 +1,6 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "An all in one test automation runner",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -41,11 +41,11 @@
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "@restqa/cucumber-export": "^0.1.9",
+    "@restqa/cucumber-export": "^0.1.10",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
-    "@restqa/restqapi": "0.0.18",
+    "@restqa/restqapi": "0.0.19",
     "chalk": "^4.0.0",
-    "commander": "^6.2.1",
+    "commander": "^8.0.0",
     "console-table-printer": "^2.9.0",
     "cucumber": "^6.0.5",
     "debug": "^4.3.1",
@@ -128,5 +128,6 @@
   "bugs": {
     "url": "https://github.com/restqa/restqa/issues"
   },
-  "homepage": "https://restqa.io"
+  "homepage": "https://restqa.io",
+  "trackingCode": "UA-118770210-1"
 }

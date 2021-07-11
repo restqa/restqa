@@ -1,21 +1,27 @@
 #!/usr/bin/env node
 
-const { program } = require('commander')
+const { program, Argument } = require('commander')
 const pkg = require('../package.json')
 const Cli = require('../src/cli')
 const logger = require('../src/utils/logger')
 const updateNotifier = require('update-notifier')
 const path = require('path')
+const Telemetry = require('../src/utils/telemetry')
 
 const DEFAULT_CONFIG = process.env.RESTQA_CONFIG || path.resolve(process.cwd(), '.restqa.yml')
 
+const telemetry = new Telemetry(pkg)
 const notifier = updateNotifier({
   pkg,
   shouldNotifyInNpmScript: true
 })
 
+
 program
   .version(pkg.version)
+  .hook('preAction', (parent, cmd) => {
+    telemetry.track('cli', cmd.name(), cmd.args.join(' '))
+  })
 
 program
   .command('init')
@@ -77,6 +83,13 @@ program
   .description('Run a simple RestQA example')
   .action(Cli('example'))
 
+program
+  .command('telemetry')
+  .addArgument(new Argument('[status]', 'status of the telemetry (choices: "on", "off")'))
+  .description('Enable or disable the telemetry')
+  .usage('[status]')
+  .action(Cli('telemetry'))
+
 program.on('--help', () => {
   /* eslint-disable no-console */
   logger.log(
@@ -91,6 +104,7 @@ async function main () {
 
 main()
   .catch(e => {
+    telemetry.track('error', e.message, process.argv.join(' '))
     logger.error(e)
     process.exit(1)
   })

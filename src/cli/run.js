@@ -3,14 +3,16 @@ const fs = require('fs')
 const cucumber = require('cucumber')
 const logger = require('../utils/logger')
 
-module.exports = function (program) {
+module.exports = function (opt, program = {}) {
   let {
     env,
     config,
     tags = [],
     stream = process.stdout,
-    args = ['.']
-  } = program
+    args
+  } = opt
+
+  args = args || program.args || ['.']
 
   if (!args.length) args.push('.')
 

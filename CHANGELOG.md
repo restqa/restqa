@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.30] - 2021-07-09
+
+### Added
+
+* Enable new command to mange the telemetry : `restqa telemetry off` | [#119](https://github.com/restqa/restqa/pull/119)
+
+### Bug Fix
+
+* HTML report: remove hidden steps | [#71](https://github.com/restqa/cucumber-export/pull/71)
+* Improve equals error by adding the type of the value to compare| [#80](https://github.com/restqa/restqapi/pull/80)
+
+### Update
+
+* [Bump commander@8.0.0](https://github.com/tj/commander.js/releases/tag/v8.0.0)
+* [Bump @restqa/cucumber-export@0.1.10](https://github.com/restqa/cucumber-export/releases/tag/0.1.10)
+* [Bump @restqa/restqapi@0.0.19](https://github.com/restqa/restqapi/releases/tag/0.0.19)
+
 ## [0.0.29] - 2021-06-29
 
 ### Added
@@ -178,7 +195,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Enable secret into the configuration file
 
-[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.29...HEAD
+[Unreleased]: https://github.com/restqa/restqa/compare/v0.0.30...HEAD
+[0.0.30]: https://github.com/restqa/restqa/compare/0.0.29...0.0.30
 [0.0.29]: https://github.com/restqa/restqa/compare/0.0.28...0.0.29
 [0.0.28]: https://github.com/restqa/restqa/compare/0.0.27...0.0.28
 [0.0.27]: https://github.com/restqa/restqa/compare/0.0.26...0.0.27

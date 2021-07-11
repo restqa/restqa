@@ -93,6 +93,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/error500'
+  /preferences:
+    get:
+      tags:
+        - RestQA
+      deprecated: false
+      operationId: preferences
+      summary: Retrieve the user Preferences
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/preferences'
+        '406':
+          description: Processing Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error406'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/error500'
   /api/project/features:
     get:
       tags:
@@ -553,6 +579,12 @@ definitions:
       version:
         type: string
         example: 0.0.1
+  preferences:
+    type: object
+    properties:
+      telemetry:
+        type: boolean
+        example: true
   steps:
     type: array
     items:

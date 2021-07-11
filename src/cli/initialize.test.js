@@ -397,6 +397,9 @@ pipeline {
         const filename = path.resolve(os.tmpdir(), '.restqa.yml')
         jestqa.getCurrent().files.push(filename)
 
+        const prefFilename = path.resolve(os.homedir(), '.config', 'restqa.pref')
+        jestqa.getCurrent().files.push(prefFilename)
+
         const Initialize = require('./initialize')
 
         mockGenerator.mockRejectedValue('Error')
@@ -406,10 +409,15 @@ pipeline {
           url: 'http://test.sample.com',
           env: 'production',
           description: 'This is my description',
-          folder: os.tmpdir()
+          folder: os.tmpdir(),
+          telemetry: false
         }
 
         await Initialize.generate(options)
+
+        const contentPref = fs.readFileSync(prefFilename).toString('utf-8')
+        const resultPref = JSON.parse(contentPref)
+        expect(resultPref.telemetry).toBe(false)
 
         expect(jestqa.getLoggerMock().mock.calls).toHaveLength(3)
 
@@ -459,6 +467,10 @@ pipeline {
       test('Create config file into a specific folder', async () => {
         const filename = path.resolve(os.tmpdir(), '.restqa.yml')
         jestqa.getCurrent().files.push(filename)
+
+        const prefFilename = path.resolve(os.homedir(), '.config', 'restqa.pref')
+        jestqa.getCurrent().files.push(prefFilename)
+
         const Initialize = require('./initialize')
 
         mockGenerator.mockResolvedValue('Given I have an example')
@@ -468,7 +480,8 @@ pipeline {
           url: 'http://test.sample.com',
           env: 'production',
           description: 'This is my description',
-          folder: os.tmpdir()
+          folder: os.tmpdir(),
+          telemetry: true
         }
 
         await Initialize.generate(options)
@@ -478,6 +491,10 @@ pipeline {
         expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
         expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
         expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('👉 More information: https://restqa.io/info')
+
+        const contentPref = fs.readFileSync(prefFilename).toString('utf-8')
+        const resultPref = JSON.parse(contentPref)
+        expect(resultPref.telemetry).toBe(true)
 
         const content = fs.readFileSync(filename).toString('utf-8')
         const YAML = require('yaml')
@@ -532,12 +549,16 @@ Given I have an example`
       const ciFilename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       jestqa.getCurrent().files.push(ciFilename)
 
+      const prefFilename = path.resolve(os.homedir(), '.config', 'restqa.pref')
+      jestqa.getCurrent().files.push(prefFilename)
+
       const mockPrompt = jest.fn().mockResolvedValue({
         name: 'my new sample api',
         url: 'http://test.new.sample.com',
         env: 'local',
         description: 'This is my new description',
-        ci: 'gitlab-ci'
+        ci: 'gitlab-ci',
+        telemetry: false
       })
 
       jest.mock('inquirer', () => {
@@ -550,6 +571,10 @@ Given I have an example`
       const Initialize = require('./initialize')
 
       await Initialize({})
+
+      const contentPref = fs.readFileSync(prefFilename).toString('utf-8')
+      const resultPref = JSON.parse(contentPref)
+      expect(resultPref.telemetry).toBe(false)
 
       const contentCi = fs.readFileSync(ciFilename).toString('utf-8')
       const YAML = require('yaml')
@@ -617,7 +642,8 @@ Given I have an example`
         'Description:',
         'Url of the project api:',
         'Environment name of this url (local) ?',
-        'Do you need a continuous integration configuration ?'
+        'Do you need a continuous integration configuration ?',
+        'May RestQA report anonymous usage statistics to improve the tool over time ?'
       ]
       expect(mockPrompt.mock.calls[0][0].map(_ => _.message)).toEqual(expectedQuestions)
       const expectedCI = [{

@@ -15,6 +15,7 @@ service:
       environment: 'Environment name of this url (local) ?'
       ci: 'Do you need a continuous integration configuration ?'
       no_ci: 'I want to configure the continuous integration by myself'
+      telemetry: 'May RestQA report anonymous usage statistics to improve the tool over time ?'
     success:
       welcome: 'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
       ci: '%s configuration has been setup. 🔧'
@@ -28,3 +29,6 @@ service:
     success: 
       config_updated: 'The "%s" %s addon has been configured successfully'
       credential_warning: 'Do not forget to use environment variable to secure your sensitive information'
+  telemetry:
+    toggle: '🕵️ The telemetry has been %s.'
+    detail: 'More detail on %s'

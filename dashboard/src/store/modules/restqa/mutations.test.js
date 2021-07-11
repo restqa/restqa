@@ -11,7 +11,8 @@ describe('mutations', () => {
       steps,
       features,
       selectedFile,
-      testResult
+      testResult,
+      preferences
     } = mutations
 
     test('update Config states', () => {
@@ -97,6 +98,16 @@ describe('mutations', () => {
       testResult(state, { bar: 'foo' })
 
       expect(state.testResult).toEqual({ bar: 'foo' })
+    })
+
+    test('update preferences', () => {
+      const state = {
+        preferences: { telemetry : true }
+      }
+
+      preferences(state, { telemetry: false })
+
+      expect(state.preferences).toEqual({ telemetry: false })
     })
   })
 })
