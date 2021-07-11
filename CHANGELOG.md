@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Enable new command to mange the telemetry : `restqa telemetry off` | [#119](https://github.com/restqa/restqa/pull/119)
 
+### Bug Fix
+
+* HTML report: remove hidden steps | [#71](https://github.com/restqa/cucumber-export/pull/71)
+* Improve equals error by adding the type of the value to compare| [#80](https://github.com/restqa/restqapi/pull/80)
+
 ### Update
 
 * [Bump commander@8.0.0](https://github.com/tj/commander.js/releases/tag/v8.0.0)
