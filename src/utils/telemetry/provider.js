@@ -6,7 +6,7 @@ const fs = require('fs')
 module.exports = function (payload) {
   const { preferenceFile } = payload
   const content = JSON.parse(fs.readFileSync(preferenceFile).toString('utf-8')) || {}
-  let consent = content.telemetry || false
+  let consent = content.telemetry || true
   if (process.env.RESTQA_TELEMETRY) {
     consent = process.env.RESTQA_TELEMETRY === 'on'
   }

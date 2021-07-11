@@ -198,13 +198,19 @@ describe('# utils - telemetry - index', () => {
 
       telemetry.track('eventCategory', 'eventAction', 'eventLabel', 'eventValue')
 
-      expect(mockRequest).toHaveBeenCalledTimes(0)
+      expect(mockRequest).toHaveBeenCalledTimes(1)
+
+      process.env.RESTQA_TELEMETRY = 'off'
+
+      telemetry.track('eventCategory', 'eventAction', 'eventLabel', 'eventValue')
+
+      expect(mockRequest).toHaveBeenCalledTimes(1)
 
       process.env.RESTQA_TELEMETRY = 'on'
 
       telemetry.track('eventCategory', 'eventAction', 'eventLabel', 'eventValue')
 
-      expect(mockRequest).toHaveBeenCalledTimes(1)
+      expect(mockRequest).toHaveBeenCalledTimes(2)
     })
   })
 })
