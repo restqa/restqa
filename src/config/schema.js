@@ -1,16 +1,18 @@
-const Joi = require('joi')
+const Joi = require("joi")
 
-function validate (config) {
+function validate(config) {
   const schemaEnvironment = Joi.object({
     name: Joi.string().required(),
     default: Joi.boolean().optional(),
     secrets: Joi.object({}).unknown(),
-    plugins: Joi.array().items(
-      Joi.object({
-        name: Joi.string().required(),
-        config: Joi.any()
-      })
-    ).required(),
+    plugins: Joi.array()
+      .items(
+        Joi.object({
+          name: Joi.string().required(),
+          config: Joi.any()
+        })
+      )
+      .required(),
     data: {
       storage: Joi.string(),
       channel: Joi.string(),
@@ -28,7 +30,7 @@ function validate (config) {
   })
 
   const schemaConfig = Joi.object({
-    version: Joi.any().allow('0.0.1'),
+    version: Joi.any().allow("0.0.1"),
     metadata: {
       code: Joi.string().required(),
       name: Joi.string().required(),
@@ -49,7 +51,8 @@ function validate (config) {
             urlPrefixPath: Joi.string(),
             outputFolder: Joi.string()
           })
-        })
+        }),
+        editable: Joi.boolean()
       }),
       tips: Joi.object({
         enabled: Joi.boolean(),
@@ -58,7 +61,7 @@ function validate (config) {
     })
   })
 
-  const { value, error } = schemaConfig.validate(config)
+  const {value, error} = schemaConfig.validate(config)
 
   if (error) {
     throw error
@@ -67,4 +70,4 @@ function validate (config) {
   return value
 }
 
-module.exports = { validate }
+module.exports = {validate}
