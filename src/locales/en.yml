@@ -1,34 +1,35 @@
 service:
   select_environment: '🎯 The selected environment is: "%s"'
   dashboard:
-    config_loaded: '📝  The configuration file %s has been loaded'
+    config_loaded: "📝  The configuration file %s has been loaded"
     no_config: '🤞  Launching the server on "NO CONFIG" mode'
-    server_start: '🌎  The RestQA dashboard is started and available on the url: %s'
+    server_start: "🌎  The RestQA dashboard is started and available on the url: %s"
   generate:
     successful_message: '\n**** SCENARIO GENERATED SUCCESSFULLY ****\n'
     output_file_message: 'The Scenario has been added to the file "%s"'
   init:
     questions:
-      name: 'Project name:'
-      description: 'Description:'
-      url: 'Url of the project api:'
-      environment: 'Environment name of this url (local) ?'
-      ci: 'Do you need a continuous integration configuration ?'
-      no_ci: 'I want to configure the continuous integration by myself'
-      telemetry: 'May RestQA report anonymous usage statistics to improve the tool over time ?'
+      name: "Project name:"
+      description: "Description:"
+      url: "Url of the project api:"
+      environment: "Environment name of this url (local) ?"
+      ci: "Do you need a continuous integration configuration ?"
+      no_ci: "I want to configure the continuous integration by myself"
+      telemetry: "May RestQA report anonymous usage statistics to improve the tool over time ?"
+      editable_dashboard: "Do you want to enable edition for .feature files ?"
     success:
-      welcome: 'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      ci: '%s configuration has been setup. 🔧'
-      sample: '🎁 We created a sample scenario, try it by using the command: restqa run'
-      info: '👉 More information: https://restqa.io/info'
+      welcome: "You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀"
+      ci: "%s configuration has been setup. 🔧"
+      sample: "🎁 We created a sample scenario, try it by using the command: restqa run"
+      info: "👉 More information: https://restqa.io/info"
     error:
       scenario_generation: "We couldn't create the sample scenario but no worries you can generate it using: restqa generate curl %s -o welcome.feature"
   install:
     webhook:
-      question: 'What is the Webhook url?'
-    success: 
+      question: "What is the Webhook url?"
+    success:
       config_updated: 'The "%s" %s addon has been configured successfully'
-      credential_warning: 'Do not forget to use environment variable to secure your sensitive information'
+      credential_warning: "Do not forget to use environment variable to secure your sensitive information"
   telemetry:
-    toggle: '🕵️ The telemetry has been %s.'
-    detail: 'More detail on %s'
+    toggle: "🕵️ The telemetry has been %s."
+    detail: "More detail on %s"
