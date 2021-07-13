@@ -3,6 +3,9 @@ metadata:
   code: JSON-PLACEHOLDER
   name: jsonplaceholder from typecode
   description: An example application to demo RestQA Features
+resqta:
+  dashboard:
+    editable: true
 environments:
   - name: local
     default: true
