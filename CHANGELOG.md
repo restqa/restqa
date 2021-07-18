@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.31] - 2021-07-17
 
+### Update
+
+* [Bump @cucumber/cucumber@7.3.0](https://github.com/cucumber/cucumber-js/releases/tag/v7.3.0)
+* [Bump @restqa/cucumber-export@0.1.11](https://github.com/restqa/cucumber-export/releases/tag/0.1.11)
+* [Bump @restqa/restqapi@0.1.0](https://github.com/restqa/restqapi/releases/tag/0.1.0)
+
 ## [0.0.30] - 2021-07-11
 
 ### Added
