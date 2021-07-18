@@ -221,6 +221,7 @@ function Run (options) {
 function Dashboard (options) {
   const opt = {
     config: options.configFile,
+    folder: options.folder,
     serve: false
   }
   return dashboard(opt)

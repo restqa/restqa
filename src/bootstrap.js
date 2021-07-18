@@ -8,7 +8,6 @@ const logger = require('./utils/logger')
 const path = require('path')
 
 const Module = require('module')
-const requireUtil = Module.createRequire(path.resolve(process.cwd(), '.') + path.sep)
 
 module.exports = function (processor, options = {}) {
   if (
@@ -95,7 +94,7 @@ function getPluginModule (name) {
   if (name === '@restqa/restqapi') {
     result = require(name)
   } else {
-    result = requireUtil(name)
+    result = Module.createRequire(path.resolve(process.env.PROJECT_FOLDER || process.cwd(), '.') + path.sep)(name)
   }
 
   return result
