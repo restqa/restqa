@@ -201,6 +201,7 @@ function Run (options) {
  *
  * @param {Object} options
  * @param {string} options.configFile - The path of the RestQA configuration file
+ * @param {string} (optional) options.folder - Define the folder where to project is located
  *
  * @return http.server
  *
@@ -210,6 +211,8 @@ function Run (options) {
  *
  * const options = {
  *   configFile: './restqa.yml',
+ *   folder: '/app/project'
+ *
  * }
  *
  * const server = Dashboard(options)
@@ -221,6 +224,7 @@ function Run (options) {
 function Dashboard (options) {
   const opt = {
     config: options.configFile,
+    folder: options.folder,
     serve: false
   }
   return dashboard(opt)

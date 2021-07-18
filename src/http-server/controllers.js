@@ -56,6 +56,8 @@ Controllers.steps = function (req, res, next) {
 
 Controllers.initialize = async function (req, res, next) {
   try {
+    const options = req.app.get('restqa.options')
+    req.body.folder = req.body.folder || options.folder
     const result = await RestQA.Initialize(req.body || {})
     res.json({
       configuration: result,
