@@ -320,7 +320,7 @@ initialize.generate = async function (options) {
   try {
     const curl = ['curl', WELCOME_API_URL]
 
-    const response = await Generate({ args: curl, print: false })
+    const response = await Generate({ print: false }, { args: curl })
 
     const output = 'tests/integration/welcome-restqa.feature'
 
