@@ -1274,6 +1274,44 @@ environments:
         expect(fileContent).toEqual('this is the new content')
       })
 
+      test('Save the content of a specific feature in a folder', async () => {
+        let content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:3000
+        `
+        let filename = path.resolve(os.tmpdir(), '.restqa.yml')
+        fs.writeFileSync(filename, content)
+
+        content = 'foo bar'
+        const featureFilename = 'unit-test.feature'
+        filename = path.resolve(os.tmpdir(), featureFilename)
+        fs.writeFileSync(filename, content)
+
+        const srvOption = {
+          folder: os.tmpdir()
+        }
+
+        const response = await request(server(filename, srvOption))
+          .put('/api/project/features/' + featureFilename)
+          .set('Content-Type', 'text/plain')
+          .send('this is the new content')
+        expect(response.status).toBe(204)
+        const fileContent = fs.readFileSync(path.resolve(os.tmpdir(), featureFilename)).toString('utf-8')
+        expect(fileContent).toEqual('this is the new content')
+      })
+
       test('throw error if the file doesnt exist', async () => {
         const content = `
 ---
