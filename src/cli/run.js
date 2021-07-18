@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const cucumber = require('cucumber')
+const cucumber = require('@cucumber/cucumber')
 const logger = require('../utils/logger')
 
 module.exports = function (opt, program = {}) {
