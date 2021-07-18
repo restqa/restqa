@@ -94,7 +94,7 @@ function getPluginModule (name) {
   if (name === '@restqa/restqapi') {
     result = require(name)
   } else {
-    result = Module.createRequire(path.resolve(process.env.PROJECT_FOLDER || process.cwd(), '.') + path.sep)(name)
+    result = Module.createRequire(path.resolve(process.env.RESTQA_PROJECT_FOLDER || process.cwd(), '.') + path.sep)(name)
   }
 
   return result

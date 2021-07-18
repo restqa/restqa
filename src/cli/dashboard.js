@@ -30,7 +30,7 @@ module.exports = function (program) {
     options = (raw.restqa || {}).dashboard || {}
   }
 
-  process.env.PROJECT_FOLDER = folder
+  process.env.RESTQA_PROJECT_FOLDER = folder
   options.folder = folder
 
   const httpSever = http.createServer(DashboardServer(config, options))
