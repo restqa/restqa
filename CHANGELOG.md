@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.31] - 2021-07-18
 
+### Bug Fix
+
+* Fix the regression on the command: `restqa generate` | [#124](https://github.com/restqa/restqa/pull/124)
+
 ### Update
 
 * Enable the dashboard to run on a specific folder | [#122](https://github.com/restqa/restqa/pull/122)
