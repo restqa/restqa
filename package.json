@@ -43,7 +43,7 @@
   "dependencies": {
     "@restqa/cucumber-export": "^0.1.10",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
-    "@restqa/restqapi": "0.0.19",
+    "@restqa/restqapi": "^0.1.0",
     "chalk": "^4.0.0",
     "commander": "^8.0.0",
     "console-table-printer": "^2.9.0",
