@@ -16,7 +16,7 @@ describe('# cli - generator', () => {
         '-lah'
       ]
     }
-    return expect(Generate(program)).rejects.toThrow('You need to provide a curl command for me to generate an awesome scenario')
+    return expect(Generate({}, program)).rejects.toThrow('You need to provide a curl command for me to generate an awesome scenario')
   })
 
   test('Throw an error if curl options are not supported', () => {
@@ -29,7 +29,7 @@ describe('# cli - generator', () => {
         'someting'
       ]
     }
-    return expect(Generate(program)).rejects.toThrow('The curl options "--proxy-tlsauthtype" is not supported')
+    return expect(Generate({}, program)).rejects.toThrow('The curl options "--proxy-tlsauthtype" is not supported')
   })
 
   test('Throw an error if curl options are not supported and the URL at the end', () => {
@@ -42,7 +42,7 @@ describe('# cli - generator', () => {
         'http://www.example.com'
       ]
     }
-    return expect(Generate(program)).rejects.toThrow('The curl options "--proxy-tlsauthtype" is not supported')
+    return expect(Generate({}, program)).rejects.toThrow('The curl options "--proxy-tlsauthtype" is not supported')
   })
 
   test('Throw an error if curl options are not supported and the URL at the middle', () => {
@@ -56,7 +56,7 @@ describe('# cli - generator', () => {
         'k'
       ]
     }
-    return expect(Generate(program)).rejects.toThrow('The curl options "--proxy-tlsauthtype" is not supported')
+    return expect(Generate({}, program)).rejects.toThrow('The curl options "--proxy-tlsauthtype" is not supported')
   })
 
   test('Throw an error if curl command does not contain an url', () => {
@@ -69,7 +69,7 @@ describe('# cli - generator', () => {
         'content-type: application/json'
       ]
     }
-    return expect(Generate(program)).rejects.toThrow('You need to provide an url into your curl command')
+    return expect(Generate({}, program)).rejects.toThrow('You need to provide an url into your curl command')
   })
 
   test('Get the Scenario with json request body', async () => {
@@ -102,7 +102,7 @@ describe('# cli - generator', () => {
         'POST'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://examples/quotes/legacy/bw15',
@@ -146,7 +146,7 @@ describe('# cli - generator', () => {
         'https://examples/quotes/legacy/bw15'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://examples/quotes/legacy/bw15',
@@ -192,7 +192,7 @@ describe('# cli - generator', () => {
         'https://examples/quotes/legacy/bw15'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://examples/quotes/legacy/bw15',
@@ -243,7 +243,7 @@ describe('# cli - generator', () => {
         '-XPATCH'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://examples/quotes/legacy/bw15',
@@ -292,7 +292,7 @@ describe('# cli - generator', () => {
         '-XPATCH'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://examples/quotes/legacy/bw15',
@@ -341,7 +341,7 @@ describe('# cli - generator', () => {
         'MESSAGE=test-sms'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://example/send',
@@ -391,7 +391,7 @@ describe('# cli - generator', () => {
         'MESSAGE=test-sms'
       ]
     }
-    const result = await Generate(program)
+    const result = await Generate({}, program)
     expect(result).toEqual(resultScenario)
     const expectOptions = {
       url: 'https://example/send',
@@ -434,7 +434,7 @@ describe('# cli - generator', () => {
       ]
     }
 
-    const result = await Generate(program)
+    const result = await Generate({}, program)
 
     expect(result).toEqual(resultScenario)
 
@@ -489,7 +489,7 @@ Given I have an example
       ]
     }
 
-    const result = await Generate(program)
+    const result = await Generate({ print: true }, program)
 
     expect(result).toEqual(resultScenario)
 

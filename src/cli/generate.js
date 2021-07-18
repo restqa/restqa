@@ -4,10 +4,10 @@ const fs = require('fs')
 const path = require('path')
 const logger = require('../utils/logger')
 
-module.exports = async function (parentProgram) {
-  const { args } = parentProgram
+module.exports = async function (pOptions, program) {
+  const { args } = program
 
-  let print = parentProgram.print
+  let { print } = pOptions
   if (undefined === print) {
     print = true
   }
@@ -18,8 +18,8 @@ module.exports = async function (parentProgram) {
 
   try {
     const collect = (value, previous) => previous.concat([value])
-    const program = new Command()
-    program
+    const curlProgram = new Command()
+    curlProgram
       .option('-H, --header <header>', 'Extra header to include in the request when sending HTTP to a server', collect, [])
       .option('-b, --cookie <cookie>', 'Pass the data to the HTTP server in the Cookie header')
       .option('-u, --user <user>', 'Tells curl to use HTTP Basic authentication with the remote host')
@@ -37,14 +37,14 @@ module.exports = async function (parentProgram) {
       .exitOverride()
       .parse(['runner', ...args])
 
-    const opt = program.opts()
+    const opt = curlProgram.opts()
 
-    if (program.args.length === 0 && !opt.url) {
+    if (curlProgram.args.length === 0 && !opt.url) {
       throw new Error('You need to provide an url into your curl command')
     }
 
     const options = {
-      url: opt.url || program.args[0]
+      url: opt.url || curlProgram.args[0]
     }
 
     if (opt.request) {

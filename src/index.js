@@ -62,11 +62,10 @@ async function Generate (cmd) {
     .map(str => str.replace(/^"/, '').replace(/"$/, ''))
 
   const options = {
-    args,
     print: false
   }
 
-  return generate(options)
+  return generate(options, { args })
 }
 
 /**

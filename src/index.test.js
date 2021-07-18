@@ -24,13 +24,16 @@ describe('# Index - Generate', () => {
     await expect(Generate(cmd)).resolves.toEqual('result')
     expect(mockGenerate.mock.calls).toHaveLength(1)
     const expectedOption = {
+      print: false
+    }
+    const program = {
       args: [
         'curl',
         'https://jsonplaceholder.typicode.com/todos/1'
-      ],
-      print: false
+      ]
     }
     expect(mockGenerate.mock.calls[0][0]).toEqual(expectedOption)
+    expect(mockGenerate.mock.calls[0][1]).toEqual(program)
   })
 
   test('Curl command with a lot of options', async () => {
@@ -45,7 +48,10 @@ describe('# Index - Generate', () => {
     await expect(Generate(cmd)).resolves.toEqual('result')
     expect(mockGenerate.mock.calls).toHaveLength(1)
     const expectedOption = {
-      print: false,
+      print: false
+    }
+
+    const program = {
       args: [
         'curl',
         '--url',
@@ -65,6 +71,7 @@ describe('# Index - Generate', () => {
       ]
     }
     expect(mockGenerate.mock.calls[0][0]).toEqual(expectedOption)
+    expect(mockGenerate.mock.calls[0][1]).toEqual(program)
   })
 })
 
