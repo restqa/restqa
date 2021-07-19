@@ -9,6 +9,7 @@ module.exports = function (program) {
   let {
     port = 8081,
     serve = true,
+    folder = process.cwd(),
     config
   } = program
 
@@ -26,8 +27,11 @@ module.exports = function (program) {
       throw new Error(`The configuration file "${config}" doesn't exist.`)
     }
     const raw = Config.raw({ configFile: config })
-    options = (raw.restqa || {}).dashboard
+    options = (raw.restqa || {}).dashboard || {}
   }
+
+  process.env.RESTQA_PROJECT_FOLDER = folder
+  options.folder = folder
 
   const httpSever = http.createServer(DashboardServer(config, options))
 

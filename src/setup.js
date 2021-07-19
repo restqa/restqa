@@ -1,4 +1,4 @@
-const Cucumber = require('cucumber')
+const Cucumber = require('@cucumber/cucumber')
 const Bootstrap = require('./bootstrap')
 
 if (global.restqaOptions.env) {

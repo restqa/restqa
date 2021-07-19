@@ -67,7 +67,7 @@ environments:
       }
     })
 
-    jest.mock('cucumber', () => {
+    jest.mock('@cucumber/cucumber', () => {
       return {
         Cli: mockCucumberCli
       }
@@ -142,7 +142,7 @@ environments:
       }
     })
 
-    jest.mock('cucumber', () => {
+    jest.mock('@cucumber/cucumber', () => {
       return {
         Cli: mockCucumberCli
       }
@@ -221,7 +221,7 @@ environments:
       }
     })
 
-    jest.mock('cucumber', () => {
+    jest.mock('@cucumber/cucumber', () => {
       return {
         Cli: mockCucumberCli
       }
@@ -292,7 +292,7 @@ environments:
       }
     })
 
-    jest.mock('cucumber', () => {
+    jest.mock('@cucumber/cucumber', () => {
       return {
         Cli: mockCucumberCli
       }
@@ -361,7 +361,7 @@ environments:
       }
     })
 
-    jest.mock('cucumber', () => {
+    jest.mock('@cucumber/cucumber', () => {
       return {
         Cli: mockCucumberCli
       }
@@ -435,7 +435,7 @@ environments:
       }
     })
 
-    jest.mock('cucumber', () => {
+    jest.mock('@cucumber/cucumber', () => {
       return {
         Cli: mockCucumberCli
       }
