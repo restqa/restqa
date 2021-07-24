@@ -166,4 +166,42 @@ describe('getters', () => {
       expect(result).toEqual({ foo: 'bar' })
     })
   })
+
+  describe('dashboardConfig', () => {
+    test('get the dashboard config', () => {
+      const state = {
+        config: {
+          restqa: {
+            dashboard: {
+              editable: true
+            }
+          }
+        }
+      }
+
+      const result = getters.dashboardConfig(state)
+      expect(result).toEqual({ editable: true })
+    })
+
+    test('get undefined is the dashboard property doesn\'t exists', () => {
+      const state = {
+        config: {
+          restqa: {
+          }
+        }
+      }
+
+      const result = getters.dashboardConfig(state)
+      expect(result).toEqual(undefined)
+    })
+
+    test('get undefined is the restqa property doesn\'t exists', () => {
+      const state = {
+        config: {}
+      }
+
+      const result = getters.dashboardConfig(state)
+      expect(result).toEqual(undefined)
+    })
+  })
 })

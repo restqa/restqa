@@ -1,14 +1,12 @@
-import { mount, shallowMount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
-import RestqaStore from '@/store/store'
 import ElementPlus from 'element-plus'
 import RestQAProjectEditor from './RestQAProjectEditor.vue'
 
 describe('RestQAProjectEditor', () => {
   let store
-  let mockSelectedFile
   let actions = {
-    selectedFile: jest.fn((_, filename) => mockSelectedFile = filename)
+    selectedFile: jest.fn((_, filename) => {})
   }
 
   beforeEach(() => {
@@ -285,5 +283,41 @@ describe('RestQAProjectEditor', () => {
     component.vm.manageTabs('integration/foo-bar.feature', 'remove')
     expect(component.vm.tabs).toHaveLength(0)
     expect(component.vm.currentTab).toBe(null)
+  })
+
+  test('given a non editable dashboard then it should display a edit mode tag', async () => {
+    const storeWithNonEditableDashboard = createStore({
+      modules: {
+        restqa: {
+          state: {},
+          actions,
+          getters: {
+            features: () => mockFeatures,
+            dashboardConfig: () => ({
+              editable: false
+            })
+          }
+        }
+      }
+    })
+
+    const options = {
+      global: {
+        plugins: [
+          storeWithNonEditableDashboard,
+          ElementPlus
+        ]
+      },
+    }
+
+    const component = mount(RestQAProjectEditor, options)
+    expect(component.exists()).toBeTruthy()
+    expect(component.vm.isEditable).toBe(false)
+
+    component.vm.$options.watch.file.call(component.vm, 'integration/foo-bar.feature')
+    await component.vm.$nextTick()
+    
+    const card = component.findComponent({ name: 'card' })
+    expect(card.vm.tagLabel).toBe('Edit mode')
   })
 })

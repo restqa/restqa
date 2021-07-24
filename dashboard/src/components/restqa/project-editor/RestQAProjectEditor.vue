@@ -1,5 +1,10 @@
 <template>
-  <card :title="currentTab" :loading="loading" emoji="🚀">
+  <card
+    :title="currentTab"
+    :loading="loading"
+    :emoji="isEditable ? '🚀' : null"
+    :tagLabel="isEditable ? null: 'Edit mode'"
+  >
     <el-tabs  v-show="currentTab" v-model="currentTab" type="card" closable @edit="manageTabs">
       <el-tab-pane
         v-for="(tab) in tabs"
@@ -10,7 +15,7 @@
         <template #label>
           <span><i :class="tab.icon" class="tab-header"></i> {{ tab.title }}</span>
         </template>
-        <ide :file="tab.name" @unsave="unsaved" />
+        <ide :file="tab.name" @unsave="unsaved" :isEditable="isEditable"/>
         <runner :file="tab.name" @status="updateStatus" />
       </el-tab-pane>
     </el-tabs>
@@ -41,6 +46,9 @@ export default {
   computed: {
     file() {
       return this.$store.getters.selectedFile
+    }, 
+    isEditable () {        
+      return this.$store.getters.dashboardConfig ? this.$store.getters.dashboardConfig.editable : false
     }
   },
   methods: {

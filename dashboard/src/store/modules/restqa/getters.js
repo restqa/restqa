@@ -28,6 +28,9 @@ const getters = {
   },
   preferences(state) {
     return state.preferences
+  },
+  dashboardConfig(state) {
+    return state.config && state.config.restqa && state.config.restqa.dashboard
   }
 }
 
