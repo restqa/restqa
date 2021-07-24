@@ -152,6 +152,42 @@ environments:
       expect(response.status).toBe(200)
       expect(response.body).toEqual(YAML.parse(content))
     })
+
+    test('Return the configuration but overriding the editable flag', async () => {
+      const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: 'restqa/restqapi'
+        config:
+          url: http://localhost:3000
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+restqa:
+  dashboard:
+    editable: true
+      `
+      filename = path.resolve(os.tmpdir(), '.restqa.yml')
+      fs.writeFileSync(filename, content)
+
+      const response = await request(server(filename, { editable: false }))
+        .get('/config')
+      expect(response.status).toBe(200)
+      const expected = YAML.parse(content)
+      expected.restqa.dashboard.editable = false
+      expect(response.body).toEqual(expected)
+    })
   })
 
   describe('/api/steps', () => {

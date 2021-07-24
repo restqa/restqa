@@ -8,9 +8,15 @@ function features (root) {
   return glob.sync(pattern, { cwd: root })
 }
 
-function config (filename) {
+function config (filename, options = {}) {
   const content = fs.readFileSync(filename).toString('utf-8')
-  return YAML.parse(content)
+  const result = YAML.parse(content)
+  if (typeof options.editable === 'boolean') {
+    result.restqa = result.restqa || {}
+    result.restqa.dashboard = result.restqa.dashboard || {}
+    result.restqa.dashboard.editable = options.editable
+  }
+  return result
 }
 
 module.exports = {

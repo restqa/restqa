@@ -18,7 +18,10 @@ Controllers.version = function (req, res) {
 
 Controllers.config = function (req, res, next) {
   try {
-    res.json(Project.config(req.app.get('restqa.configuration')))
+    const file = req.app.get('restqa.configuration')
+    const options = req.app.get('restqa.options')
+    const result = Project.config(file, options)
+    res.json(result)
   } catch (e) {
     next(e)
   }
