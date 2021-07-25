@@ -285,8 +285,8 @@ describe('RestQAProjectEditor', () => {
     expect(component.vm.currentTab).toBe(null)
   })
 
-  test('given a non editable dashboard then it should display a edit mode tag', async () => {
-    const storeWithNonEditableDashboard = createStore({
+  test('given a readonly dashboard then it should display a "Read only" tag', async () => {
+    const storeWithReadOnlyDashboard = createStore({
       modules: {
         restqa: {
           state: {},
@@ -294,7 +294,7 @@ describe('RestQAProjectEditor', () => {
           getters: {
             features: () => mockFeatures,
             dashboardConfig: () => ({
-              editable: false
+              readOnly: true
             })
           }
         }
@@ -304,7 +304,7 @@ describe('RestQAProjectEditor', () => {
     const options = {
       global: {
         plugins: [
-          storeWithNonEditableDashboard,
+          storeWithReadOnlyDashboard,
           ElementPlus
         ]
       },
@@ -312,12 +312,12 @@ describe('RestQAProjectEditor', () => {
 
     const component = mount(RestQAProjectEditor, options)
     expect(component.exists()).toBeTruthy()
-    expect(component.vm.isEditable).toBe(false)
+    expect(component.vm.readOnly).toBe(true)
 
     component.vm.$options.watch.file.call(component.vm, 'integration/foo-bar.feature')
     await component.vm.$nextTick()
     
     const card = component.findComponent({ name: 'card' })
-    expect(card.vm.tagLabel).toBe('Edit mode')
+    expect(card.vm.tagLabel).toBe('Read only')
   })
 })

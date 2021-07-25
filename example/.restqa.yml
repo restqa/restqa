@@ -5,7 +5,7 @@ metadata:
   description: An example application to demo RestQA Features
 restqa:
   dashboard:
-    editable: true
+    readOnly: true
 environments:
   - name: local
     default: true

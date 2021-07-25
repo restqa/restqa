@@ -33,7 +33,7 @@ module.exports = function (program) {
 
   if (readOnly) {
     options = options || {}
-    options.editable = false
+    options.readOnly = true
   }
 
   process.env.RESTQA_PROJECT_FOLDER = folder

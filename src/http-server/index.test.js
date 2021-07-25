@@ -153,7 +153,7 @@ environments:
       expect(response.body).toEqual(YAML.parse(content))
     })
 
-    test('Return the configuration but overriding the editable flag', async () => {
+    test('Return the configuration but overriding the readOnly flag', async () => {
       const content = `
 ---
 
@@ -176,16 +176,16 @@ environments:
           path: 'my-report.json'
 restqa:
   dashboard:
-    editable: true
+    readOnly: true
       `
       filename = path.resolve(os.tmpdir(), '.restqa.yml')
       fs.writeFileSync(filename, content)
 
-      const response = await request(server(filename, { editable: false }))
+      const response = await request(server(filename, { readOnly: false }))
         .get('/config')
       expect(response.status).toBe(200)
       const expected = YAML.parse(content)
-      expected.restqa.dashboard.editable = false
+      expected.restqa.dashboard.readOnly = false
       expect(response.body).toEqual(expected)
     })
   })

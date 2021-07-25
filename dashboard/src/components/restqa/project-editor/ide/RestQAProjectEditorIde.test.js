@@ -200,13 +200,13 @@ describe('RestQAProjectEditorIde', () => {
     expect(component.findComponent({name: 'el-alert'}).text()).toBe('An error occured: the file can\'t be loaded')
   })
 
-  test('given a falsy isEditable props then editor should be readOnly', async () => {
+  test('given a truthy readOnly props then editor should be readOnly', async () => {
     const data = 'The file content'
     mockGet = jest.fn().mockResolvedValue({ data })
     const options = {
       props: {
         file: 'foo.feature',
-        isEditable: false,
+        readOnly: true,
       },
       global: {
         plugins: [
@@ -228,13 +228,12 @@ describe('RestQAProjectEditorIde', () => {
     expect(ide.vm.readonly).toBeTruthy()
   })
 
-  test('given a truthy isEditable props then editor should be not readOnly', async () => {
+  test('given a falsy readOnly props then editor should be not readOnly', async () => {
     const data = 'The file content'
     mockGet = jest.fn().mockResolvedValue({ data })
     const options = {
       props: {
         file: 'foo.feature',
-        isEditable: true,
       },
       global: {
         plugins: [

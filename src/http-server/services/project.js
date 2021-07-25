@@ -11,10 +11,10 @@ function features (root) {
 function config (filename, options = {}) {
   const content = fs.readFileSync(filename).toString('utf-8')
   const result = YAML.parse(content)
-  if (typeof options.editable === 'boolean') {
+  if (typeof options.readOnly === 'boolean') {
     result.restqa = result.restqa || {}
     result.restqa.dashboard = result.restqa.dashboard || {}
-    result.restqa.dashboard.editable = options.editable
+    result.restqa.dashboard.readOnly = options.readOnly
   }
   return result
 }

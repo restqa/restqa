@@ -480,7 +480,7 @@ pipeline {
           description: 'This is my description',
           folder: os.tmpdir(),
           telemetry: false,
-          editable: true
+          readOnly: true
         }
 
         await Initialize.generate(options)
@@ -534,7 +534,7 @@ pipeline {
           }],
           restqa: {
             dashboard: {
-              editable: true
+              readOnly: true
             }
           }
         }
@@ -572,7 +572,7 @@ pipeline {
           description: 'This is my description',
           folder: os.tmpdir(),
           telemetry: true,
-          editable: true
+          readOnly: true
         }
 
         await Initialize.generate(options)
@@ -626,7 +626,7 @@ pipeline {
           }],
           restqa: {
             dashboard: {
-              editable: true
+              readOnly: true
             }
           }
         }
@@ -668,7 +668,7 @@ Given I have an example`
         description: 'This is my new description',
         ci: 'gitlab-ci',
         telemetry: false,
-        editable: true
+        readOnly: true
       })
 
       jest.mock('inquirer', () => {
@@ -740,7 +740,7 @@ Given I have an example`
         }],
         restqa: {
           dashboard: {
-            editable: true
+            readOnly: true
           }
         }
       }
@@ -753,7 +753,7 @@ Given I have an example`
         'Environment name of this url (local) ?',
         'Do you need a continuous integration configuration ?',
         'May RestQA report anonymous usage statistics to improve the tool over time ?',
-        'Do you want to enable edition for .feature files ?'
+        'Do you want to disable edition for .feature files?'
       ]
       expect(mockPrompt.mock.calls[0][0].map((_) => _.message)).toEqual(
         expectedQuestions
@@ -836,12 +836,7 @@ Given I have an example`
               path: 'restqa-result.json'
             }
           }]
-        }],
-        restqa: {
-          dashboard: {
-            editable: true
-          }
-        }
+        }]
       }
       expect(result).toEqual(expectedContent)
       expect(mockPrompt.mock.calls).toHaveLength(0)

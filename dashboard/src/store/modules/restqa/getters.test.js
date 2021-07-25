@@ -167,23 +167,36 @@ describe('getters', () => {
     })
   })
 
-  describe('dashboardConfig', () => {
-    test('get the dashboard config', () => {
+  describe('readOnly', () => {
+    test('get the readonly status', () => {
       const state = {
         config: {
           restqa: {
             dashboard: {
-              editable: true
+              readOnly: true
             }
           }
         }
       }
 
-      const result = getters.dashboardConfig(state)
-      expect(result).toEqual({ editable: true })
+      const result = getters.readOnly(state)
+      expect(result).toEqual(state.config.restqa.dashboard.readOnly)
     })
 
-    test('get undefined is the dashboard property doesn\'t exists', () => {
+    test('get false when readOnly property doesn\'t exist', () => {
+      const state = {
+        config: {
+          restqa: {
+            dashboard: {}
+          }
+        }
+      }
+
+      const result = getters.readOnly(state)
+      expect(result).toEqual(false)
+    })
+
+    test('get false is the dashboard property doesn\'t exists', () => {
       const state = {
         config: {
           restqa: {
@@ -192,16 +205,16 @@ describe('getters', () => {
       }
 
       const result = getters.dashboardConfig(state)
-      expect(result).toEqual(undefined)
+      expect(result).toEqual(false)
     })
 
-    test('get undefined is the restqa property doesn\'t exists', () => {
+    test('get false is the restqa property doesn\'t exists', () => {
       const state = {
         config: {}
       }
 
       const result = getters.dashboardConfig(state)
-      expect(result).toEqual(undefined)
+      expect(result).toEqual(false)
     })
   })
 })

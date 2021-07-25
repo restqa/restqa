@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-alert :title="error" v-if="error" type="error"></el-alert>
-    <prism-editor :readonly="!isEditable" class="ide" v-if="code" v-model="code" :highlight="highlighter" line-numbers></prism-editor>
+    <prism-editor :readonly="readOnly" class="ide" v-if="code" v-model="code" :highlight="highlighter" line-numbers></prism-editor>
     <el-button :loading="saveProgress" type="success" icon="el-icon-edit"  v-if="showBtn" class="btn-save" @click="save" plain>Save</el-button>
   </div>
 </template>
@@ -24,8 +24,9 @@
         type: String,
         default: ''
       },
-      isEditable: {
-        type: Boolean
+      readOnly: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

@@ -52,7 +52,7 @@ function validate (config) {
             outputFolder: Joi.string()
           })
         }),
-        editable: Joi.boolean()
+        readOnly: Joi.boolean()
       }),
       tips: Joi.object({
         enabled: Joi.boolean(),
