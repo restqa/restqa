@@ -204,7 +204,7 @@ describe('getters', () => {
         }
       }
 
-      const result = getters.dashboardConfig(state)
+      const result = getters.readOnly(state)
       expect(result).toEqual(false)
     })
 
@@ -213,7 +213,7 @@ describe('getters', () => {
         config: {}
       }
 
-      const result = getters.dashboardConfig(state)
+      const result = getters.readOnly(state)
       expect(result).toEqual(false)
     })
   })

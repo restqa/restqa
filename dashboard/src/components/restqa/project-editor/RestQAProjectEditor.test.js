@@ -293,9 +293,7 @@ describe('RestQAProjectEditor', () => {
           actions,
           getters: {
             features: () => mockFeatures,
-            dashboardConfig: () => ({
-              readOnly: true
-            })
+            readOnly: () => true
           }
         }
       }
