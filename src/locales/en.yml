@@ -16,7 +16,6 @@ service:
       ci: 'Do you need a continuous integration configuration ?'
       no_ci: 'I want to configure the continuous integration by myself'
       telemetry: 'May RestQA report anonymous usage statistics to improve the tool over time ?'
-      read_only: 'Do you want to disable edition for .feature files?'
     success:
       welcome: "You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀"
       ci: "%s configuration has been setup. 🔧"

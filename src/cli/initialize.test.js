@@ -479,8 +479,7 @@ pipeline {
           env: 'production',
           description: 'This is my description',
           folder: os.tmpdir(),
-          telemetry: false,
-          readOnly: true
+          telemetry: false
         }
 
         await Initialize.generate(options)
@@ -531,12 +530,7 @@ pipeline {
                 path: 'restqa-result.json'
               }
             }]
-          }],
-          restqa: {
-            dashboard: {
-              readOnly: true
-            }
-          }
+          }]
         }
 
         expect(result).toEqual(expectedContent)
@@ -571,8 +565,7 @@ pipeline {
           env: 'production',
           description: 'This is my description',
           folder: os.tmpdir(),
-          telemetry: true,
-          readOnly: true
+          telemetry: true
         }
 
         await Initialize.generate(options)
@@ -623,12 +616,7 @@ pipeline {
                 path: 'restqa-result.json'
               }
             }]
-          }],
-          restqa: {
-            dashboard: {
-              readOnly: true
-            }
-          }
+          }]
         }
         expect(result).toEqual(expectedContent)
 
@@ -667,8 +655,7 @@ Given I have an example`
         env: 'local',
         description: 'This is my new description',
         ci: 'gitlab-ci',
-        telemetry: false,
-        readOnly: true
+        telemetry: false
       })
 
       jest.mock('inquirer', () => {
@@ -737,12 +724,7 @@ Given I have an example`
               path: 'restqa-result.json'
             }
           }]
-        }],
-        restqa: {
-          dashboard: {
-            readOnly: true
-          }
-        }
+        }]
       }
       expect(result).toEqual(expectedContent)
       expect(mockPrompt.mock.calls).toHaveLength(1)
@@ -752,8 +734,7 @@ Given I have an example`
         'Url of the project api:',
         'Environment name of this url (local) ?',
         'Do you need a continuous integration configuration ?',
-        'May RestQA report anonymous usage statistics to improve the tool over time ?',
-        'Do you want to disable edition for .feature files?'
+        'May RestQA report anonymous usage statistics to improve the tool over time ?'
       ]
       expect(mockPrompt.mock.calls[0][0].map((_) => _.message)).toEqual(
         expectedQuestions
