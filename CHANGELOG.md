@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.32] - 2021-07-25
 
+### Added
+
+* Use linter in ci | [#127](https://github.com/restqa/restqa/pull/127)
+
 ## [0.0.31] - 2021-07-18
 
 ### Bug Fix
