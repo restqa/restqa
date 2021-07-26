@@ -34,7 +34,7 @@ const getters = {
       state.config &&
       state.config.restqa &&
       state.config.restqa.dashboard &&
-      state.config.restqa.dashboard.readOnly
+      state.config.restqa.dashboard.readOnly !== undefined
     ) {
       return state.config.restqa.dashboard.readOnly
     }
