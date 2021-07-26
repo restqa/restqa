@@ -16,7 +16,6 @@ const notifier = updateNotifier({
   shouldNotifyInNpmScript: true
 })
 
-
 program
   .version(pkg.version)
   .hook('preAction', (parent, cmd) => {
