@@ -6,9 +6,8 @@ import RestQAProjectTree from './RestQAProjectTree.vue'
 describe('RestQAProjectTree', () => {
   let store
   let mockFeatures
-  let mockSelectedFile
   let actions = {
-    selectedFile: jest.fn((_, filename) => mockSelectedFile = filename)
+    selectedFile: jest.fn(() => {})
   }
 
   beforeEach(() => {

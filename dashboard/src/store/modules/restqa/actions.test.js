@@ -1,4 +1,3 @@
-let mockConfig
 import { ForbiddenError} from '../../../services/http'
 
 let mockGet
@@ -65,7 +64,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.config(context)
+      await actions.config(context)
 
       expect(context.commit).toHaveBeenCalledTimes(4)
 
@@ -132,7 +131,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.config(context)
+      await actions.config(context)
       expect(context.commit).toHaveBeenCalledTimes(4)
 
       expect(context.commit.mock.calls[0][0]).toEqual('loadingConfig')
@@ -152,7 +151,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.config(context)
+      await actions.config(context)
 
       expect(context.commit).toHaveBeenCalledTimes(3)
 
@@ -176,7 +175,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.info(context)
+      await actions.info(context)
       expect(context.commit).toHaveBeenCalledTimes(1)
       expect(context.commit.mock.calls[0][0]).toEqual('info')
       expect(context.commit.mock.calls[0][1]).toEqual(data)
@@ -193,7 +192,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.info(context)
+      await actions.info(context)
       expect(context.commit).toHaveBeenCalledTimes(1)
       expect(context.commit.mock.calls[0][0]).toEqual('info')
       expect(context.commit.mock.calls[0][1]).toEqual(data)
@@ -207,7 +206,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.selectedEnv(context, true)
+      await actions.selectedEnv(context, true)
 
       expect(context.commit).toHaveBeenCalledTimes(1)
 
@@ -228,7 +227,7 @@ describe('actions', () => {
         filename: 'root/folder/test.feature',
         children: []
       }
-      const result = await actions.selectedFile(context, evt)
+      await actions.selectedFile(context, evt)
 
       expect(context.commit).toHaveBeenCalledTimes(1)
 
@@ -246,7 +245,7 @@ describe('actions', () => {
         label: 'test.feature',
         children: []
       }
-      const result = await actions.selectedFile(context, evt)
+      await actions.selectedFile(context, evt)
 
       expect(context.commit).toHaveBeenCalledTimes(0)
     })
@@ -272,7 +271,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.steps(context)
+      await actions.steps(context)
 
       expect(context.commit).toHaveBeenCalledTimes(1)
 
@@ -287,7 +286,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.steps(context)
+      await actions.steps(context)
 
       expect(context.commit).toHaveBeenCalledTimes(0)
     })
@@ -305,7 +304,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.features(context)
+      await actions.features(context)
 
       expect(context.commit).toHaveBeenCalledTimes(1)
 
@@ -331,7 +330,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.features(context)
+      await actions.features(context)
 
       expect(context.commit).toHaveBeenCalledTimes(0)
     })
@@ -354,7 +353,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.testFeature(context, 'foo-bar.feature')
+      await actions.testFeature(context, 'foo-bar.feature')
 
       expect(context.commit).toHaveBeenCalledTimes(1)
 
@@ -370,7 +369,7 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.testFeature(context, 'foo-bar.feature')
+      await actions.testFeature(context, 'foo-bar.feature')
 
       expect(context.commit.mock.calls[0][0]).toEqual('testResult')
       expect(context.commit.mock.calls[0][1]).toEqual({
@@ -393,23 +392,19 @@ describe('actions', () => {
         commit: jest.fn()
       }
 
-      const result = await actions.preferences(context)
+      await actions.preferences(context)
 
       expect(context.commit).toHaveBeenCalledWith('preferences', data)
     })
 
     test('Get the unsuccessful user preferences', async () => {
-      const data = {
-        telemetry: true
-      }
-
       mockGet = jest.fn().mockRejectedValue(new Error('oups'))
 
       const context = {
         commit: jest.fn()
       }
 
-      const result = await actions.preferences(context)
+      await actions.preferences(context)
       expect(context.commit).toHaveBeenCalledWith('preferences', {})
     })
   })

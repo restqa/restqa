@@ -1,14 +1,13 @@
-import { mount, shallowMount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
-import RestqaStore from '@/store/store'
 import ElementPlus from 'element-plus'
 import RestQAProjectEditor from './RestQAProjectEditor.vue'
 
 describe('RestQAProjectEditor', () => {
   let store
-  let mockSelectedFile
+  let mockFeatures = jest.fn()
   let actions = {
-    selectedFile: jest.fn((_, filename) => mockSelectedFile = filename)
+    selectedFile: jest.fn(() => {})
   }
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { mount, shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
 import RestQASponsors from './RestQASponsors.vue'
 import ElementPlus from 'element-plus';
