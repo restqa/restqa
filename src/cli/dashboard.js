@@ -10,7 +10,8 @@ module.exports = function (program) {
     port = 8081,
     serve = true,
     folder = process.cwd(),
-    config
+    config,
+    readOnly
   } = program
 
   if (isNaN(port)) {
@@ -28,6 +29,11 @@ module.exports = function (program) {
     }
     const raw = Config.raw({ configFile: config })
     options = (raw.restqa || {}).dashboard || {}
+  }
+
+  if (readOnly) {
+    options = options || {}
+    options.readOnly = true
   }
 
   process.env.RESTQA_PROJECT_FOLDER = folder

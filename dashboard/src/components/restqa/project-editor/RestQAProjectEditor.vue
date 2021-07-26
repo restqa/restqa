@@ -1,5 +1,10 @@
 <template>
-  <card :title="currentTab" :loading="loading" emoji="🚀">
+  <card
+    :title="currentTab"
+    :loading="loading"
+    :emoji="!readOnly ? '🚀' : null"
+    :tagLabel="readOnly ? 'Read only': null"
+  >
     <el-tabs  v-show="currentTab" v-model="currentTab" type="card" closable @edit="manageTabs">
       <el-tab-pane
         v-for="(tab) in tabs"
@@ -10,7 +15,7 @@
         <template #label>
           <span><i :class="tab.icon" class="tab-header"></i> {{ tab.title }}</span>
         </template>
-        <ide :file="tab.name" @unsave="unsaved" />
+        <ide :file="tab.name" @unsave="unsaved" :readOnly="readOnly"/>
         <runner :file="tab.name" @status="updateStatus" />
       </el-tab-pane>
     </el-tabs>
@@ -41,6 +46,9 @@ export default {
   computed: {
     file() {
       return this.$store.getters.selectedFile
+    }, 
+    readOnly () {     
+      return this.$store.getters.readOnly
     }
   },
   methods: {
