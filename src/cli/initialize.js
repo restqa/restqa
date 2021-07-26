@@ -18,8 +18,6 @@ async function initialize (program) {
     telemetry: true
   }
 
-  // TODO: what does .y means ? Maybe should we use
-  // an intermediate variable to increase expressiveness
   if (program.y !== true) {
     const questions = [{
       type: 'input',
@@ -76,12 +74,9 @@ async function initialize (program) {
       name: 'telemetry',
       message: Locale.get('service.init.questions.telemetry'),
       default: answers.telemetry
-    }
-    ]
-
+    }]
     answers = await inquirer.prompt(questions)
   }
-
   return initialize.generate(answers)
 }
 
@@ -119,29 +114,27 @@ initialize.generate = async function (options) {
       case 'github-action': {
         const jsonContent = {
           name: 'RestQA - Integration tests',
-          on: ['push'],
+          on: [
+            'push'
+          ],
           jobs: {
             RestQa: {
               'runs-on': 'ubuntu-latest',
-              steps: [
-                {
-                  uses: 'actions/checkout@v1'
-                },
-                {
-                  uses: 'restqa/restqa-action@0.0.1',
-                  with: {
-                    path: 'tests/'
-                  }
-                },
-                {
-                  name: 'RestQA Report',
-                  uses: 'actions/upload-artifact@v2',
-                  with: {
-                    name: 'restqa-report',
-                    path: 'report'
-                  }
+              steps: [{
+                uses: 'actions/checkout@v1'
+              }, {
+                uses: 'restqa/restqa-action@0.0.1',
+                with: {
+                  path: 'tests/'
                 }
-              ]
+              }, {
+                name: 'RestQA Report',
+                uses: 'actions/upload-artifact@v2',
+                with: {
+                  name: 'restqa-report',
+                  path: 'report'
+                }
+              }]
             }
           }
         }
@@ -155,15 +148,21 @@ initialize.generate = async function (options) {
       }
       case 'gitlab-ci': {
         const jsonContent = {
-          stages: ['e2e test'],
+          stages: [
+            'e2e test'
+          ],
           RestQa: {
             stage: 'e2e test',
             image: {
               name: 'restqa/restqa'
             },
-            script: ['restqa run .'],
+            script: [
+              'restqa run .'
+            ],
             artifacts: {
-              paths: ['report']
+              paths: [
+                'report'
+              ]
             }
           }
         }
@@ -174,15 +173,17 @@ initialize.generate = async function (options) {
       case 'bitbucket-pipeline': {
         const jsonContent = {
           pipelines: {
-            default: [
-              {
-                step: {
-                  image: 'restqa/restqa',
-                  script: ['restqa run .'],
-                  artifacts: ['report/**']
-                }
+            default: [{
+              step: {
+                image: 'restqa/restqa',
+                script: [
+                  'restqa run .'
+                ],
+                artifacts: [
+                  'report/**'
+                ]
               }
-            ]
+            }]
           }
         }
         createYaml(path.resolve(folder, 'bitbucket-pipelines.yml'), jsonContent)
@@ -218,7 +219,9 @@ initialize.generate = async function (options) {
           workflows: {
             version: 2,
             restqa: {
-              jobs: ['test']
+              jobs: [
+                'test'
+              ]
             }
           }
         }
@@ -273,9 +276,7 @@ initialize.generate = async function (options) {
       }
 
       default:
-        throw new ReferenceError(
-          `The continous integration "${ci}" is not supported by RestQa`
-        )
+        throw new ReferenceError(`The continous integration "${ci}" is not supported by RestQa`)
     }
   }
 
@@ -285,7 +286,7 @@ initialize.generate = async function (options) {
   const restqaConfig = {
     version: '0.0.1',
     metadata: {
-      code: name.replace(/[^A-Z0-9]+/gi, '-').toUpperCase(),
+      code: name.replace(/[^A-Z0-9]+/ig, '-').toUpperCase(),
       name,
       description
     },
@@ -307,10 +308,8 @@ initialize.generate = async function (options) {
         config: {
           path: 'restqa-result.json'
         }
-      }
-      ]
-    }
-    ]
+      }]
+    }]
   }
 
   const configFilename = path.resolve(folder, '.restqa.yml')
@@ -345,9 +344,7 @@ initialize.generate = async function (options) {
 }
 
 function createYaml (filename, jsonContent) {
-  const contentYAML = YAML.stringify(jsonContent, null, {
-    directivesEndMarker: true
-  })
+  const contentYAML = YAML.stringify(jsonContent, null, { directivesEndMarker: true })
   fs.writeFileSync(filename, contentYAML)
 }
 

@@ -29,18 +29,11 @@ describe('#Cli - Initialize', () => {
         description: 'my description',
         ci: 'GoCd'
       }
-      return expect(Initialize.generate(options)).rejects.toThrow(
-        'The continous integration "GoCd" is not supported by RestQa'
-      )
+      return expect(Initialize.generate(options)).rejects.toThrow('The continous integration "GoCd" is not supported by RestQa')
     })
 
     test('Create Github action file if selected', async () => {
-      const filename = path.resolve(
-        process.cwd(),
-        '.github',
-        'workflows',
-        'integration-test.yml'
-      )
+      const filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
       jestqa.getCurrent().files.push(filename)
 
       const Initialize = require('./initialize')
@@ -58,29 +51,27 @@ describe('#Cli - Initialize', () => {
       const result = YAML.parse(content)
       const expectedContent = {
         name: 'RestQA - Integration tests',
-        on: ['push'],
+        on: [
+          'push'
+        ],
         jobs: {
           RestQa: {
             'runs-on': 'ubuntu-latest',
-            steps: [
-              {
-                uses: 'actions/checkout@v1'
-              },
-              {
-                uses: 'restqa/restqa-action@0.0.1',
-                with: {
-                  path: 'tests/'
-                }
-              },
-              {
-                name: 'RestQA Report',
-                uses: 'actions/upload-artifact@v2',
-                with: {
-                  name: 'restqa-report',
-                  path: 'report'
-                }
+            steps: [{
+              uses: 'actions/checkout@v1'
+            }, {
+              uses: 'restqa/restqa-action@0.0.1',
+              with: {
+                path: 'tests/'
               }
-            ]
+            }, {
+              name: 'RestQA Report',
+              uses: 'actions/upload-artifact@v2',
+              with: {
+                name: 'restqa-report',
+                path: 'report'
+              }
+            }]
           }
         }
       }
@@ -88,18 +79,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'Github Action configuration has been setup. 🔧'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-        'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-        '🎁 We created a sample scenario, try it by using the command: restqa run'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch(
-        '👉 More information: https://restqa.io/info'
-      )
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Github Action configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Gitlab-ci file if selected', async () => {
@@ -121,33 +104,31 @@ describe('#Cli - Initialize', () => {
       const result = YAML.parse(content)
 
       const expectedContent = {
-        stages: ['e2e test'],
+        stages: [
+          'e2e test'
+        ],
         RestQa: {
           stage: 'e2e test',
           image: {
             name: 'restqa/restqa'
           },
-          script: ['restqa run .'],
+          script: [
+            'restqa run .'
+          ],
           artifacts: {
-            paths: ['report']
+            paths: [
+              'report'
+            ]
           }
         }
       }
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'Gitlab CI configuration has been setup. 🔧'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-        'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-        '🎁 We created a sample scenario, try it by using the command: restqa run'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch(
-        '👉 More information: https://restqa.io/info'
-      )
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Gitlab CI configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Bitbucket pipeline file  if selected', async () => {
@@ -169,32 +150,26 @@ describe('#Cli - Initialize', () => {
 
       const expectedContent = {
         pipelines: {
-          default: [
-            {
-              step: {
-                image: 'restqa/restqa',
-                script: ['restqa run .'],
-                artifacts: ['report/**']
-              }
+          default: [{
+            step: {
+              image: 'restqa/restqa',
+              script: [
+                'restqa run .'
+              ],
+              artifacts: [
+                'report/**'
+              ]
             }
-          ]
+          }]
         }
       }
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'Bitbucket Pipeline configuration has been setup. 🔧'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-        'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-        '🎁 We created a sample scenario, try it by using the command: restqa run'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch(
-        '👉 More information: https://restqa.io/info'
-      )
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Bitbucket Pipeline configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Circle-ci pipeline file if selected', async () => {
@@ -242,7 +217,9 @@ describe('#Cli - Initialize', () => {
         workflows: {
           version: 2,
           restqa: {
-            jobs: ['test']
+            jobs: [
+              'test'
+            ]
           }
         }
       }
@@ -250,18 +227,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'Circle CI configuration has been setup. 🔧'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-        'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-        '🎁 We created a sample scenario, try it by using the command: restqa run'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch(
-        '👉 More information: https://restqa.io/info'
-      )
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Circle CI configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create travis-ci pipeline file if selected', async () => {
@@ -297,18 +266,10 @@ describe('#Cli - Initialize', () => {
       expect(result).toEqual(expectedContent)
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
 
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'Travis CI configuration has been setup. 🔧'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-        'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-        '🎁 We created a sample scenario, try it by using the command: restqa run'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch(
-        '👉 More information: https://restqa.io/info'
-      )
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Travis CI configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
     test('Create Jenkinsfile if jenkins is  selected', async () => {
@@ -347,21 +308,13 @@ pipeline {
       expect(content).toEqual(expectedContent)
 
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(4)
-      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'Jenkins configuration has been setup. 🔧'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-        'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-        '🎁 We created a sample scenario, try it by using the command: restqa run'
-      )
-      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch(
-        '👉 More information: https://restqa.io/info'
-      )
+      expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('Jenkins configuration has been setup. 🔧')
+      expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+      expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+      expect(jestqa.getLoggerMock().mock.calls[3][0]).toMatch('👉 More information: https://restqa.io/info')
     })
 
-    test("Do nothing if any CI hasn't been selected", async () => {
+    test('Do nothing if any CI hasn\'t been selected', async () => {
       const Initialize = require('./initialize')
       const options = {
         name: 'sample',
@@ -376,12 +329,7 @@ pipeline {
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       expect(fs.existsSync(filename)).toBe(false)
-      filename = path.resolve(
-        process.cwd(),
-        '.github',
-        'workflows',
-        'integration-test.yml'
-      )
+      filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
       expect(fs.existsSync(filename)).toBe(false)
@@ -389,7 +337,7 @@ pipeline {
       expect(fs.existsSync(filename)).toBe(false)
     })
 
-    test("Do nothing if any CI hasn't  been answered", async () => {
+    test('Do nothing if any CI hasn\'t  been answered', async () => {
       const Initialize = require('./initialize')
       const options = {
         name: 'sample',
@@ -403,12 +351,7 @@ pipeline {
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       expect(fs.existsSync(filename)).toBe(false)
-      filename = path.resolve(
-        process.cwd(),
-        '.github',
-        'workflows',
-        'integration-test.yml'
-      )
+      filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
       expect(fs.existsSync(filename)).toBe(false)
@@ -420,9 +363,7 @@ pipeline {
       test('Throw an error if the name is not defined', () => {
         const Initialize = require('./initialize')
         const options = {}
-        return expect(Initialize.generate(options)).rejects.toThrow(
-          'Please share a project name.'
-        )
+        return expect(Initialize.generate(options)).rejects.toThrow('Please share a project name.')
       })
 
       test('Throw an error if the description is not defined', () => {
@@ -430,9 +371,7 @@ pipeline {
         const options = {
           name: 'sample'
         }
-        return expect(Initialize.generate(options)).rejects.toThrow(
-          'Please share a project description.'
-        )
+        return expect(Initialize.generate(options)).rejects.toThrow('Please share a project description.')
       })
 
       test('Throw an error if the url is not defined', () => {
@@ -441,9 +380,7 @@ pipeline {
           name: 'sample',
           description: 'here a description'
         }
-        return expect(Initialize.generate(options)).rejects.toThrow(
-          'Please share a project url.'
-        )
+        return expect(Initialize.generate(options)).rejects.toThrow('Please share a project url.')
       })
 
       test('Throw an error if the environement is not defined', () => {
@@ -453,20 +390,14 @@ pipeline {
           description: 'here a description',
           url: 'http://test.com'
         }
-        return expect(Initialize.generate(options)).rejects.toThrow(
-          'Please share a project url environment.'
-        )
+        return expect(Initialize.generate(options)).rejects.toThrow('Please share a project url environment.')
       })
 
       test('Create config file into a specific folder but first scenario generation failed', async () => {
         const filename = path.resolve(os.tmpdir(), '.restqa.yml')
         jestqa.getCurrent().files.push(filename)
 
-        const prefFilename = path.resolve(
-          os.homedir(),
-          '.config',
-          'restqa.pref'
-        )
+        const prefFilename = path.resolve(os.homedir(), '.config', 'restqa.pref')
         jestqa.getCurrent().files.push(prefFilename)
 
         const Initialize = require('./initialize')
@@ -490,15 +421,9 @@ pipeline {
 
         expect(jestqa.getLoggerMock().mock.calls).toHaveLength(3)
 
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-          'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-        )
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-          "We couldn't create the sample scenario but no worries you can generate it using: restqa generate curl https://restqa.io/welcome.json -o welcome.feature"
-        )
-        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-          '👉 More information: https://restqa.io/info'
-        )
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('We couldn\'t create the sample scenario but no worries you can generate it using: restqa generate curl https://restqa.io/welcome.json -o welcome.feature')
+        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('👉 More information: https://restqa.io/info')
 
         const content = fs.readFileSync(filename).toString('utf-8')
         const YAML = require('yaml')
@@ -535,12 +460,7 @@ pipeline {
 
         expect(result).toEqual(expectedContent)
 
-        const filenameWelcome = path.resolve(
-          os.tmpdir(),
-          'tests',
-          'integration',
-          'welcome-restqa.feature'
-        )
+        const filenameWelcome = path.resolve(os.tmpdir(), 'tests', 'integration', 'welcome-restqa.feature')
         expect(fs.existsSync(filenameWelcome)).toBe(false)
       })
 
@@ -548,11 +468,7 @@ pipeline {
         const filename = path.resolve(os.tmpdir(), '.restqa.yml')
         jestqa.getCurrent().files.push(filename)
 
-        const prefFilename = path.resolve(
-          os.homedir(),
-          '.config',
-          'restqa.pref'
-        )
+        const prefFilename = path.resolve(os.homedir(), '.config', 'restqa.pref')
         jestqa.getCurrent().files.push(prefFilename)
 
         const Initialize = require('./initialize')
@@ -572,15 +488,9 @@ pipeline {
 
         expect(global.console.info.mock.calls).toHaveLength(3)
 
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-          'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
-        )
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-          '🎁 We created a sample scenario, try it by using the command: restqa run'
-        )
-        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
-          '👉 More information: https://restqa.io/info'
-        )
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀')
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🎁 We created a sample scenario, try it by using the command: restqa run')
+        expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch('👉 More information: https://restqa.io/info')
 
         const contentPref = fs.readFileSync(prefFilename).toString('utf-8')
         const resultPref = JSON.parse(contentPref)
@@ -620,16 +530,9 @@ pipeline {
         }
         expect(result).toEqual(expectedContent)
 
-        const filenameWelcome = path.resolve(
-          os.tmpdir(),
-          'tests',
-          'integration',
-          'welcome-restqa.feature'
-        )
+        const filenameWelcome = path.resolve(os.tmpdir(), 'tests', 'integration', 'welcome-restqa.feature')
         jestqa.getCurrent().files.push(filenameWelcome)
-        const contentWelcome = fs
-          .readFileSync(filenameWelcome)
-          .toString('utf-8')
+        const contentWelcome = fs.readFileSync(filenameWelcome).toString('utf-8')
         const expectedWelcomeFeature = `
 Feature: Welcome to the RestQA community
 
@@ -678,15 +581,21 @@ Given I have an example`
       const resultCi = YAML.parse(contentCi)
 
       const expectedContentCi = {
-        stages: ['e2e test'],
+        stages: [
+          'e2e test'
+        ],
         RestQa: {
           stage: 'e2e test',
           image: {
             name: 'restqa/restqa'
           },
-          script: ['restqa run .'],
+          script: [
+            'restqa run .'
+          ],
           artifacts: {
-            paths: ['report']
+            paths: [
+              'report'
+            ]
           }
         }
       }
@@ -736,38 +645,29 @@ Given I have an example`
         'Do you need a continuous integration configuration ?',
         'May RestQA report anonymous usage statistics to improve the tool over time ?'
       ]
-      expect(mockPrompt.mock.calls[0][0].map((_) => _.message)).toEqual(
-        expectedQuestions
-      )
-      const expectedCI = [
-        {
-          name: 'Github Action',
-          value: 'github-action'
-        },
-        {
-          name: 'Gitlab Ci',
-          value: 'gitlab-ci'
-        },
-        {
-          name: 'Bitbucket Pipelines',
-          value: 'bitbucket-pipeline'
-        },
-        {
-          name: 'Circle Ci',
-          value: 'circle-ci'
-        },
-        {
-          name: 'Travis Ci',
-          value: 'travis'
-        },
-        {
-          name: 'Jenkins',
-          value: 'jenkins'
-        }
+      expect(mockPrompt.mock.calls[0][0].map(_ => _.message)).toEqual(expectedQuestions)
+      const expectedCI = [{
+        name: 'Github Action',
+        value: 'github-action'
+      }, {
+        name: 'Gitlab Ci',
+        value: 'gitlab-ci'
+      }, {
+        name: 'Bitbucket Pipelines',
+        value: 'bitbucket-pipeline'
+      }, {
+        name: 'Circle Ci',
+        value: 'circle-ci'
+      }, {
+        name: 'Travis Ci',
+        value: 'travis'
+      },
+      {
+        name: 'Jenkins',
+        value: 'jenkins'
+      }
       ]
-      expect(mockPrompt.mock.calls[0][0][4].choices).toEqual(
-        expect.arrayContaining(expectedCI)
-      )
+      expect(mockPrompt.mock.calls[0][0][4].choices).toEqual(expect.arrayContaining(expectedCI))
     })
 
     test('Generate a restqa config Generate it without having it ask any questions', async () => {
@@ -826,12 +726,7 @@ Given I have an example`
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), '.gitlab-ci.yml')
       expect(fs.existsSync(filename)).toBe(false)
-      filename = path.resolve(
-        process.cwd(),
-        '.github',
-        'workflows',
-        'integration-test.yml'
-      )
+      filename = path.resolve(process.cwd(), '.github', 'workflows', 'integration-test.yml')
       expect(fs.existsSync(filename)).toBe(false)
       filename = path.resolve(process.cwd(), 'circleci', 'config.yml')
       expect(fs.existsSync(filename)).toBe(false)
