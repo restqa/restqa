@@ -3,7 +3,7 @@ name: Code format
 on: [push]
 
 jobs:
-  lint-code-base:
+  lint-cli:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,4 +17,20 @@ jobs:
         - run: npm install
         env:
           CI: true  
-      - run: npm run lint:fix
+      - run: npm run lint
+  lint-dashboard:
+    lint-cli:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+        - run: npm run dashboard:install
+        env:
+          CI: true  
+      - run: npm run dashboard:lint
