@@ -5,12 +5,14 @@ function validate (config) {
     name: Joi.string().required(),
     default: Joi.boolean().optional(),
     secrets: Joi.object({}).unknown(),
-    plugins: Joi.array().items(
-      Joi.object({
-        name: Joi.string().required(),
-        config: Joi.any()
-      })
-    ).required(),
+    plugins: Joi.array()
+      .items(
+        Joi.object({
+          name: Joi.string().required(),
+          config: Joi.any()
+        })
+      )
+      .required(),
     data: {
       storage: Joi.string(),
       channel: Joi.string(),
@@ -49,7 +51,8 @@ function validate (config) {
             urlPrefixPath: Joi.string(),
             outputFolder: Joi.string()
           })
-        })
+        }),
+        readOnly: Joi.boolean()
       }),
       tips: Joi.object({
         enabled: Joi.boolean(),

@@ -1,7 +1,9 @@
 <template>
-  <el-alert :title="error" v-if="error" type="error"></el-alert>
-  <prism-editor class="ide" v-if="code" v-model="code" :highlight="highlighter" line-numbers></prism-editor>
-  <el-button :loading="saveProgress" type="success" icon="el-icon-edit"  v-if="showBtn" class="btn-save" @click="save" plain>Save</el-button>
+  <div>
+    <el-alert :title="error" v-if="error" type="error"></el-alert>
+    <prism-editor :readonly="readOnly" class="ide" v-if="code" v-model="code" :highlight="highlighter" line-numbers></prism-editor>
+    <el-button :loading="saveProgress" type="success" icon="el-icon-edit"  v-if="showBtn" class="btn-save" @click="save" plain>Save</el-button>
+  </div>
 </template>
 
 <script>
@@ -21,6 +23,10 @@
       file: {
         type: String,
         default: ''
+      },
+      readOnly: {
+        type: Boolean,
+        default: false
       }
     },
     data() {

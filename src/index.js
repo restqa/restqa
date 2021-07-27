@@ -201,6 +201,7 @@ function Run (options) {
  * @param {Object} options
  * @param {string} options.configFile - The path of the RestQA configuration file
  * @param {string} (optional) options.folder - Define the folder where to project is located
+ * @param {string} (optional) options.readOnly - Restrict the access to the feature file into read only
  *
  * @return http.server
  *
@@ -210,8 +211,8 @@ function Run (options) {
  *
  * const options = {
  *   configFile: './restqa.yml',
- *   folder: '/app/project'
- *
+ *   folder: '/app/project',
+ *   readOnly: true
  * }
  *
  * const server = Dashboard(options)

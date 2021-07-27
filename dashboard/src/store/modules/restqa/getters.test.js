@@ -166,4 +166,55 @@ describe('getters', () => {
       expect(result).toEqual({ foo: 'bar' })
     })
   })
+
+  describe('readOnly', () => {
+    test('get the readonly status', () => {
+      const state = {
+        config: {
+          restqa: {
+            dashboard: {
+              readOnly: true
+            }
+          }
+        }
+      }
+
+      const result = getters.readOnly(state)
+      expect(result).toEqual(state.config.restqa.dashboard.readOnly)
+    })
+
+    test('get false when readOnly property doesn\'t exist', () => {
+      const state = {
+        config: {
+          restqa: {
+            dashboard: {}
+          }
+        }
+      }
+
+      const result = getters.readOnly(state)
+      expect(result).toEqual(false)
+    })
+
+    test('get false is the dashboard property doesn\'t exists', () => {
+      const state = {
+        config: {
+          restqa: {
+          }
+        }
+      }
+
+      const result = getters.readOnly(state)
+      expect(result).toEqual(false)
+    })
+
+    test('get false is the restqa property doesn\'t exists', () => {
+      const state = {
+        config: {}
+      }
+
+      const result = getters.readOnly(state)
+      expect(result).toEqual(false)
+    })
+  })
 })

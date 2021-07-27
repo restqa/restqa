@@ -199,4 +199,59 @@ describe('RestQAProjectEditorIde', () => {
     expect(component.findComponent({name: 'el-alert'}).vm.type).toBe('error')
     expect(component.findComponent({name: 'el-alert'}).text()).toBe('An error occured: the file can\'t be loaded')
   })
+
+  test('given a truthy readOnly props then editor should be readOnly', async () => {
+    const data = 'The file content'
+    mockGet = jest.fn().mockResolvedValue({ data })
+    const options = {
+      props: {
+        file: 'foo.feature',
+        readOnly: true,
+      },
+      global: {
+        plugins: [
+          ElementPlus
+        ]
+      },
+    }
+
+    const component = mount(RestQAProjectEditorIde, options)
+    await component.vm.$nextTick()
+    expect(component.exists()).toBeTruthy()
+
+    await component.vm.$nextTick()
+    await component.vm.$nextTick()
+    await component.vm.$nextTick()
+    await component.vm.$nextTick()
+
+    const ide = component.findComponent('.ide')
+    expect(ide.vm.readonly).toBeTruthy()
+  })
+
+  test('given a falsy readOnly props then editor should be not readOnly', async () => {
+    const data = 'The file content'
+    mockGet = jest.fn().mockResolvedValue({ data })
+    const options = {
+      props: {
+        file: 'foo.feature',
+      },
+      global: {
+        plugins: [
+          ElementPlus
+        ]
+      },
+    }
+
+    const component = mount(RestQAProjectEditorIde, options)
+    await component.vm.$nextTick()
+    expect(component.exists()).toBeTruthy()
+
+    await component.vm.$nextTick()
+    await component.vm.$nextTick()
+    await component.vm.$nextTick()
+    await component.vm.$nextTick()
+
+    const ide = component.findComponent('.ide')
+    expect(ide.vm.readonly).toBeFalsy()
+  })
 })
