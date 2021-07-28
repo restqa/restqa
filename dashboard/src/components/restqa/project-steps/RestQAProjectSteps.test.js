@@ -1,5 +1,4 @@
 import { mount } from '@vue/test-utils'
-import { createStore } from 'vuex'
 import ElementPlus from 'element-plus';
 import RestQAProjectSteps from './RestQAProjectSteps.vue'
 

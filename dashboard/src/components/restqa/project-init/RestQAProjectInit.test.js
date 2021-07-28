@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
 import ElementPlus from 'element-plus';
 import Store from '@/store/modules/restqa'
-import { ForbiddenError, ValidationError } from '../../../services/http'
+import { ValidationError } from '../../../services/http'
 import  RestQAProjectInit from './RestQAProjectInit.vue'
 
 describe('RestQAProjectInit', () => {

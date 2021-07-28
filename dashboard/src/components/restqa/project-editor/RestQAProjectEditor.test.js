@@ -5,8 +5,9 @@ import RestQAProjectEditor from './RestQAProjectEditor.vue'
 
 describe('RestQAProjectEditor', () => {
   let store
+  let mockFeatures = jest.fn()
   let actions = {
-    selectedFile: jest.fn((_, filename) => {})
+    selectedFile: jest.fn(() => {})
   }
 
   beforeEach(() => {

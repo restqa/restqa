@@ -10,7 +10,8 @@ describe('services - http', () => {
 
   test('Return the http client on non-development mode', () => {
     const spy = jest.spyOn(axios, 'create')
-    const client = Http()
+    Http()
+    
     expect(spy).toHaveBeenCalled()
     expect(spy.mock.calls[0][0]).toEqual({
       baseURL: ''
@@ -21,7 +22,8 @@ describe('services - http', () => {
   test('Return the http client on development mode', () => {
     process.env.NODE_ENV = 'development'
     const spy = jest.spyOn(axios, 'create')
-    const client = Http()
+    Http()
+
     expect(spy).toHaveBeenCalled()
     expect(spy.mock.calls[0][0]).toEqual({
       baseURL: 'http://localhost:8081'
