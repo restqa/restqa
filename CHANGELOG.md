@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.32] - 2021-07-25
+## [0.0.32] - 2021-07-27
 
 ### Added
 
-* Use linter in ci | [#127](https://github.com/restqa/restqa/pull/127)
-* Read only mode | [#120](https://github.com/restqa/restqa/pull/120)
+* Enable Read only option on the dashboard| [#120](https://github.com/restqa/restqa/pull/120)
+
+### Update
+
+* Continuous integreation: enable linter check | [#127](https://github.com/restqa/restqa/pull/127)
 
 ## [0.0.31] - 2021-07-18
 
