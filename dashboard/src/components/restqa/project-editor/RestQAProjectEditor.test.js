@@ -1,14 +1,13 @@
-import { mount, shallowMount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createStore } from 'vuex'
-import RestqaStore from '@/store/store'
 import ElementPlus from 'element-plus'
 import RestQAProjectEditor from './RestQAProjectEditor.vue'
 
 describe('RestQAProjectEditor', () => {
   let store
-  let mockSelectedFile
+  let mockFeatures = jest.fn()
   let actions = {
-    selectedFile: jest.fn((_, filename) => mockSelectedFile = filename)
+    selectedFile: jest.fn(() => {})
   }
 
   beforeEach(() => {
@@ -285,5 +284,39 @@ describe('RestQAProjectEditor', () => {
     component.vm.manageTabs('integration/foo-bar.feature', 'remove')
     expect(component.vm.tabs).toHaveLength(0)
     expect(component.vm.currentTab).toBe(null)
+  })
+
+  test('given a readonly dashboard then it should display a "Read only" tag', async () => {
+    const storeWithReadOnlyDashboard = createStore({
+      modules: {
+        restqa: {
+          state: {},
+          actions,
+          getters: {
+            features: () => mockFeatures,
+            readOnly: () => true
+          }
+        }
+      }
+    })
+
+    const options = {
+      global: {
+        plugins: [
+          storeWithReadOnlyDashboard,
+          ElementPlus
+        ]
+      },
+    }
+
+    const component = mount(RestQAProjectEditor, options)
+    expect(component.exists()).toBeTruthy()
+    expect(component.vm.readOnly).toBe(true)
+
+    component.vm.$options.watch.file.call(component.vm, 'integration/foo-bar.feature')
+    await component.vm.$nextTick()
+    
+    const card = component.findComponent({ name: 'card' })
+    expect(card.vm.tagLabel).toBe('Read only')
   })
 })

@@ -28,6 +28,17 @@ const getters = {
   },
   preferences(state) {
     return state.preferences
+  },
+  readOnly(state) {
+    if (
+      state.config &&
+      state.config.restqa &&
+      state.config.restqa.dashboard &&
+      state.config.restqa.dashboard.readOnly !== undefined
+    ) {
+      return state.config.restqa.dashboard.readOnly
+    }
+    return false
   }
 }
 

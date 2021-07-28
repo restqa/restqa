@@ -76,7 +76,7 @@ describe('RestQAProjectConfig', () => {
       'DESCRIPTION',
       'OUTPUTS',
     ].reduce((obj, key) => {
-      const trs = descriptions.findAll('tr td').forEach((td, i, arr) => {
+      descriptions.findAll('tr td').forEach((td, i, arr) => {
         if (td.text() == key) {
           obj[key] = arr[i + 1].text()
         }
@@ -165,7 +165,7 @@ describe('RestQAProjectConfig', () => {
       'DESCRIPTION',
       'OUTPUTS',
     ].reduce((obj, key) => {
-      const trs = descriptions.findAll('tr td').forEach((td, i, arr) => {
+      descriptions.findAll('tr td').forEach((td, i, arr) => {
         if (td.text() == key) {
           obj[key] = arr[i + 1].text()
         }
@@ -191,7 +191,7 @@ describe('RestQAProjectConfig', () => {
       'DESCRIPTION',
       'OUTPUTS',
     ].reduce((obj, key) => {
-      const trs = descriptions.findAll('tr td').forEach((td, i, arr) => {
+      descriptions.findAll('tr td').forEach((td, i, arr) => {
         if (td.text() == key) {
           obj[key] = arr[i + 1].text()
         }

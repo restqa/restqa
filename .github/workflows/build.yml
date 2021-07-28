@@ -17,9 +17,11 @@ jobs:
     - run: npm run dashboard:install
       env:
         CI: true
+    - run: npm run dashboard:lint
     - run: npm run dashboard:test
       env:
         CI: true
+
   build-unix:
     runs-on: ubuntu-latest
     strategy:
@@ -34,6 +36,7 @@ jobs:
     - run: npm install
       env:
         CI: true
+    - run: npm run lint
     - run: npm test
     - run: npm run test:functional
     - run: npm run example

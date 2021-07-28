@@ -97,7 +97,6 @@ describe('Service - RestQA - info', () => {
     })
 
     test('Return the Information from the remote server because the current day is different from the one in the cache', async () => {
-      const date = new Date()
       window.localStorage.setItem('remote-info', JSON.stringify({
         today: '2021-01-01',
         data: mockData.data

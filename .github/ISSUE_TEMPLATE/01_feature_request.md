@@ -1,6 +1,6 @@
 ---
-name: 🏄 Request request
-about: Want to request for a step request? 🦏
+name: 🏄 Feature request
+about: Want to request for a feature? 🦏
 ---
 
 Hello 👋,
