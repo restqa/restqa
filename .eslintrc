@@ -2,7 +2,7 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es202": true,
+        "es2021": true,
         "node": true
     },
     "extends": [
