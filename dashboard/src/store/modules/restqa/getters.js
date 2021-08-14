@@ -1,33 +1,38 @@
 const getters = {
-  info (state) {
-    return state.info
+  info(state) {
+    return state.info;
   },
-  config (state) {
-    return state.config
+  config(state) {
+    return state.config;
   },
-  loadingConfig (state) {
-    return state.loadingConfig
+  loadingConfig(state) {
+    return state.loadingConfig;
   },
-  selectedEnv (state) {
-    return state.selectedEnv
+  selectedEnv(state) {
+    return state.selectedEnv;
   },
-  environments (state) {
-    return (state.config && state.config.environments && state.config.environments.map(_ => _.name)) || []
+  environments(state) {
+    return (
+      (state.config &&
+        state.config.environments &&
+        state.config.environments.map((_) => _.name)) ||
+      []
+    );
   },
-  steps (state) {
-    return state.steps
+  steps(state) {
+    return state.steps;
   },
   features(state) {
-    return state.features
+    return state.features;
   },
   selectedFile(state) {
-    return state.selectedFile
+    return state.selectedFile;
   },
   testResult(state) {
-    return state.testResult
+    return state.testResult;
   },
   preferences(state) {
-    return state.preferences
+    return state.preferences;
   },
   readOnly(state) {
     if (
@@ -36,10 +41,10 @@ const getters = {
       state.config.restqa.dashboard &&
       state.config.restqa.dashboard.readOnly !== undefined
     ) {
-      return state.config.restqa.dashboard.readOnly
+      return state.config.restqa.dashboard.readOnly;
     }
-    return false
+    return false;
   }
-}
+};
 
-export default getters
+export default getters;

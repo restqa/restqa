@@ -1,31 +1,31 @@
 const mutations = {
-  info (state, obj) {
-    state.info = obj
+  info(state, obj) {
+    state.info = obj;
   },
-  config (state, obj) {
-    state.config = obj
+  config(state, obj) {
+    state.config = obj;
   },
-  loadingConfig (state, bool) {
-    state.loadingConfig = bool
+  loadingConfig(state, bool) {
+    state.loadingConfig = bool;
   },
-  selectedEnv (state, val) {
-    state.selectedEnv = val
+  selectedEnv(state, val) {
+    state.selectedEnv = val;
   },
-  steps (state, val) {
-    state.steps = val
+  steps(state, val) {
+    state.steps = val;
   },
-  features (state, val) {
-    state.features = val
+  features(state, val) {
+    state.features = val;
   },
-  selectedFile (state, val) {
-    state.selectedFile = val
+  selectedFile(state, val) {
+    state.selectedFile = val;
   },
-  testResult (state, val) {
-    state.testResult = val
+  testResult(state, val) {
+    state.testResult = val;
   },
-  preferences (state, preferencesObject) {
-    state.preferences = preferencesObject
+  preferences(state, preferencesObject) {
+    state.preferences = preferencesObject;
   }
-}
+};
 
-export default mutations
+export default mutations;

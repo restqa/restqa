@@ -1,21 +1,21 @@
-const { Table } = require('console-table-printer')
-const Config = require('../config')
-const Bootstrap = require('../bootstrap')
-const chalk = require('chalk')
+const {Table} = require("console-table-printer");
+const Config = require("../config");
+const Bootstrap = require("../bootstrap");
+const chalk = require("chalk");
 
-function getSteps (keyword, options) {
-  const result = {}
+function getSteps(keyword, options) {
+  const result = {};
 
   const register = (cucumberFn, gherkin, comment, tag) => {
-    cucumberFn = cucumberFn.toLowerCase()
-    result[cucumberFn] = result[cucumberFn] || []
+    cucumberFn = cucumberFn.toLowerCase();
+    result[cucumberFn] = result[cucumberFn] || [];
     result[cucumberFn].push({
       gherkin,
       comment,
       tag,
       plugin: options.plugin
-    })
-  }
+    });
+  };
 
   const cucumber = {
     After: () => {},
@@ -25,107 +25,115 @@ function getSteps (keyword, options) {
     defineParameterType: () => {},
     setWorldConstructor: () => {},
     setDefaultTimeout: () => {},
-    Given: (gherkin, fn, comment, tag) => register('Given', gherkin, comment, tag),
-    When: (gherkin, fn, comment, tag) => register('When', gherkin, comment, tag),
-    Then: (gherkin, fn, comment, tag) => register('Then', gherkin, comment, tag)
-  }
+    Given: (gherkin, fn, comment, tag) =>
+      register("Given", gherkin, comment, tag),
+    When: (gherkin, fn, comment, tag) =>
+      register("When", gherkin, comment, tag),
+    Then: (gherkin, fn, comment, tag) => register("Then", gherkin, comment, tag)
+  };
 
-  Bootstrap(cucumber, options)
+  Bootstrap(cucumber, options);
 
-  return result[keyword]
+  return result[keyword];
 }
 
 module.exports = function (keyword, program) {
-  let {
-    config,
-    tag,
-    print,
-    env,
-    output
-  } = program || {}
+  let {config, tag, print, env, output} = program || {};
 
-  print = (undefined === print) ? true : print
+  print = undefined === print ? true : print;
 
-  const keywords = ['given', 'when', 'then']
+  const keywords = ["given", "when", "then"];
 
   if (!keyword) {
-    throw new TypeError('Provide a keyword. Available: given | when | then')
+    throw new TypeError("Provide a keyword. Available: given | when | then");
   }
 
   if (!keywords.includes(keyword.toLowerCase())) {
-    throw new TypeError(`"${keyword}" is not a valid argument. Available: ${keywords.join(' | ')}`)
+    throw new TypeError(
+      `"${keyword}" is not a valid argument. Available: ${keywords.join(" | ")}`
+    );
   }
 
-  const outputs = ['short', 'medium', 'large']
+  const outputs = ["short", "medium", "large"];
 
   if (output && !outputs.includes(output.toLowerCase())) {
-    throw new TypeError(`"${output}" is not a valid output. Available: ${outputs.join(' | ')}`)
+    throw new TypeError(
+      `"${output}" is not a valid output. Available: ${outputs.join(" | ")}`
+    );
   }
 
-  keyword = keyword.toLowerCase()
-  output = output && output.toLowerCase()
+  keyword = keyword.toLowerCase();
+  output = output && output.toLowerCase();
 
   const options = {
-    configFile: Config.locate({ configFile: config }),
+    configFile: Config.locate({configFile: config}),
     env
-  }
+  };
 
   if (options.env) {
-    const restqaConfig = Config.raw({ configFile: config })
-    if (restqaConfig.environments.findIndex(_ => _.name === env) === -1) {
-      throw new Error(`"${options.env}" is not an environment available in the config file, choose between : ${restqaConfig.environments.map(_ => _.name).join(', ')}`)
+    const restqaConfig = Config.raw({configFile: config});
+    if (restqaConfig.environments.findIndex((_) => _.name === env) === -1) {
+      throw new Error(
+        `"${
+          options.env
+        }" is not an environment available in the config file, choose between : ${restqaConfig.environments
+          .map((_) => _.name)
+          .join(", ")}`
+      );
     }
   }
 
   const columns = [
-    { name: 'Plugin', alignment: 'left', color: 'green' },
-    { name: 'Keyword', alignment: 'left' },
-    { name: 'Step', alignment: 'left' },
-    { name: 'Comment', alignment: 'left', color: 'magenta' }
-  ]
+    {name: "Plugin", alignment: "left", color: "green"},
+    {name: "Keyword", alignment: "left"},
+    {name: "Step", alignment: "left"},
+    {name: "Comment", alignment: "left", color: "magenta"}
+  ];
 
-  if (output === 'medium') {
-    columns.pop()
+  if (output === "medium") {
+    columns.pop();
   }
 
-  if (output === 'short') {
-    columns.shift()
-    columns.pop()
+  if (output === "short") {
+    columns.shift();
+    columns.pop();
   }
 
-  const table = new Table({ columns })
+  const table = new Table({columns});
 
-  let steps = getSteps(keyword, options)
+  let steps = getSteps(keyword, options);
 
   if (tag) {
-    const reg = new RegExp(tag)
-    steps = steps.filter(step => {
-      return step.tag.match(reg)
-    })
+    const reg = new RegExp(tag);
+    steps = steps.filter((step) => {
+      return step.tag.match(reg);
+    });
   }
 
-  const result = steps.map(r => {
+  const result = steps.map((r) => {
     const el = {
       Plugin: r.plugin,
       Keyword: keyword,
-      Step: print ? r.gherkin.replace(/\{([a-z]+)\}/g, chalk.yellow('{$1}')) : r.gherkin,
+      Step: print
+        ? r.gherkin.replace(/\{([a-z]+)\}/g, chalk.yellow("{$1}"))
+        : r.gherkin,
       Comment: r.comment
+    };
+
+    if (output === "medium") {
+      delete el.Comment;
     }
 
-    if (output === 'medium') {
-      delete el.Comment
+    if (output === "short") {
+      delete el.Plugin;
+      delete el.Comment;
     }
-
-    if (output === 'short') {
-      delete el.Plugin
-      delete el.Comment
-    }
-    table.addRow(el)
-    return el
-  })
+    table.addRow(el);
+    return el;
+  });
 
   if (print === true) {
-    table.printTable()
+    table.printTable();
   }
-  return result
-}
+  return result;
+};

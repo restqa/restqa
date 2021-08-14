@@ -1,28 +1,28 @@
 <template>
-    <div id="app">
-      <router-view />
-    </div>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
 <script>
-import { useState } from "vue-gtag-next"
+import {useState} from "vue-gtag-next";
 
 export default {
-  name: 'App',
+  name: "App",
   computed: {
-    telemetry () {
-      return this.$store.getters.preferences.telemetry || false
+    telemetry() {
+      return this.$store.getters.preferences.telemetry || false;
     }
   },
-  created () {
-    this.$store.dispatch('config')
-    this.$store.dispatch('preferences')
+  created() {
+    this.$store.dispatch("config");
+    this.$store.dispatch("preferences");
   },
   watch: {
-    telemetry (val) {
-      const { isEnabled } = useState()
-      isEnabled.value = val
+    telemetry(val) {
+      const {isEnabled} = useState();
+      isEnabled.value = val;
     }
   }
-}
+};
 </script>

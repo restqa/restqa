@@ -21,42 +21,42 @@
 </template>
 
 <script>
-import Card from '@/components/UI/card/Card'
-import * as Service from '@/services/restqa/project'
-import { ValidationError } from '../../../services/http'
+import Card from "@/components/UI/card/Card";
+import * as Service from "@/services/restqa/project";
+import {ValidationError} from "../../../services/http";
 
 export default {
-  name: 'RestQAProjectInit',
+  name: "RestQAProjectInit",
   components: {
     Card
   },
-  data () {
+  data() {
     return {
       loader: false,
-      form: {},
-    }
+      form: {}
+    };
   },
   methods: {
-    async onSubmit () {
-      this.loader = true
+    async onSubmit() {
+      this.loader = true;
       try {
-        await Service.initialize(this.form)
+        await Service.initialize(this.form);
         this.$notify({
-          title: 'Let\'s go!',
-          message: '🚀🚀 Your project has been created successfully!',
-          type: 'success'
-        })
-        this.$store.dispatch('config')
+          title: "Let's go!",
+          message: "🚀🚀 Your project has been created successfully!",
+          type: "success"
+        });
+        this.$store.dispatch("config");
       } catch (e) {
         this.$notify({
-          title: 'Oups',
+          title: "Oups",
           message: e.message,
-          type: (e instanceof ValidationError) ? 'warning' : 'error'
-        })
+          type: e instanceof ValidationError ? "warning" : "error"
+        });
       }
-      this.loader = false
+      this.loader = false;
     }
   }
-}
+};
 </script>
 <style src="./RestQAProjectInit.scss" lang="scss" scoped />

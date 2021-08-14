@@ -1,22 +1,22 @@
 <template>
-<div class="menu">
+  <div class="menu">
     <restqa-select-config v-if="hasConfig"></restqa-select-config>
-    <el-avatar class="avatar" icon="el-icon-user-solid" ></el-avatar>
-</div>
+    <el-avatar class="avatar" icon="el-icon-user-solid"></el-avatar>
+  </div>
 </template>
 <script>
-import RestqaSelectConfig from '@/components/restqa/select-config/RestQASelectConfig.vue'
+import RestqaSelectConfig from "@/components/restqa/select-config/RestQASelectConfig.vue";
 
 export default {
   components: {
     RestqaSelectConfig
   },
   computed: {
-    hasConfig () {
-      return Boolean(this.$store.getters.config)
+    hasConfig() {
+      return Boolean(this.$store.getters.config);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -31,5 +31,4 @@ export default {
     margin: 0 0 0 15px;
   }
 }
-
 </style>

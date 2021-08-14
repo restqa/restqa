@@ -11,7 +11,7 @@
 
 module.exports = function (module) {
   return async function () {
-    const Module = require(`./${module}`)
-    return Module.apply(this, arguments)
-  }
-}
+    const Module = require(`./${module}`);
+    return Module.apply(this, arguments);
+  };
+};

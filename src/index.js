@@ -1,11 +1,11 @@
-const generate = require('./cli/generate')
-const install = require('./cli/install')
-const steps = require('./cli/steps')
-const run = require('./cli/run')
-const dashboard = require('./cli/dashboard')
-const initialize = require('./cli/initialize')
+const generate = require("./cli/generate");
+const install = require("./cli/install");
+const steps = require("./cli/steps");
+const run = require("./cli/run");
+const dashboard = require("./cli/dashboard");
+const initialize = require("./cli/initialize");
 
-const Stream = require('stream')
+const Stream = require("stream");
 
 /**
  * Initialize a restqa project
@@ -36,8 +36,8 @@ const Stream = require('stream')
  * const result = await Initialize(options)
  * console.log(result)
  */
-async function Initialize (options) {
-  return initialize.generate(options)
+async function Initialize(options) {
+  return initialize.generate(options);
 }
 
 /**
@@ -56,16 +56,16 @@ async function Initialize (options) {
  * const result = await Generate(cmd)
  * console.log(result)
  */
-async function Generate (cmd) {
+async function Generate(cmd) {
   const args = cmd
     .match(/"[^"]+"|'[^']+'|\S+/g)
-    .map(str => str.replace(/^"/, '').replace(/"$/, ''))
+    .map((str) => str.replace(/^"/, "").replace(/"$/, ""));
 
   const options = {
     print: false
-  }
+  };
 
-  return generate(options, { args })
+  return generate(options, {args});
 }
 
 /**
@@ -95,8 +95,8 @@ async function Generate (cmd) {
  * const result = await Install(options)
  * console.log(result)
  */
-function Install (options) {
-  return install.generate(options)
+function Install(options) {
+  return install.generate(options);
 }
 
 /**
@@ -124,12 +124,12 @@ function Install (options) {
  * const result = Steps(options)
  * console.log(result)
  */
-function Steps (options) {
+function Steps(options) {
   return steps(options.keyword, {
-    config: options.configFile || './.restqa.yml',
+    config: options.configFile || "./.restqa.yml",
     tag: options.tag,
     print: false
-  })
+  });
 }
 
 /**
@@ -163,22 +163,22 @@ function Steps (options) {
  * console.log(result)
  */
 
-function Run (options) {
-  let result
+function Run(options) {
+  let result;
   const optStream = {
     write: (chunk, encoding, next) => {
-      result = JSON.parse(chunk.toString('utf-8'))
-      next()
+      result = JSON.parse(chunk.toString("utf-8"));
+      next();
     }
-  }
-  const stream = new Stream.Writable(optStream)
-  global.restqa = global.restqa || {}
-  global.restqa.tmpExport = stream
+  };
+  const stream = new Stream.Writable(optStream);
+  global.restqa = global.restqa || {};
+  global.restqa.tmpExport = stream;
 
-  let args
+  let args;
 
   if (options.path) {
-    args = [options.path]
+    args = [options.path];
   }
 
   return run({
@@ -187,12 +187,14 @@ function Run (options) {
     stream: options.stream,
     tags: options.tags || [],
     args
-  }).then(() => {
-    return result
-  }).finally(() => {
-    delete require.cache[require.resolve('./restqa-formatter.js')]
-    delete require.cache[require.resolve('./setup.js')]
   })
+    .then(() => {
+      return result;
+    })
+    .finally(() => {
+      delete require.cache[require.resolve("./restqa-formatter.js")];
+      delete require.cache[require.resolve("./setup.js")];
+    });
 }
 
 /**
@@ -221,13 +223,13 @@ function Run (options) {
  * })
  */
 
-function Dashboard (options) {
+function Dashboard(options) {
   const opt = {
     config: options.configFile,
     folder: options.folder,
     serve: false
-  }
-  return dashboard(opt)
+  };
+  return dashboard(opt);
 }
 
 module.exports = {
@@ -237,4 +239,4 @@ module.exports = {
   Steps,
   Dashboard,
   Run
-}
+};

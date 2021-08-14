@@ -1,6 +1,6 @@
-const Joi = require('joi')
+const Joi = require("joi");
 
-function validate (config) {
+function validate(config) {
   const schemaEnvironment = Joi.object({
     name: Joi.string().required(),
     default: Joi.boolean().optional(),
@@ -27,10 +27,10 @@ function validate (config) {
         config: Joi.any()
       })
     )
-  })
+  });
 
   const schemaConfig = Joi.object({
-    version: Joi.any().allow('0.0.1'),
+    version: Joi.any().allow("0.0.1"),
     metadata: {
       code: Joi.string().required(),
       name: Joi.string().required(),
@@ -59,15 +59,15 @@ function validate (config) {
         messages: Joi.array()
       })
     })
-  })
+  });
 
-  const { value, error } = schemaConfig.validate(config)
+  const {value, error} = schemaConfig.validate(config);
 
   if (error) {
-    throw error
+    throw error;
   }
 
-  return value
+  return value;
 }
 
-module.exports = { validate }
+module.exports = {validate};

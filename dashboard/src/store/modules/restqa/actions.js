@@ -1,65 +1,72 @@
-import { getConfig, getStepDefinition, getFeatures, testFeature } from '@/services/restqa/project'
-import Info from '@/services/restqa/info'
-import { getPreferences } from '@/services/restqa/user'
+import {
+  getConfig,
+  getStepDefinition,
+  getFeatures,
+  testFeature
+} from "@/services/restqa/project";
+import Info from "@/services/restqa/info";
+import {getPreferences} from "@/services/restqa/user";
 
-import DefaultInfo from '@/assets/data/info.json'
+import DefaultInfo from "@/assets/data/info.json";
 
 const actions = {
-  config ({ commit }) {
-    commit('loadingConfig', true)
+  config({commit}) {
+    commit("loadingConfig", true);
     return getConfig()
-      .then(result => {
-        commit('config', result)
-        commit('selectedEnv', (result.environments.find(_ => _.default) || result.environments[0]).name)
+      .then((result) => {
+        commit("config", result);
+        commit(
+          "selectedEnv",
+          (result.environments.find((_) => _.default) || result.environments[0])
+            .name
+        );
       })
-      .catch(() => commit('config', false))
-      .finally(() => commit('loadingConfig', false))
+      .catch(() => commit("config", false))
+      .finally(() => commit("loadingConfig", false));
   },
-  selectedEnv ({ commit }, val) {
-    commit('selectedEnv', val)
+  selectedEnv({commit}, val) {
+    commit("selectedEnv", val);
   },
-  info({ commit }) {
+  info({commit}) {
     return Info.get()
-      .then(result => {
-        commit('info', result)
+      .then((result) => {
+        commit("info", result);
       })
       .catch(() => {
-        commit('info', DefaultInfo)
-      })
+        commit("info", DefaultInfo);
+      });
   },
-  steps({ commit }) {
+  steps({commit}) {
     return getStepDefinition()
-      .then(result => {
-        commit('steps', result)
+      .then((result) => {
+        commit("steps", result);
       })
-      .catch(() => {
-      })
+      .catch(() => {});
   },
-  features({ commit }) {
+  features({commit}) {
     return getFeatures()
-      .then(result => {
-        commit('features', result)
+      .then((result) => {
+        commit("features", result);
       })
-      .catch(() => {
-      })
+      .catch(() => {});
   },
-  selectedFile({ commit }, val) {
-    val.filename && commit('selectedFile', val.filename)
+  selectedFile({commit}, val) {
+    val.filename && commit("selectedFile", val.filename);
   },
-  testFeature({ commit }, path) {
+  testFeature({commit}, path) {
     return testFeature(path)
-      .then(res => res)
-      .catch(error => ({ path, error }))
-      .then(result => {
-        commit('testResult', result)
-      })
+      .then((res) => res)
+      .catch((error) => ({path, error}))
+      .then((result) => {
+        commit("testResult", result);
+      });
   },
-  preferences({ commit }) {
+  preferences({commit}) {
     return getPreferences()
-      .then(res => res)
+      .then((res) => res)
       .catch(() => ({}))
-      .then(res => commit('preferences', res))
+      .then((res) => commit("preferences", res));
   }
-}
+};
 
-export default actions
+export default actions;

@@ -2,13 +2,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>RestQA OpenAPI</title>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.47.1/swagger-ui.css" />
-    <link rel="icon" type="image/png" href="https://restqa.io/assets/img/favicon.png"  />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.47.1/swagger-ui.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://restqa.io/assets/img/favicon.png"
+    />
     <style>
-      html
-      {
+      html {
         box-sizing: border-box;
         overflow: -moz-scrollbars-vertical;
         overflow-y: scroll;
@@ -16,14 +23,12 @@
 
       *,
       *:before,
-      *:after
-      {
+      *:after {
         box-sizing: inherit;
       }
 
-      body
-      {
-        margin:0;
+      body {
+        margin: 0;
         background: #fafafa;
       }
     </style>
@@ -32,26 +37,27 @@
   <body>
     <div id="swagger-ui"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.47.1/swagger-ui-bundle.js" charset="UTF-8"> </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.47.1/swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.47.1/swagger-ui-bundle.js"
+      charset="UTF-8"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.47.1/swagger-ui-standalone-preset.js"
+      charset="UTF-8"
+    ></script>
     <script>
-    window.onload = function() {
-      const ui = SwaggerUIBundle({
-        url: "./restqa/restqa.yml",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ],
-        layout: "BaseLayout"
-      });
+      window.onload = function () {
+        const ui = SwaggerUIBundle({
+          url: "./restqa/restqa.yml",
+          dom_id: "#swagger-ui",
+          deepLinking: true,
+          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+          plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+          layout: "BaseLayout"
+        });
 
-      window.ui = ui;
-    };
-  </script>
+        window.ui = ui;
+      };
+    </script>
   </body>
 </html>

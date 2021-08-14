@@ -1,5 +1,5 @@
 <template>
-  <el-card class="card" body-style="{ width: 100% }" >
+  <el-card class="card" body-style="{ width: 100% }">
     <div class="header" v-if="title">
       <h5>{{ title }}</h5>
       <el-tag v-if="tagLabel" :type="tagType">{{ tagLabel }}</el-tag>
@@ -13,13 +13,12 @@
 
 <script>
 function tagTypeValidator(value) {
-  return ["success", "info", "warning", "danger"].includes(value)
+  return ["success", "info", "warning", "danger"].includes(value);
 }
 
 export default {
-  name: 'card',
-  components: {
-  },
+  name: "card",
+  components: {},
   props: {
     title: {
       type: String
@@ -32,7 +31,7 @@ export default {
       default: false
     },
     tagLabel: {
-      type: String,
+      type: String
     },
     tagType: {
       type: String,
@@ -40,7 +39,7 @@ export default {
       validator: tagTypeValidator
     }
   }
-}
+};
 </script>
 
 <style src="./Card.scss" lang="scss" scoped />
