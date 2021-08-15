@@ -1,7 +1,7 @@
-import state from './state'
+import state from "./state";
 
-describe('state', () => {
-  it('Avaiable states', () => {
+describe("state", () => {
+  it("Avaiable states", () => {
     const expectedState = {
       config: null,
       loadingConfig: false,
@@ -11,7 +11,7 @@ describe('state', () => {
       features: [],
       selectedFile: null,
       preferences: {}
-    }
-    expect(state).toEqual(expectedState)
-  })
-})
+    };
+    expect(state).toEqual(expectedState);
+  });
+});

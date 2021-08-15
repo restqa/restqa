@@ -1,14 +1,14 @@
-import { mount } from '@vue/test-utils'
-import { createStore } from 'vuex'
-import ElementPlus from 'element-plus';
-import RestQAProjectTree from './RestQAProjectTree.vue'
+import {mount} from "@vue/test-utils";
+import {createStore} from "vuex";
+import ElementPlus from "element-plus";
+import RestQAProjectTree from "./RestQAProjectTree.vue";
 
-describe('RestQAProjectTree', () => {
-  let store
-  let mockFeatures
+describe("RestQAProjectTree", () => {
+  let store;
+  let mockFeatures;
   let actions = {
     selectedFile: jest.fn(() => {})
-  }
+  };
 
   beforeEach(() => {
     store = createStore({
@@ -17,44 +17,45 @@ describe('RestQAProjectTree', () => {
           state: {},
           actions,
           getters: {
-            features: () => mockFeatures,
+            features: () => mockFeatures
           }
         }
       }
-    })
-  })
+    });
+  });
 
-  test('Should show the feature files', async () => {
-    mockFeatures = [{
-      label: 'root',
-      children: [{
-        label: 'child',
-        filename: 'root/child'
-      }]
-    }]
-
+  test("Should show the feature files", async () => {
+    mockFeatures = [
+      {
+        label: "root",
+        children: [
+          {
+            label: "child",
+            filename: "root/child"
+          }
+        ]
+      }
+    ];
 
     const options = {
       global: {
-        plugins: [
-          store,
-          ElementPlus
-        ]
+        plugins: [store, ElementPlus]
       }
-    }
-    const component = mount(RestQAProjectTree, options)
+    };
+    const component = mount(RestQAProjectTree, options);
 
+    expect(component.exists()).toBeTruthy();
+    await component.vm.$nextTick();
 
-    expect(component.exists()).toBeTruthy()
-    await component.vm.$nextTick()
+    const tree = component.findComponent({name: "el-tree"});
+    expect(tree.vm.data).toEqual(mockFeatures);
+    expect(actions.selectedFile).toHaveBeenCalledTimes(0);
 
-    const tree = component.findComponent({ name: 'el-tree' })
-    expect(tree.vm.data).toEqual(mockFeatures)
-    expect(actions.selectedFile).toHaveBeenCalledTimes(0)
+    tree.vm.$emit("node-click", mockFeatures[0].children[0]);
 
-    tree.vm.$emit('node-click', mockFeatures[0].children[0])
-
-    expect(actions.selectedFile).toHaveBeenCalledTimes(1)
-    expect(actions.selectedFile.mock.calls[0][1]).toEqual(mockFeatures[0].children[0])
-  })
-})
+    expect(actions.selectedFile).toHaveBeenCalledTimes(1);
+    expect(actions.selectedFile.mock.calls[0][1]).toEqual(
+      mockFeatures[0].children[0]
+    );
+  });
+});

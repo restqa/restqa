@@ -1,29 +1,29 @@
-import Http from '../http'
+import Http from "../http";
 
-async function get () {
-  const key = 'remote-info'
-  const date = new Date()
-  const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+async function get() {
+  const key = "remote-info";
+  const date = new Date();
+  const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
-  let result = window.localStorage.getItem(key)
-  result = result && JSON.parse(result)
+  let result = window.localStorage.getItem(key);
+  result = result && JSON.parse(result);
   if (!result || result.today !== today) {
-    const { data } = await Http().get('/api/info')
+    const {data} = await Http().get("/api/info");
     result = {
       today,
       data
-    }
-    window.localStorage.setItem(key, JSON.stringify(result))
+    };
+    window.localStorage.setItem(key, JSON.stringify(result));
   }
-  return result.data
+  return result.data;
 }
 
-async function tips () {
-  const result = await Http().get('/api/tips')
-  return result.data
+async function tips() {
+  const result = await Http().get("/api/tips");
+  return result.data;
 }
 
 export default {
   get,
   tips
-}
+};

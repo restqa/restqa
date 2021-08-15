@@ -1,29 +1,37 @@
-const fs = require('fs')
-const path = require('path')
-const os = require('os')
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
 
-const jestqa = new JestQA(__filename, true)
+const jestqa = new JestQA(__filename, true);
 
-beforeEach(jestqa.beforeEach)
-afterEach(jestqa.afterEach)
+beforeEach(jestqa.beforeEach);
+afterEach(jestqa.afterEach);
 
-describe('#bootstrap', () => {
-  let filename
+describe("#bootstrap", () => {
+  let filename;
 
-  test('Throw error if the processor is undefined', () => {
-    const Bootstrap = require('./bootstrap')
+  test("Throw error if the processor is undefined", () => {
+    const Bootstrap = require("./bootstrap");
     expect(() => {
-      Bootstrap()
-    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.'))
-  })
+      Bootstrap();
+    }).toThrow(
+      new Error(
+        "Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout."
+      )
+    );
+  });
 
-  test('Throw error if the processor doesn\'t contain an required method', () => {
-    const Bootstrap = require('./bootstrap')
+  test("Throw error if the processor doesn't contain an required method", () => {
+    const Bootstrap = require("./bootstrap");
     expect(() => {
       Bootstrap({
         After: jest.fn()
-      })
-    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.'))
+      });
+    }).toThrow(
+      new Error(
+        "Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout."
+      )
+    );
 
     expect(() => {
       Bootstrap({
@@ -35,12 +43,16 @@ describe('#bootstrap', () => {
         When: jest.fn(),
         Then: jest.fn(),
         defineParameterType: jest.fn()
-      })
-    }).toThrow(new Error('Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout.'))
-  })
+      });
+    }).toThrow(
+      new Error(
+        "Please provide a processor containing the methods: After, AfterAll, Before, BeforeAll, Given, When, Then, defineParameterType, setWorldConstructor and setDefaultTimeout."
+      )
+    );
+  });
 
-  test('Throw error if the config can\'t be loaded', () => {
-    const Bootstrap = require('./bootstrap')
+  test("Throw error if the config can't be loaded", () => {
+    const Bootstrap = require("./bootstrap");
     expect(() => {
       Bootstrap({
         After: jest.fn(),
@@ -53,11 +65,11 @@ describe('#bootstrap', () => {
         defineParameterType: jest.fn(),
         setWorldConstructor: jest.fn(),
         setDefaultTimeout: jest.fn()
-      })
-    }).toThrow(new Error('THE RESTQA CONFIG FILE IS MISSING (undefined)'))
-  })
+      });
+    }).toThrow(new Error("THE RESTQA CONFIG FILE IS MISSING (undefined)"));
+  });
 
-  test('Load plugin @restqa/restqapi then run setup the processor', () => {
+  test("Load plugin @restqa/restqapi then run setup the processor", () => {
     const content = `
 ---
 version: 0.0.1
@@ -80,10 +92,10 @@ environments:
     outputs:
       - type: html
         enabled: true
-    `
-    const filename = jestqa.createTmpFile(content, '.restqa-example.yml')
+    `;
+    const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
-    const mockSetup = jest.fn()
+    const mockSetup = jest.fn();
     const mockInstancePlugin = {
       setParameterType: jest.fn(),
       setSteps: jest.fn(),
@@ -92,20 +104,20 @@ environments:
         return function () {
           return {
             setup: mockSetup
-          }
-        }
+          };
+        };
       })
-    }
+    };
 
-    let passConfig
-    jest.mock('@restqa/restqapi', () => {
+    let passConfig;
+    jest.mock("@restqa/restqapi", () => {
       return function (config) {
-        passConfig = config
-        return mockInstancePlugin
-      }
-    })
+        passConfig = config;
+        return mockInstancePlugin;
+      };
+    });
 
-    let worldResult
+    let worldResult;
 
     const processor = {
       After: jest.fn(),
@@ -116,49 +128,51 @@ environments:
       When: jest.fn(),
       Then: jest.fn(),
       defineParameterType: jest.fn(),
-      setWorldConstructor: Obj => {
-        worldResult = new Obj({})
+      setWorldConstructor: (Obj) => {
+        worldResult = new Obj({});
       },
       setDefaultTimeout: jest.fn()
-    }
+    };
     const options = {
       configFile: filename
-    }
+    };
 
-    const Bootstrap = require('./bootstrap')
+    const Bootstrap = require("./bootstrap");
 
-    Bootstrap(processor, options)
+    Bootstrap(processor, options);
 
     expect(passConfig).toEqual({
-      url: 'https://api.restqa.io',
+      url: "https://api.restqa.io",
       data: {
-        startSymbol: '[[',
-        endSymbol: ']]'
+        startSymbol: "[[",
+        endSymbol: "]]"
       }
-    })
-    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(1)
-    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(1)
+    });
+    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(1);
+    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(1);
     expect(mockInstancePlugin.setSteps.mock.calls[0][0]).toEqual({
       Given: processor.Given,
       When: processor.When,
       Then: processor.Then
-    })
-    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(1)
+    });
+    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(1);
     expect(mockInstancePlugin.setHooks.mock.calls[0][0]).toEqual({
       BeforeAll: processor.BeforeAll,
       Before: processor.Before,
       AfterAll: processor.AfterAll,
       After: processor.After
-    })
-    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(1)
-    expect(mockSetup.mock.calls).toHaveLength(1)
-    expect(worldResult._data.get('[[ foo ]]')).toBe('bar')
-    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1)
-    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('🎯 The selected environment is: "local"')
-  })
+    });
+    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(1);
+    expect(mockSetup.mock.calls).toHaveLength(1);
+    expect(worldResult._data.get("[[ foo ]]")).toBe("bar");
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
+      '🎯 The selected environment is: "local"'
+    );
+  });
 
-  test('Load plugin restqapi and restqkube then run setup the processor (+ setup the timeout)', () => {
-    filename = path.resolve(os.tmpdir(), '.restqa-sample.yml')
+  test("Load plugin restqapi and restqkube then run setup the processor (+ setup the timeout)", () => {
+    filename = path.resolve(os.tmpdir(), ".restqa-sample.yml");
     const content = `
 ---
 version: 0.0.1
@@ -187,10 +201,10 @@ environments:
         enabled: true
 restqa:
   timeout: 10000
-    `
-    fs.writeFileSync(filename, content)
+    `;
+    fs.writeFileSync(filename, content);
 
-    const mockSetup = jest.fn()
+    const mockSetup = jest.fn();
     const mockInstancePlugin = {
       setParameterType: jest.fn(),
       setSteps: jest.fn(),
@@ -199,34 +213,34 @@ restqa:
         return function () {
           return {
             setup: mockSetup
-          }
-        }
+          };
+        };
       })
-    }
+    };
 
-    let passConfigRestQapi
-    jest.mock('@restqa/restqapi', () => {
+    let passConfigRestQapi;
+    jest.mock("@restqa/restqapi", () => {
       return function (config) {
-        passConfigRestQapi = config
-        return mockInstancePlugin
-      }
-    })
+        passConfigRestQapi = config;
+        return mockInstancePlugin;
+      };
+    });
 
-    let passConfigRestQkube
-    jest.mock('module', () => {
+    let passConfigRestQkube;
+    jest.mock("module", () => {
       return {
         createRequire: (path) => {
           return (pluginName) => {
             return function (config) {
-              passConfigRestQkube = config
-              return mockInstancePlugin
-            }
-          }
+              passConfigRestQkube = config;
+              return mockInstancePlugin;
+            };
+          };
         }
-      }
-    })
+      };
+    });
 
-    let worldResult
+    let worldResult;
 
     const processor = {
       After: jest.fn(),
@@ -237,71 +251,71 @@ restqa:
       When: jest.fn(),
       Then: jest.fn(),
       defineParameterType: jest.fn(),
-      setWorldConstructor: Obj => {
-        worldResult = new Obj({})
+      setWorldConstructor: (Obj) => {
+        worldResult = new Obj({});
       },
       setDefaultTimeout: jest.fn()
-    }
+    };
     const options = {
       configFile: filename
-    }
+    };
 
-    const Bootstrap = require('./bootstrap')
+    const Bootstrap = require("./bootstrap");
 
-    Bootstrap(processor, options)
+    Bootstrap(processor, options);
 
     expect(passConfigRestQapi).toEqual({
-      url: 'https://api.restqa.io',
+      url: "https://api.restqa.io",
       data: {
-        startSymbol: '[[',
-        endSymbol: ']]'
+        startSymbol: "[[",
+        endSymbol: "]]"
       }
-    })
+    });
 
     expect(passConfigRestQkube).toEqual({
       kube: {
-        config: './kubeconfig'
+        config: "./kubeconfig"
       },
       data: {
-        startSymbol: '[[',
-        endSymbol: ']]'
+        startSymbol: "[[",
+        endSymbol: "]]"
       }
-    })
+    });
 
-    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(2)
-    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(2)
+    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(2);
+    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(2);
     expect(mockInstancePlugin.setSteps.mock.calls[0][0]).toEqual({
       Given: processor.Given,
       When: processor.When,
       Then: processor.Then
-    })
+    });
     expect(mockInstancePlugin.setSteps.mock.calls[1][0]).toEqual({
       Given: processor.Given,
       When: processor.When,
       Then: processor.Then
-    })
-    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(2)
+    });
+    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(2);
     expect(mockInstancePlugin.setHooks.mock.calls[0][0]).toEqual({
       BeforeAll: processor.BeforeAll,
       Before: processor.Before,
       AfterAll: processor.AfterAll,
       After: processor.After
-    })
+    });
     expect(mockInstancePlugin.setHooks.mock.calls[1][0]).toEqual({
       BeforeAll: processor.BeforeAll,
       Before: processor.Before,
       AfterAll: processor.AfterAll,
       After: processor.After
-    })
-    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2)
-    expect(mockSetup.mock.calls).toHaveLength(2)
-    expect(worldResult._data.get('[[ foo ]]')).toBe('bar')
-    expect(processor.setDefaultTimeout.mock.calls).toHaveLength(1)
-    expect(processor.setDefaultTimeout.mock.calls[0][0]).toEqual(10000)
-  })
+    });
+    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2);
+    expect(mockSetup.mock.calls).toHaveLength(2);
+    expect(worldResult._data.get("[[ foo ]]")).toBe("bar");
+    expect(processor.setDefaultTimeout.mock.calls).toHaveLength(1);
+    expect(processor.setDefaultTimeout.mock.calls[0][0]).toEqual(10000);
+  });
 
-  test('Load plugin restqapi and restqkube then run setup the processor but avoid ParameterType collision', () => {
-    filename = path.resolve(os.tmpdir(), '.restqa-sample.yml')
+  test("Load plugin restqapi and restqkube then run setup the processor but avoid ParameterType collision", () => {
+    filename = path.resolve(os.tmpdir(), ".restqa-sample.yml");
     const content = `
 ---
 version: 0.0.1
@@ -328,15 +342,15 @@ environments:
     outputs:
       - type: html
         enabled: true
-    `
-    fs.writeFileSync(filename, content)
+    `;
+    fs.writeFileSync(filename, content);
 
-    const mockSetup = jest.fn()
+    const mockSetup = jest.fn();
     const mockInstancePlugin = {
-      setParameterType: jest.fn(fn => {
+      setParameterType: jest.fn((fn) => {
         fn({
-          name: 'data'
-        })
+          name: "data"
+        });
       }),
       setSteps: jest.fn(),
       setHooks: jest.fn(),
@@ -344,34 +358,34 @@ environments:
         return function () {
           return {
             setup: mockSetup
-          }
-        }
+          };
+        };
       })
-    }
+    };
 
-    let passConfigRestQapi
-    jest.mock('@restqa/restqapi', () => {
+    let passConfigRestQapi;
+    jest.mock("@restqa/restqapi", () => {
       return function (config) {
-        passConfigRestQapi = config
-        return mockInstancePlugin
-      }
-    })
+        passConfigRestQapi = config;
+        return mockInstancePlugin;
+      };
+    });
 
-    let passConfigRestQkube
-    jest.mock('module', () => {
+    let passConfigRestQkube;
+    jest.mock("module", () => {
       return {
         createRequire: (path) => {
           return (pluginName) => {
             return function (config) {
-              passConfigRestQkube = config
-              return mockInstancePlugin
-            }
-          }
+              passConfigRestQkube = config;
+              return mockInstancePlugin;
+            };
+          };
         }
-      }
-    })
+      };
+    });
 
-    let worldResult
+    let worldResult;
 
     const processor = {
       After: jest.fn(),
@@ -382,65 +396,65 @@ environments:
       When: jest.fn(),
       Then: jest.fn(),
       defineParameterType: jest.fn(),
-      setWorldConstructor: Obj => {
-        worldResult = new Obj({})
+      setWorldConstructor: (Obj) => {
+        worldResult = new Obj({});
       },
       setDefaultTimeout: jest.fn()
-    }
+    };
     const options = {
       configFile: filename
-    }
+    };
 
-    const Bootstrap = require('./bootstrap')
+    const Bootstrap = require("./bootstrap");
 
-    Bootstrap(processor, options)
+    Bootstrap(processor, options);
 
     expect(passConfigRestQapi).toEqual({
-      url: 'https://api.restqa.io',
+      url: "https://api.restqa.io",
       data: {
-        startSymbol: '[[',
-        endSymbol: ']]'
+        startSymbol: "[[",
+        endSymbol: "]]"
       }
-    })
+    });
 
     expect(passConfigRestQkube).toEqual({
       kube: {
-        config: './kubeconfig'
+        config: "./kubeconfig"
       },
       data: {
-        startSymbol: '[[',
-        endSymbol: ']]'
+        startSymbol: "[[",
+        endSymbol: "]]"
       }
-    })
+    });
 
-    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(2)
-    expect(processor.defineParameterType.mock.calls).toHaveLength(1)
-    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(2)
+    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(2);
+    expect(processor.defineParameterType.mock.calls).toHaveLength(1);
+    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(2);
     expect(mockInstancePlugin.setSteps.mock.calls[0][0]).toEqual({
       Given: processor.Given,
       When: processor.When,
       Then: processor.Then
-    })
+    });
     expect(mockInstancePlugin.setSteps.mock.calls[1][0]).toEqual({
       Given: processor.Given,
       When: processor.When,
       Then: processor.Then
-    })
-    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(2)
+    });
+    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(2);
     expect(mockInstancePlugin.setHooks.mock.calls[0][0]).toEqual({
       BeforeAll: processor.BeforeAll,
       Before: processor.Before,
       AfterAll: processor.AfterAll,
       After: processor.After
-    })
+    });
     expect(mockInstancePlugin.setHooks.mock.calls[1][0]).toEqual({
       BeforeAll: processor.BeforeAll,
       Before: processor.Before,
       AfterAll: processor.AfterAll,
       After: processor.After
-    })
-    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2)
-    expect(mockSetup.mock.calls).toHaveLength(2)
-    expect(worldResult._data.get('[[ foo ]]')).toBe('bar')
-  })
-})
+    });
+    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2);
+    expect(mockSetup.mock.calls).toHaveLength(2);
+    expect(worldResult._data.get("[[ foo ]]")).toBe("bar");
+  });
+});

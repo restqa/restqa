@@ -11,31 +11,42 @@
 </template>
 
 <script>
-import Card from '@/components/UI/card/Card'
+import Card from "@/components/UI/card/Card";
 
 export default {
-  name: 'RestQAProjectAI',
+  name: "RestQAProjectAI",
   components: {
     Card
   },
-  data () {
+  data() {
     return {
       list: [
-        { name: 'Safe Scenario', img: require('@/assets/images/icon/shield.png')},
-        { name: 'Data consistency', img: require('@/assets/images/icon/analysis.png')},
-        { name: 'Open API generator', img: require('@/assets/images/icon/magic-wand.png')},
-        { name: 'Spell check', img: require('@/assets/images/icon/spell-check.png')}
+        {
+          name: "Safe Scenario",
+          img: require("@/assets/images/icon/shield.png")
+        },
+        {
+          name: "Data consistency",
+          img: require("@/assets/images/icon/analysis.png")
+        },
+        {
+          name: "Open API generator",
+          img: require("@/assets/images/icon/magic-wand.png")
+        },
+        {
+          name: "Spell check",
+          img: require("@/assets/images/icon/spell-check.png")
+        }
       ]
-    }
+    };
   }
-}
+};
 </script>
-<style  lang="scss" scoped>
-
+<style lang="scss" scoped>
 .container {
   display: flex;
   flex-direction: row;
-  
+
   .ai {
     width: 150px;
     margin: 0 5px;
@@ -60,7 +71,7 @@ export default {
       text-align: center;
       height: 30px;
     }
-    
+
     .btn {
       width: 100%;
       margin-top: 5px;
@@ -68,4 +79,3 @@ export default {
   }
 }
 </style>
-

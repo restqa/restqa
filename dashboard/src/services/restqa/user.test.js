@@ -1,50 +1,49 @@
 afterAll(() => {
-  jest.clearAllMocks()
-})
+  jest.clearAllMocks();
+});
 
-describe('Service - RestQA - User', () => {
-
-  let mockGet
-  let mockPost
-  let mockPut
-  jest.mock('axios', () => {
-    const originalModule = jest.requireActual('axios')
+describe("Service - RestQA - User", () => {
+  let mockGet;
+  let mockPost;
+  let mockPut;
+  jest.mock("axios", () => {
+    const originalModule = jest.requireActual("axios");
     return {
       ...originalModule,
-      create: function() {
-        return this
+      create: function () {
+        return this;
       },
       get: function () {
-        return mockGet.apply(this, arguments)
+        return mockGet.apply(this, arguments);
       },
       post: function () {
-        return mockPost.apply(this, arguments)
+        return mockPost.apply(this, arguments);
       },
       put: function () {
-        return mockPut.apply(this, arguments)
+        return mockPut.apply(this, arguments);
       }
-    }
-  })
+    };
+  });
 
   afterEach(() => {
-    mockGet = undefined
-    mockPost = undefined
-    mockPut = undefined
-  })
+    mockGet = undefined;
+    mockPost = undefined;
+    mockPut = undefined;
+  });
 
-  const User = require('./user')
+  const User = require("./user");
 
-  describe('preferences', () => {
-    test('Retrieve the preferences', async () => {
+  describe("preferences", () => {
+    test("Retrieve the preferences", async () => {
       const data = {
         telemetry: true
-      }
-      mockGet = jest.fn().mockResolvedValue({ data })
+      };
+      mockGet = jest.fn().mockResolvedValue({data});
 
-      const result = await User.getPreferences()
-      expect(result).toEqual(data)
-      expect(mockGet).toHaveBeenCalledTimes(1)
-      expect(mockGet).toHaveBeenCalledWith('/preferences')
-    })
-  })
-})
+      const result = await User.getPreferences();
+      expect(result).toEqual(data);
+      expect(mockGet).toHaveBeenCalledTimes(1);
+      expect(mockGet).toHaveBeenCalledWith("/preferences");
+    });
+  });
+});

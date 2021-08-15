@@ -1,50 +1,59 @@
-const path = require('path')
+const path = require("path");
 
-let server
+let server;
 
-const jestqa = new JestQA(__filename, true)
+const jestqa = new JestQA(__filename, true);
 
-beforeEach(jestqa.beforeEach)
-afterEach(jestqa.afterEach)
+beforeEach(jestqa.beforeEach);
+afterEach(jestqa.afterEach);
 jestqa.hooks.beforeEach = function () {
   if (server) {
-    server.close()
+    server.close();
   }
-}
+};
 
 jestqa.hooks.afterEach = function () {
   if (server) {
-    server.close()
+    server.close();
   }
-}
+};
 
-describe('# cli - dashboard', () => {
-  test('Throw an error if passed port is not a number', () => {
-    const Dashboard = require('./dashboard')
+describe("# cli - dashboard", () => {
+  test("Throw an error if passed port is not a number", () => {
+    const Dashboard = require("./dashboard");
     const program = {
-      port: 'hello'
-    }
-    return expect(() => Dashboard(program)).toThrow('The port should be a number. (example: 8081)')
-  })
+      port: "hello"
+    };
+    return expect(() => Dashboard(program)).toThrow(
+      "The port should be a number. (example: 8081)"
+    );
+  });
 
-  test('Throw an error if passed config doesn\'t exist', () => {
-    const Dashboard = require('./dashboard')
+  test("Throw an error if passed config doesn't exist", () => {
+    const Dashboard = require("./dashboard");
     const program = {
       port: 8000,
-      config: 'test.yml'
-    }
-    return expect(() => Dashboard(program)).toThrow('The configuration file "test.yml" doesn\'t exist.')
-  })
+      config: "test.yml"
+    };
+    return expect(() => Dashboard(program)).toThrow(
+      'The configuration file "test.yml" doesn\'t exist.'
+    );
+  });
 
-  test('Throw an error if passed default .restqa.yml doesn\'t exist', () => {
-    const Dashboard = require('./dashboard')
+  test("Throw an error if passed default .restqa.yml doesn't exist", () => {
+    const Dashboard = require("./dashboard");
     const program = {
       port: 8000
-    }
-    return expect(() => Dashboard(program)).toThrow(`The configuration file "${path.resolve(process.cwd(), '.restqa.yml')}" doesn't exist.`)
-  })
+    };
+    return expect(() => Dashboard(program)).toThrow(
+      `The configuration file "${path.resolve(
+        process.cwd(),
+        ".restqa.yml"
+      )}" doesn't exist.`
+    );
+  });
 
-  test('Start the server with a specific config', function () {
+  test("Start the server with a specific config", function () {
     const content = `
 ---
 
@@ -70,45 +79,53 @@ restqa:
     server:
       whiteList:
         - http://localhost:8080
-      `
-    const filename = jestqa.createTmpFile(content, '.restqa.yml')
+      `;
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const Dashboard = require('./dashboard')
+    const Dashboard = require("./dashboard");
     const program = {
       port: 8001,
       config: filename
-    }
+    };
 
-    server = Dashboard(program)
+    server = Dashboard(program);
     return new Promise((resolve, reject) => {
-      server.on('listening', () => {
-        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(`📝  The configuration file ${filename} has been loaded`)
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8001')
-        resolve()
-      })
-      expect(server.listening).toBe(true)
-    })
-  })
+      server.on("listening", () => {
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2);
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
+          `📝  The configuration file ${filename} has been loaded`
+        );
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
+          "🌎  The RestQA dashboard is started and available on the url: http://localhost:8001"
+        );
+        resolve();
+      });
+      expect(server.listening).toBe(true);
+    });
+  });
 
-  test('Start the server without a config file and using the --no-config option', () => {
-    const Dashboard = require('./dashboard')
+  test("Start the server without a config file and using the --no-config option", () => {
+    const Dashboard = require("./dashboard");
     const config = {
       config: false
-    }
-    server = Dashboard(config)
+    };
+    server = Dashboard(config);
     return new Promise((resolve, reject) => {
-      server.on('listening', () => {
-        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch('🤞  Launching the server on "NO CONFIG" mode')
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
-        resolve()
-      })
-      expect(server.listening).toBe(true)
-    })
-  })
+      server.on("listening", () => {
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2);
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
+          '🤞  Launching the server on "NO CONFIG" mode'
+        );
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
+          "🌎  The RestQA dashboard is started and available on the url: http://localhost:8081"
+        );
+        resolve();
+      });
+      expect(server.listening).toBe(true);
+    });
+  });
 
-  test('Start the server the default config', () => {
+  test("Start the server the default config", () => {
     const content = `
 ---
 
@@ -129,22 +146,26 @@ environments:
         enabled: true
         config:
           path: 'my-report.json'
-      `
-    const config = jestqa.createTmpFile(content, '.restqa.yml')
-    const Dashboard = require('./dashboard')
-    server = Dashboard({ config })
+      `;
+    const config = jestqa.createTmpFile(content, ".restqa.yml");
+    const Dashboard = require("./dashboard");
+    server = Dashboard({config});
     return new Promise((resolve, reject) => {
-      server.on('listening', () => {
-        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2)
-        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(`📝  The configuration file ${config} has been loaded`)
-        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch('🌎  The RestQA dashboard is started and available on the url: http://localhost:8081')
-        resolve()
-      })
-      expect(server.listening).toBe(true)
-    })
-  })
+      server.on("listening", () => {
+        expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2);
+        expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
+          `📝  The configuration file ${config} has been loaded`
+        );
+        expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
+          "🌎  The RestQA dashboard is started and available on the url: http://localhost:8081"
+        );
+        resolve();
+      });
+      expect(server.listening).toBe(true);
+    });
+  });
 
-  test('Get the http server instance', () => {
+  test("Get the http server instance", () => {
     const content = `
 ---
 
@@ -165,17 +186,17 @@ environments:
         enabled: true
         config:
           path: 'my-report.json'
-      `
-    const config = jestqa.createTmpFile(content, '.restqa.yml')
+      `;
+    const config = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const Dashboard = require('./dashboard')
+    const Dashboard = require("./dashboard");
     server = Dashboard({
       serve: false,
       config
-    })
+    });
 
-    const http = require('http')
-    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(0)
-    expect(server.constructor.name).toBe(http.createServer().constructor.name)
-  })
-})
+    const http = require("http");
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(0);
+    expect(server.constructor.name).toBe(http.createServer().constructor.name);
+  });
+});

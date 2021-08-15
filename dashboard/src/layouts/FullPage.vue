@@ -11,7 +11,6 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url('~@/assets/images/pages/full-page-bg.jpg')
+  background-image: url("~@/assets/images/pages/full-page-bg.jpg");
 }
 </style>
-

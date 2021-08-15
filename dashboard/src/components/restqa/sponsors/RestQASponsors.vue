@@ -1,37 +1,39 @@
 <template>
   <card title="Sponsors" emoji="⭐️" :loading="null === sponsors">
-    <div class="sponsors" v-if="sponsors" >
-      <a v-for="(sponsor, index)  in sponsors"
+    <div class="sponsors" v-if="sponsors">
+      <a
+        v-for="(sponsor, index) in sponsors"
         :key="index"
         :href="sponsor.url"
         :title="sponsor.name"
         class="sponsor"
         target="_blank"
-        >
+      >
         <img :src="sponsor.logo" :alt="sponsor.name" />
       </a>
     </div>
     <div class="join">
-     <el-link href="https://github.com/sponsors/restqa" target="_blank">Your logo here</el-link>
+      <el-link href="https://github.com/sponsors/restqa" target="_blank"
+        >Your logo here</el-link
+      >
     </div>
   </card>
 </template>
 
 <script>
-import Card from '@/components/UI/card/Card'
+import Card from "@/components/UI/card/Card";
 
 export default {
-  name: 'RestQASponsors',
+  name: "RestQASponsors",
   components: {
     Card
   },
   computed: {
     sponsors() {
-      const  { sponsors } = this.$store.getters.info || { sponsors: null }
-      return sponsors
+      const {sponsors} = this.$store.getters.info || {sponsors: null};
+      return sponsors;
     }
   }
-}
+};
 </script>
 <style src="./RestQASponsors.scss" lang="scss" scoped />
-

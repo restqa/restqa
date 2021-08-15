@@ -1,5 +1,4 @@
-.step-definition{
-
+.step-definition {
   padding-left: 25px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -33,11 +32,11 @@
     //box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
     overflow: auto;
 
-    &.debug-info{
+    &.debug-info {
       background: #f4f4f5;
     }
 
-    &.debug-error{
+    &.debug-error {
       background: #fef0f0;
     }
   }

@@ -7,6 +7,6 @@ const state = {
   features: [],
   selectedFile: null,
   preferences: {}
-}
+};
 
-export default state
+export default state;

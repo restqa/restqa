@@ -1,3 +1,3 @@
-const Provider = require('./provider')
+const Provider = require("./provider");
 
-process.on('message', Provider)
+process.on("message", Provider);

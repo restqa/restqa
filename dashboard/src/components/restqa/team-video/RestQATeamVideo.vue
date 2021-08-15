@@ -1,6 +1,6 @@
 <template>
   <card title="Latest video" emoji="🎬" :loading="!video.url">
-    <div class="team-video" v-if="video.url" >
+    <div class="team-video" v-if="video.url">
       <div class="video">
         <div class="date">{{ date }}</div>
         <a :href="video.last.url" target="_blank">
@@ -9,36 +9,39 @@
         </a>
       </div>
       <div class="channel">
-        <el-link :href="video.url" target="_blank" type="primary">Access to all the video</el-link>
+        <el-link :href="video.url" target="_blank" type="primary"
+          >Access to all the video</el-link
+        >
       </div>
     </div>
   </card>
 </template>
 
 <script>
-import Card from '@/components/UI/card/Card'
+import Card from "@/components/UI/card/Card";
 
 export default {
-  name: 'RestQATeamVideo',
+  name: "RestQATeamVideo",
   components: {
     Card
   },
   computed: {
-    date () {
-      const d = new Date(this.video.last.date)
+    date() {
+      const d = new Date(this.video.last.date);
       const options = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }
-      return d.toLocaleDateString('en-CA', options)
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      };
+      return d.toLocaleDateString("en-CA", options);
     },
-    video () {
-      const  { video } = (this.$store.getters.info && this.$store.getters.info.team) || { video: {}  }
-      return video
+    video() {
+      const {video} = (this.$store.getters.info &&
+        this.$store.getters.info.team) || {video: {}};
+      return video;
     }
   }
-}
+};
 </script>
 
 <style src="./RestQATeamVideo.scss" lang="scss" scoped />

@@ -5,20 +5,20 @@
 </template>
 
 <script>
-import Card from '@/components/UI/card/Card'
+import Card from "@/components/UI/card/Card";
 
 export default {
-  name: 'RestQAProjectResult',
+  name: "RestQAProjectResult",
   components: {
     Card
   },
-  data () {
+  data() {
     return {
       dev: null,
-      img: require('@/assets/images/preview.png')
-    }
+      img: require("@/assets/images/preview.png")
+    };
   }
-}
+};
 </script>
 <style scoped>
 img {

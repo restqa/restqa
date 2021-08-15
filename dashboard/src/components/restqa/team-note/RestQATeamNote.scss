@@ -1,11 +1,10 @@
-.team-note{
-
+.team-note {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
 
   .quote {
-    padding-left: 15px; 
+    padding-left: 15px;
 
     .message {
       font-style: italic;
@@ -18,4 +17,3 @@
     }
   }
 }
-

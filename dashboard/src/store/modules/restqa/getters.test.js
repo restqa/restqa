@@ -1,174 +1,187 @@
-import getters from './getters'
+import getters from "./getters";
 
-describe('getters', () => {
-  describe('loadConfig', () => {
-    test('get the current loading config state', () => {
+describe("getters", () => {
+  describe("loadConfig", () => {
+    test("get the current loading config state", () => {
       const state = {
         loadingConfig: true
-      }
+      };
 
-      const result = getters.loadingConfig(state)
-      expect(result).toEqual(true)
-    })
-  })
+      const result = getters.loadingConfig(state);
+      expect(result).toEqual(true);
+    });
+  });
 
-  describe('environements', () => {
-    test('get the environments state', () => {
+  describe("environements", () => {
+    test("get the environments state", () => {
       const state = {
         config: {
-          version: '0.0.1',
+          version: "0.0.1",
           metadata: {
-            code: 'FEATURE',
-            name: 'feature',
-            description: 'fff'
+            code: "FEATURE",
+            name: "feature",
+            description: "fff"
           },
-          environments: [{
-            name: 'local',
-            plugins: [{
-              name: '@restqa/restqapi',
-              config: {
-                url: 'http://localhost:3000'
-              }
-            }],
-            outputs: [{
-              type: 'html',
-              enabled: true
-            },{
-              type: 'file',
-              enabled: true,
-              config: {
-                path: 'restqa-result.json'
-              }
-            }]
-          }, {
-            name: 'uat',
-            default: true,
-            plugins: [{
-              name: '@restqa/faker-plugin',
-              config: {
-                url: 'https://docs.restqa.io'
-              }
-            }, {
-              name: '@restqa/restqapi',
-              config: {
-                url: 'https://uat.restqa.io'
-              }
-            }],
-            outputs: [{
-              type: 'html',
-              enabled: true
-            }]
-          }]
+          environments: [
+            {
+              name: "local",
+              plugins: [
+                {
+                  name: "@restqa/restqapi",
+                  config: {
+                    url: "http://localhost:3000"
+                  }
+                }
+              ],
+              outputs: [
+                {
+                  type: "html",
+                  enabled: true
+                },
+                {
+                  type: "file",
+                  enabled: true,
+                  config: {
+                    path: "restqa-result.json"
+                  }
+                }
+              ]
+            },
+            {
+              name: "uat",
+              default: true,
+              plugins: [
+                {
+                  name: "@restqa/faker-plugin",
+                  config: {
+                    url: "https://docs.restqa.io"
+                  }
+                },
+                {
+                  name: "@restqa/restqapi",
+                  config: {
+                    url: "https://uat.restqa.io"
+                  }
+                }
+              ],
+              outputs: [
+                {
+                  type: "html",
+                  enabled: true
+                }
+              ]
+            }
+          ]
         }
-      }
+      };
 
-      const result = getters.environments(state)
-      expect(result).toEqual(['local', 'uat'])
-    })
-  })
+      const result = getters.environments(state);
+      expect(result).toEqual(["local", "uat"]);
+    });
+  });
 
-  describe('selectedEnv', () => {
-    test('get the current selectedEnv state', () => {
+  describe("selectedEnv", () => {
+    test("get the current selectedEnv state", () => {
       const state = {
-        selectedEnv: 'uat'
-      }
+        selectedEnv: "uat"
+      };
 
-      const result = getters.selectedEnv(state)
-      expect(result).toEqual('uat')
-    })
-  })
+      const result = getters.selectedEnv(state);
+      expect(result).toEqual("uat");
+    });
+  });
 
-  describe('getConfig', () => {
-    test('get the current config', () => {
+  describe("getConfig", () => {
+    test("get the current config", () => {
       const state = {
         config: {
-          foo: 'bar'
+          foo: "bar"
         }
-      }
+      };
 
-      const result = getters.config(state)
-      expect(result).toEqual({ foo: 'bar' })
-    })
-  })
+      const result = getters.config(state);
+      expect(result).toEqual({foo: "bar"});
+    });
+  });
 
-  describe('getSteps', () => {
-    test('get the step definition', () => {
+  describe("getSteps", () => {
+    test("get the step definition", () => {
       const state = {
-        steps: [{
-          foo: 'bar'
-        }]
-      }
+        steps: [
+          {
+            foo: "bar"
+          }
+        ]
+      };
 
-      const result = getters.steps(state)
-      expect(result).toEqual([{ foo: 'bar' }])
-    })
-  })
+      const result = getters.steps(state);
+      expect(result).toEqual([{foo: "bar"}]);
+    });
+  });
 
-  describe('getInfo', () => {
-    test('get the current info', () => {
+  describe("getInfo", () => {
+    test("get the current info", () => {
       const state = {
         info: {
-          foo: 'bar'
+          foo: "bar"
         }
-      }
+      };
 
-      const result = getters.info(state)
-      expect(result).toEqual({ foo: 'bar' })
-    })
-  })
+      const result = getters.info(state);
+      expect(result).toEqual({foo: "bar"});
+    });
+  });
 
-  describe('getFeatures', () => {
-    test('get the current feature list', () => {
+  describe("getFeatures", () => {
+    test("get the current feature list", () => {
       const state = {
-        features: [
-          '/test.foo'
-        ]
-      }
+        features: ["/test.foo"]
+      };
 
-      const result = getters.features(state)
-      expect(result).toEqual([ '/test.foo' ])
-    })
-  })
+      const result = getters.features(state);
+      expect(result).toEqual(["/test.foo"]);
+    });
+  });
 
-  describe('selectedFile', () => {
-    test('get the current selected file', () => {
+  describe("selectedFile", () => {
+    test("get the current selected file", () => {
       const state = {
-        selectedFile: '/test.foo'
-      }
+        selectedFile: "/test.foo"
+      };
 
-      const result = getters.selectedFile(state)
-      expect(result).toEqual('/test.foo')
-    })
-  })
+      const result = getters.selectedFile(state);
+      expect(result).toEqual("/test.foo");
+    });
+  });
 
-  describe('preferences', () => {
-    test('get the user preferences', () => {
+  describe("preferences", () => {
+    test("get the user preferences", () => {
       const state = {
         preferences: {
           telemetry: true
         }
-      }
+      };
 
-      const result = getters.preferences(state)
-      expect(result).toEqual({ telemetry: true })
-    })
-  })
+      const result = getters.preferences(state);
+      expect(result).toEqual({telemetry: true});
+    });
+  });
 
-  describe('testResult', () => {
-    test('get the test result', () => {
+  describe("testResult", () => {
+    test("get the test result", () => {
       const state = {
         testResult: {
-          foo: 'bar'
+          foo: "bar"
         }
-      }
+      };
 
-      const result = getters.testResult(state)
-      expect(result).toEqual({ foo: 'bar' })
-    })
-  })
+      const result = getters.testResult(state);
+      expect(result).toEqual({foo: "bar"});
+    });
+  });
 
-  describe('readOnly', () => {
-    test('get the readonly status', () => {
+  describe("readOnly", () => {
+    test("get the readonly status", () => {
       const state = {
         config: {
           restqa: {
@@ -177,44 +190,43 @@ describe('getters', () => {
             }
           }
         }
-      }
+      };
 
-      const result = getters.readOnly(state)
-      expect(result).toEqual(state.config.restqa.dashboard.readOnly)
-    })
+      const result = getters.readOnly(state);
+      expect(result).toEqual(state.config.restqa.dashboard.readOnly);
+    });
 
-    test('get false when readOnly property doesn\'t exist', () => {
+    test("get false when readOnly property doesn't exist", () => {
       const state = {
         config: {
           restqa: {
             dashboard: {}
           }
         }
-      }
+      };
 
-      const result = getters.readOnly(state)
-      expect(result).toEqual(false)
-    })
+      const result = getters.readOnly(state);
+      expect(result).toEqual(false);
+    });
 
-    test('get false is the dashboard property doesn\'t exists', () => {
+    test("get false is the dashboard property doesn't exists", () => {
       const state = {
         config: {
-          restqa: {
-          }
+          restqa: {}
         }
-      }
+      };
 
-      const result = getters.readOnly(state)
-      expect(result).toEqual(false)
-    })
+      const result = getters.readOnly(state);
+      expect(result).toEqual(false);
+    });
 
-    test('get false is the restqa property doesn\'t exists', () => {
+    test("get false is the restqa property doesn't exists", () => {
       const state = {
         config: {}
-      }
+      };
 
-      const result = getters.readOnly(state)
-      expect(result).toEqual(false)
-    })
-  })
-})
+      const result = getters.readOnly(state);
+      expect(result).toEqual(false);
+    });
+  });
+});
