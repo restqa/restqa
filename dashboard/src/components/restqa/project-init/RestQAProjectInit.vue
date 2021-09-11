@@ -1,5 +1,5 @@
 <template>
-  <card title="Project Initialiization" emoji="🚀" :loading="loader">
+  <card title="Project Initialization" emoji="🚀" :loading="loader">
     <el-form ref="form" :model="form" label-width="120px">
       <el-form-item label="Name">
         <el-input v-model="form.name"></el-input>

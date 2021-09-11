@@ -4,7 +4,7 @@
       <a
         v-for="(sponsor, index) in sponsors"
         :key="index"
-        :href="sponsor.url"
+        :href="sponsor.url + '?utm_source=dashboard&utm_medium=referral&utm_campaign=restqa'"
         :title="sponsor.name"
         class="sponsor"
         target="_blank"
