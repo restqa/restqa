@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.33] - 2021-08-xx
 
+* Track sponsor redirection from the dashboard (from: [masonwoodford](https://github.com/masonwoodford)) | [#120](https://github.com/restqa/restqa/pull/139)
+
 ## [0.0.32] - 2021-07-27
 
 ### Added
