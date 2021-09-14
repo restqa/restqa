@@ -1,6 +1,6 @@
 const {Table} = require("console-table-printer");
 const Config = require("../config");
-const Bootstrap = require("../bootstrap");
+const Bootstrap = require("../core/bootstrap");
 const chalk = require("chalk");
 
 function getSteps(keyword, options) {
