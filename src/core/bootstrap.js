@@ -1,7 +1,7 @@
 const {World, Data} = require("@restqa/restqa-plugin-bootstrap");
 
-const Config = require("./config");
-const logger = require("./utils/logger");
+const Config = require("../config");
+const logger = require("../utils/logger");
 const path = require("path");
 
 const Module = require("module");
