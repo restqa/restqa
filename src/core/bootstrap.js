@@ -1,6 +1,5 @@
-const {World, Data} = require("@restqa/restqa-plugin-bootstrap");
-
 const Config = require("../config");
+const Data = require('./data');
 const logger = require("../utils/logger");
 const path = require("path");
 
@@ -26,63 +25,47 @@ module.exports = function (processor, options = {}) {
   }
 
   const {
-    After,
-    AfterAll,
-    Before,
-    BeforeAll,
-    Given,
-    When,
-    Then,
     defineParameterType,
     setWorldConstructor
   } = processor;
 
-  const parameterTypes = [];
   const config = new Config(options);
   if (config.restqa && config.restqa.timeout) {
     processor.setDefaultTimeout(config.restqa.timeout);
   }
   logger.info("service.select_environment", config.environment.name);
 
-  function pluginLoader(plugin) {
-    options.plugin = plugin.name;
-    const Plugin = getPluginModule(plugin.name);
-    if (config.environment.data) {
-      plugin.config.data = {
-        startSymbol: config.environment.data.startSymbol,
-        endSymbol: config.environment.data.endSymbol
-      };
-    }
-
-    const instance = new Plugin(plugin.config);
-
-    instance.setParameterType((el) => {
-      if (parameterTypes.includes(el.name)) return;
-      defineParameterType(el);
-      parameterTypes.push(el.name);
+  // Plugin settings
+  const plugins = config
+    .environment
+    .plugins
+    .map((plugin) => {
+      const instance = getPluginModule(plugin.name);
+      instance._apply(processor, plugin.config);
+      options.plugin = plugin._name;
+      return instance
     });
-    instance.setSteps({Given, When, Then});
-    instance.setHooks({Before, BeforeAll, After, AfterAll});
 
-    const __CLASS_NAME__ = instance.getWorld();
-    return new __CLASS_NAME__({});
+  // Data settings
+  const {data, secrets} = config.environment;
+  const dataInstance = new Data(data);
+  if (secrets) {
+    Object.keys(secrets).forEach((_) => dataInstance.set(_, secrets[_]));
   }
 
-  const Plugins = config.environment.plugins.map(pluginLoader);
+  const regexp = new RegExp(`${data.startSymbol.replace(/(?=\W)/g, '\\')}(.*)${data.endSymbol.replace(/(?=\W)/g, '\\')}`)
+  defineParameterType({
+    regexp,
+    transformer: function (value) {
+      value = `${data.startSymbol} ${value} ${data.endSymbol}`
+      return this.data.get(value)
+    },
+    name: 'data'
+  })
 
-  class RestQA extends World {
-    constructor(obj) {
-      super(obj);
-      const {data, secrets} = config.environment;
-      this._data = new Data(data);
-      if (secrets) {
-        Object.keys(secrets).forEach((_) => this._data.set(_, secrets[_]));
-      }
-      Plugins.forEach((world) => world.setup.call(this));
-    }
-  }
-
-  setWorldConstructor(RestQA);
+  // World settings
+  const world = getWorld(plugins, dataInstance);
+  setWorldConstructor(world);
 };
 
 function getPluginModule(name) {
@@ -102,4 +85,24 @@ function getPluginModule(name) {
   }
 
   return result;
+}
+
+function getWorld (plugins, data) {
+  const states = plugins.reduce((obj, plugin) => {
+    obj[plugin._name] = plugin._state
+    return obj
+  }, {})
+
+  return class {
+    constructor() {
+      for (const [key, value] of Object.entries(states)) {
+        this[key] = value;
+      }
+      this._data = data
+    }
+
+    get data() {
+      return this._data;
+    }
+  }
 }

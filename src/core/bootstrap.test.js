@@ -1,6 +1,4 @@
-const fs = require("fs");
-const path = require("path");
-const os = require("os");
+const Plugin = require('@restqa/plugin');
 
 const jestqa = new JestQA(__filename, true);
 
@@ -8,8 +6,6 @@ beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
 
 describe("#bootstrap", () => {
-  let filename;
-
   test("Throw error if the processor is undefined", () => {
     const Bootstrap = require("./bootstrap");
     expect(() => {
@@ -80,9 +76,6 @@ metadata:
 environments:
   - name: local
     default: true
-    data:
-      startSymbol: '[['
-      endSymbol: ']]'
     secrets:
       foo: bar
     plugins:
@@ -95,29 +88,10 @@ environments:
     `;
     const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
-    const mockSetup = jest.fn();
-    const mockInstancePlugin = {
-      setParameterType: jest.fn(),
-      setSteps: jest.fn(),
-      setHooks: jest.fn(),
-      getWorld: jest.fn(() => {
-        return function () {
-          return {
-            setup: mockSetup
-          };
-        };
-      })
-    };
-
-    let passConfig;
-    jest.mock("@restqa/restqapi", () => {
-      return function (config) {
-        passConfig = config;
-        return mockInstancePlugin;
-      };
-    });
-
-    let worldResult;
+    const mockPlugin = new Plugin({ name: 'restqapi' })
+    mockPlugin.addGivenStep('my step', () => {})
+    mockPlugin.addState('host', 'https://example.com')
+    jest.mock("@restqa/restqapi", () => mockPlugin)
 
     const processor = {
       After: jest.fn(),
@@ -128,9 +102,7 @@ environments:
       When: jest.fn(),
       Then: jest.fn(),
       defineParameterType: jest.fn(),
-      setWorldConstructor: (Obj) => {
-        worldResult = new Obj({});
-      },
+      setWorldConstructor: jest.fn(),
       setDefaultTimeout: jest.fn()
     };
     const options = {
@@ -141,30 +113,26 @@ environments:
 
     Bootstrap(processor, options);
 
-    expect(passConfig).toEqual({
-      url: "https://api.restqa.io",
-      data: {
-        startSymbol: "[[",
-        endSymbol: "]]"
-      }
+    expect(mockPlugin.getConfig()).toEqual({
+      url: "https://api.restqa.io"
     });
-    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(1);
-    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(1);
-    expect(mockInstancePlugin.setSteps.mock.calls[0][0]).toEqual({
-      Given: processor.Given,
-      When: processor.When,
-      Then: processor.Then
-    });
-    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(1);
-    expect(mockInstancePlugin.setHooks.mock.calls[0][0]).toEqual({
-      BeforeAll: processor.BeforeAll,
-      Before: processor.Before,
-      AfterAll: processor.AfterAll,
-      After: processor.After
-    });
-    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(1);
-    expect(mockSetup.mock.calls).toHaveLength(1);
-    expect(worldResult._data.get("[[ foo ]]")).toBe("bar");
+
+    expect(processor.Given).toHaveBeenCalledTimes(1);
+    expect(processor.Given.mock.calls[0][0]).toEqual('my step')
+
+    expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
+
+    expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
+    const World = processor.setWorldConstructor.mock.calls[0][0];
+    const world = new World({})
+    expect(world.restqapi.host).toBe("https://example.com");
+    expect(world.data.get("{{ foo }}")).toBe("bar");
+
+    const { regexp, transformer, name } = processor.defineParameterType.mock.calls[0][0]
+    expect(regexp).toEqual(/\{\{(.*)\}\}/)
+    expect(name).toEqual('data')
+    expect(transformer.call(world, 'foo')).toEqual('bar')
+
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
       '🎯 The selected environment is: "local"'
@@ -172,7 +140,6 @@ environments:
   });
 
   test("Load plugin restqapi and restqkube then run setup the processor (+ setup the timeout)", () => {
-    filename = path.resolve(os.tmpdir(), ".restqa-sample.yml");
     const content = `
 ---
 version: 0.0.1
@@ -202,45 +169,24 @@ environments:
 restqa:
   timeout: 10000
     `;
-    fs.writeFileSync(filename, content);
+    const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
-    const mockSetup = jest.fn();
-    const mockInstancePlugin = {
-      setParameterType: jest.fn(),
-      setSteps: jest.fn(),
-      setHooks: jest.fn(),
-      getWorld: jest.fn(() => {
-        return function () {
-          return {
-            setup: mockSetup
-          };
-        };
-      })
-    };
+    const mockPlugins = [
+      (new Plugin({ name: 'restqapi' })).addGivenStep('my given step', () => {}).addState('host', 'https://example.com'),
+      (new Plugin({ name: 'reskube' })).addThenStep('my then step', () => {}).addState('cluster', 'example.cluster.local'),
+    ]
 
-    let passConfigRestQapi;
-    jest.mock("@restqa/restqapi", () => {
-      return function (config) {
-        passConfigRestQapi = config;
-        return mockInstancePlugin;
-      };
-    });
+    jest.mock("@restqa/restqapi", () => mockPlugins[0])
 
-    let passConfigRestQkube;
     jest.mock("module", () => {
       return {
-        createRequire: (path) => {
-          return (pluginName) => {
+        createRequire:  () => {
             return function (config) {
-              passConfigRestQkube = config;
-              return mockInstancePlugin;
-            };
-          };
+              return mockPlugins[1]
+            }
         }
-      };
-    });
-
-    let worldResult;
+      }
+    })
 
     const processor = {
       After: jest.fn(),
@@ -251,11 +197,10 @@ restqa:
       When: jest.fn(),
       Then: jest.fn(),
       defineParameterType: jest.fn(),
-      setWorldConstructor: (Obj) => {
-        worldResult = new Obj({});
-      },
+      setWorldConstructor: jest.fn(),
       setDefaultTimeout: jest.fn()
     };
+
     const options = {
       configFile: filename
     };
@@ -264,197 +209,41 @@ restqa:
 
     Bootstrap(processor, options);
 
-    expect(passConfigRestQapi).toEqual({
-      url: "https://api.restqa.io",
-      data: {
-        startSymbol: "[[",
-        endSymbol: "]]"
-      }
+    expect(mockPlugins[0].getConfig()).toEqual({
+      url: "https://api.restqa.io"
     });
 
-    expect(passConfigRestQkube).toEqual({
+    expect(processor.Given).toHaveBeenCalledTimes(1);
+    expect(processor.Given.mock.calls[0][0]).toEqual('my given step')
+
+    expect(mockPlugins[1].getConfig()).toEqual({
       kube: {
-        config: "./kubeconfig"
-      },
-      data: {
-        startSymbol: "[[",
-        endSymbol: "]]"
+        config: './kubeconfig'
       }
     });
 
-    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(2);
-    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(2);
-    expect(mockInstancePlugin.setSteps.mock.calls[0][0]).toEqual({
-      Given: processor.Given,
-      When: processor.When,
-      Then: processor.Then
-    });
-    expect(mockInstancePlugin.setSteps.mock.calls[1][0]).toEqual({
-      Given: processor.Given,
-      When: processor.When,
-      Then: processor.Then
-    });
-    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(2);
-    expect(mockInstancePlugin.setHooks.mock.calls[0][0]).toEqual({
-      BeforeAll: processor.BeforeAll,
-      Before: processor.Before,
-      AfterAll: processor.AfterAll,
-      After: processor.After
-    });
-    expect(mockInstancePlugin.setHooks.mock.calls[1][0]).toEqual({
-      BeforeAll: processor.BeforeAll,
-      Before: processor.Before,
-      AfterAll: processor.AfterAll,
-      After: processor.After
-    });
-    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2);
-    expect(mockSetup.mock.calls).toHaveLength(2);
-    expect(worldResult._data.get("[[ foo ]]")).toBe("bar");
+    expect(processor.Then).toHaveBeenCalledTimes(1);
+    expect(processor.Then.mock.calls[0][0]).toEqual('my then step')
+
     expect(processor.setDefaultTimeout.mock.calls).toHaveLength(1);
     expect(processor.setDefaultTimeout.mock.calls[0][0]).toEqual(10000);
-  });
 
-  test("Load plugin restqapi and restqkube then run setup the processor but avoid ParameterType collision", () => {
-    filename = path.resolve(os.tmpdir(), ".restqa-sample.yml");
-    const content = `
----
-version: 0.0.1
-metadata:
-  code: APP
-  name: app
-  description: Configuration generated by restqa init
-environments:
-  - name: local
-    default: true
-    data:
-      startSymbol: '[['
-      endSymbol: ']]'
-    secrets:
-      foo: bar
-    plugins:
-      - name: restqapi
-        config:
-          url: https://api.restqa.io
-      - name: restqkube
-        config:
-          kube:
-            config: ./kubeconfig
-    outputs:
-      - type: html
-        enabled: true
-    `;
-    fs.writeFileSync(filename, content);
 
-    const mockSetup = jest.fn();
-    const mockInstancePlugin = {
-      setParameterType: jest.fn((fn) => {
-        fn({
-          name: "data"
-        });
-      }),
-      setSteps: jest.fn(),
-      setHooks: jest.fn(),
-      getWorld: jest.fn(() => {
-        return function () {
-          return {
-            setup: mockSetup
-          };
-        };
-      })
-    };
+    expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
+    const World = processor.setWorldConstructor.mock.calls[0][0];
+    const world = new World({})
+    expect(world.restqapi.host).toBe("https://example.com");
+    expect(world.data.get("[[ foo ]]")).toBe("bar");
 
-    let passConfigRestQapi;
-    jest.mock("@restqa/restqapi", () => {
-      return function (config) {
-        passConfigRestQapi = config;
-        return mockInstancePlugin;
-      };
-    });
+    expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
+    const { regexp, transformer, name } = processor.defineParameterType.mock.calls[0][0]
+    expect(regexp).toEqual(/\[\[(.*)\]\]/)
+    expect(name).toEqual('data')
+    expect(transformer.call(world, 'foo')).toEqual('bar')
 
-    let passConfigRestQkube;
-    jest.mock("module", () => {
-      return {
-        createRequire: (path) => {
-          return (pluginName) => {
-            return function (config) {
-              passConfigRestQkube = config;
-              return mockInstancePlugin;
-            };
-          };
-        }
-      };
-    });
-
-    let worldResult;
-
-    const processor = {
-      After: jest.fn(),
-      AfterAll: jest.fn(),
-      Before: jest.fn(),
-      BeforeAll: jest.fn(),
-      Given: jest.fn(),
-      When: jest.fn(),
-      Then: jest.fn(),
-      defineParameterType: jest.fn(),
-      setWorldConstructor: (Obj) => {
-        worldResult = new Obj({});
-      },
-      setDefaultTimeout: jest.fn()
-    };
-    const options = {
-      configFile: filename
-    };
-
-    const Bootstrap = require("./bootstrap");
-
-    Bootstrap(processor, options);
-
-    expect(passConfigRestQapi).toEqual({
-      url: "https://api.restqa.io",
-      data: {
-        startSymbol: "[[",
-        endSymbol: "]]"
-      }
-    });
-
-    expect(passConfigRestQkube).toEqual({
-      kube: {
-        config: "./kubeconfig"
-      },
-      data: {
-        startSymbol: "[[",
-        endSymbol: "]]"
-      }
-    });
-
-    expect(mockInstancePlugin.setParameterType.mock.calls).toHaveLength(2);
-    expect(processor.defineParameterType.mock.calls).toHaveLength(1);
-    expect(mockInstancePlugin.setSteps.mock.calls).toHaveLength(2);
-    expect(mockInstancePlugin.setSteps.mock.calls[0][0]).toEqual({
-      Given: processor.Given,
-      When: processor.When,
-      Then: processor.Then
-    });
-    expect(mockInstancePlugin.setSteps.mock.calls[1][0]).toEqual({
-      Given: processor.Given,
-      When: processor.When,
-      Then: processor.Then
-    });
-    expect(mockInstancePlugin.setHooks.mock.calls).toHaveLength(2);
-    expect(mockInstancePlugin.setHooks.mock.calls[0][0]).toEqual({
-      BeforeAll: processor.BeforeAll,
-      Before: processor.Before,
-      AfterAll: processor.AfterAll,
-      After: processor.After
-    });
-    expect(mockInstancePlugin.setHooks.mock.calls[1][0]).toEqual({
-      BeforeAll: processor.BeforeAll,
-      Before: processor.Before,
-      AfterAll: processor.AfterAll,
-      After: processor.After
-    });
-    expect(mockInstancePlugin.getWorld.mock.calls).toHaveLength(2);
-    expect(mockSetup.mock.calls).toHaveLength(2);
-    expect(worldResult._data.get("[[ foo ]]")).toBe("bar");
+    expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
+    expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
+      '🎯 The selected environment is: "local"'
+    );
   });
 });
