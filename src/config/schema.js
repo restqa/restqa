@@ -13,13 +13,13 @@ function validate(config) {
         })
       )
       .required(),
-    data: {
+    data: Joi.object({
       storage: Joi.string(),
       channel: Joi.string(),
       config: Joi.object({}).unknown(),
-      startSymbol: Joi.string(),
-      endSymbol: Joi.string()
-    },
+      startSymbol: Joi.string().default('{{'),
+      endSymbol: Joi.string().default('}}')
+    }).default(),
     outputs: Joi.array().items(
       Joi.object({
         type: Joi.string(),
