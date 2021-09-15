@@ -1,5 +1,5 @@
 const Config = require("../config");
-const Data = require('./data');
+const Data = require("./data");
 const logger = require("../utils/logger");
 const path = require("path");
 
@@ -24,10 +24,7 @@ module.exports = function (processor, options = {}) {
     );
   }
 
-  const {
-    defineParameterType,
-    setWorldConstructor
-  } = processor;
+  const {defineParameterType, setWorldConstructor} = processor;
 
   const config = new Config(options);
   if (config.restqa && config.restqa.timeout) {
@@ -36,15 +33,12 @@ module.exports = function (processor, options = {}) {
   logger.info("service.select_environment", config.environment.name);
 
   // Plugin settings
-  const plugins = config
-    .environment
-    .plugins
-    .map((plugin) => {
-      const instance = getPluginModule(plugin.name);
-      instance._apply(processor, plugin.config);
-      options.plugin = plugin._name;
-      return instance
-    });
+  const plugins = config.environment.plugins.map((plugin) => {
+    options.plugin = plugin.name;
+    const instance = getPluginModule(plugin.name);
+    instance._commit(processor, plugin.config);
+    return instance;
+  });
 
   // Data settings
   const {data, secrets} = config.environment;
@@ -53,15 +47,20 @@ module.exports = function (processor, options = {}) {
     Object.keys(secrets).forEach((_) => dataInstance.set(_, secrets[_]));
   }
 
-  const regexp = new RegExp(`${data.startSymbol.replace(/(?=\W)/g, '\\')}(.*)${data.endSymbol.replace(/(?=\W)/g, '\\')}`)
+  const regexp = new RegExp(
+    `${data.startSymbol.replace(/(?=\W)/g, "\\")}(.*)${data.endSymbol.replace(
+      /(?=\W)/g,
+      "\\"
+    )}`
+  );
   defineParameterType({
     regexp,
     transformer: function (value) {
-      value = `${data.startSymbol} ${value} ${data.endSymbol}`
-      return this.data.get(value)
+      value = `${data.startSymbol} ${value} ${data.endSymbol}`;
+      return this.data.get(value);
     },
-    name: 'data'
-  })
+    name: "data"
+  });
 
   // World settings
   const world = getWorld(plugins, dataInstance);
@@ -87,22 +86,22 @@ function getPluginModule(name) {
   return result;
 }
 
-function getWorld (plugins, data) {
+function getWorld(plugins, data) {
   const states = plugins.reduce((obj, plugin) => {
-    obj[plugin._name] = plugin._state
-    return obj
-  }, {})
+    obj[plugin._name] = plugin._getState();
+    return obj;
+  }, {});
 
   return class {
     constructor() {
       for (const [key, value] of Object.entries(states)) {
         this[key] = value;
       }
-      this._data = data
+      this._data = data;
     }
 
     get data() {
       return this._data;
     }
-  }
+  };
 }

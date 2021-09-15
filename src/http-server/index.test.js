@@ -197,7 +197,7 @@ restqa:
     });
   });
 
-  describe("/api/steps", () => {
+  describe.skip("/api/steps", () => {
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false;
       const response = await request(server(config)).get(

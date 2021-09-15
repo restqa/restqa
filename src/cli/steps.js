@@ -34,7 +34,7 @@ function getSteps(keyword, options) {
 
   Bootstrap(cucumber, options);
 
-  return result[keyword];
+  return result[keyword] || [];
 }
 
 module.exports = function (keyword, program) {
@@ -106,7 +106,7 @@ module.exports = function (keyword, program) {
   if (tag) {
     const reg = new RegExp(tag);
     steps = steps.filter((step) => {
-      return step.tag.match(reg);
+      return step.tag.some((str) => str.match(reg));
     });
   }
 
