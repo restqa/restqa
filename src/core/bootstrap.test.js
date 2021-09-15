@@ -1,4 +1,4 @@
-const Plugin = require('@restqa/plugin');
+const Plugin = require("@restqa/plugin");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -88,10 +88,10 @@ environments:
     `;
     const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
-    const mockPlugin = new Plugin({ name: 'restqapi' })
-    mockPlugin.addGivenStep('my step', () => {})
-    mockPlugin.addState('host', 'https://example.com')
-    jest.mock("@restqa/restqapi", () => mockPlugin)
+    const mockPlugin = new Plugin("restqapi");
+    mockPlugin.addGivenStep("my step", () => {});
+    mockPlugin.addState("host", "https://example.com");
+    jest.mock("@restqa/restqapi", () => mockPlugin);
 
     const processor = {
       After: jest.fn(),
@@ -118,20 +118,21 @@ environments:
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(1);
-    expect(processor.Given.mock.calls[0][0]).toEqual('my step')
+    expect(processor.Given.mock.calls[0][0]).toEqual("my step");
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
 
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];
-    const world = new World({})
+    const world = new World({});
     expect(world.restqapi.host).toBe("https://example.com");
     expect(world.data.get("{{ foo }}")).toBe("bar");
 
-    const { regexp, transformer, name } = processor.defineParameterType.mock.calls[0][0]
-    expect(regexp).toEqual(/\{\{(.*)\}\}/)
-    expect(name).toEqual('data')
-    expect(transformer.call(world, 'foo')).toEqual('bar')
+    const {regexp, transformer, name} =
+      processor.defineParameterType.mock.calls[0][0];
+    expect(regexp).toEqual(/\{\{(.*)\}\}/);
+    expect(name).toEqual("data");
+    expect(transformer.call(world, "foo")).toEqual("bar");
 
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
@@ -172,21 +173,25 @@ restqa:
     const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
     const mockPlugins = [
-      (new Plugin({ name: 'restqapi' })).addGivenStep('my given step', () => {}).addState('host', 'https://example.com'),
-      (new Plugin({ name: 'reskube' })).addThenStep('my then step', () => {}).addState('cluster', 'example.cluster.local'),
-    ]
+      new Plugin("restqapi")
+        .addGivenStep("my given step", () => {})
+        .addState("host", "https://example.com"),
+      new Plugin("reskube")
+        .addThenStep("my then step", () => {})
+        .addState("cluster", "example.cluster.local")
+    ];
 
-    jest.mock("@restqa/restqapi", () => mockPlugins[0])
+    jest.mock("@restqa/restqapi", () => mockPlugins[0]);
 
     jest.mock("module", () => {
       return {
-        createRequire:  () => {
-            return function (config) {
-              return mockPlugins[1]
-            }
+        createRequire: () => {
+          return function (config) {
+            return mockPlugins[1];
+          };
         }
-      }
-    })
+      };
+    });
 
     const processor = {
       After: jest.fn(),
@@ -214,32 +219,32 @@ restqa:
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(1);
-    expect(processor.Given.mock.calls[0][0]).toEqual('my given step')
+    expect(processor.Given.mock.calls[0][0]).toEqual("my given step");
 
     expect(mockPlugins[1].getConfig()).toEqual({
       kube: {
-        config: './kubeconfig'
+        config: "./kubeconfig"
       }
     });
 
     expect(processor.Then).toHaveBeenCalledTimes(1);
-    expect(processor.Then.mock.calls[0][0]).toEqual('my then step')
+    expect(processor.Then.mock.calls[0][0]).toEqual("my then step");
 
     expect(processor.setDefaultTimeout.mock.calls).toHaveLength(1);
     expect(processor.setDefaultTimeout.mock.calls[0][0]).toEqual(10000);
 
-
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];
-    const world = new World({})
+    const world = new World({});
     expect(world.restqapi.host).toBe("https://example.com");
     expect(world.data.get("[[ foo ]]")).toBe("bar");
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
-    const { regexp, transformer, name } = processor.defineParameterType.mock.calls[0][0]
-    expect(regexp).toEqual(/\[\[(.*)\]\]/)
-    expect(name).toEqual('data')
-    expect(transformer.call(world, 'foo')).toEqual('bar')
+    const {regexp, transformer, name} =
+      processor.defineParameterType.mock.calls[0][0];
+    expect(regexp).toEqual(/\[\[(.*)\]\]/);
+    expect(name).toEqual("data");
+    expect(transformer.call(world, "foo")).toEqual("bar");
 
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
