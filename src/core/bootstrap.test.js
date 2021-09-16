@@ -125,7 +125,7 @@ environments:
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];
     const world = new World({});
-    expect(world.restqapi.host).toBe("https://example.com");
+    expect(world.getState("host")).toBe("https://example.com");
     expect(world.data.get("{{ foo }}")).toBe("bar");
 
     const {regexp, transformer, name} =
@@ -214,6 +214,11 @@ restqa:
 
     Bootstrap(processor, options);
 
+    expect(processor.Before).toHaveBeenCalledTimes(2);
+    expect(processor.Before.mock.calls[0][0]).toEqual({tags: "@skip or @wip"});
+    expect(processor.Before.mock.calls[0][1]).toEqual(expect.any(Function));
+    expect(processor.Before.mock.calls[1][0]).toEqual(expect.any(Function));
+
     expect(mockPlugins[0].getConfig()).toEqual({
       url: "https://api.restqa.io"
     });
@@ -236,7 +241,7 @@ restqa:
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];
     const world = new World({});
-    expect(world.restqapi.host).toBe("https://example.com");
+    expect(world.getState("host")).toBe("https://example.com");
     expect(world.data.get("[[ foo ]]")).toBe("bar");
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
