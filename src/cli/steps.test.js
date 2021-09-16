@@ -142,14 +142,14 @@ environments:
 
     expect(mockAddRow.mock.calls).toHaveLength(2);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "@restqa/restqapi",
+      Plugin: "restqapi",
       Keyword: "given",
       Step: `my definition ${chalk.yellow("{string}")}`,
       Comment: "my comment"
     });
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
-      Plugin: "@restqa/restqapi",
+      Plugin: "restqapi",
       Keyword: "given",
       Step: `ma definition ${chalk.yellow("{int}")} and ${chalk.yellow(
         "{string}"
@@ -159,13 +159,13 @@ environments:
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "@restqa/restqapi",
+        Plugin: "restqapi",
         Keyword: "given",
         Step: `my definition ${chalk.yellow("{string}")}`,
         Comment: "my comment"
       },
       {
-        Plugin: "@restqa/restqapi",
+        Plugin: "restqapi",
         Keyword: "given",
         Step: `ma definition ${chalk.yellow("{int}")} and ${chalk.yellow(
           "{string}"
@@ -249,21 +249,21 @@ environments:
 
     expect(mockAddRow.mock.calls).toHaveLength(3);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "@restqa/restqapi",
+      Plugin: "restqapi",
       Keyword: "then",
       Step: "my definition",
       Comment: "my comment"
     });
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
-      Plugin: "@restqa/restqapi",
+      Plugin: "restqapi",
       Keyword: "then",
       Step: "ma definition",
       Comment: "mon commentaire"
     });
 
     expect(mockAddRow.mock.calls[2][0]).toEqual({
-      Plugin: "@restqa/restqmocki",
+      Plugin: "restqmocki",
       Keyword: "then",
       Step: "ma definition de mock",
       Comment: "mon commentaire de mock"
@@ -271,19 +271,19 @@ environments:
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "@restqa/restqapi",
+        Plugin: "restqapi",
         Keyword: "then",
         Step: "my definition",
         Comment: "my comment"
       },
       {
-        Plugin: "@restqa/restqapi",
+        Plugin: "restqapi",
         Keyword: "then",
         Step: "ma definition",
         Comment: "mon commentaire"
       },
       {
-        Plugin: "@restqa/restqmocki",
+        Plugin: "restqmocki",
         Keyword: "then",
         Step: "ma definition de mock",
         Comment: "mon commentaire de mock"
@@ -448,14 +448,14 @@ environments:
 
     expect(mockAddRow.mock.calls).toHaveLength(1);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "@restqa/restqmocki",
+      Plugin: "restqmocki",
       Keyword: "then",
       Step: "ma definition de mock"
     });
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "@restqa/restqmocki",
+        Plugin: "restqmocki",
         Keyword: "then",
         Step: "ma definition de mock"
       }
@@ -536,7 +536,7 @@ environments:
 
     expect(mockAddRow.mock.calls).toHaveLength(1);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "@restqa/restqmocki",
+      Plugin: "restqmocki",
       Keyword: "then",
       Step: "ma definition de mock",
       Comment: "mon commentaire de mock"
@@ -544,7 +544,7 @@ environments:
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "@restqa/restqmocki",
+        Plugin: "restqmocki",
         Keyword: "then",
         Step: "ma definition de mock",
         Comment: "mon commentaire de mock"
@@ -625,7 +625,7 @@ environments:
 
     expect(mockAddRow.mock.calls).toHaveLength(1);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "@restqa/restqmocki",
+      Plugin: "restqmocki",
       Keyword: "then",
       Step: "ma definition de mock",
       Comment: "mon commentaire de mock"
@@ -633,7 +633,7 @@ environments:
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "@restqa/restqmocki",
+        Plugin: "restqmocki",
         Keyword: "then",
         Step: "ma definition de mock",
         Comment: "mon commentaire de mock"
@@ -702,14 +702,14 @@ environments:
 
     expect(mockAddRow.mock.calls).toHaveLength(2);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "@restqa/restqapi",
+      Plugin: "restqapi",
       Keyword: "given",
       Step: "my definition",
       Comment: "my comment"
     });
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
-      Plugin: "@restqa/restqapi",
+      Plugin: "restqapi",
       Keyword: "given",
       Step: "my definitions",
       Comment: "my comments"
@@ -718,13 +718,13 @@ environments:
     expect(mockPrintTable.mock.calls).toHaveLength(0);
     expect(result).toEqual([
       {
-        Plugin: "@restqa/restqapi",
+        Plugin: "restqapi",
         Keyword: "given",
         Step: "my definition",
         Comment: "my comment"
       },
       {
-        Plugin: "@restqa/restqapi",
+        Plugin: "restqapi",
         Keyword: "given",
         Step: "my definitions",
         Comment: "my comments"

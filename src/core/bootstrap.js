@@ -2,6 +2,7 @@ const Config = require("../config");
 const Data = require("./data");
 const logger = require("../utils/logger");
 const path = require("path");
+const RestQAData = require("@restqa/restqdata");
 
 const Module = require("module");
 
@@ -24,7 +25,7 @@ module.exports = function (processor, options = {}) {
     );
   }
 
-  const {defineParameterType, setWorldConstructor} = processor;
+  const {defineParameterType, setWorldConstructor, Before} = processor;
 
   const config = new Config(options);
   if (config.restqa && config.restqa.timeout) {
@@ -34,15 +35,16 @@ module.exports = function (processor, options = {}) {
 
   // Plugin settings
   const plugins = config.environment.plugins.map((plugin) => {
-    options.plugin = plugin.name;
     const instance = getPluginModule(plugin.name);
+    options.plugin = instance.name;
     instance._commit(processor, plugin.config);
     return instance;
   });
 
   // Data settings
   const {data, secrets} = config.environment;
-  const dataInstance = new Data(data);
+  const provider = RestQAData(data);
+  const dataInstance = new Data(data, provider);
   if (secrets) {
     Object.keys(secrets).forEach((_) => dataInstance.set(_, secrets[_]));
   }
@@ -60,6 +62,15 @@ module.exports = function (processor, options = {}) {
       return this.data.get(value);
     },
     name: "data"
+  });
+
+  Before({tags: "@skip or @wip"}, function () {
+    this.skipped = true;
+    return "skipped";
+  });
+
+  Before(async function (scenario) {
+    await this.data.parse(scenario);
   });
 
   // World settings
@@ -88,8 +99,7 @@ function getPluginModule(name) {
 
 function getWorld(plugins, data) {
   const states = plugins.reduce((obj, plugin) => {
-    obj[plugin._name] = plugin._getState();
-    return obj;
+    return Object.assign(obj, plugin._getState());
   }, {});
 
   return class {
@@ -98,10 +108,23 @@ function getWorld(plugins, data) {
         this[key] = value;
       }
       this._data = data;
+      this._state = states;
+    }
+
+    getState(key) {
+      return this._state[key];
     }
 
     get data() {
       return this._data;
+    }
+
+    set log(value) {
+      this._log = value;
+    }
+
+    get log() {
+      return this._log || console.log; // eslint-disable-line no-console
     }
   };
 }
