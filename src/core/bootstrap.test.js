@@ -125,8 +125,11 @@ environments:
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];
     const world = new World({});
-    expect(world.getState("host")).toBe("https://example.com");
+    expect(world.state.host).toBe("https://example.com");
     expect(world.data.get("{{ foo }}")).toBe("bar");
+    expect(world.getConfig('restqapi')).toEqual({
+      url: "https://api.restqa.io"
+    });
 
     const {regexp, transformer, name} =
       processor.defineParameterType.mock.calls[0][0];
@@ -241,7 +244,7 @@ restqa:
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];
     const world = new World({});
-    expect(world.getState("host")).toBe("https://example.com");
+    expect(world.state.host).toBe("https://example.com");
     expect(world.data.get("[[ foo ]]")).toBe("bar");
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);

@@ -102,17 +102,19 @@ function getWorld(plugins, data) {
     return Object.assign(obj, plugin._getState());
   }, {});
 
+  const config = plugins.reduce((obj, plugin) => {
+    obj[plugin.name] = plugin.getConfig()
+    return obj
+  }, {});
+
   return class {
     constructor() {
       for (const [key, value] of Object.entries(states)) {
         this[key] = value;
       }
       this._data = data;
-      this._state = states;
-    }
-
-    getState(key) {
-      return this._state[key];
+      this._config = config;
+      this.state = states;
     }
 
     get data() {
@@ -125,6 +127,10 @@ function getWorld(plugins, data) {
 
     get log() {
       return this._log || console.log; // eslint-disable-line no-console
+    }
+
+    getConfig (pluginName) {
+      return this._config[pluginName]
     }
   };
 }
