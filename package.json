@@ -48,6 +48,7 @@
     "@restqa/cucumber-export": "^0.1.11",
     "@restqa/restqa-plugin-bootstrap": "0.0.4",
     "@restqa/restqapi": "^0.1.0",
+    "@restqa/restqdata": "^0.1.1",
     "chalk": "^4.0.0",
     "commander": "^8.0.0",
     "console-table-printer": "^2.9.0",
@@ -68,6 +69,7 @@
   },
   "main": "src/index.js",
   "devDependencies": {
+    "@restqa/plugin": "0.0.1",
     "bats": "^1.3.0",
     "bats-assert": "git+https://github.com/bats-core/bats-assert.git",
     "bats-file": "git+https://github.com/bats-core/bats-file.git",
