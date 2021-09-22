@@ -113,7 +113,7 @@ environments:
 
     Bootstrap(processor, options);
 
-    expect(mockPlugin.getConfig()).toEqual({
+    expect(mockPlugin._getConfig()).toEqual({
       url: "https://api.restqa.io"
     });
 
@@ -222,14 +222,14 @@ restqa:
     expect(processor.Before.mock.calls[0][1]).toEqual(expect.any(Function));
     expect(processor.Before.mock.calls[1][0]).toEqual(expect.any(Function));
 
-    expect(mockPlugins[0].getConfig()).toEqual({
+    expect(mockPlugins[0]._getConfig()).toEqual({
       url: "https://api.restqa.io"
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(1);
     expect(processor.Given.mock.calls[0][0]).toEqual("my given step");
 
-    expect(mockPlugins[1].getConfig()).toEqual({
+    expect(mockPlugins[1]._getConfig()).toEqual({
       kube: {
         config: "./kubeconfig"
       }
