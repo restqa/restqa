@@ -103,15 +103,18 @@ function getWorld(plugins, data) {
   }, {});
 
   const config = plugins.reduce((obj, plugin) => {
-    obj[plugin.name] = plugin.getConfig()
+    obj[plugin.name] = plugin._config
     return obj
   }, {});
 
   return class {
-    constructor() {
+    constructor ({ attach, parameters }) {
       for (const [key, value] of Object.entries(states)) {
         this[key] = value;
       }
+
+      this.attach = attach
+      this.parameters = parameters
       this._data = data;
       this._config = config;
       this.state = states;

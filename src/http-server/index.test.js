@@ -197,7 +197,7 @@ restqa:
     });
   });
 
-  describe.skip("/api/steps", () => {
+  describe("/api/steps", () => {
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false;
       const response = await request(server(config)).get(
@@ -253,7 +253,7 @@ environments:
         {
           comment: "Trigger the api request",
           keyword: "when",
-          plugin: "@restqa/restqapi",
+          plugin: "restqapi",
           step: "I run the API"
         }
       ];
