@@ -10,7 +10,7 @@ environments:
       - name: '@restqa/restqapi'
         config:
           url: https://api.restqa.io
-      - name: '@restqa/restqkube'
+      - name: '@restqa/faker-plugin'
         config:
           url: https://api.restqa.io
     outputs:
