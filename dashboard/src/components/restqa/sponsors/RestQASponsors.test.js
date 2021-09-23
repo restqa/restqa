@@ -63,7 +63,10 @@ describe("RestQASponsors", () => {
     expect(wrappers[0].find("img").attributes("alt")).toEqual(
       mockSponsors[0].name
     );
-    expect(wrappers[0].attributes("href")).toEqual(mockSponsors[0].url + "?utm_source=dashboard&utm_medium=referral&utm_campaign=restqa");
+    expect(wrappers[0].attributes("href")).toEqual(
+      mockSponsors[0].url +
+        "?utm_source=dashboard&utm_medium=referral&utm_campaign=restqa"
+    );
     expect(wrappers[0].attributes("title")).toEqual(mockSponsors[0].name);
     expect(wrappers[0].attributes("target")).toEqual("_blank");
 
@@ -73,7 +76,10 @@ describe("RestQASponsors", () => {
     expect(wrappers[1].find("img").attributes("alt")).toEqual(
       mockSponsors[1].name
     );
-    expect(wrappers[1].attributes("href")).toEqual(mockSponsors[1].url + "?utm_source=dashboard&utm_medium=referral&utm_campaign=restqa");
+    expect(wrappers[1].attributes("href")).toEqual(
+      mockSponsors[1].url +
+        "?utm_source=dashboard&utm_medium=referral&utm_campaign=restqa"
+    );
     expect(wrappers[1].attributes("title")).toEqual(mockSponsors[1].name);
     expect(wrappers[1].attributes("target")).toEqual("_blank");
   });
