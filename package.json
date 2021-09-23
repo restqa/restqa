@@ -83,6 +83,7 @@
     "got": "^11.8.2",
     "jest": "^26.6.3",
     "jest-runner-eslint": "^0.10.0",
+    "jest-runner-prettier": "^0.3.7",
     "nock": "^13.0.11",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
@@ -103,7 +104,10 @@
     ],
     "projects": [
       {
-        "displayName": "test",
+        "displayName": {
+          "name": "test",
+          "color": "yellow"
+        },
         "setupFilesAfterEnv": [
           "<rootDir>/jest.setup.js"
         ],
@@ -116,6 +120,17 @@
         "displayName": "lint",
         "testMatch": [
           "<rootDir>/bin/restqa",
+          "<rootDir>/src/**/*.js"
+        ]
+      },
+      {
+        "runner": "jest-runner-prettier",
+        "displayName": {
+          "name": "prettier",
+          "color": "blue"
+        },
+        "testMatch": [
+          "<rootDir>/dashboard/src/**/*.js",
           "<rootDir>/src/**/*.js"
         ]
       }
