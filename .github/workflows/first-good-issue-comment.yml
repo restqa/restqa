@@ -1,0 +1,39 @@
+name: Issue - Good First Issue
+on:
+  issues:
+    types:
+      - labeled
+
+jobs:
+  discord-notify:
+    if: github.event.label.name == 'good first issue'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_CONTRIBUTION_WEBHOOK }}
+          DISCORD_EMBEDS: |
+            [{
+              "title": "[WANTED] ${{ github.event.issue.title }}",
+              "description": "Hi there 👋,\n\nWe have a new issue that require some help on the repository: ${{ github.event.issue.repository.full_name }} 😇.\nWho wants to contribute ?\n\n[#${{ github.event.issue.number }} ${{ github.event.issue.title }}](${{ github.event.issue.html_url }})",
+              "url": "${{ github.event.issue.html_url }}",
+              "color": 11032831
+             }]
+        uses: Ilshidur/action-discord@master
+  reply-comment:
+    if: github.event.label.name == 'good first issue'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Download the template
+        id: step_one
+        run: |
+             echo 'TEMPLATE<<EOF' >> $GITHUB_ENV
+             curl https://raw.githubusercontent.com/restqa/.github/master/issue-comments/good-first-issue.md >> $GITHUB_ENV
+             echo 'EOF' >> $GITHUB_ENV
+      - name: Add comment on the issue
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: ${{ env.TEMPLATE }}
