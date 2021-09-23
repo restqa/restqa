@@ -34,12 +34,9 @@ module.exports = function (processor, options = {}) {
   logger.info("service.select_environment", config.environment.name);
 
   // Plugin settings
-  const plugins = config.environment.plugins.map((plugin) => {
-    const instance = getPluginModule(plugin.name);
-    options.plugin = instance.name;
-    instance._commit(processor, plugin.config);
-    return instance;
-  });
+  const plugins = config.environment.plugins.map(
+    getPluginModule(options, processor)
+  );
 
   // Data settings
   const {data, secrets} = config.environment;
@@ -48,20 +45,11 @@ module.exports = function (processor, options = {}) {
   if (secrets) {
     Object.keys(secrets).forEach((_) => dataInstance.set(_, secrets[_]));
   }
-
-  const regexp = new RegExp(
-    `${data.startSymbol.replace(/(?=\W)/g, "\\")}(.*)${data.endSymbol.replace(
-      /(?=\W)/g,
-      "\\"
-    )}`
-  );
-  defineParameterType({
-    regexp,
-    transformer: function (value) {
-      value = `${data.startSymbol} ${value} ${data.endSymbol}`;
-      return this.data.get(value);
-    },
-    name: "data"
+  defineParameterType(buildParameterTypeRegexp(data));
+  Before(async function (scenario) {
+    // In order to fetch the dynamic data from extenral sources.
+    // Let's parse the scenario to get all the placeholder
+    await this.data.parse(scenario);
   });
 
   Before({tags: "@skip or @wip"}, function () {
@@ -69,32 +57,33 @@ module.exports = function (processor, options = {}) {
     return "skipped";
   });
 
-  Before(async function (scenario) {
-    await this.data.parse(scenario);
-  });
-
   // World settings
   const world = getWorld(plugins, dataInstance);
   setWorldConstructor(world);
 };
 
-function getPluginModule(name) {
-  // Due to some changes we need to handle retro-compatibility
-  if (["restqapi"].includes(name)) {
-    name = `@restqa/${name}`;
-  }
+function getPluginModule(options, processor) {
+  return function (plugin) {
+    let {name} = plugin;
 
-  let result;
-  if (name === "@restqa/restqapi") {
-    result = require(name);
-  } else {
-    result = Module.createRequire(
-      path.resolve(process.env.RESTQA_PROJECT_FOLDER || process.cwd(), ".") +
-        path.sep
-    )(name);
-  }
+    // Due to some changes we need to handle retro-compatibility
+    if (["restqapi"].includes(name)) {
+      name = `@restqa/${name}`;
+    }
 
-  return result;
+    let instance;
+    if (name === "@restqa/restqapi") {
+      instance = require(name);
+    } else {
+      instance = Module.createRequire(
+        path.resolve(process.env.RESTQA_PROJECT_FOLDER || process.cwd(), ".") +
+          path.sep
+      )(name);
+    }
+    options.plugin = instance.name;
+    instance._commit(processor, plugin.config);
+    return instance;
+  };
 }
 
 function getWorld(plugins, data) {
@@ -103,18 +92,18 @@ function getWorld(plugins, data) {
   }, {});
 
   const config = plugins.reduce((obj, plugin) => {
-    obj[plugin.name] = plugin._config
-    return obj
+    obj[plugin.name] = plugin._config;
+    return obj;
   }, {});
 
   return class {
-    constructor ({ attach, parameters }) {
+    constructor({attach, parameters}) {
       for (const [key, value] of Object.entries(states)) {
         this[key] = value;
       }
 
-      this.attach = attach
-      this.parameters = parameters
+      this.attach = attach;
+      this.parameters = parameters;
       this._data = data;
       this._config = config;
       this.state = states;
@@ -132,8 +121,26 @@ function getWorld(plugins, data) {
       return this._log || console.log; // eslint-disable-line no-console
     }
 
-    getConfig (pluginName) {
-      return this._config[pluginName]
+    getConfig(pluginName) {
+      return this._config[pluginName];
     }
+  };
+}
+
+function buildParameterTypeRegexp(data) {
+  const regexp = new RegExp(
+    `${data.startSymbol.replace(/(?=\W)/g, "\\")}(.*)${data.endSymbol.replace(
+      /(?=\W)/g,
+      "\\"
+    )}`
+  );
+
+  return {
+    regexp,
+    transformer: function (value) {
+      value = `${data.startSymbol} ${value} ${data.endSymbol}`;
+      return this.data.get(value);
+    },
+    name: "data"
   };
 }

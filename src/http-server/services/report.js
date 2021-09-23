@@ -23,7 +23,7 @@ module.exports = {
     const config = {
       folder,
       browserOpening: false
-    }
+    };
 
     await HtmlReport(config, testResult);
     return {

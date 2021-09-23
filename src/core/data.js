@@ -18,14 +18,12 @@ module.exports = class {
       throw new Error("The endSymbol should contains 2 charaters");
     }
 
-    const o = {
-      start: `\\${this._options.startSymbol[0]}\\${
-        this._options.startSymbol[1]
-      }([^${"\\" + this._options.startSymbol[0]}`,
-      end: `\\${this._options.endSymbol[0]}]+)\\${this._options.endSymbol[0]}\\${this._options.endSymbol[1]}`
-    };
+    const start = `\\${this._options.startSymbol[0]}\\${
+      this._options.startSymbol[1]
+    }([^${"\\" + this._options.startSymbol[0]}`;
+    const end = `\\${this._options.endSymbol[0]}]+)\\${this._options.endSymbol[0]}\\${this._options.endSymbol[1]}`;
 
-    this.matchRegexp = new RegExp(`${o.start}${o.end}`); // Build a regex like : /\{\{([^\{\}]+)\}\}/ to match all the values with placeholders
+    this.matchRegexp = new RegExp(`${start}${end}`); // Build a regex like : /\{\{([^\{\}]+)\}\}/ to match all the values with placeholders
     this.dataRegex = /(.*).(\d).(.*)/;
 
     this.store = {};
