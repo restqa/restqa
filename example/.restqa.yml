@@ -10,6 +10,8 @@ environments:
       - name: "@restqa/restqapi"
         config:
           url: https://jsonplaceholder.typicode.com
+          performance:
+            tool: artillery 
     outputs:
       - type: html
         enabled: true

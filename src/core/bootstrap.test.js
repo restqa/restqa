@@ -89,7 +89,7 @@ environments:
     const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
     const mockPlugin = new Plugin("restqapi");
-    mockPlugin.addGivenStep("my step", () => {});
+    mockPlugin.addGivenStep("my step", () => {}, "my description", "example");
     mockPlugin.addState("host", "https://example.com");
     jest.mock("@restqa/restqapi", () => mockPlugin);
 
@@ -118,7 +118,12 @@ environments:
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(1);
-    expect(processor.Given.mock.calls[0][0]).toEqual("my step");
+    expect(processor.Given).toHaveBeenCalledWith(
+      "my step",
+      expect.any(Function),
+      "my description",
+      ["restqapi", "example"]
+    );
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
 
@@ -127,7 +132,7 @@ environments:
     const world = new World({});
     expect(world.state.host).toBe("https://example.com");
     expect(world.data.get("{{ foo }}")).toBe("bar");
-    expect(world.getConfig('restqapi')).toEqual({
+    expect(world.getConfig("restqapi")).toEqual({
       url: "https://api.restqa.io"
     });
 
@@ -179,7 +184,7 @@ restqa:
       new Plugin("restqapi")
         .addGivenStep("my given step", () => {})
         .addState("host", "https://example.com"),
-      new Plugin("reskube")
+      new Plugin("restqkube")
         .addThenStep("my then step", () => {})
         .addState("cluster", "example.cluster.local")
     ];
@@ -218,16 +223,24 @@ restqa:
     Bootstrap(processor, options);
 
     expect(processor.Before).toHaveBeenCalledTimes(2);
-    expect(processor.Before.mock.calls[0][0]).toEqual({tags: "@skip or @wip"});
-    expect(processor.Before.mock.calls[0][1]).toEqual(expect.any(Function));
-    expect(processor.Before.mock.calls[1][0]).toEqual(expect.any(Function));
+
+    expect(processor.Before).toHaveBeenCalledWith(expect.any(Function));
+    expect(processor.Before).toHaveBeenLastCalledWith(
+      {tags: "@skip or @wip"},
+      expect.any(Function)
+    );
 
     expect(mockPlugins[0]._getConfig()).toEqual({
       url: "https://api.restqa.io"
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(1);
-    expect(processor.Given.mock.calls[0][0]).toEqual("my given step");
+    expect(processor.Given).toHaveBeenCalledWith(
+      "my given step",
+      expect.any(Function),
+      undefined,
+      ["restqapi"]
+    );
 
     expect(mockPlugins[1]._getConfig()).toEqual({
       kube: {
@@ -236,10 +249,15 @@ restqa:
     });
 
     expect(processor.Then).toHaveBeenCalledTimes(1);
-    expect(processor.Then.mock.calls[0][0]).toEqual("my then step");
+    expect(processor.Then).toHaveBeenCalledWith(
+      "my then step",
+      expect.any(Function),
+      undefined,
+      ["restqkube"]
+    );
 
-    expect(processor.setDefaultTimeout.mock.calls).toHaveLength(1);
-    expect(processor.setDefaultTimeout.mock.calls[0][0]).toEqual(10000);
+    expect(processor.setDefaultTimeout).toHaveBeenCalledTimes(1);
+    expect(processor.setDefaultTimeout).toHaveBeenCalledWith(10000);
 
     expect(processor.setWorldConstructor).toHaveBeenCalledTimes(1);
     const World = processor.setWorldConstructor.mock.calls[0][0];

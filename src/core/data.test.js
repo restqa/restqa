@@ -76,35 +76,58 @@ describe("# Data", () => {
   test("add/get values to the datastore (string)", () => {
     const options = {};
     const data = new Data(options);
-    data.set("foo", "bar");
-    expect(data.get("foo")).toEqual("foo");
-    expect(data.get("{{foo")).toEqual("{{foo");
-    expect(data.get("{{ foo}}")).toEqual("bar");
-    expect(data.get("{{ foo }}")).toEqual("bar");
-    expect(data.get("{{foo }}")).toEqual("bar");
-    expect(data.get("{{foo}}")).toEqual("bar");
+    const key = "foo";
+    const value = "bar";
+
+    data.set(key, value);
+
+    // Return back the key passed in args
+    const wrongKey = "foo";
+    expect(data.get(wrongKey)).toEqual(wrongKey);
+    const wrongKey2 = "{{foo";
+    expect(data.get(wrongKey2)).toEqual(wrongKey2);
+    // on so on ...
     expect(data.get("{{foo o }}")).toEqual("{{foo o }}");
+
+    // Good cases
+    expect(data.get("{{ foo}}")).toEqual(value);
+    expect(data.get("{{ foo }}")).toEqual(value);
+    expect(data.get("{{foo }}")).toEqual(value);
+    expect(data.get("{{foo}}")).toEqual(value);
   });
 
   test("add/get values to the datastore (integer)", () => {
     const options = {};
     const data = new Data(options);
-    data.set("foo", 2021);
-    expect(data.get("foo")).toEqual("foo");
-    expect(data.get("{{foo")).toEqual("{{foo");
-    expect(data.get("{{ foo}}")).toEqual(2021);
-    expect(data.get("{{ foo }}")).toEqual(2021);
-    expect(data.get("{{foo }}")).toEqual(2021);
-    expect(data.get("{{foo}}")).toEqual(2021);
-    expect(data.get("{{foo}} year")).toEqual("2021 year");
+    const key = "foo";
+    const value = 2021;
+
+    data.set(key, value);
+
+    // Return back the key passed in args
+    const wrongKey = "foo";
+    expect(data.get(wrongKey)).toEqual(wrongKey);
+    const wrongKey2 = "{{foo";
+    expect(data.get(wrongKey2)).toEqual(wrongKey2);
+    // on so on ...
     expect(data.get("{{foo o }} Nice")).toEqual("{{foo o }} Nice");
+
+    // Good cases
+    expect(data.get("{{ foo}}")).toEqual(value);
+    expect(data.get("{{ foo }}")).toEqual(value);
+    expect(data.get("{{foo }}")).toEqual(value);
+    expect(data.get("{{foo}}")).toEqual(value);
+    expect(data.get("{{foo}} year")).toEqual("2021 year");
   });
 
   test("Do not parse the data from the scenario since the there is no channel associated", () => {
     const provider = {
       get: jest.fn()
     };
-    const data = new Data(null, provider);
+    const options = {
+      channel: undefined
+    };
+    const data = new Data(options, provider);
     const scenario = `
       Hello {{ user.2.name }}
     `;
@@ -127,7 +150,7 @@ describe("# Data", () => {
     `;
     await data.parse({scenario});
     expect(provider.get).toHaveBeenCalledTimes(1);
-    expect(provider.get.mock.calls[0]).toEqual(["user", "2"]);
+    expect(provider.get).toHaveBeenCalledWith("user", "2");
     expect(data.get("{{ user.2.firstName }}")).toEqual("john");
     expect(data.get("{{ user.2.lastName }}")).toEqual("doe");
   });
@@ -154,10 +177,10 @@ describe("# Data", () => {
     `;
     await data.parse({scenario});
     expect(provider.get).toHaveBeenCalledTimes(2);
-    expect(provider.get.mock.calls[0]).toEqual(["user", "2"]);
+    expect(provider.get).toHaveBeenCalledWith("user", "2");
     expect(data.get("{{ user.2.firstName }}")).toEqual("john");
     expect(data.get("{{ user.2.lastName }}")).toEqual("doe");
-    expect(provider.get.mock.calls[1]).toEqual(["president", "5"]);
+    expect(provider.get).toHaveBeenLastCalledWith("president", "5");
     expect(data.get("{{ president.5.firstName }}")).toEqual("Vladimir");
     expect(data.get("{{ president.5.lastName }}")).toEqual("Putin");
   });
@@ -193,7 +216,7 @@ describe("# Data", () => {
     expect(data.get("{{ user.1.lastName }}")).toEqual("doe");
 
     expect(processor).toHaveBeenCalledTimes(1);
-    expect(processor.mock.calls[0][0]).toBe("firstName");
+    expect(processor).toHaveBeenCalledWith("firstName");
   });
 
   test("add data processor but one of the value from the processor is undefined", async () => {
@@ -216,7 +239,7 @@ describe("# Data", () => {
     expect(data.get("{{ faker.lastName }}")).toEqual("{{ faker.lastName }}");
 
     expect(processor).toHaveBeenCalledTimes(2);
-    expect(processor.mock.calls[0][0]).toBe("firstName");
-    expect(processor.mock.calls[1][0]).toBe("lastName");
+    expect(processor).toHaveBeenCalledWith("firstName");
+    expect(processor).toHaveBeenLastCalledWith("lastName");
   });
 });
