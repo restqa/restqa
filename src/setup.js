@@ -1,5 +1,5 @@
 const Cucumber = require("@cucumber/cucumber");
-const Bootstrap = require("./bootstrap");
+const Bootstrap = require("./core/bootstrap");
 
 if (global.restqaOptions.env) {
   process.env.RESTQA_ENV =

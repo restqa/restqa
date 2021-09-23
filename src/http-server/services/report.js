@@ -20,7 +20,12 @@ module.exports = {
     if (folder) {
       folder = path.resolve(folder, testResult.id);
     }
-    await HtmlReport({folder}, testResult);
+    const config = {
+      folder,
+      browserOpening: false
+    };
+
+    await HtmlReport(config, testResult);
     return {
       id: testResult.id
     };

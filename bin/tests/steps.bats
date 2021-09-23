@@ -20,8 +20,8 @@ MAINDIR="$BATS_TMPDIR/restqa-bats-tests"
 WORKDIR="$MAINDIR/steps"
 
 setup_file() {
-  echo "--> Installing the npm package @restqa/restqkube into the $MAINDIR folder" >&3
-  npm install @restqa/restqkube --prefix $MAINDIR
+  echo "--> Installing the npm package @restqa/faker-plugin into the $MAINDIR folder" >&3
+  npm install @restqa/faker-plugin --prefix $MAINDIR
 }
 
 setup() {
@@ -77,7 +77,7 @@ teardown() {
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   assert_output --partial 'Comment'
-  assert_output --partial '@restqa/restqapi'
+  assert_output --partial 'restqapi'
   assert_output --partial 'given'
   assert_output --partial 'I have the api gateway'
   assert_output --partial 'Create a new api request targeting the default api gateway'
@@ -93,7 +93,7 @@ teardown() {
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   assert_output --partial 'Comment'
-  assert_output --partial '@restqa/restqapi'
+  assert_output --partial 'restqapi'
   assert_output --partial 'given'
   assert_output --partial 'I have the api gateway'
   assert_output --partial 'Create a new api request targeting the default api gateway'
@@ -110,36 +110,36 @@ teardown() {
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   assert_output --partial 'Comment'
-  assert_output --partial '@restqa/restqapi'
+  assert_output --partial 'restqapi'
   assert_output --partial 'given'
   assert_output --partial 'I have the api gateway'
   assert_output --partial 'Create a new api request targeting the default api gateway'
 }
 
 @test "[STEPS]> Successfull multi-plugin" {
-  cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
+  cp ./bin/tests/features/success/.restqa-plugin-faker.yml "$WORKDIR/.restqa.-success-faker.yml"
   cd $WORKDIR
-  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given
+  run restqa steps -c "$WORKDIR/.restqa.-success-faker.yml" given
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   assert_output --partial 'Plugin'
   assert_output --partial 'Keyword'
   assert_output --partial 'Step'
   assert_output --partial 'Comment'
-  assert_output --partial '@restqa/restqapi'
+  assert_output --partial 'restqapi'
   assert_output --partial 'given'
   assert_output --partial 'I have the api gateway'
   assert_output --partial 'Create a new api request targeting the default api gateway'
-  assert_output --partial '@restqa/restqkube'
+  assert_output --partial 'faker'
   assert_output --partial 'given'
-  assert_output --partial 'I have my cluster'
-  assert_output --partial 'Create a cluster instance'
+  assert_output --partial 'fake locale = {string}'
+  assert_output --partial 'Define the local to user for the fake data'
 }
 
 @test "[STEPS]> Successfull multi-plugin but filter per tag" {
-  cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
+  cp ./bin/tests/features/success/.restqa-plugin-faker.yml "$WORKDIR/.restqa.-success-faker.yml"
   cd $WORKDIR
-  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url -o large
+  run restqa steps -c "$WORKDIR/.restqa.-success-faker.yml" given -t url -o large
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   assert_output --partial 'Plugin'
@@ -147,7 +147,7 @@ teardown() {
   assert_output --partial 'Step'
   assert_output --partial 'Comment'
   # assert_line --index 3 --partial '─────'
-  assert_line --index 4 --partial '@restqa/restqapi'
+  assert_line --index 4 --partial 'restqapi'
   assert_line --index 4 --partial 'given'
   assert_line --index 4 --partial 'I have the api gateway'
   assert_line --index 4 --partial 'Create a new api request targeting the default api gateway'
@@ -155,15 +155,15 @@ teardown() {
   assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
   assert_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
   # assert_line --index 6 --partial '─────'
-  refute_output --partial '@restqa/restqkube'
+  refute_output --partial 'faker'
   refute_output --partial 'I have my cluster'
   refute_output --partial 'Create a cluster instance'
 }
 
 @test "[STEPS]> Successfull multi-plugin but filter per tag and short output" {
-  cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
+  cp ./bin/tests/features/success/.restqa-plugin-faker.yml "$WORKDIR/.restqa.-success-faker.yml"
   cd $WORKDIR
-  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url -o short
+  run restqa steps -c "$WORKDIR/.restqa.-success-faker.yml" given -t url -o short
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   refute_output --partial 'Plugin'
@@ -171,11 +171,11 @@ teardown() {
   assert_output --partial 'Step'
   refute_output --partial 'Comment'
   # assert_line --index 3 --partial '─────'
-  refute_line --index 4 --partial '@restqa/restqapi'
+  refute_line --index 4 --partial 'restqapi'
   assert_line --index 4 --partial 'given'
   assert_line --index 4 --partial 'I have the api gateway'
   refute_line --index 4 --partial 'Create a new api request targeting the default api gateway'
-  refute_line --index 5 --partial '@restqa/restqapi'
+  refute_line --index 5 --partial 'restqapi'
   assert_line --index 5 --partial 'given'
   assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
   refute_line --index 5 --partial 'Create a new api request targeting on a given api gateway'
@@ -183,9 +183,9 @@ teardown() {
 }
 
 @test "[STEPS]> Successfull multi-plugin but filter per tag and medium output" {
-  cp ./bin/tests/features/success/.restqa-plugin-restqkube.yml "$WORKDIR/.restqa.-success-restqkube.yml"
+  cp ./bin/tests/features/success/.restqa-plugin-faker.yml "$WORKDIR/.restqa.-success-faker.yml"
   cd $WORKDIR
-  run restqa steps -c "$WORKDIR/.restqa.-success-restqkube.yml" given -t url --output medium
+  run restqa steps -c "$WORKDIR/.restqa.-success-faker.yml" given -t url --output medium
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   assert_output --partial 'Plugin'
@@ -193,11 +193,11 @@ teardown() {
   assert_output --partial 'Step'
   refute_output --partial 'Comment'
   # assert_line --index 3 --partial '─────'
-  assert_line --index 4 --partial '@restqa/restqapi'
+  assert_line --index 4 --partial 'restqapi'
   assert_line --index 4 --partial 'given'
   assert_line --index 4 --partial 'I have the api gateway'
   refute_line --index 4 --partial 'Create a new api request targeting the default api gateway'
-  assert_line --index 5 --partial '@restqa/restqapi'
+  assert_line --index 5 --partial 'restqapi'
   assert_line --index 5 --partial 'given'
   assert_line --index 5 --partial 'I have the api gateway hosted on {string}'
   refute_line --index 5 --partial 'Create a new api request targeting on a given api gateway'

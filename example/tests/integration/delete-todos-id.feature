@@ -1,3 +1,4 @@
+@performance
 Feature: DELETE /todos/{id}
 
 Scenario: Delete todos by id
