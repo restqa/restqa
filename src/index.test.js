@@ -1,6 +1,9 @@
 const Stream = require("stream");
 const fs = require("fs");
 const path = require("path");
+const express = require("express");
+const request = require("supertest");
+const EventEmitter = require("events");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -340,6 +343,227 @@ environments:
       expect(result.constructor.name).toBe(
         http.createServer().constructor.name
       );
+    });
+  });
+
+  describe.only("# Index - Hooks", () => {
+    let server;
+    describe("Express", () => {
+      beforeEach(() => {
+        server = express().use(express.json());
+      });
+
+      afterEach(() => {
+        server = undefined;
+      });
+
+      test("Send Event on each request that passing (GET)", async (done) => {
+        const message = "hello world";
+        const opt = {
+          configFile: false,
+          sandbox: new EventEmitter()
+        };
+        const {Hooks} = require("./index");
+        Hooks.express(server, opt);
+        server.get("/hello", (req, res) => {
+          return res.json({message});
+        });
+        opt.sandbox.on("request", (request) => {
+          const expectedRequest = {
+            request: {
+              method: "GET",
+              path: "/hello",
+              query: {}
+            },
+            response: {
+              status: 200,
+              headers: {
+                "content-length": "25",
+                "content-type": "application/json; charset=utf-8",
+                "x-powered-by": "Express"
+              },
+              body: {
+                message
+              }
+            }
+          };
+          expect(request).toEqual(expectedRequest);
+          done();
+        });
+
+        const srv = request(server);
+        const responseAPI = await srv.get("/hello");
+        expect(responseAPI.status).toBe(200);
+        expect(responseAPI.body.message).toBe(message);
+
+        const responseDashboard = await srv.get("/restqa");
+        expect(responseDashboard.status).toBe(301);
+        expect(responseDashboard.header["content-type"]).toBe(
+          "text/html; charset=UTF-8"
+        );
+      });
+
+      test("Send Event on each request that passing (GET + query parameters)", async (done) => {
+        const message = "hello world";
+        const opt = {
+          configFile: false,
+          sandbox: new EventEmitter()
+        };
+        const {Hooks} = require("./index");
+        Hooks.express(server, opt);
+        server.get("/hello", (req, res) => {
+          return res.json({message});
+        });
+        opt.sandbox.on("request", (request) => {
+          const expectedRequest = {
+            request: {
+              method: "GET",
+              path: "/hello",
+              query: {
+                foo: "bar",
+                first: "parameter"
+              }
+            },
+            response: {
+              status: 200,
+              headers: {
+                "content-length": "25",
+                "content-type": "application/json; charset=utf-8",
+                "x-powered-by": "Express"
+              },
+              body: {
+                message
+              }
+            }
+          };
+          expect(request).toEqual(expectedRequest);
+          done();
+        });
+
+        const srv = request(server);
+        const responseAPI = await srv.get("/hello?foo=bar&first=parameter");
+        expect(responseAPI.status).toBe(200);
+        expect(responseAPI.body.message).toBe(message);
+
+        const responseDashboard = await srv.get("/restqa");
+        expect(responseDashboard.status).toBe(301);
+        expect(responseDashboard.header["content-type"]).toBe(
+          "text/html; charset=UTF-8"
+        );
+      });
+
+      test("Send Event on each request that passing (get + header parameters)", async (done) => {
+        const message = "hello world";
+        const opt = {
+          configFile: false,
+          sandbox: new EventEmitter()
+        };
+        const {Hooks} = require("./index");
+        Hooks.express(server, opt);
+        server.get("/hello", (req, res) => {
+          return res.json({message});
+        });
+        opt.sandbox.on("request", (request) => {
+          const expectedRequest = {
+            request: {
+              method: "GET",
+              path: "/hello",
+              headers: {
+                "x-api-key": "xxx-yyy-zzz",
+                "accept-type": "application/json",
+                "accept-encoding": "gzip, deflate",
+                "accept-type": "applicaiton/json",
+                connection: "close",
+                host: "127.0.0.1:39607"
+              },
+              query: {}
+            },
+            response: {
+              status: 200,
+              headers: {
+                "content-length": "25",
+                "content-type": "application/json; charset=utf-8",
+                "x-powered-by": "Express"
+              },
+              body: {
+                message
+              }
+            }
+          };
+          expect(request).toEqual(expectedRequest);
+          done();
+        });
+
+        const srv = request(server);
+        const responseAPI = await srv
+          .get("/hello")
+          .set("x-api-key", "xxx-yyy-zzz")
+          .set("accept-type", "applicaiton/json");
+        expect(responseAPI.status).toBe(200);
+        expect(responseAPI.body.message).toBe(message);
+
+        const responseDashboard = await srv.get("/restqa");
+        expect(responseDashboard.status).toBe(301);
+        expect(responseDashboard.header["content-type"]).toBe(
+          "text/html; charset=UTF-8"
+        );
+      });
+
+      test.only("Send Event on each request that passing (post + json body)", async (done) => {
+        const message = "hello world";
+        const opt = {
+          configFile: false,
+          sandbox: new EventEmitter()
+        };
+        const {Hooks} = require("./index");
+        Hooks.express(server, opt);
+        server.post("/greeting", (req, res) => {
+          return res.status(201).json({message});
+        });
+        opt.sandbox.on("request", (request) => {
+          const expectedRequest = {
+            request: {
+              method: "POST",
+              path: "/greeting",
+              headers: {
+                "content-type": "application/json"
+              },
+              query: {},
+              body: {
+                firstName: "John",
+                lastName: "Doe"
+              }
+            },
+            response: {
+              status: 201,
+              headers: {
+                "content-length": "25",
+                "content-type": "application/json; charset=utf-8",
+                "x-powered-by": "Express"
+              },
+              body: {
+                message
+              }
+            }
+          };
+          expect(request).toMatchObject(expectedRequest);
+          done();
+        });
+
+        const srv = request(server);
+        const responseAPI = await srv.post("/greeting").send({
+          firstName: "John",
+          lastName: "Doe"
+        });
+        expect(responseAPI.status).toBe(201);
+        expect(responseAPI.body.message).toBe(message);
+
+        const responseDashboard = await srv.get("/restqa");
+        expect(responseDashboard.status).toBe(301);
+        expect(responseDashboard.header["content-type"]).toBe(
+          "text/html; charset=UTF-8"
+        );
+      });
     });
   });
 });

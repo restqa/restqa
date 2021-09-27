@@ -4,6 +4,7 @@ const steps = require("./cli/steps");
 const run = require("./cli/run");
 const dashboard = require("./cli/dashboard");
 const initialize = require("./cli/initialize");
+const HttpsServer = require("./http-server");
 
 const Stream = require("stream");
 
@@ -232,11 +233,90 @@ function Dashboard(options) {
   return dashboard(opt);
 }
 
+/**
+ * Expose the RestQA Dashboard using a specific configuration
+ *
+ * @param {Object} options
+ * @param {string} options.configFile - The path of the RestQA configuration file
+ * @param {string} (optional) options.folder - Define the folder where to project is located
+ * @param {string} (optional) options.readOnly - Restrict the access to the feature file into read only
+ *
+ * @return http.server
+ *
+ * @example
+ *
+ * const { Dashboard } = require('@restqa/restqa')
+ *
+ * const options = {
+ *   configFile: './restqa.yml',
+ *   folder: '/app/project',
+ *   readOnly: true
+ * }
+ *
+ * const server = Dashboard(options)
+ * server.listen(8000, () => {
+ *   console.log('The dashboard is running on the port 8000')
+ * })
+ */
+const Hooks = {
+  express: function (server, options) {
+    server.use("/restqa", HttpsServer(options)).use((req, res, next) => {
+      options.serve = false;
+      const buffers = [];
+      const proxyHandler = {
+        apply(target, thisArg, argumentsList) {
+          const contentType = res.getHeader("content-type");
+          if (
+            typeof contentType === "string" &&
+            contentType.includes("json") &&
+            argumentsList[0]
+          ) {
+            buffers.push(argumentsList[0]);
+          }
+          return target.call(thisArg, ...argumentsList);
+        }
+      };
+      res.write = new Proxy(res.write, proxyHandler);
+      res.end = new Proxy(res.end, proxyHandler);
+      res.on("finish", function () {
+        // tracing logic inside
+        const response = {
+          headers: this._headers,
+          status: this.statusCode,
+          body: Buffer.concat(buffers).toString("utf-8")
+        };
+
+        delete response.headers.etag;
+
+        if (response.headers["content-type"].includes("json")) {
+          response.body = JSON.parse(response.body);
+        }
+
+        const request = {
+          path: req.path,
+          method: req.method,
+          query: req.query,
+          headers: req.headers,
+          body: req.body
+        };
+
+        const msg = {
+          request,
+          response
+        };
+        options.sandbox.emit("request", msg);
+      });
+      next();
+    });
+  }
+};
+
 module.exports = {
   Initialize,
   Generate,
   Install,
   Steps,
   Dashboard,
-  Run
+  Run,
+  Hooks
 };
