@@ -28,8 +28,14 @@ RestQASnippetSyntax.prototype.build = function ({
     `👉 Look at the documentation: ${chalk.yellow(
       "https://docs.restqa.io/tests/introduction"
     )}`,
-    `👉 Get more support by opening a new issue at ${chalk.yellow(
-      "https://github.com/restqa/restqa/issues/new/choose"
+    `👉 Get more support by contacting us: ${chalk.yellow(
+      "https://restqa.io/chat"
+    )}`,
+    "",
+    "or...",
+    "",
+    `🚀 Create you own step definition: ${chalk.yellow(
+      "https://docs.restqa.io/plugin/introduction"
     )}`,
     "",
     "Thank you for using RestQA! 💜"
