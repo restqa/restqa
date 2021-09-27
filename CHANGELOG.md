@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.33] - 2021-09-27
 
+### Update
+
 * Track sponsor redirection from the dashboard (from: [masonwoodford](https://github.com/masonwoodford)) | [#120](https://github.com/restqa/restqa/pull/139)
 * Update the core architecture to relies on the package [@restqa/plugin](https://github.com/restqa/plugin) | [#142](https://github.com/restqa/restqa/pull/142)
 * Bump [@restqa/restqapi@0.1.2](https://github.com/restqa/restqapi/releases/tag/0.1.1)
