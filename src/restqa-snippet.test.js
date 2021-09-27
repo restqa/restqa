@@ -41,7 +41,11 @@ Do not worry! We are here to find a solution for the error your encountering. Pl
 👉 Check if you don't have any random spaces at the begining, in the middle or at the end of the line.
 👉 Check the available steps on your project by using the command: restqa steps then
 👉 Look at the documentation: https://docs.restqa.io/tests/introduction
-👉 Get more support by opening a new issue at https://github.com/restqa/restqa/issues/new/choose
+👉 Get more support by contacting us: https://restqa.io/chat
+
+or...
+
+🚀 Create you own step definition: https://docs.restqa.io/plugin/introduction
 
 Thank you for using RestQA! 💜`;
 
@@ -116,7 +120,11 @@ Do not worry! We are here to find a solution for the error your encountering. Pl
 👉 Check if you don't have any random spaces at the begining, in the middle or at the end of the line.
 👉 Check the available steps on your project by using the command: restqa steps given
 👉 Look at the documentation: https://docs.restqa.io/tests/introduction
-👉 Get more support by opening a new issue at https://github.com/restqa/restqa/issues/new/choose
+👉 Get more support by contacting us: https://restqa.io/chat
+
+or...
+
+🚀 Create you own step definition: https://docs.restqa.io/plugin/introduction
 
 Thank you for using RestQA! 💜`;
     expect(result).toEqual(expectedResult);

@@ -6,33 +6,33 @@ info:
     email: hello@mailqa.io
   license:
     name: RestQA
-    url: 'https://restqa.io'
+    url: "https://restqa.io"
   title: RestQA 🦏
   description: |
     ## Description
-    
+
     RestQA also provide a way to control your framework through a set of RestQA API.
-    
+
     ### Why ?
-    
+
     Actually some project are very specific and could face issue to run the test close to the target environment through Continuous integration.
     But maybe we can think of a project that is on premise and the best way to test this api is to have an access from inside. Then you can just deploy RestQA on the same server and start playing with the api 🚀
-    
+
     ### Installation.
-    
+
     You only need 3 steps to access to theses apis:
-    
+
     1. Install RestQA `npm i -g @restqa/restqa`
     2. Initiate a RestQA project `restqa init`
     3. Run the RestQA server  `restqa serve`
-    
-    
+
+
     From there you should be able to access RestQA from it default port 8081 (https://localhot:8081)
 
     If you face any issue feel free to connect with us on [Discord](https://restqa.io/chat)
 
 servers:
-  - url: 'http://localhost:8081'
+  - url: "http://localhost:8081"
     description: The Dashboard API host
     variables:
       environment:
@@ -55,12 +55,12 @@ paths:
       operationId: version
       summary: retrieve the current version of RestQA
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/version'
+                $ref: "#/definitions/version"
   /config:
     get:
       tags:
@@ -69,30 +69,30 @@ paths:
       operationId: config
       summary: Retrieve the Restqa Configuration
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/config'
-        '403':
+                $ref: "#/definitions/config"
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /preferences:
     get:
       tags:
@@ -101,24 +101,24 @@ paths:
       operationId: preferences
       summary: Retrieve the user Preferences
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/preferences'
-        '406':
+                $ref: "#/definitions/preferences"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/project/features:
     get:
       tags:
@@ -127,30 +127,30 @@ paths:
       operationId: projectFeatures
       summary: Retrieve the list of features available on the current project
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/features'
-        '403':
+                $ref: "#/definitions/features"
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/project/features/{path}:
     get:
       tags:
@@ -159,30 +159,30 @@ paths:
       operationId: getProjectFeatureFile
       summary: Return the content of a specific feature
       responses:
-        '200':
+        "200":
           description: Success
           content:
             text/plain:
               schema:
-                $ref: '#/definitions/featureFile'
-        '403':
+                $ref: "#/definitions/featureFile"
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
     put:
       tags:
         - Project
@@ -193,28 +193,28 @@ paths:
         content:
           text/plain:
             schema:
-              $ref: '#/definitions/featureFile'
+              $ref: "#/definitions/featureFile"
       responses:
-        '204':
+        "204":
           description: Success
-        '403':
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
 
   /api/restqa/initialize:
     post:
@@ -255,18 +255,18 @@ paths:
                   example: "github-action"
                   type: "string"
                   enum:
-                    - 'github-action'
-                    - 'gitlab-ci'
-                    - 'bitbucket-pipeline'
-                    - 'circle-ci'
-                    - 'travis'
-                    - 'jenkins'
+                    - "github-action"
+                    - "gitlab-ci"
+                    - "bitbucket-pipeline"
+                    - "circle-ci"
+                    - "travis"
+                    - "jenkins"
                 folder:
                   description: Define the location where the project needs to be initialized
                   example: "./test-integrations"
                   type: "string"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
@@ -275,24 +275,24 @@ paths:
                 properties:
                   configuration:
                     type: string
-                    description: 'Location of the restqa configuration file'
-                    example: '/home/john/project/.restqa.yml'
+                    description: "Location of the restqa configuration file"
+                    example: "/home/john/project/.restqa.yml"
                   folder:
                     type: string
-                    description: 'Location of the restqa project folder'
-                    example: '/home/john/project'
-        '406':
+                    description: "Location of the restqa project folder"
+                    example: "/home/john/project"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/restqa/steps:
     get:
       tags:
@@ -301,41 +301,41 @@ paths:
       operationId: stepDefinition
       summary: Retrieve the list of step definition
       parameters:
-      - name: keyword
-        in: query
-        required: false
-        schema:
-          type: string
-          example: when
-          enum:
-          - given
-          - when
-          - then
+        - name: keyword
+          in: query
+          required: false
+          schema:
+            type: string
+            example: when
+            enum:
+              - given
+              - when
+              - then
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/steps'
-        '403':
+                $ref: "#/definitions/steps"
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/restqa/generate:
     post:
       tags:
@@ -354,24 +354,24 @@ paths:
                   example: "curl https://jsonplaceholder.typicode.com/todos/1"
                   type: "string"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/generate'
-        '406':
+                $ref: "#/definitions/generate"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/restqa/install:
     post:
       tags:
@@ -395,35 +395,33 @@ paths:
                   type: "string"
                 config:
                   description: Depending on the integration you will need to provide some parameters, check the documentation
-                  example: {
-                    "url": "https://test.webhook.com"
-                  }
+                  example: {"url": "https://test.webhook.com"}
                   type: "object"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/install'
-        '403':
+                $ref: "#/definitions/install"
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/restqa/run:
     post:
       tags:
@@ -442,30 +440,30 @@ paths:
                   example: "./test.feature"
                   type: "string"
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/example/reportJSON'
-        '403':
+                $ref: "#/example/reportJSON"
+        "403":
           description: Forbiden Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error403'
-        '406':
+                $ref: "#/definitions/error403"
+        "406":
           description: Processing Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error406'
-        '500':
+                $ref: "#/definitions/error406"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /reports:
     get:
       tags:
@@ -474,20 +472,20 @@ paths:
       operationId: GetReportList
       summary: Retrieve a list existing report on the server
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/definitions/report'
-        '500':
+                  $ref: "#/definitions/report"
+        "500":
           description: Sever Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
     post:
       tags:
         - Reports
@@ -498,21 +496,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/example/reportJSON'
+              $ref: "#/example/reportJSON"
 
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/report'
-        '500':
+                $ref: "#/definitions/report"
+        "500":
           description: Server Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/info:
     get:
       tags:
@@ -521,18 +519,18 @@ paths:
       operationId: Information
       summary: Retrieve a list usefull information
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/info'
-        '500':
+                $ref: "#/definitions/info"
+        "500":
           description: Sever Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
+                $ref: "#/definitions/error500"
   /api/tips:
     get:
       tags:
@@ -541,19 +539,19 @@ paths:
       operationId: Tips
       summary: Retrieve a random tips
       responses:
-        '200':
+        "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: '#/definitions/tips'
-        '500':
+                $ref: "#/definitions/tips"
+        "500":
           description: Sever Error
           content:
             application/json:
               schema:
-                $ref: '#/definitions/error500'
-                    
+                $ref: "#/definitions/error500"
+
 definitions:
   error403:
     type: object
@@ -592,115 +590,115 @@ definitions:
       properties:
         plugin:
           type: string
-          example: '@restqa/restapi'
-          description: 'The plugin supporting the step definition'
+          example: "@restqa/restapi"
+          description: "The plugin supporting the step definition"
         keyword:
           type: string
-          example: 'when'
-          description: 'The keyword matching the step definition'
+          example: "when"
+          description: "The keyword matching the step definition"
         step:
           type: string
-          example: 'i run the request'
-          description: 'The step definition matching phrase'
+          example: "i run the request"
+          description: "The step definition matching phrase"
         comment:
           type: string
-          example: 'Perform the api request'
-          description: 'A comment about the step definition'
+          example: "Perform the api request"
+          description: "A comment about the step definition"
   generate:
     type: object
     properties:
       scenario:
         type: string
         example: 'Given I have the api gateway hosted on \"https://jsonplaceholder.typicode.com\"\n  And I have the path \"/todos/1\"\n  And I have the method \"GET\"\nWhen I run the API\nThen I should receive a response with the status 200\n  And the response body should be equal to:\n  \"\"\"\n{\n  \"userId\": 1,\n  \"id\": 1,\n  \"title\": \"delectus aut autem\",\n  \"completed\": false\n}\n  \"\"\"'
-        description: 'The scenario generated from the curl command'
+        description: "The scenario generated from the curl command"
   install:
     type: object
     properties:
       config:
         type: string
         example: 'version: 0.0.1\nmetadata:\n  code: APP\n  name: app\n  description: Configuration generated by restqa init\nenvironments:\n  - name: local\n    default: true\n    plugins:\n      - name: \"@restqa/restqapi\"\n        config:\n          url: https://api.restqa.io\n    outputs:\n      - type: html\n        enabled: true\n      - type: slack\n        enabled: true\n        config:\n          url: http://test.com\n          onlyFailed: false\'
-        description: 'The new version of the file generated'
+        description: "The new version of the file generated"
   tips:
     type: object
     properties:
       message:
         type: string
-        example: 'Run the dashboard using restqa dashboard'
-        description: 'A random message sharing a tip'
+        example: "Run the dashboard using restqa dashboard"
+        description: "A random message sharing a tip"
   report:
     type: object
     properties:
       id:
         type: string
         example: 27e2d826-a2fd-4f01-abec-8471333112a5
-        description: 'The Id of the suite report'
+        description: "The Id of the suite report"
       url:
         type: string
-        example: 'https://exmaple.com/reports/27e2d826-a2fd-4f01-abec-8471333112a5'
-        description: 'The url of the generated html report'
+        example: "https://exmaple.com/reports/27e2d826-a2fd-4f01-abec-8471333112a5"
+        description: "The url of the generated html report"
   config:
     type: object
     properties:
       version:
         type: string
         example: 0.0.1
-        description: 'The version of the configuration'
+        description: "The version of the configuration"
       metadata:
         type: object
         properties:
-          code: 
+          code:
             type: string
-            example: 'BACKEND-API'
-            description: 'Code of the project'
-          name: 
+            example: "BACKEND-API"
+            description: "Code of the project"
+          name:
             type: string
-            example: 'backend api'
-            description: 'Name of the project'
-          description: 
+            example: "backend api"
+            description: "Name of the project"
+          description:
             type: string
-            example: 'Backend api used by all the frontends'
-            description: 'Description of your project'
+            example: "Backend api used by all the frontends"
+            description: "Description of your project"
       environments:
         type: array
         items:
           type: object
           properties:
-            name: 
+            name:
               type: string
-              example: 'uat'
-              description: 'The name of the environements'
-            default: 
+              example: "uat"
+              description: "The name of the environements"
+            default:
               type: boolean
               example: true
-              description: 'Define is this environment is the default env'
-            plugins: 
+              description: "Define is this environment is the default env"
+            plugins:
               type: array
-              description: 'List of plugin enabled for the current environement'
+              description: "List of plugin enabled for the current environement"
               items:
                 type: object
-                description: 'Plugin definition'
+                description: "Plugin definition"
                 properties:
                   name:
                     type: string
-                    description: 'Name of the plugin'
-                    example: '@restqa/restqapi'
+                    description: "Name of the plugin"
+                    example: "@restqa/restqapi"
                   config:
                     type: object
-                    description: 'The configuration of the plugin'
+                    description: "The configuration of the plugin"
                     properties:
                       url:
                         type: string
-                        description: 'The url of api that required to be tested'
-                        example: 'https://api.example.com'
-            outputs: 
+                        description: "The url of api that required to be tested"
+                        example: "https://api.example.com"
+            outputs:
               type: array
               items:
                 type: object
-                description: 'The url of the generated html report'
+                description: "The url of the generated html report"
                 properties:
                   type:
                     type: string
-                    example: 'html'
+                    example: "html"
                   enabled:
                     type: boolean
                     examplpe: true
@@ -717,69 +715,69 @@ definitions:
             properties:
               url:
                 type: string
-                example: 'https://medium.com/restqa'
+                example: "https://medium.com/restqa"
               lastest:
                 type: object
                 properties:
                   title:
                     type: string
-                    example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+                    example: "RestQA is here! Do your end-to-end API test integration, the right way!"
                   date:
                     type: string
-                    example: '2021-02-02 02:24:19'
+                    example: "2021-02-02 02:24:19"
                     format: datetime
                   image:
                     type: string
-                    example: 'https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png'
+                    example: "https://cdn-images-1.medium.com/max/1024/1*iyyY6QkAAE2bOzNRevfCuw.png"
                   author:
                     type: object
                     properties:
                       username:
                         type: string
-                        example: '@Olivierodo'
+                        example: "@Olivierodo"
                       avatar:
                         type: string
-                        example: 'https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg'
+                        example: "https://cdn-images-1.medium.com/fit/c/150/150/1*acYALd6w84KRScRNMpFLUg.jpeg"
                   url:
                     type: string
-                    example: 'https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291'
+                    example: "https://medium.com/restqa/restqa-is-here-do-your-end-to-end-api-test-integration-the-right-way-84b7313e1291"
           video:
             type: object
             properties:
               url:
                 type: string
-                example: 'https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q'
+                example: "https://www.youtube.com/channel/UCdT6QenNLmnxNT-aT8nYq_Q"
               lastest:
                 type: object
                 properties:
                   title:
                     type: string
-                    example: 'RestQA'
+                    example: "RestQA"
                   date:
                     type: string
-                    example: '2021-04-17 03:00:30'
+                    example: "2021-04-17 03:00:30"
                     format: datetime
                   image:
                     type: string
-                    example: 'https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg'
+                    example: "https://i2.ytimg.com/vi/EberYFGPZPo/hqdefault.jpg"
                   url:
                     type: string
-                    example: 'https://www.youtube.com/watch?v=EberYFGPZPo'
+                    example: "https://www.youtube.com/watch?v=EberYFGPZPo"
           note:
             type: object
             properties:
               message:
                 type: string
                 description: The team note to share
-                example: 'We love RestQA'
+                example: "We love RestQA"
               from:
                 type: string
                 description: Team member that representing the note
-                example: 'John Doe'
+                example: "John Doe"
               avatar:
                 type: string
                 description: Team member avatar
-                example: '/avatar/john.png'
+                example: "/avatar/john.png"
       sponsors:
         type: array
         items:
@@ -788,21 +786,21 @@ definitions:
             url:
               type: string
               description: The url of the sponsors website
-              example: 'https://atalent-consulting.com'
+              example: "https://atalent-consulting.com"
             name:
               type: string
               description: The name of the sponsor
-              example: 'RestQA is here! Do your end-to-end API test integration, the right way!'
+              example: "RestQA is here! Do your end-to-end API test integration, the right way!"
             logo:
               type: string
               description: The logo of the sponsor
-              example: 'https://atalent-consulting.com/logo.png'
+              example: "https://atalent-consulting.com/logo.png"
 
   features:
     type: array
     items:
       type: string
-      example: './tests/customer-info.feature'
+      example: "./tests/customer-info.feature"
   featureFile:
     type: string
     example: >
@@ -814,301 +812,277 @@ definitions:
       Given I have the api gateway
       ...
 
-
 example:
   reportJSON:
     type: object
-    example: {
-      "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
-      "startTime": "2021-05-11T07:41:00+00:00",
-      "name": "jsonplaceholder from typecode",
-      "key": "JSON-PLACEHOLDER",
-      "env": "local",
-      "duration": 5.142,
-      "success": true,
-      "durationFormat": "00:00",
-      "timestamp": "2021-05-11T07:41:00+00:00",
-      "type": "testSuite",
-      "total": 6,
-      "passed": 5,
-      "failed": 1,
-      "scenarios": {
-        "passed": 12,
-        "failed": 0,
-        "skipped": 1,
-        "undefined": 0
-      },
-      "features": [
-        {
-          "keyword": "Feature",
-          "line": 1,
-          "id": "delete-/todos/{id}",
-          "tags": [],
-          "uri": "../example/tests/integration/delete-todos-id.feature",
-          "elements": [
+    example:
+      {
+        "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
+        "startTime": "2021-05-11T07:41:00+00:00",
+        "name": "jsonplaceholder from typecode",
+        "key": "JSON-PLACEHOLDER",
+        "env": "local",
+        "duration": 5.142,
+        "success": true,
+        "durationFormat": "00:00",
+        "timestamp": "2021-05-11T07:41:00+00:00",
+        "type": "testSuite",
+        "total": 6,
+        "passed": 5,
+        "failed": 1,
+        "scenarios": {"passed": 12, "failed": 0, "skipped": 1, "undefined": 0},
+        "features":
+          [
             {
-              "id": "delete-/todos/{id};delete-todos-by-id",
-              "keyword": "Scenario",
-              "line": 3,
-              "name": "Delete todos by id",
+              "keyword": "Feature",
+              "line": 1,
+              "id": "delete-/todos/{id}",
               "tags": [],
-              "type": "scenario",
-              "steps": [
-                {
-                  "keyword": "Before",
-                  "hidden": true,
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:5"
-                  },
-                  "result": {
+              "uri": "../example/tests/integration/delete-todos-id.feature",
+              "elements":
+                [
+                  {
+                    "id": "delete-/todos/{id};delete-todos-by-id",
+                    "keyword": "Scenario",
+                    "line": 3,
+                    "name": "Delete todos by id",
+                    "tags": [],
+                    "type": "scenario",
+                    "steps":
+                      [
+                        {
+                          "keyword": "Before",
+                          "hidden": true,
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:5"
+                            },
+                          "result": {"status": "passed", "duration": 1000000}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "Given ",
+                          "line": 4,
+                          "name": "I have the api gateway",
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+                            },
+                          "result": {"status": "passed", "duration": 1000000}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "And ",
+                          "line": 5,
+                          "name": 'I have the path "/todos/45"',
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "And ",
+                          "line": 6,
+                          "name": 'I have the method "DELETE"',
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "When ",
+                          "line": 7,
+                          "name": "I run the API",
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:11"
+                            },
+                          "result": {"status": "passed", "duration": 686000000}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "Then ",
+                          "line": 8,
+                          "name": "I should receive a response with the status 200",
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "keyword": "After",
+                          "hidden": true,
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:39"
+                            },
+                          "result": {"status": "passed", "duration": 0},
+                          "embeddings":
+                            [
+                              {
+                                "data": "{\"apis\":[{\"request\":{\"hostname\":\"jsonplaceholder.typicode.com\",\"port\":\"\",\"protocol\":\"https:\",\"pathname\":\"/todos/45\",\"hooks\":{\"afterResponse\":[null]},\"method\":\"delete\",\"headers\":{\"x-correlation-id\":\"test-e2e-delete-383-1620718855702\",\"user-agent\":\"restqa (https://github.com/restqa/restqa)\"},\"responseType\":\"json\"},\"response\":{\"body\":{},\"timing\":677,\"headers\":{\"date\":\"Tue, 11 May 2021 07:40:56 GMT\",\"content-type\":\"application/json; charset=utf-8\",\"content-length\":\"2\",\"connection\":\"close\",\"x-powered-by\":\"Express\",\"x-ratelimit-limit\":\"1000\",\"x-ratelimit-remaining\":\"999\",\"x-ratelimit-reset\":\"1620718895\",\"vary\":\"Origin, Accept-Encoding\",\"access-control-allow-credentials\":\"true\",\"cache-control\":\"no-cache\",\"pragma\":\"no-cache\",\"expires\":\"-1\",\"x-content-type-options\":\"nosniff\",\"etag\":\"W/\\\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\\\"\",\"via\":\"1.1 vegur\",\"cf-cache-status\":\"DYNAMIC\",\"cf-request-id\":\"09fbf83ec50000037ae3a20000000001\",\"expect-ct\":\"max-age=604800, report-uri=\\\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\\\"\",\"report-to\":\"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https:\\\\/\\\\/a.nel.cloudflare.com\\\\/report?s=0%2FfuB6MyFZDepzy%2BuXzf6LoyyulRIabOJ6MWDe6c2hBRl%2Fm686xJ7EXrqqWrK6DyStn%2BYbxcdMPPHOUmI3CfQPs%2BMI2r82qFbnKXhlMYbkAtGe3Ec2qOe%2BbTIJa%2F\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"nel\":\"{\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"server\":\"cloudflare\",\"cf-ray\":\"64d9c3113e7e037a-SIN\",\"alt-svc\":\"h3-27=\\\":443\\\"; ma=86400, h3-28=\\\":443\\\"; ma=86400, h3-29=\\\":443\\\"; ma=86400\"},\"statusCode\":200,\"request\":{\"path\":\"/todos/45\",\"method\":\"delete\",\"prefix\":\"[DELETE /todos/45]\"}}}]}",
+                                "mime_type": "application/json"
+                              }
+                            ]
+                        }
+                      ],
+                    "step_passed": 7,
+                    "step_failed": 0,
+                    "step_skipped": 0,
+                    "step_undefined": 0,
+                    "result": true,
                     "status": "passed",
-                    "duration": 1000000
+                    "duration": 0.688,
+                    "timestamp": "2021-05-11T07:41:00+00:00",
+                    "metadata":
+                      {
+                        "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
+                        "startTime": "2021-05-11T07:41:00+00:00",
+                        "name": "jsonplaceholder from typecode",
+                        "key": "JSON-PLACEHOLDER",
+                        "env": "local",
+                        "duration": 5.142,
+                        "success": true,
+                        "durationFormat": "00:00"
+                      }
+                  },
+                  {
+                    "id": "delete-/todos/{id};get-todos-by-id-but-id-doesn't-exist",
+                    "keyword": "Scenario",
+                    "line": 10,
+                    "name": "Get todos by id but id doesn't exist",
+                    "tags": [],
+                    "type": "scenario",
+                    "steps":
+                      [
+                        {
+                          "keyword": "Before",
+                          "hidden": true,
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:5"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "Given ",
+                          "line": 11,
+                          "name": "I have the api gateway",
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "And ",
+                          "line": 12,
+                          "name": 'I have the path "/todos/300000"',
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "And ",
+                          "line": 13,
+                          "name": 'I have the method "DELETE"',
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "When ",
+                          "line": 14,
+                          "name": "I run the API",
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:11"
+                            },
+                          "result": {"status": "passed", "duration": 620000000}
+                        },
+                        {
+                          "arguments": [],
+                          "keyword": "Then ",
+                          "line": 15,
+                          "name": "I should receive a response with the status 200",
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
+                            },
+                          "result": {"status": "passed", "duration": 0}
+                        },
+                        {
+                          "keyword": "After",
+                          "hidden": true,
+                          "match":
+                            {
+                              "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:39"
+                            },
+                          "result": {"status": "passed", "duration": 0},
+                          "embeddings":
+                            [
+                              {
+                                "data": "{\"apis\":[{\"request\":{\"hostname\":\"jsonplaceholder.typicode.com\",\"port\":\"\",\"protocol\":\"https:\",\"pathname\":\"/todos/300000\",\"hooks\":{\"afterResponse\":[null]},\"method\":\"delete\",\"headers\":{\"x-correlation-id\":\"test-e2e-delete-174-1620718856391\",\"user-agent\":\"restqa (https://github.com/restqa/restqa)\"},\"responseType\":\"json\"},\"response\":{\"body\":{},\"timing\":617,\"headers\":{\"date\":\"Tue, 11 May 2021 07:40:57 GMT\",\"content-type\":\"application/json; charset=utf-8\",\"content-length\":\"2\",\"connection\":\"close\",\"x-powered-by\":\"Express\",\"x-ratelimit-limit\":\"1000\",\"x-ratelimit-remaining\":\"998\",\"x-ratelimit-reset\":\"1620718895\",\"vary\":\"Origin, Accept-Encoding\",\"access-control-allow-credentials\":\"true\",\"cache-control\":\"no-cache\",\"pragma\":\"no-cache\",\"expires\":\"-1\",\"x-content-type-options\":\"nosniff\",\"etag\":\"W/\\\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\\\"\",\"via\":\"1.1 vegur\",\"cf-cache-status\":\"DYNAMIC\",\"cf-request-id\":\"09fbf8415b0000e26c76968000000001\",\"expect-ct\":\"max-age=604800, report-uri=\\\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\\\"\",\"report-to\":\"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https:\\\\/\\\\/a.nel.cloudflare.com\\\\/report?s=duxVRycwVgiKrQjLV%2B2bydqSsJstGUr3qGZH4O%2BGZv2QPaCHoDOnbOSfTBnW2A7hlSYATl6Kfy4M07aFn9lHKjPWwp4SPRjVN4n84CrRgr1xsQA1Ez1VPnjOYI2N\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"nel\":\"{\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"server\":\"cloudflare\",\"cf-ray\":\"64d9c3155e5ce26c-SIN\",\"alt-svc\":\"h3-27=\\\":443\\\"; ma=86400, h3-28=\\\":443\\\"; ma=86400, h3-29=\\\":443\\\"; ma=86400\"},\"statusCode\":200,\"request\":{\"path\":\"/todos/300000\",\"method\":\"delete\",\"prefix\":\"[DELETE /todos/300000]\"}}}]}",
+                                "mime_type": "application/json"
+                              }
+                            ]
+                        }
+                      ],
+                    "step_passed": 7,
+                    "step_failed": 0,
+                    "step_skipped": 0,
+                    "step_undefined": 0,
+                    "result": true,
+                    "status": "passed",
+                    "duration": 0.62,
+                    "timestamp": "2021-05-11T07:41:00+00:00",
+                    "metadata":
+                      {
+                        "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
+                        "startTime": "2021-05-11T07:41:00+00:00",
+                        "name": "jsonplaceholder from typecode",
+                        "key": "JSON-PLACEHOLDER",
+                        "env": "local",
+                        "duration": 5.142,
+                        "success": true,
+                        "durationFormat": "00:00"
+                      }
                   }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "Given ",
-                  "line": 4,
-                  "name": "I have the api gateway",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 1000000
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "And ",
-                  "line": 5,
-                  "name": "I have the path \"/todos/45\"",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "And ",
-                  "line": 6,
-                  "name": "I have the method \"DELETE\"",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "When ",
-                  "line": 7,
-                  "name": "I run the API",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:11"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 686000000
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "Then ",
-                  "line": 8,
-                  "name": "I should receive a response with the status 200",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "keyword": "After",
-                  "hidden": true,
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:39"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  },
-                  "embeddings": [
-                    {
-                      "data": "{\"apis\":[{\"request\":{\"hostname\":\"jsonplaceholder.typicode.com\",\"port\":\"\",\"protocol\":\"https:\",\"pathname\":\"/todos/45\",\"hooks\":{\"afterResponse\":[null]},\"method\":\"delete\",\"headers\":{\"x-correlation-id\":\"test-e2e-delete-383-1620718855702\",\"user-agent\":\"restqa (https://github.com/restqa/restqa)\"},\"responseType\":\"json\"},\"response\":{\"body\":{},\"timing\":677,\"headers\":{\"date\":\"Tue, 11 May 2021 07:40:56 GMT\",\"content-type\":\"application/json; charset=utf-8\",\"content-length\":\"2\",\"connection\":\"close\",\"x-powered-by\":\"Express\",\"x-ratelimit-limit\":\"1000\",\"x-ratelimit-remaining\":\"999\",\"x-ratelimit-reset\":\"1620718895\",\"vary\":\"Origin, Accept-Encoding\",\"access-control-allow-credentials\":\"true\",\"cache-control\":\"no-cache\",\"pragma\":\"no-cache\",\"expires\":\"-1\",\"x-content-type-options\":\"nosniff\",\"etag\":\"W/\\\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\\\"\",\"via\":\"1.1 vegur\",\"cf-cache-status\":\"DYNAMIC\",\"cf-request-id\":\"09fbf83ec50000037ae3a20000000001\",\"expect-ct\":\"max-age=604800, report-uri=\\\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\\\"\",\"report-to\":\"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https:\\\\/\\\\/a.nel.cloudflare.com\\\\/report?s=0%2FfuB6MyFZDepzy%2BuXzf6LoyyulRIabOJ6MWDe6c2hBRl%2Fm686xJ7EXrqqWrK6DyStn%2BYbxcdMPPHOUmI3CfQPs%2BMI2r82qFbnKXhlMYbkAtGe3Ec2qOe%2BbTIJa%2F\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"nel\":\"{\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"server\":\"cloudflare\",\"cf-ray\":\"64d9c3113e7e037a-SIN\",\"alt-svc\":\"h3-27=\\\":443\\\"; ma=86400, h3-28=\\\":443\\\"; ma=86400, h3-29=\\\":443\\\"; ma=86400\"},\"statusCode\":200,\"request\":{\"path\":\"/todos/45\",\"method\":\"delete\",\"prefix\":\"[DELETE /todos/45]\"}}}]}",
-                      "mime_type": "application/json"
-                    }
-                  ]
-                }
-              ],
-              "step_passed": 7,
-              "step_failed": 0,
-              "step_skipped": 0,
-              "step_undefined": 0,
+                ],
+              "total": 2,
+              "passed": 2,
+              "failed": 0,
+              "skipped": 0,
+              "undefined": 0,
               "result": true,
-              "status": "passed",
-              "duration": 0.688,
+              "duration": 1.3079999999999998,
               "timestamp": "2021-05-11T07:41:00+00:00",
-              "metadata": {
-                "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
-                "startTime": "2021-05-11T07:41:00+00:00",
-                "name": "jsonplaceholder from typecode",
-                "key": "JSON-PLACEHOLDER",
-                "env": "local",
-                "duration": 5.142,
-                "success": true,
-                "durationFormat": "00:00"
-              }
-            },
-            {
-              "id": "delete-/todos/{id};get-todos-by-id-but-id-doesn't-exist",
-              "keyword": "Scenario",
-              "line": 10,
-              "name": "Get todos by id but id doesn't exist",
-              "tags": [],
-              "type": "scenario",
-              "steps": [
+              "type": "feature",
+              "feature_name": "DELETE /todos/{id}",
+              "metadata":
                 {
-                  "keyword": "Before",
-                  "hidden": true,
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:5"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "Given ",
-                  "line": 11,
-                  "name": "I have the api gateway",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "And ",
-                  "line": 12,
-                  "name": "I have the path \"/todos/300000\"",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "And ",
-                  "line": 13,
-                  "name": "I have the method \"DELETE\"",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:6"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "When ",
-                  "line": 14,
-                  "name": "I run the API",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:11"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 620000000
-                  }
-                },
-                {
-                  "arguments": [],
-                  "keyword": "Then ",
-                  "line": 15,
-                  "name": "I should receive a response with the status 200",
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/steps/index.js:16"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  }
-                },
-                {
-                  "keyword": "After",
-                  "hidden": true,
-                  "match": {
-                    "location": "../node_modules/@restqa/restqapi/src/restqapi/hooks.js:39"
-                  },
-                  "result": {
-                    "status": "passed",
-                    "duration": 0
-                  },
-                  "embeddings": [
-                    {
-                      "data": "{\"apis\":[{\"request\":{\"hostname\":\"jsonplaceholder.typicode.com\",\"port\":\"\",\"protocol\":\"https:\",\"pathname\":\"/todos/300000\",\"hooks\":{\"afterResponse\":[null]},\"method\":\"delete\",\"headers\":{\"x-correlation-id\":\"test-e2e-delete-174-1620718856391\",\"user-agent\":\"restqa (https://github.com/restqa/restqa)\"},\"responseType\":\"json\"},\"response\":{\"body\":{},\"timing\":617,\"headers\":{\"date\":\"Tue, 11 May 2021 07:40:57 GMT\",\"content-type\":\"application/json; charset=utf-8\",\"content-length\":\"2\",\"connection\":\"close\",\"x-powered-by\":\"Express\",\"x-ratelimit-limit\":\"1000\",\"x-ratelimit-remaining\":\"998\",\"x-ratelimit-reset\":\"1620718895\",\"vary\":\"Origin, Accept-Encoding\",\"access-control-allow-credentials\":\"true\",\"cache-control\":\"no-cache\",\"pragma\":\"no-cache\",\"expires\":\"-1\",\"x-content-type-options\":\"nosniff\",\"etag\":\"W/\\\"2-vyGp6PvFo4RvsFtPoIWeCReyIC8\\\"\",\"via\":\"1.1 vegur\",\"cf-cache-status\":\"DYNAMIC\",\"cf-request-id\":\"09fbf8415b0000e26c76968000000001\",\"expect-ct\":\"max-age=604800, report-uri=\\\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\\\"\",\"report-to\":\"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https:\\\\/\\\\/a.nel.cloudflare.com\\\\/report?s=duxVRycwVgiKrQjLV%2B2bydqSsJstGUr3qGZH4O%2BGZv2QPaCHoDOnbOSfTBnW2A7hlSYATl6Kfy4M07aFn9lHKjPWwp4SPRjVN4n84CrRgr1xsQA1Ez1VPnjOYI2N\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"nel\":\"{\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\"server\":\"cloudflare\",\"cf-ray\":\"64d9c3155e5ce26c-SIN\",\"alt-svc\":\"h3-27=\\\":443\\\"; ma=86400, h3-28=\\\":443\\\"; ma=86400, h3-29=\\\":443\\\"; ma=86400\"},\"statusCode\":200,\"request\":{\"path\":\"/todos/300000\",\"method\":\"delete\",\"prefix\":\"[DELETE /todos/300000]\"}}}]}",
-                      "mime_type": "application/json"
-                    }
-                  ]
+                  "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
+                  "startTime": "2021-05-11T07:41:00+00:00",
+                  "name": "jsonplaceholder from typecode",
+                  "key": "JSON-PLACEHOLDER",
+                  "env": "local",
+                  "duration": 5.142,
+                  "success": true,
+                  "durationFormat": "00:00"
                 }
-              ],
-              "step_passed": 7,
-              "step_failed": 0,
-              "step_skipped": 0,
-              "step_undefined": 0,
-              "result": true,
-              "status": "passed",
-              "duration": 0.62,
-              "timestamp": "2021-05-11T07:41:00+00:00",
-              "metadata": {
-                "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
-                "startTime": "2021-05-11T07:41:00+00:00",
-                "name": "jsonplaceholder from typecode",
-                "key": "JSON-PLACEHOLDER",
-                "env": "local",
-                "duration": 5.142,
-                "success": true,
-                "durationFormat": "00:00"
-              }
             }
-          ],
-          "total": 2,
-          "passed": 2,
-          "failed": 0,
-          "skipped": 0,
-          "undefined": 0,
-          "result": true,
-          "duration": 1.3079999999999998,
-          "timestamp": "2021-05-11T07:41:00+00:00",
-          "type": "feature",
-          "feature_name": "DELETE /todos/{id}",
-          "metadata": {
-            "id": "27e2d826-a2fd-4f01-abec-8471333112a5",
-            "startTime": "2021-05-11T07:41:00+00:00",
-            "name": "jsonplaceholder from typecode",
-            "key": "JSON-PLACEHOLDER",
-            "env": "local",
-            "duration": 5.142,
-            "success": true,
-            "durationFormat": "00:00"
-          }
-        }
-      ]
-    }
+          ]
+      }

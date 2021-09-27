@@ -1,6 +1,6 @@
 name: Dead link checker
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:

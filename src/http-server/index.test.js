@@ -253,7 +253,7 @@ environments:
         {
           comment: "Trigger the api request",
           keyword: "when",
-          plugin: "@restqa/restqapi",
+          plugin: "restqapi",
           step: "I run the API"
         }
       ];
