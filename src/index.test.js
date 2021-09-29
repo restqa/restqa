@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const request = require("supertest");
-const EventEmitter = require("events");
+const {EventEmitter, once} = require("events");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -346,223 +346,250 @@ environments:
     });
   });
 
-  describe.only("# Index - Hooks", () => {
-    let server;
+  describe("# Index - Hooks", () => {
     describe("Express", () => {
-      beforeEach(() => {
-        server = express().use(express.json());
-      });
-
-      afterEach(() => {
-        server = undefined;
-      });
-
-      test("Send Event on each request that passing (GET)", async (done) => {
+      test("Send Event on each request that passing (GET)", async () => {
         const message = "hello world";
         const opt = {
           configFile: false,
           sandbox: new EventEmitter()
         };
         const {Hooks} = require("./index");
+
+        const server = express().use(express.json());
         Hooks.express(server, opt);
         server.get("/hello", (req, res) => {
           return res.json({message});
         });
-        opt.sandbox.on("request", (request) => {
-          const expectedRequest = {
-            request: {
-              method: "GET",
-              path: "/hello",
-              query: {}
-            },
-            response: {
-              status: 200,
-              headers: {
-                "content-length": "25",
-                "content-type": "application/json; charset=utf-8",
-                "x-powered-by": "Express"
-              },
-              body: {
-                message
-              }
-            }
-          };
-          expect(request).toEqual(expectedRequest);
-          done();
-        });
 
         const srv = request(server);
-        const responseAPI = await srv.get("/hello");
+        const requestAPI = srv.get("/hello");
+        const requestDashboard = srv.get("/restqa");
+        const promiseEvent = once(opt.sandbox, "request");
+
+        const [responseAPI, responseDashboard, emittedEvent] =
+          await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+
         expect(responseAPI.status).toBe(200);
         expect(responseAPI.body.message).toBe(message);
 
-        const responseDashboard = await srv.get("/restqa");
         expect(responseDashboard.status).toBe(301);
         expect(responseDashboard.header["content-type"]).toBe(
           "text/html; charset=UTF-8"
         );
+        const expectedRequest = expect.objectContaining({
+          request: {
+            method: "GET",
+            path: "/hello",
+            query: {},
+            headers: {
+              "accept-encoding": "gzip, deflate",
+              connection: "close",
+              host: expect.stringContaining("127.0.0.1")
+            },
+            body: {}
+          },
+          response: {
+            status: 200,
+            headers: {
+              "content-length": "25",
+              "content-type": "application/json; charset=utf-8",
+              "x-powered-by": "Express"
+            },
+            body: {
+              message
+            }
+          }
+        });
+        expect(emittedEvent).toHaveLength(1);
+        expect(emittedEvent[0]).toEqual(expectedRequest);
       });
 
-      test("Send Event on each request that passing (GET + query parameters)", async (done) => {
+      test("Send Event on each request that passing (GET + query parameters)", async () => {
         const message = "hello world";
         const opt = {
           configFile: false,
           sandbox: new EventEmitter()
         };
         const {Hooks} = require("./index");
+        const server = express().use(express.json());
         Hooks.express(server, opt);
         server.get("/hello", (req, res) => {
           return res.json({message});
         });
-        opt.sandbox.on("request", (request) => {
-          const expectedRequest = {
-            request: {
-              method: "GET",
-              path: "/hello",
-              query: {
-                foo: "bar",
-                first: "parameter"
-              }
-            },
-            response: {
-              status: 200,
-              headers: {
-                "content-length": "25",
-                "content-type": "application/json; charset=utf-8",
-                "x-powered-by": "Express"
-              },
-              body: {
-                message
-              }
-            }
-          };
-          expect(request).toEqual(expectedRequest);
-          done();
-        });
 
         const srv = request(server);
-        const responseAPI = await srv.get("/hello?foo=bar&first=parameter");
+        const requestAPI = srv.get("/hello?foo=bar&first=parameter");
+        const requestDashboard = srv.get("/restqa");
+        const promiseEvent = once(opt.sandbox, "request");
+
+        const [responseAPI, responseDashboard, emittedEvent] =
+          await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+
         expect(responseAPI.status).toBe(200);
         expect(responseAPI.body.message).toBe(message);
 
-        const responseDashboard = await srv.get("/restqa");
         expect(responseDashboard.status).toBe(301);
         expect(responseDashboard.header["content-type"]).toBe(
           "text/html; charset=UTF-8"
         );
+
+        const expectedRequest = expect.objectContaining({
+          request: {
+            method: "GET",
+            path: "/hello",
+            query: {
+              foo: "bar",
+              first: "parameter"
+            },
+            body: {},
+            headers: {
+              "accept-encoding": "gzip, deflate",
+              connection: "close",
+              host: expect.stringContaining("127.0.0.1")
+            }
+          },
+          response: {
+            status: 200,
+            headers: {
+              "content-length": "25",
+              "content-type": "application/json; charset=utf-8",
+              "x-powered-by": "Express"
+            },
+            body: {
+              message
+            }
+          }
+        });
+        expect(emittedEvent).toHaveLength(1);
+        expect(emittedEvent[0]).toEqual(expectedRequest);
       });
 
-      test("Send Event on each request that passing (get + header parameters)", async (done) => {
+      test("Send Event on each request that passing (get + header parameters)", async () => {
         const message = "hello world";
         const opt = {
           configFile: false,
           sandbox: new EventEmitter()
         };
         const {Hooks} = require("./index");
+        const server = express().use(express.json());
         Hooks.express(server, opt);
         server.get("/hello", (req, res) => {
           return res.json({message});
         });
-        opt.sandbox.on("request", (request) => {
-          const expectedRequest = {
-            request: {
-              method: "GET",
-              path: "/hello",
-              headers: {
-                "x-api-key": "xxx-yyy-zzz",
-                "accept-type": "application/json",
-                "accept-encoding": "gzip, deflate",
-                "accept-type": "applicaiton/json",
-                connection: "close",
-                host: "127.0.0.1:39607"
-              },
-              query: {}
-            },
-            response: {
-              status: 200,
-              headers: {
-                "content-length": "25",
-                "content-type": "application/json; charset=utf-8",
-                "x-powered-by": "Express"
-              },
-              body: {
-                message
-              }
-            }
-          };
-          expect(request).toEqual(expectedRequest);
-          done();
-        });
 
         const srv = request(server);
-        const responseAPI = await srv
+        const requestAPI = srv
           .get("/hello")
           .set("x-api-key", "xxx-yyy-zzz")
           .set("accept-type", "applicaiton/json");
+        const requestDashboard = srv.get("/restqa");
+        const promiseEvent = once(opt.sandbox, "request");
+
+        const [responseAPI, responseDashboard, emittedEvent] =
+          await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+
         expect(responseAPI.status).toBe(200);
         expect(responseAPI.body.message).toBe(message);
 
-        const responseDashboard = await srv.get("/restqa");
         expect(responseDashboard.status).toBe(301);
         expect(responseDashboard.header["content-type"]).toBe(
           "text/html; charset=UTF-8"
         );
+
+        const expectedRequest = expect.objectContaining({
+          request: {
+            method: "GET",
+            path: "/hello",
+            headers: {
+              "x-api-key": "xxx-yyy-zzz",
+              "accept-encoding": "gzip, deflate",
+              "accept-type": "applicaiton/json",
+              connection: "close",
+              host: expect.stringContaining("127.0.0.1")
+            },
+            query: {},
+            body: {}
+          },
+          response: {
+            status: 200,
+            headers: {
+              "content-length": "25",
+              "content-type": "application/json; charset=utf-8",
+              "x-powered-by": "Express"
+            },
+            body: {
+              message
+            }
+          }
+        });
+        expect(emittedEvent).toHaveLength(1);
+        expect(emittedEvent[0]).toEqual(expectedRequest);
       });
 
-      test.only("Send Event on each request that passing (post + json body)", async (done) => {
+      test("Send Event on each request that passing (post + json body)", async () => {
         const message = "hello world";
         const opt = {
           configFile: false,
-          sandbox: new EventEmitter()
+          sandbox: new EventEmitter(),
+          route: "/jestqa"
         };
         const {Hooks} = require("./index");
-        Hooks.express(server, opt);
-        server.post("/greeting", (req, res) => {
+        const server = express().use(express.json());
+        Hooks.express(server, opt).post("/greeting", (req, res) => {
           return res.status(201).json({message});
-        });
-        opt.sandbox.on("request", (request) => {
-          const expectedRequest = {
-            request: {
-              method: "POST",
-              path: "/greeting",
-              headers: {
-                "content-type": "application/json"
-              },
-              query: {},
-              body: {
-                firstName: "John",
-                lastName: "Doe"
-              }
-            },
-            response: {
-              status: 201,
-              headers: {
-                "content-length": "25",
-                "content-type": "application/json; charset=utf-8",
-                "x-powered-by": "Express"
-              },
-              body: {
-                message
-              }
-            }
-          };
-          expect(request).toMatchObject(expectedRequest);
-          done();
         });
 
         const srv = request(server);
-        const responseAPI = await srv.post("/greeting").send({
+        const requestAPI = srv.post("/greeting").send({
           firstName: "John",
           lastName: "Doe"
         });
+        const requestDashboard = srv.get("/jestqa");
+        const promiseEvent = once(opt.sandbox, "request");
+
+        const [responseAPI, responseDashboard, emittedEvent] =
+          await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+
         expect(responseAPI.status).toBe(201);
         expect(responseAPI.body.message).toBe(message);
 
-        const responseDashboard = await srv.get("/restqa");
         expect(responseDashboard.status).toBe(301);
         expect(responseDashboard.header["content-type"]).toBe(
           "text/html; charset=UTF-8"
         );
+
+        const expectedMessage = expect.objectContaining({
+          request: {
+            method: "POST",
+            path: "/greeting",
+            headers: {
+              "content-type": "application/json",
+              "accept-encoding": "gzip, deflate",
+              connection: "close",
+              "content-length": "37",
+              host: expect.stringContaining("127.0.0.1")
+            },
+            query: {},
+            body: {
+              firstName: "John",
+              lastName: "Doe"
+            }
+          },
+          response: {
+            status: 201,
+            headers: {
+              "content-length": "25",
+              "content-type": "application/json; charset=utf-8",
+              "x-powered-by": "Express"
+            },
+            body: {
+              message
+            }
+          }
+        });
+        expect(emittedEvent).toHaveLength(1);
+        expect(emittedEvent[0]).toEqual(expectedMessage);
       });
     });
   });

@@ -5,6 +5,7 @@ const run = require("./cli/run");
 const dashboard = require("./cli/dashboard");
 const initialize = require("./cli/initialize");
 const HttpsServer = require("./http-server");
+const Sandbox = require("./core/sandbox");
 
 const Stream = require("stream");
 
@@ -260,8 +261,10 @@ function Dashboard(options) {
  */
 const Hooks = {
   express: function (server, options) {
-    server.use("/restqa", HttpsServer(options)).use((req, res, next) => {
-      options.serve = false;
+    options.route = options.route || "/restqa";
+    options.sandbox = options.sandbox || new Sandbox();
+    options.serve = false;
+    server.use(options.route, HttpsServer(options)).use((req, res, next) => {
       const buffers = [];
       const proxyHandler = {
         apply(target, thisArg, argumentsList) {
@@ -279,9 +282,10 @@ const Hooks = {
       res.write = new Proxy(res.write, proxyHandler);
       res.end = new Proxy(res.end, proxyHandler);
       res.on("finish", function () {
+        if (req.path.startsWith(options.route)) return;
         // tracing logic inside
         const response = {
-          headers: this._headers,
+          headers: this.getHeaders(),
           status: this.statusCode,
           body: Buffer.concat(buffers).toString("utf-8")
         };
@@ -308,6 +312,7 @@ const Hooks = {
       });
       next();
     });
+    return server;
   }
 };
 
