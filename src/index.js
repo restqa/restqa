@@ -235,28 +235,32 @@ function Dashboard(options) {
 }
 
 /**
- * Expose the RestQA Dashboard using a specific configuration
+ * Expose middleware for Express and Fastify
  *
  * @param {Object} options
  * @param {string} options.configFile - The path of the RestQA configuration file
  * @param {string} (optional) options.folder - Define the folder where to project is located
  * @param {string} (optional) options.readOnly - Restrict the access to the feature file into read only
+ * @param {string} (optional) options.route - Route used to exposed the dashboard (default: '/restqa')
  *
  * @return http.server
  *
  * @example
  *
- * const { Dashboard } = require('@restqa/restqa')
+ * const express = require('express')
+ * const { Hooks } = require('@restqa/restqa')
  *
  * const options = {
  *   configFile: './restqa.yml',
  *   folder: '/app/project',
- *   readOnly: true
+ *   readOnly: true,
+ *   route: '/restqa'
  * }
  *
- * const server = Dashboard(options)
+ * const server = express()
+ * Hooks.express(server, options)
  * server.listen(8000, () => {
- *   console.log('The dashboard is running on the port 8000')
+ *   console.log('The Microservice is running on the port 8000')
  * })
  */
 const Hooks = {
@@ -264,54 +268,57 @@ const Hooks = {
     options.route = options.route || "/restqa";
     options.sandbox = options.sandbox || new Sandbox();
     options.serve = false;
-    server.use(options.route, HttpsServer(options)).use((req, res, next) => {
-      const buffers = [];
-      const proxyHandler = {
-        apply(target, thisArg, argumentsList) {
-          const contentType = res.getHeader("content-type");
-          if (
-            typeof contentType === "string" &&
-            contentType.includes("json") &&
-            argumentsList[0]
-          ) {
-            buffers.push(argumentsList[0]);
+    server
+      .use(options.route, HttpsServer(options))
+      .use((req, res, next) => {
+        const buffers = [];
+        const proxyHandler = {
+          apply(target, thisArg, argumentsList) {
+            const contentType = res.getHeader("content-type");
+            if (
+              typeof contentType === "string" &&
+              contentType.includes("json") &&
+              argumentsList[0]
+            ) {
+              buffers.push(argumentsList[0]);
+            }
+            return target.call(thisArg, ...argumentsList);
           }
-          return target.call(thisArg, ...argumentsList);
-        }
-      };
-      res.write = new Proxy(res.write, proxyHandler);
-      res.end = new Proxy(res.end, proxyHandler);
-      res.on("finish", function () {
-        if (req.path.startsWith(options.route)) return;
-        // tracing logic inside
-        const response = {
-          headers: this.getHeaders(),
-          status: this.statusCode,
-          body: Buffer.concat(buffers).toString("utf-8")
         };
+        res.write = new Proxy(res.write, proxyHandler);
+        res.end = new Proxy(res.end, proxyHandler);
+        res.on("finish", function () {
+          if (req.path.startsWith(options.route)) return;
 
-        delete response.headers.etag;
+          // tracing logic inside
+          const response = {
+            headers: this.getHeaders(),
+            status: this.statusCode,
+            body: Buffer.concat(buffers).toString("utf-8")
+          };
 
-        if (response.headers["content-type"].includes("json")) {
-          response.body = JSON.parse(response.body);
-        }
+          delete response.headers.etag;
 
-        const request = {
-          path: req.path,
-          method: req.method,
-          query: req.query,
-          headers: req.headers,
-          body: req.body
-        };
+          if (response.headers["content-type"].includes("json")) {
+            response.body = JSON.parse(response.body);
+          }
 
-        const msg = {
-          request,
-          response
-        };
-        options.sandbox.emit("request", msg);
+          const request = {
+            path: req.path,
+            method: req.method,
+            query: req.query,
+            headers: req.headers,
+            body: req.body
+          };
+
+          const msg = {
+            request,
+            response
+          };
+          options.sandbox.emit("request", msg);
+        });
+        next();
       });
-      next();
-    });
     return server;
   }
 };
