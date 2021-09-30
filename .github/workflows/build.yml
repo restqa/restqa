@@ -33,9 +33,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: npm run dashboard:install
     - run: npm install
       env:
         CI: true
+    - run: npm run build
     - run: npm run lint
     - run: npm test
     - run: npm run test:functional
@@ -53,9 +55,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 #    - run: npm install -g bats
+    - run: npm run dashboard:install
     - run: npm install
       env:
         CI: true
+    - run: npm run build
     - run: npm test
 #   - run: npm run example
 #   - run: npm run test:functional
