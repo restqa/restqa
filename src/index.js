@@ -269,7 +269,7 @@ const Hooks = {
     options.sandbox = options.sandbox || new Sandbox();
     options.serve = false;
     server
-      .use(options.route, HttpsServer(options))
+      .use(options.route, HttpsServer(options.configFile, options))
       .use((req, res, next) => {
         const buffers = [];
         const proxyHandler = {
@@ -299,7 +299,7 @@ const Hooks = {
 
           delete response.headers.etag;
 
-          if (response.headers["content-type"].includes("json")) {
+          if ((response.headers["content-type"] || '').includes("json")) {
             response.body = JSON.parse(response.body);
           }
 
