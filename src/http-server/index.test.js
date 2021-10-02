@@ -1548,4 +1548,67 @@ environments:
       });
     });
   });
+
+  describe("/events", () => {
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+    const Sandbox = require("../core/sandbox");
+    test("Throw error if the sandbox mode is not enabled", async () => {
+      server = app(false).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("events");
+      expect(response.statusCode).toBe(406);
+      expect(response.body).toEqual({
+        message: "The sandbox mode is not enabled"
+      });
+    });
+
+    test("Send event when the sandbox got triggered", () => {
+      return new Promise((resolve, reject) => {
+        jest.useFakeTimers("modern");
+        jest.setSystemTime(new Date("2012-10-10"));
+        const options = {
+          sandbox: new Sandbox()
+        };
+
+        const incomingRequest = {};
+
+        const {Writable} = require("stream");
+
+        const pipeStream = new Writable({
+          write: (chunk, e, cb) => {
+            const data = chunk.toString();
+            const expectedBody = JSON.stringify({
+              request: incomingRequest,
+              status: "PENDING",
+              scenario: "Scenario: ...",
+              createdAt: new Date("2012-10-10")
+            });
+            expect(data).toEqual(`data: ${expectedBody}\n\n`);
+            server.close();
+            resolve();
+          }
+        });
+        server = app(false, options).listen(0);
+        const instance = getGotInstance(server.address().port);
+        instance
+          .stream("events")
+          .on("response", (response) => {
+            try {
+              expect(response.headers["cache-control"]).toBe("no-cache");
+              expect(response.headers["content-type"]).toBe(
+                "text/event-stream; charset=utf-8"
+              );
+              expect(response.headers.connection).toBe("keep-alive");
+              expect(response.headers["transfer-encoding"]).toBe("chunked");
+            } catch (e) {
+              reject(e);
+            }
+            options.sandbox.emit("request", incomingRequest);
+          })
+          .pipe(pipeStream);
+      });
+    });
+  });
 });
