@@ -9,16 +9,15 @@ class Sandbox extends EventEmitter {
   handler(request) {
     const data = {
       request,
-      status: 'PENDING',
+      status: "PENDING",
       scenario: this.getScenario(request),
       createdAt: new Date()
-
-    }
-    this.emit('generated', data)
+    };
+    this.emit("generated", data);
   }
 
-  getScenario (request) {
-    return 'Scenario: ...'
+  getScenario(request) {
+    return "Scenario: ...";
   }
 }
 
