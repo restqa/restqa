@@ -347,7 +347,7 @@ environments:
   });
 
   describe("# Index - Hooks", () => {
-    const { Hooks } = require("./index");
+    const {Hooks} = require("./index");
 
     describe("Express", () => {
       test("Send Event on each request that passing (GET)", async () => {
@@ -363,22 +363,22 @@ environments:
           return res.json({message});
         });
 
-        const server = app.listen(0)
-        const port = server.address().port
+        const server = app.listen(0);
+        const port = server.address().port;
 
         const instance = got.extend({
           prefixUrl: `http://127.0.0.1:${port}`,
           throwHttpErrors: false
-         });
-        
-        const requestAPI = instance.get("hello", { responseType: 'json' });
+        });
+
+        const requestAPI = instance.get("hello", {responseType: "json"});
         const requestDashboard = instance.get("restqa");
         const promiseEvent = once(opt.sandbox, "request");
 
         const [responseAPI, responseDashboard, emittedEvent] =
           await Promise.all([requestAPI, requestDashboard, promiseEvent]);
 
-        server.close()
+        server.close();
 
         expect(responseAPI.statusCode).toBe(200);
         expect(responseAPI.body.message).toBe(message);
@@ -393,11 +393,11 @@ environments:
             path: "/hello",
             query: {},
             headers: {
-              "accept": "application/json",
+              accept: "application/json",
               "accept-encoding": "gzip, deflate, br",
               connection: "close",
-              host: "127.0.0.1:" +  port,
-              'user-agent': "got (https://github.com/sindresorhus/got)"
+              host: "127.0.0.1:" + port,
+              "user-agent": "got (https://github.com/sindresorhus/got)"
             },
             body: {}
           },
@@ -430,22 +430,24 @@ environments:
           return res.json({message});
         });
 
-        const server = app.listen(0)
-        const port = server.address().port
+        const server = app.listen(0);
+        const port = server.address().port;
 
         const instance = got.extend({
           prefixUrl: `http://127.0.0.1:${port}`,
           throwHttpErrors: false
-         });
-        
-        const requestAPI = instance.get("hello?foo=bar&first=parameter", { responseType: 'json' });
+        });
+
+        const requestAPI = instance.get("hello?foo=bar&first=parameter", {
+          responseType: "json"
+        });
         const requestDashboard = instance.get("restqa");
         const promiseEvent = once(opt.sandbox, "request");
 
         const [responseAPI, responseDashboard, emittedEvent] =
           await Promise.all([requestAPI, requestDashboard, promiseEvent]);
 
-         server.close()
+        server.close();
 
         expect(responseAPI.statusCode).toBe(200);
         expect(responseAPI.body.message).toBe(message);
@@ -465,11 +467,11 @@ environments:
             },
             body: {},
             headers: {
-              "accept": "application/json",
+              accept: "application/json",
               "accept-encoding": "gzip, deflate, br",
               connection: "close",
               host: "127.0.0.1:" + port,
-              'user-agent': "got (https://github.com/sindresorhus/got)"
+              "user-agent": "got (https://github.com/sindresorhus/got)"
             }
           },
           response: {
@@ -500,28 +502,28 @@ environments:
           return res.json({message});
         });
 
-        const server = app.listen(0)
-        const port = server.address().port
+        const server = app.listen(0);
+        const port = server.address().port;
 
         const instance = got.extend({
           prefixUrl: `http://127.0.0.1:${port}`,
           throwHttpErrors: false
-         });
+        });
 
-        const requestAPI = instance.get('hello', {
-          responseType: 'json',
+        const requestAPI = instance.get("hello", {
+          responseType: "json",
           headers: {
             "x-api-key": "xxx-yyy-zzz",
             "accept-type": "applicaiton/json"
           }
-        })
+        });
         const requestDashboard = instance.get("restqa");
         const promiseEvent = once(opt.sandbox, "request");
 
         const [responseAPI, responseDashboard, emittedEvent] =
           await Promise.all([requestAPI, requestDashboard, promiseEvent]);
 
-        server.close()
+        server.close();
 
         expect(responseAPI.statusCode).toBe(200);
         expect(responseAPI.body.message).toBe(message);
@@ -537,12 +539,12 @@ environments:
             path: "/hello",
             headers: {
               "x-api-key": "xxx-yyy-zzz",
-              "accept": "application/json",
+              accept: "application/json",
               "accept-encoding": "gzip, deflate, br",
               "accept-type": "applicaiton/json",
-              'user-agent': "got (https://github.com/sindresorhus/got)",
+              "user-agent": "got (https://github.com/sindresorhus/got)",
               connection: "close",
-              host: "127.0.0.1:" +  port,
+              host: "127.0.0.1:" + port
             },
             query: {},
             body: {}
@@ -576,20 +578,20 @@ environments:
           return res.status(201).json({message});
         });
 
-        const server = app.listen(0)
-        const port = server.address().port
+        const server = app.listen(0);
+        const port = server.address().port;
 
         const instance = got.extend({
           prefixUrl: `http://127.0.0.1:${port}`,
           throwHttpErrors: false
-         });
+        });
 
         const requestAPI = instance.post("greeting", {
           json: {
             firstName: "John",
             lastName: "Doe"
           },
-          responseType: 'json'
+          responseType: "json"
         });
 
         const requestDashboard = instance.get("jestqa");
@@ -598,7 +600,7 @@ environments:
         const [responseAPI, responseDashboard, emittedEvent] =
           await Promise.all([requestAPI, requestDashboard, promiseEvent]);
 
-         server.close()
+        server.close();
 
         expect(responseAPI.statusCode).toBe(201);
         expect(responseAPI.body.message).toBe(message);
@@ -614,12 +616,12 @@ environments:
             path: "/greeting",
             headers: {
               "content-type": "application/json",
-              "accept": "application/json",
+              accept: "application/json",
               "accept-encoding": "gzip, deflate, br",
               connection: "close",
               "content-length": "37",
-              host: "127.0.0.1:" +  port,
-              'user-agent': "got (https://github.com/sindresorhus/got)"
+              host: "127.0.0.1:" + port,
+              "user-agent": "got (https://github.com/sindresorhus/got)"
             },
             query: {},
             body: {

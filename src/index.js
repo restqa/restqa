@@ -299,7 +299,7 @@ const Hooks = {
 
           delete response.headers.etag;
 
-          if ((response.headers["content-type"] || '').includes("json")) {
+          if ((response.headers["content-type"] || "").includes("json")) {
             response.body = JSON.parse(response.body);
           }
 
