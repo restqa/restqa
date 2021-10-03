@@ -66,7 +66,7 @@ describe("Service - RestQA - Projects", () => {
       const result = await Project.getConfig();
       expect(result).toEqual(data);
       expect(mockGet.mock.calls).toHaveLength(1);
-      expect(mockGet.mock.calls[0][0]).toEqual("/config");
+      expect(mockGet.mock.calls[0][0]).toEqual("config");
     });
   });
 
