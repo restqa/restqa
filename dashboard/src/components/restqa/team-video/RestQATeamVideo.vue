@@ -19,7 +19,7 @@
 
 <script>
 import Card from "@/components/UI/card/Card";
-import moment from  "moment"
+import moment from "moment";
 
 export default {
   name: "RestQATeamVideo",
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.video.last.date).format('ll')
+      return moment(this.video.last.date).format("ll");
     },
     video() {
       const {video} = (this.$store.getters.info &&

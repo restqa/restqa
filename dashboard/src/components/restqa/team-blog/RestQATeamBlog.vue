@@ -23,7 +23,7 @@
 <script>
 import Card from "@/components/UI/card/Card";
 import Avatar from "@/components/UI/avatar/Avatar";
-import moment from  "moment"
+import moment from "moment";
 
 export default {
   name: "RestQATeamBlog",
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.blog.last.date).format('ll')
+      return moment(this.blog.last.date).format("ll");
     },
     blog() {
       const {blog} = (this.$store.getters.info &&
