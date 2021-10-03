@@ -47,7 +47,7 @@ describe("RestQATips", () => {
     await component.vm.$nextTick();
 
     expect(mockGet).toHaveBeenCalledTimes(1);
-    expect(mockGet.mock.calls[0][0]).toBe("/api/tips");
+    expect(mockGet.mock.calls[0][0]).toBe("api/tips");
 
     await component.vm.$nextTick();
 
@@ -81,7 +81,7 @@ describe("RestQATips", () => {
     await component.vm.$nextTick();
 
     expect(mockGet).toHaveBeenCalledTimes(1);
-    expect(mockGet.mock.calls[0][0]).toBe("/api/tips");
+    expect(mockGet.mock.calls[0][0]).toBe("api/tips");
 
     await component.vm.$nextTick();
 

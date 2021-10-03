@@ -43,7 +43,7 @@ describe("Service - RestQA - User", () => {
       const result = await User.getPreferences();
       expect(result).toEqual(data);
       expect(mockGet).toHaveBeenCalledTimes(1);
-      expect(mockGet).toHaveBeenCalledWith("/preferences");
+      expect(mockGet).toHaveBeenCalledWith("preferences");
     });
   });
 });
