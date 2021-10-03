@@ -1580,7 +1580,7 @@ environments:
           write: (chunk, e, cb) => {
             const data = chunk.toString();
             const expectedBody = JSON.stringify({
-              request: incomingRequest,
+              transaction: incomingRequest,
               status: "PENDING",
               scenario: "Scenario: ...",
               createdAt: new Date("2012-10-10")

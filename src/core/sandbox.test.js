@@ -9,13 +9,13 @@ describe("Core - Sandbox", () => {
     jest.useFakeTimers("modern");
     jest.setSystemTime(new Date("2012-10-10"));
     return new Promise((resolve) => {
-      const request = {
+      const transaction = {
         foo: "bar"
       };
       const instance = new Sandbox();
       instance.on("generated", (data) => {
         const expectedData = {
-          request,
+          transaction,
           status: "PENDING",
           scenario: "Scenario: ...",
           createdAt: new Date("2012-10-10")
@@ -23,7 +23,7 @@ describe("Core - Sandbox", () => {
         expect(data).toEqual(expectedData);
         resolve();
       });
-      instance.emit("request", request);
+      instance.emit("request", transaction);
     });
   });
 });
