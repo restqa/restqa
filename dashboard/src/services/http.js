@@ -21,11 +21,21 @@ export function getBaseURL() {
     baseURL = "http://localhost:8081";
   }
 
-  return baseURL
+  return baseURL;
+}
+
+export function getEventSource() {
+  let baseUrl = getBaseURL();
+  let path = "events";
+  if ("" !== baseUrl) {
+    path = "/" + path;
+  }
+  const url = baseUrl + path;
+  return new EventSource(url);
 }
 
 function client() {
-  let baseURL = getBaseURL()
+  let baseURL = getBaseURL();
 
   const instance = axios.create({
     baseURL
