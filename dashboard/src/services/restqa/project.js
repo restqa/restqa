@@ -11,7 +11,7 @@ async function getStepDefinition(keyword) {
 }
 
 async function getConfig() {
-  const result = await Http().get("/config");
+  const result = await Http().get("config");
   return result.data;
 }
 
