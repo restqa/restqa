@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.45",
+    "moment": "^2.29.1",
     "prismjs": "^1.23.0",
     "vue": "^3.0.0",
     "vue-gtag-next": "^1.14.0",

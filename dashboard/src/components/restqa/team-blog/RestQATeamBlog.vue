@@ -23,6 +23,7 @@
 <script>
 import Card from "@/components/UI/card/Card";
 import Avatar from "@/components/UI/avatar/Avatar";
+import moment from  "moment"
 
 export default {
   name: "RestQATeamBlog",
@@ -32,13 +33,7 @@ export default {
   },
   computed: {
     date() {
-      const d = new Date(this.blog.last.date);
-      const options = {
-        year: "numeric",
-        month: "short",
-        day: "numeric"
-      };
-      return d.toLocaleDateString("en-CA", options);
+      return moment(this.blog.last.date).format('ll')
     },
     blog() {
       const {blog} = (this.$store.getters.info &&
