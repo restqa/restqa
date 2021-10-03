@@ -123,7 +123,7 @@ describe("RestQAProjectEditorIde", () => {
 
     expect(mockPut).toHaveBeenCalledTimes(1);
     expect(mockPut.mock.calls[0][0]).toEqual(
-      "/api/project/features/foo.feature"
+      "api/project/features/foo.feature"
     );
     expect(mockPut.mock.calls[0][1]).toEqual("this is the new content");
 

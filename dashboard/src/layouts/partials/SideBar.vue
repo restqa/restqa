@@ -8,7 +8,7 @@
   >
     <div class="logo">
       <a href="https://restqa.io" target="_blank">
-        <img src="/logo.png" /><br />
+        <img src="logo.png" /><br />
       </a>
     </div>
     <el-menu-item

@@ -14,12 +14,18 @@ export class ValidationError extends Error {
   }
 }
 
-function client() {
+export function getBaseURL() {
   let baseURL = "";
 
   if ("development" === process.env.NODE_ENV) {
     baseURL = "http://localhost:8081";
   }
+
+  return baseURL
+}
+
+function client() {
+  let baseURL = getBaseURL()
 
   const instance = axios.create({
     baseURL

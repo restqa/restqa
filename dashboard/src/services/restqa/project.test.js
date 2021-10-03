@@ -88,7 +88,7 @@ describe("Service - RestQA - Projects", () => {
       const result = await Project.initialize(body);
       expect(result).toEqual(data);
       expect(mockPost.mock.calls).toHaveLength(1);
-      expect(mockPost.mock.calls[0][0]).toEqual("/api/restqa/initialize");
+      expect(mockPost.mock.calls[0][0]).toEqual("api/restqa/initialize");
       expect(mockPost.mock.calls[0][1]).toEqual(body);
     });
   });
@@ -109,7 +109,7 @@ describe("Service - RestQA - Projects", () => {
         data
       });
       expect(mockPost.mock.calls).toHaveLength(1);
-      expect(mockPost.mock.calls[0][0]).toEqual("/api/restqa/run");
+      expect(mockPost.mock.calls[0][0]).toEqual("api/restqa/run");
       expect(mockPost.mock.calls[0][1]).toEqual({path});
     });
   });
@@ -137,7 +137,7 @@ describe("Service - RestQA - Projects", () => {
       const result = await Project.getStepDefinition();
       expect(result).toEqual(mockData.data);
       expect(mockGet.mock.calls).toHaveLength(1);
-      expect(mockGet.mock.calls[0][0]).toEqual("/api/restqa/steps");
+      expect(mockGet.mock.calls[0][0]).toEqual("api/restqa/steps");
       expect(mockGet.mock.calls[0][1]).toEqual({params: {}});
     });
 
@@ -157,7 +157,7 @@ describe("Service - RestQA - Projects", () => {
       const result = await Project.getStepDefinition("given");
       expect(result).toEqual(mockData.data);
       expect(mockGet.mock.calls).toHaveLength(1);
-      expect(mockGet.mock.calls[0][0]).toEqual("/api/restqa/steps");
+      expect(mockGet.mock.calls[0][0]).toEqual("api/restqa/steps");
       expect(mockGet.mock.calls[0][1]).toEqual({params: {keyword: "given"}});
     });
   });
@@ -221,7 +221,7 @@ describe("Service - RestQA - Projects", () => {
       ];
       expect(result).toEqual(expectedResult);
       expect(mockGet.mock.calls).toHaveLength(1);
-      expect(mockGet.mock.calls[0][0]).toEqual("/api/project/features");
+      expect(mockGet.mock.calls[0][0]).toEqual("api/project/features");
     });
 
     test("Get the content of a feature file", async () => {
@@ -236,7 +236,7 @@ describe("Service - RestQA - Projects", () => {
       expect(result).toEqual(expectedResult);
       expect(mockGet.mock.calls).toHaveLength(1);
       expect(mockGet.mock.calls[0][0]).toEqual(
-        "/api/project/features/foo.feature"
+        "api/project/features/foo.feature"
       );
     });
 
@@ -251,7 +251,7 @@ describe("Service - RestQA - Projects", () => {
       expect(result).toEqual(true);
       expect(mockPut.mock.calls).toHaveLength(1);
       expect(mockPut.mock.calls[0][0]).toEqual(
-        "/api/project/features/foo.feature"
+        "api/project/features/foo.feature"
       );
       expect(mockPut.mock.calls[0][1]).toEqual(data);
       const expectOption = {

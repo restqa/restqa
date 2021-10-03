@@ -74,7 +74,7 @@ describe("Service - RestQA - info", () => {
       const result = await Info.get();
       expect(result).toEqual(mockData.data);
       expect(mockGet.mock.calls).toHaveLength(1);
-      expect(mockGet.mock.calls[0][0]).toEqual("/api/info");
+      expect(mockGet.mock.calls[0][0]).toEqual("api/info");
     });
 
     test("Return the Information from the cache because we are on the same day", async () => {
@@ -124,7 +124,7 @@ describe("Service - RestQA - info", () => {
       expect(result3).toEqual(mockData.data);
 
       expect(mockGet.mock.calls).toHaveLength(1);
-      expect(mockGet.mock.calls[0][0]).toBe("/api/info");
+      expect(mockGet.mock.calls[0][0]).toBe("api/info");
     });
   });
 });
@@ -141,6 +141,6 @@ describe("Service - RestQA - tips", () => {
     const result = await Info.tips();
     expect(result).toEqual(mockData.data);
     expect(mockGet.mock.calls).toHaveLength(1);
-    expect(mockGet.mock.calls[0][0]).toEqual("/api/tips");
+    expect(mockGet.mock.calls[0][0]).toEqual("api/tips");
   });
 });
