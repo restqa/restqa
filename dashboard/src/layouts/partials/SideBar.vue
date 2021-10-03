@@ -49,6 +49,11 @@ const menu = [
     route: "steps",
     label: "Step definition",
     icon: "el-icon-collection"
+  },
+  {
+    route: "sandbox",
+    label: "Sandbox",
+    icon: "el-icon-ice-drink"
   }
 ];
 
