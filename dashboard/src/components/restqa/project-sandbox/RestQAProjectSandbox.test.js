@@ -1,7 +1,6 @@
 import ElementPlus from "element-plus";
 import {mount} from "@vue/test-utils";
 import RestQAProjectSandbox from "./RestQAProjectSandbox.vue";
-import * as http from "@/services/http";
 
 let msg;
 
