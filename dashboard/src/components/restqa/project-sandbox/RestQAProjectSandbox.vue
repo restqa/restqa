@@ -100,11 +100,11 @@ export default {
       this.data.splice(index, 1);
     },
     copy(transaction) {
-      copyText(transaction.scenario, undefined, (error, event) => {
+      copyText(transaction.scenario, undefined, (error) => {
         const type = error ? "error" : "success";
         const message = error
           ? "An error occured."
-          : "Step copied into your clipboard";
+          : "Scenario copied into your clipboard";
         this.$notify({
           message,
           type
