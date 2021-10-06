@@ -2,9 +2,10 @@ const path = require("path");
 const fs = require("fs");
 const cucumber = require("@cucumber/cucumber");
 const logger = require("../utils/logger");
+const {execute} = require("../utils/executor");
 
-module.exports = function (opt, program = {}) {
-  let {env, config, tags = [], stream = process.stdout, args} = opt;
+module.exports = async function (opt, program = {}) {
+  let {env, config, tags = [], stream = process.stdout, args, command} = opt;
 
   args = args || program.args || ["."];
 
@@ -79,6 +80,10 @@ module.exports = function (opt, program = {}) {
   };
 
   const cucumberCli = new cucumber.Cli(options);
+
+  if (typeof command === "string") {
+    await execute(command);
+  }
 
   return cucumberCli
     .run()

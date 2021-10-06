@@ -6,6 +6,28 @@ const jestqa = new JestQA(__filename, true);
 beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
 
+const validRestQAConfigFile = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://host.docker.internal:4046
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+    `;
+
 describe("#Cli - Run", () => {
   test("Throw error if the passed file doesnt exist", async () => {
     const filename = path.resolve(os.tmpdir(), ".restqa.fake.yml");
@@ -394,28 +416,7 @@ environments:
   });
 
   test("Error during cucumber run execution", async () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://host.docker.internal:4046
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
+    const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest
       .fn()
@@ -462,4 +463,35 @@ environments:
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch("This is an error");
   });
+
+  test("given a -x option when we run restqa then it should execute command before running cucumber", async() => {
+    // Mock
+    const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute");
+    const mockCucumberRun = jest.fn().mockResolvedValue({
+      shouldExitImmediately: false,
+      success: false
+    });
+    jest.spyOn(require("@cucumber/cucumber"), "Cli")
+      .mockImplementation(() => {
+        return {
+          run: mockCucumberRun
+        };
+      });
+    
+    // Given
+    const configFileName = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
+    const runOptions = {
+      config: configFileName,
+      command: "echo lol"
+    };
+    const Run = require("./run");
+    
+    // When
+    await Run(runOptions);
+
+    // Then
+    const mockExecuteCommandOrder = mockExecuteCommand.mock.invocationCallOrder[0]
+    const mockCucumberRunOrder = mockCucumberRun.mock.invocationCallOrder[0]
+    expect(mockExecuteCommandOrder).toBeLessThan(mockCucumberRunOrder)
+  })
 });
