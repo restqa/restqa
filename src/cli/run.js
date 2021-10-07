@@ -82,7 +82,12 @@ module.exports = async function (opt, program = {}) {
   const cucumberCli = new cucumber.Cli(options);
 
   if (typeof command === "string") {
-    await execute(command);
+    try {
+      await execute(command);
+    } catch(error) {
+      logger.error(error.message);
+      process.exit(1);
+    }
   }
 
   return cucumberCli

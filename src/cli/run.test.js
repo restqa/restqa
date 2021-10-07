@@ -525,6 +525,38 @@ environments:
         expect(mockExecuteCommand).not.toHaveBeenCalled();
         expect(mockCucumberRun).toHaveBeenCalled();
     });
+
+    test("given a -x option when we run restqa and execution failed then it should exit", async() => {
+      // Mock
+      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
+      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute")
+        .mockRejectedValue(new Error("boom"));
+      const mockCucumberRun = jest.fn().mockResolvedValue({
+        shouldExitImmediately: false,
+        success: false
+      });
+      jest.spyOn(require("@cucumber/cucumber"), "Cli")
+        .mockImplementation(() => {
+          return {
+            run: mockCucumberRun
+          };
+        });
+      
+      // Given
+      const configFileName = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
+      const runOptionsWithCommand = {
+        config: configFileName,
+        command: "echo lol"
+      };
+      const Run = require("./run");
+      
+      // When
+      await Run(runOptionsWithCommand);
+  
+      // Then
+      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.command);
+      expect(mockExit).toHaveBeenCalledWith(1);
+    });
   });
 
 });
