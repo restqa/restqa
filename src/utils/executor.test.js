@@ -42,4 +42,21 @@ describe("# utils - executor", () => {
     // Then
     expect(loggerSpy).toHaveBeenCalledWith(`Server is running ${validCommand}`);
   });
+
+  test("given a command that should fail when we execute it then it should throw an error", async() => {
+    // Given
+    const commandShouldFail = "ls dd-sdd";
+
+    // When
+    expect.assertions(2);
+    try {
+      await execute(commandShouldFail)
+    } catch(error) {
+      // Then
+      // eslint-disable-next-line
+      expect(error).toEqual(new Error(`Command exited, code: 1`));
+      // eslint-disable-next-line
+      expect(stdoutSpy).toHaveBeenCalled();
+    }
+  });
 });
