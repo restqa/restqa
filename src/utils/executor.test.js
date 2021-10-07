@@ -23,8 +23,23 @@ describe("# utils - executor", () => {
     try {
       await execute(mistypedCommand)
     } catch(error) {
+      // Then
       // eslint-disable-next-line
       expect(error).toEqual(new Error(`Executor: command should be a string but received ${typeof mistypedCommand}`));
     }
+  });
+
+  test("given a valid command when execute it then it should display a success message", async () => {
+    // Mocks and spies
+    const loggerSpy = jest.spyOn(require("../utils/logger"), "success");
+
+    // Given
+    const validCommand = "ls -l";
+
+    // When
+    await execute(validCommand);
+
+    // Then
+    expect(loggerSpy).toHaveBeenCalledWith(`Server is running ${validCommand}`);
   });
 });

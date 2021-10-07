@@ -139,6 +139,6 @@ load 'common.sh'
   run npm i
   run restqa run -x npm start
   assert_success
-  assert_output --partial 'Server is listenning (command: npm start)'
+  assert_output --partial 'Server is running (command: npm start)'
   assert_output --partial '1 scenario (1 passed)'
 }
