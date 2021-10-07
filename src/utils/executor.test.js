@@ -63,7 +63,7 @@ describe("# utils - executor", () => {
 
   test("given a watch command, AbortController when we execute it then we could abort it", async() => {
     // Given
-    const watchCommand = "htop";
+    const watchCommand = "node ./src/utils/fixtures/infinite-cli.js";
     const controller = new AbortController();
 
     // When
