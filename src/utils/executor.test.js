@@ -1,4 +1,6 @@
-const { setTimeout } = require("timers/promises")
+const { promisify } = require("util")
+
+const setTimeoutPromisify = promisify(setTimeout);
 
 const {execute} = require("./executor");
 
@@ -68,7 +70,7 @@ describe("# utils - executor", () => {
 
     // When
     await execute(watchCommand, controller);
-    await setTimeout(3000);
+    await setTimeoutPromisify(3000);
     controller.abort();
 
     // Then
