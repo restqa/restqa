@@ -465,19 +465,24 @@ environments:
   });
 
   describe("-x / -exec option", () => {
+    // Mocks
+    function setCucumberMock(jestFn) {
+      jest.spyOn(require("@cucumber/cucumber"), "Cli")
+        .mockImplementation(() => {
+          return {
+            run: jestFn
+          };
+        });
+    }
+
     test("given a -x option when we run restqa then it should execute command before running cucumber", async() => {
-      // Mock
-      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute");
+      // Mocks
       const mockCucumberRun = jest.fn().mockResolvedValue({
         shouldExitImmediately: false,
         success: false
       });
-      jest.spyOn(require("@cucumber/cucumber"), "Cli")
-        .mockImplementation(() => {
-          return {
-            run: mockCucumberRun
-          };
-        });
+      setCucumberMock(mockCucumberRun)
+      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute");
       
       // Given
       const configFileName = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
@@ -494,22 +499,17 @@ environments:
       const mockExecuteCommandOrder = mockExecuteCommand.mock.invocationCallOrder[0]
       const mockCucumberRunOrder = mockCucumberRun.mock.invocationCallOrder[0]
       expect(mockExecuteCommandOrder).toBeLessThan(mockCucumberRunOrder)
-      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.command);
+      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.command, expect.objectContaining(new AbortController()));
     });
 
     test("given no -x option when we run restqa nothing should be executed", async() => {
-        // Mock
-        const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute");
+        // Mocks
         const mockCucumberRun = jest.fn().mockResolvedValue({
           shouldExitImmediately: false,
           success: false
         });
-        jest.spyOn(require("@cucumber/cucumber"), "Cli")
-          .mockImplementation(() => {
-            return {
-              run: mockCucumberRun
-            };
-          });
+        setCucumberMock(mockCucumberRun)
+        const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute");
         
         // Given
         const configFileName = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
@@ -527,20 +527,15 @@ environments:
     });
 
     test("given a -x option when we run restqa and execution failed then it should exit", async() => {
-      // Mock
-      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
-      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute")
-        .mockRejectedValue(new Error("boom"));
+      // Mocks
       const mockCucumberRun = jest.fn().mockResolvedValue({
         shouldExitImmediately: false,
         success: false
       });
-      jest.spyOn(require("@cucumber/cucumber"), "Cli")
-        .mockImplementation(() => {
-          return {
-            run: mockCucumberRun
-          };
-        });
+      setCucumberMock(mockCucumberRun)
+      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
+      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute")
+        .mockRejectedValue(new Error("boom"));
       
       // Given
       const configFileName = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
@@ -554,8 +549,28 @@ environments:
       await Run(runOptionsWithCommand);
   
       // Then
-      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.command);
+      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.command, expect.objectContaining(new AbortController()));
       expect(mockExit).toHaveBeenCalledWith(1);
+    });
+
+    test("given a -x option when we run restqa and execution failed then it use AbortController.abort", async() => {
+      // Mocks
+      const mockCucumberRun = jest.fn().mockRejectedValue(new Error("Boom"));
+      setCucumberMock(mockCucumberRun)
+      const spyAbort = jest.spyOn(AbortController.prototype, "abort");
+      jest.spyOn(require("../utils/executor"), "execute");
+
+      // Given
+      const configFileName = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
+      const runOptionsWithCommand = {
+        config: configFileName,
+        command: "echo lol"
+      };
+      const Run = require("./run");
+      await Run(runOptionsWithCommand);
+
+      // When
+      expect(spyAbort).toHaveBeenCalled();
     });
   });
 

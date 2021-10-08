@@ -81,9 +81,12 @@ module.exports = async function (opt, program = {}) {
 
   const cucumberCli = new cucumber.Cli(options);
 
+  // Execute command argument
+  let controller;
   if (typeof command === "string") {
     try {
-      await execute(command);
+      controller = new AbortController();
+      await execute(command, controller);
     } catch(error) {
       logger.error(error.message);
       process.exit(1);
@@ -101,6 +104,9 @@ module.exports = async function (opt, program = {}) {
       }
     })
     .catch((err) => {
+      if (controller instanceof AbortController) {
+        controller.abort();
+      }
       logger.error(err);
       process.exit(1);
     });
