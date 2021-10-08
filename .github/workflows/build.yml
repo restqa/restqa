@@ -59,6 +59,7 @@ jobs:
     - run: npm install
       env:
         CI: true
+    - run: del .\dashboard\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
     - run: npm run build
     - run: npm test
 #   - run: npm run example
