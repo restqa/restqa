@@ -15,19 +15,24 @@ module.exports = {
           shell: true,
           signal: controller ? controller.signal : undefined
         });
-        
-        server.stdout.pipe(process.stdout)
-        server.stdout.on("data", () => {
-          logger.success(`Server is running ${command}`)
-          resolve();
+
+        // reject if an error happened
+        server.stderr.on("data", () => {
+          reject(new Error(`Error during running command ${command}`))
         })
 
-        server.stderr.on("data", (data) => {
-          reject(new Error(`Error during running command ${command}`))
+        // resolve when process is spawn successfully
+        server.stdout.on("data", () => {
+          if (!controller || (controller && !controller.signal.aborted)) {
+            logger.success(`Server is running ${command}`)
+          }
+          resolve();
         });
 
         server.on("close", () => {
-          logger.info("Server closed!")
+          if (!controller || (controller && !controller.signal.aborted)) {
+            logger.info("Server closed!")
+          }
         })
       }
       else {

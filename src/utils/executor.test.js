@@ -1,12 +1,10 @@
-const { promisify } = require("util")
-
-const setTimeoutPromisify = promisify(setTimeout);
-
 const {execute} = require("./executor");
+
+jest.useFakeTimers("legacy");
 
 describe("# utils - executor", () => {
   // Mocks and spies
-  const stdoutSpy = jest.spyOn(process.stdout, "write").mockImplementation(jest.fn());
+  // const stdoutSpy = jest.spyOn(process.stdout, "write").mockImplementation(jest.fn());
   const loggerInfoSpy = jest.spyOn(require("../utils/logger"), "info").mockImplementation(jest.fn());;
   const loggerSuccessSpy = jest.spyOn(require("../utils/logger"), "success").mockImplementation(jest.fn());;
 
@@ -19,7 +17,6 @@ describe("# utils - executor", () => {
 
     // Then
     expect(loggerSuccessSpy).toHaveBeenCalledWith(`Server is running ${validCommand}`)
-    expect(stdoutSpy).toHaveBeenCalled();
   });
 
   test("given a valid command when execute it then it should display a success message", async () => {
@@ -63,14 +60,14 @@ describe("# utils - executor", () => {
     }
   });
 
-  test("given a watch command, AbortController when we execute it then we could abort it", async() => {
+  test("given a watch command, and AbortController when we execute it then we could abort it", async() => {
     // Given
     const watchCommand = "node ./src/utils/fixtures/infinite-cli.js";
     const controller = new AbortController();
 
     // When
     await execute(watchCommand, controller);
-    await setTimeoutPromisify(3000);
+    // await promisify(setTimeout)(2000, "foobar"); // -> Commented due to un usability
     controller.abort();
 
     // Then
