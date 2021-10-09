@@ -1565,6 +1565,7 @@ environments:
     });
 
     test("Send event when the sandbox got triggered", () => {
+      let stream;
       return new Promise((resolve, reject) => {
         jest.useFakeTimers("modern");
         jest.setSystemTime(new Date("2012-10-10"));
@@ -1574,25 +1575,10 @@ environments:
 
         const incomingRequest = {};
 
-        const {Writable} = require("stream");
-
-        const pipeStream = new Writable({
-          write: (chunk, e, cb) => {
-            const data = chunk.toString();
-            const expectedBody = JSON.stringify({
-              transaction: incomingRequest,
-              status: "PENDING",
-              scenario: "Scenario: ...",
-              createdAt: new Date("2012-10-10")
-            });
-            expect(data).toEqual(`data: ${expectedBody}\n\n`);
-            server.close();
-            resolve();
-          }
-        });
         server = app(false, options).listen(0);
         const instance = getGotInstance(server.address().port);
-        instance
+
+        stream = instance
           .stream("events")
           .on("response", (response) => {
             try {
@@ -1605,9 +1591,24 @@ environments:
             } catch (e) {
               reject(e);
             }
+
             options.sandbox.emit("request", incomingRequest);
+            server.close();
           })
-          .pipe(pipeStream);
+          .on("data", (chunk) => {
+            const data = chunk.toString();
+            const expectedBody = JSON.stringify({
+              transaction: incomingRequest,
+              status: "PENDING",
+              scenario: "Scenario: ...",
+              createdAt: new Date("2012-10-10")
+            });
+            expect(data).toEqual(`data: ${expectedBody}\n\n`);
+            resolve(stream);
+          });
+      }).then((stream) => {
+        stream.destroy();
+        server.close();
       });
     });
   });
