@@ -4,10 +4,17 @@ const cucumber = require("@cucumber/cucumber");
 const logger = require("../utils/logger");
 const {execute} = require("../utils/executor");
 const {checkServer} = require("../utils/check-server");
-const { ChildProcess } = require("child_process");
+const {ChildProcess} = require("child_process");
 
 module.exports = async function (opt, program = {}) {
-  let {env, config, tags = [], stream = process.stdout, args, exec: command} = opt;
+  let {
+    env,
+    config,
+    tags = [],
+    stream = process.stdout,
+    args,
+    exec: command
+  } = opt;
 
   args = args || program.args || ["."];
 
@@ -90,9 +97,9 @@ module.exports = async function (opt, program = {}) {
     try {
       controller = new AbortController();
       server = await execute(command, controller);
-      
+
       await checkServer();
-    } catch(error) {
+    } catch (error) {
       logger.error(error.message);
       process.exit(1);
     }
