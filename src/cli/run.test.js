@@ -479,6 +479,22 @@ environments:
         });
     }
 
+    function setExecutor(killProcessFn) {
+      const childProcess = new ChildProcess();
+      childProcess.kill = killProcessFn;
+      const mockExecuteCommand = jest
+        .spyOn(require("../core/executor"), "execute")
+        .mockResolvedValue(childProcess);
+
+      return mockExecuteCommand
+    }
+
+    beforeEach(() => {
+      jest
+        .spyOn(require("../core/check-server"), "checkServer")
+        .mockImplementation(jest.fn());
+    });
+
     test("given a -x option when we run restqa then it should execute command before running cucumber", async () => {
       // Mocks
       const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -486,15 +502,9 @@ environments:
         success: false
       });
       setCucumberMock(mockCucumberRun);
+      // Executor
       const mockProcessKill = jest.fn();
-      const childProcess = new ChildProcess();
-      childProcess.kill = mockProcessKill;
-      const mockExecuteCommand = jest
-        .spyOn(require("../core/executor"), "execute")
-        .mockResolvedValue(childProcess);
-      jest
-        .spyOn(require("../core/check-server"), "checkServer")
-        .mockImplementation(jest.fn());
+      const mockExecuteCommand = setExecutor(mockProcessKill);
 
       // Given
       const configFileName = jestqa.createTmpFile(
@@ -528,10 +538,7 @@ environments:
         success: false
       });
       setCucumberMock(mockCucumberRun);
-      const mockExecuteCommand = jest.spyOn(
-        require("../core/executor"),
-        "execute"
-      );
+      const mockExecuteCommand = setExecutor(jest.fn());
 
       // Given
       const configFileName = jestqa.createTmpFile(
@@ -590,14 +597,7 @@ environments:
       const mockCucumberRun = jest.fn().mockRejectedValue(new Error("Boom"));
       setCucumberMock(mockCucumberRun);
       const mockProcessKill = jest.fn();
-      const childProcess = new ChildProcess();
-      childProcess.kill = mockProcessKill;
-      jest
-        .spyOn(require("../core/executor"), "execute")
-        .mockResolvedValue(childProcess);
-      jest
-        .spyOn(require("../core/check-server"), "checkServer")
-        .mockImplementation(jest.fn());
+      setExecutor(mockProcessKill);
 
       // Given
       const configFileName = jestqa.createTmpFile(
@@ -612,7 +612,6 @@ environments:
       // When
       const Run = require("./run");
       await Run(runOptionsWithCommand);
-      jest.advanceTimersByTime(5000);
 
       // Then
       expect(mockProcessKill).toHaveBeenCalled();
