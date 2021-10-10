@@ -95,7 +95,7 @@ module.exports = async function (opt, program = {}) {
   let controller;
   if (typeof command === "string") {
     try {
-      controller = new AbortController();
+      controller = AbortController ? new AbortController() : undefined;
       server = await execute(command, controller);
 
       await checkServer();

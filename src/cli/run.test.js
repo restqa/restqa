@@ -514,7 +514,7 @@ environments:
       expect(mockExecuteCommandOrder).toBeLessThan(mockCucumberRunOrder);
       expect(mockExecuteCommand).toHaveBeenCalledWith(
         runOptionsWithCommand.exec,
-        expect.objectContaining(new AbortController())
+        AbortController ? expect.objectContaining(new AbortController()) : undefined
       );
     });
 
@@ -578,7 +578,7 @@ environments:
       // Then
       expect(mockExecuteCommand).toHaveBeenCalledWith(
         runOptionsWithCommand.exec,
-        expect.objectContaining(new AbortController())
+        AbortController ? expect.objectContaining(new AbortController()) : undefined
       );
       expect(mockExit).toHaveBeenCalledWith(1);
     });
