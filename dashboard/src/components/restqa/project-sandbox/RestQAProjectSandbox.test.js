@@ -29,7 +29,7 @@ beforeEach(() => {
         }
       },
       response: {
-        status: 201,
+        statusCode: 201,
         headers: {
           "content-length": "25",
           "content-type": "application/json; charset=utf-8"

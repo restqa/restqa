@@ -293,7 +293,7 @@ const Hooks = {
           // tracing logic inside
           const response = {
             headers: this.getHeaders(),
-            status: this.statusCode,
+            statusCode: this.statusCode,
             body: Buffer.concat(buffers).toString("utf-8")
           };
 

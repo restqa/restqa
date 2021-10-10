@@ -1600,7 +1600,7 @@ environments:
             const expectedBody = JSON.stringify({
               transaction: incomingRequest,
               status: "PENDING",
-              scenario: "Scenario: ...",
+              scenario: "An error occured while generating the test: Please specify your url",
               createdAt: new Date("2012-10-10")
             });
             expect(data).toEqual(`data: ${expectedBody}\n\n`);
