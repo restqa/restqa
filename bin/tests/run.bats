@@ -36,7 +36,7 @@ load 'common.sh'
   assert_output --partial '-t, --tags <tags>      Use --tags <EXPRESSION> to run specific features'
   #assert_output --partial "or scenarios (example: @prod)"
   assert_output --partial '-h, --help             display help for command'
-  assert_output --partial '-x, --exec <command>   Run a command before running tests (example: npm start)'
+  assert_output --partial '-x, --exec <command>   Run a command before running tests (example'
 }
 
 ## Test Execution
