@@ -25,9 +25,15 @@ module.exports = {
           resolve(server);
         });
 
+        // handle when server (process) is closing
         server.on("close", () => {
           logger.info("Server closed!");
         });
+
+        // handle error
+        server.on("error", () => {
+          server.kill();
+        })
       } else {
         throw new Error(
           `Executor: command should be a string but received ${typeof command}`
