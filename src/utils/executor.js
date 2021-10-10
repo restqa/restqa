@@ -24,9 +24,9 @@ module.exports = {
         // resolve when process is spawn successfully
         server.stdout.on("data", () => {
           if (!controller || (controller && !controller.signal.aborted)) {
-            logger.success(`Server is running ${command}`)
+            logger.success(`Server is running (command: ${command})`)
           }
-          resolve();
+          resolve(server);
         });
 
         server.on("close", () => {

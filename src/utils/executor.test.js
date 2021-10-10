@@ -16,7 +16,7 @@ describe("# utils - executor", () => {
     await execute(validCommand);
 
     // Then
-    expect(loggerSuccessSpy).toHaveBeenCalledWith(`Server is running ${validCommand}`)
+    expect(loggerSuccessSpy).toHaveBeenCalledWith(`Server is running (command: ${validCommand})`)
   });
 
   test("given a valid command when execute it then it should display a success message", async () => {
@@ -27,7 +27,7 @@ describe("# utils - executor", () => {
     await execute(validCommand);
 
     // Then
-    expect(loggerSuccessSpy).toHaveBeenCalledWith(`Server is running ${validCommand}`);
+    expect(loggerSuccessSpy).toHaveBeenCalledWith(`Server is running (command: ${validCommand})`);
   });
 
   test("given a mistyped command when we execute it then it should throw an error", async() => {

@@ -3,9 +3,11 @@ const fs = require("fs");
 const cucumber = require("@cucumber/cucumber");
 const logger = require("../utils/logger");
 const {execute} = require("../utils/executor");
+const {checkServer} = require("../utils/check-server");
+const { ChildProcess } = require("child_process");
 
 module.exports = async function (opt, program = {}) {
-  let {env, config, tags = [], stream = process.stdout, args, command} = opt;
+  let {env, config, tags = [], stream = process.stdout, args, exec: command} = opt;
 
   args = args || program.args || ["."];
 
@@ -82,11 +84,14 @@ module.exports = async function (opt, program = {}) {
   const cucumberCli = new cucumber.Cli(options);
 
   // Execute command argument
+  let server;
   let controller;
   if (typeof command === "string") {
     try {
       controller = new AbortController();
-      await execute(command, controller);
+      server = await execute(command, controller);
+      
+      await checkServer();
     } catch(error) {
       logger.error(error.message);
       process.exit(1);
@@ -96,6 +101,10 @@ module.exports = async function (opt, program = {}) {
   return cucumberCli
     .run()
     .then((result) => {
+      if (server instanceof ChildProcess) {
+        server.kill(); // TODO(tony): add tests in executor.js
+      }
+
       const exitCode = result.success ? 0 : 1;
       if (result.shouldExitImmediately) {
         process.exit(exitCode);
