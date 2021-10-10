@@ -1,10 +1,11 @@
 const path = require("path");
 const fs = require("fs");
-const cucumber = require("@cucumber/cucumber");
-const logger = require("../utils/logger");
-const {execute} = require("../utils/executor");
-const {checkServer} = require("../utils/check-server");
 const {ChildProcess} = require("child_process");
+const cucumber = require("@cucumber/cucumber");
+
+const logger = require("../utils/logger");
+const {execute} = require("../core/executor");
+const {checkServer} = require("../core/check-server");
 
 module.exports = async function (opt, program = {}) {
   let {

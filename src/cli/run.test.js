@@ -490,10 +490,10 @@ environments:
       const childProcess = new ChildProcess();
       childProcess.kill = mockProcessKill;
       const mockExecuteCommand = jest
-        .spyOn(require("../utils/executor"), "execute")
+        .spyOn(require("../core/executor"), "execute")
         .mockResolvedValue(childProcess);
       jest
-        .spyOn(require("../utils/check-server"), "checkServer")
+        .spyOn(require("../core/check-server"), "checkServer")
         .mockImplementation(jest.fn());
 
       // Given
@@ -529,7 +529,7 @@ environments:
       });
       setCucumberMock(mockCucumberRun);
       const mockExecuteCommand = jest.spyOn(
-        require("../utils/executor"),
+        require("../core/executor"),
         "execute"
       );
 
@@ -561,7 +561,7 @@ environments:
       setCucumberMock(mockCucumberRun);
       const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
       const mockExecuteCommand = jest
-        .spyOn(require("../utils/executor"), "execute")
+        .spyOn(require("../core/executor"), "execute")
         .mockRejectedValue(new Error("boom"));
 
       // Given
@@ -593,10 +593,10 @@ environments:
       const childProcess = new ChildProcess();
       childProcess.kill = mockProcessKill;
       jest
-        .spyOn(require("../utils/executor"), "execute")
+        .spyOn(require("../core/executor"), "execute")
         .mockResolvedValue(childProcess);
       jest
-        .spyOn(require("../utils/check-server"), "checkServer")
+        .spyOn(require("../core/check-server"), "checkServer")
         .mockImplementation(jest.fn());
 
       // Given
