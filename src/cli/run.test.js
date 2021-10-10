@@ -1,6 +1,6 @@
 const path = require("path");
 const os = require("os");
-const { ChildProcess } = require("child_process");
+const {ChildProcess} = require("child_process");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -487,9 +487,11 @@ environments:
       });
       setCucumberMock(mockCucumberRun);
       const mockProcessKill = jest.fn();
-      const childProcess = new ChildProcess()
-      childProcess.kill = mockProcessKill
-      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute").mockResolvedValue(childProcess);
+      const childProcess = new ChildProcess();
+      childProcess.kill = mockProcessKill;
+      const mockExecuteCommand = jest
+        .spyOn(require("../utils/executor"), "execute")
+        .mockResolvedValue(childProcess);
       jest
         .spyOn(require("../utils/check-server"), "checkServer")
         .mockImplementation(jest.fn());
@@ -513,7 +515,9 @@ environments:
         mockExecuteCommand.mock.invocationCallOrder[0];
       const mockCucumberRunOrder = mockCucumberRun.mock.invocationCallOrder[0];
       expect(mockExecuteCommandOrder).toBeLessThan(mockCucumberRunOrder);
-      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.exec);
+      expect(mockExecuteCommand).toHaveBeenCalledWith(
+        runOptionsWithCommand.exec
+      );
       expect(mockProcessKill).toHaveBeenCalled();
     });
 
@@ -576,7 +580,7 @@ environments:
 
       // Then
       expect(mockExecuteCommand).toHaveBeenCalledWith(
-        runOptionsWithCommand.exec,
+        runOptionsWithCommand.exec
       );
       expect(mockExit).toHaveBeenCalledWith(1);
     });
@@ -586,9 +590,11 @@ environments:
       const mockCucumberRun = jest.fn().mockRejectedValue(new Error("Boom"));
       setCucumberMock(mockCucumberRun);
       const mockProcessKill = jest.fn();
-      const childProcess = new ChildProcess()
-      childProcess.kill = mockProcessKill
-      jest.spyOn(require("../utils/executor"), "execute").mockResolvedValue(childProcess);
+      const childProcess = new ChildProcess();
+      childProcess.kill = mockProcessKill;
+      jest
+        .spyOn(require("../utils/executor"), "execute")
+        .mockResolvedValue(childProcess);
       jest
         .spyOn(require("../utils/check-server"), "checkServer")
         .mockImplementation(jest.fn());

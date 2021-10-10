@@ -3,14 +3,14 @@ const logger = require("../utils/logger");
 
 module.exports = {
   /**
-   * 
+   *
    * @param {string} command
    */
   execute: async function executeCommand(command) {
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         const server = spawn(command, {
-          shell: true,
+          shell: true
         });
 
         // reject if an error happened
@@ -20,8 +20,8 @@ module.exports = {
 
         // resolve when process is spawn successfully
         server.stdout.on("data", () => {
-          logger.success(`Server is running (command: ${command})`);  
-          
+          logger.success(`Server is running (command: ${command})`);
+
           resolve(server);
         });
 
@@ -33,7 +33,7 @@ module.exports = {
         // handle error
         server.on("error", () => {
           server.kill();
-        })
+        });
       } else {
         throw new Error(
           `Executor: command should be a string but received ${typeof command}`
