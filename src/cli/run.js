@@ -107,9 +107,7 @@ module.exports = async function (opt, program = {}) {
   return cucumberCli
     .run()
     .then((result) => {
-      if (server instanceof ChildProcess) {
-        server.kill();
-      }
+      killServer(server);
 
       const exitCode = result.success ? 0 : 1;
       if (result.shouldExitImmediately) {
@@ -119,10 +117,22 @@ module.exports = async function (opt, program = {}) {
       }
     })
     .catch((err) => {
-      if (server instanceof ChildProcess) {
-        server.kill();
-      }
+      killServer(server);
       logger.error(err);
       process.exit(1);
     });
 };
+
+/**
+ * Helpers
+ */
+
+/**
+ * Kill the process safely
+ * @param {ChildProcess} server 
+ */
+function killServer(server) {
+  if (server instanceof ChildProcess) {
+    server.kill();
+  }
+}

@@ -32,6 +32,7 @@ module.exports = {
 
         // handle error
         server.on("error", () => {
+          // Note: we only do it this way to be win32 compliant.
           server.kill();
         });
       } else {
