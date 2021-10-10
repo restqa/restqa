@@ -1,4 +1,5 @@
 const EventEmitter = require("events");
+const {Generator} = require("@restqa/restqapi");
 
 class Sandbox extends EventEmitter {
   constructor() {
@@ -6,18 +7,25 @@ class Sandbox extends EventEmitter {
     this.on("request", this.handler);
   }
 
-  handler(transaction) {
+  async handler(transaction) {
+    let scenario = ''
+    try {
+      scenario = await this.getScenario(transaction)
+    } catch(e) {
+      scenario = 'An error occured while generating the test: ' + e.message
+    }
+
     const data = {
       transaction,
       status: "PENDING",
-      scenario: this.getScenario(transaction),
+      scenario,
       createdAt: new Date()
     };
     this.emit("generated", data);
   }
 
-  getScenario() {
-    return "Scenario: ...";
+  getScenario(transaction) {
+    return Generator(transaction)
   }
 }
 

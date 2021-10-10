@@ -402,7 +402,7 @@ environments:
             body: {}
           },
           response: {
-            status: 200,
+            statusCode: 200,
             headers: {
               "content-length": "25",
               "content-type": "application/json; charset=utf-8",
@@ -475,7 +475,7 @@ environments:
             }
           },
           response: {
-            status: 200,
+            statusCode: 200,
             headers: {
               "content-length": "25",
               "content-type": "application/json; charset=utf-8",
@@ -550,7 +550,7 @@ environments:
             body: {}
           },
           response: {
-            status: 200,
+            statusCode: 200,
             headers: {
               "content-length": "25",
               "content-type": "application/json; charset=utf-8",
@@ -630,7 +630,7 @@ environments:
             }
           },
           response: {
-            status: 201,
+            statusCode: 201,
             headers: {
               "content-length": "25",
               "content-type": "application/json; charset=utf-8",
