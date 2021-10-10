@@ -1,5 +1,6 @@
 const path = require("path");
 const os = require("os");
+const { ChildProcess } = require("child_process");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -485,10 +486,10 @@ environments:
         success: false
       });
       setCucumberMock(mockCucumberRun);
-      const mockExecuteCommand = jest.spyOn(
-        require("../utils/executor"),
-        "execute"
-      );
+      const mockProcessKill = jest.fn();
+      const childProcess = new ChildProcess()
+      childProcess.kill = mockProcessKill
+      const mockExecuteCommand = jest.spyOn(require("../utils/executor"), "execute").mockResolvedValue(childProcess);
       jest
         .spyOn(require("../utils/check-server"), "checkServer")
         .mockImplementation(jest.fn());
@@ -512,10 +513,8 @@ environments:
         mockExecuteCommand.mock.invocationCallOrder[0];
       const mockCucumberRunOrder = mockCucumberRun.mock.invocationCallOrder[0];
       expect(mockExecuteCommandOrder).toBeLessThan(mockCucumberRunOrder);
-      expect(mockExecuteCommand).toHaveBeenCalledWith(
-        runOptionsWithCommand.exec,
-        AbortController ? expect.objectContaining(new AbortController()) : undefined
-      );
+      expect(mockExecuteCommand).toHaveBeenCalledWith(runOptionsWithCommand.exec);
+      expect(mockProcessKill).toHaveBeenCalled();
     });
 
     test("given no -x option when we run restqa nothing should be executed", async () => {
@@ -578,17 +577,18 @@ environments:
       // Then
       expect(mockExecuteCommand).toHaveBeenCalledWith(
         runOptionsWithCommand.exec,
-        AbortController ? expect.objectContaining(new AbortController()) : undefined
       );
       expect(mockExit).toHaveBeenCalledWith(1);
     });
 
-    test("given a -x option when we run restqa and execution failed then it use AbortController.abort", async () => {
+    test("given a -x option when we run restqa and execution failed then it use kill()", async () => {
       // Mocks
       const mockCucumberRun = jest.fn().mockRejectedValue(new Error("Boom"));
       setCucumberMock(mockCucumberRun);
-      const spyAbort = jest.spyOn(AbortController.prototype, "abort");
-      jest.spyOn(require("../utils/executor"), "execute");
+      const mockProcessKill = jest.fn();
+      const childProcess = new ChildProcess()
+      childProcess.kill = mockProcessKill
+      jest.spyOn(require("../utils/executor"), "execute").mockResolvedValue(childProcess);
       jest
         .spyOn(require("../utils/check-server"), "checkServer")
         .mockImplementation(jest.fn());
@@ -609,7 +609,7 @@ environments:
       jest.advanceTimersByTime(5000);
 
       // Then
-      expect(spyAbort).toHaveBeenCalled();
+      expect(mockProcessKill).toHaveBeenCalled();
     });
   });
 });

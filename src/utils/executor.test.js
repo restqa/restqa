@@ -4,10 +4,6 @@ jest.useFakeTimers("legacy");
 
 describe("# utils - executor", () => {
   // Mocks and spies
-  // const stdoutSpy = jest.spyOn(process.stdout, "write").mockImplementation(jest.fn());
-  const loggerInfoSpy = jest
-    .spyOn(require("../utils/logger"), "info")
-    .mockImplementation(jest.fn());
   const loggerSuccessSpy = jest
     .spyOn(require("../utils/logger"), "success")
     .mockImplementation(jest.fn());
@@ -72,19 +68,5 @@ describe("# utils - executor", () => {
         new Error(`Error during running command ${commandShouldFail}`)
       );
     }
-  });
-
-  test("given a watch command, and AbortController when we execute it then we could abort it", async () => {
-    // Given
-    const watchCommand = "node ./src/utils/fixtures/infinite-cli.js";
-    const controller = new AbortController();
-
-    // When
-    await execute(watchCommand, controller);
-    // await promisify(setTimeout)(2000, "foobar"); // -> Commented due to un usability
-    controller.abort();
-
-    // Then
-    expect(loggerInfoSpy).toHaveBeenCalledWith("Server closed!");
   });
 });

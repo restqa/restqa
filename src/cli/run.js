@@ -92,11 +92,9 @@ module.exports = async function (opt, program = {}) {
 
   // Execute command argument
   let server;
-  let controller;
   if (typeof command === "string") {
     try {
-      controller = AbortController ? new AbortController() : undefined;
-      server = await execute(command, controller);
+      server = await execute(command);
 
       await checkServer();
     } catch (error) {
@@ -109,7 +107,7 @@ module.exports = async function (opt, program = {}) {
     .run()
     .then((result) => {
       if (server instanceof ChildProcess) {
-        server.kill(); // TODO(tony): add tests in executor.js
+        server.kill();
       }
 
       const exitCode = result.success ? 0 : 1;
@@ -120,8 +118,8 @@ module.exports = async function (opt, program = {}) {
       }
     })
     .catch((err) => {
-      if (controller instanceof AbortController) {
-        controller.abort();
+      if (server instanceof ChildProcess) {
+        server.kill();
       }
       logger.error(err);
       process.exit(1);

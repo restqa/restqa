@@ -5,15 +5,12 @@ module.exports = {
   /**
    * 
    * @param {string} command
-   * @param {AbortController} controller
-
    */
-  execute: async function executeCommand(command, controller) {
+  execute: async function executeCommand(command) {
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         const server = spawn(command, {
           shell: true,
-          signal: controller ? controller.signal : undefined
         });
 
         // reject if an error happened
@@ -23,16 +20,13 @@ module.exports = {
 
         // resolve when process is spawn successfully
         server.stdout.on("data", () => {
-          if (!controller || (controller && !controller.signal.aborted)) {
-            logger.success(`Server is running (command: ${command})`);
-          }
+          logger.success(`Server is running (command: ${command})`);  
+          
           resolve(server);
         });
 
         server.on("close", () => {
-          if (!controller || (controller && !controller.signal.aborted)) {
-            logger.info("Server closed!");
-          }
+          logger.info("Server closed!");
         });
       } else {
         throw new Error(
