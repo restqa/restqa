@@ -74,7 +74,6 @@
 
 <script>
 import {getEventSource} from "@/services/http";
-import moment from "moment";
 import {copyText} from "vue3-clipboard";
 
 export default {
@@ -87,7 +86,13 @@ export default {
   computed: {
     list() {
       return this.data.map((el) => {
-        el.date = moment(el.createdAt).format("DD/MM/YY HH:mm");
+        const date = new Date(el.createdAt);
+        const options = {
+          timeStyle: "short",
+          dateStyle: "short",
+          hour12: false
+        };
+        el.date = date.toLocaleDateString('en-GB', options)
         return el;
       });
     }

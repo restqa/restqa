@@ -72,16 +72,22 @@ describe("RestQAProjectSandbox", () => {
     expect(component.vm.list).toHaveLength(1);
     const expectedMessage = {
       ...msg,
-      date: "02/10/21 21:19"
+      date: "02/10/2021, 21:19"
     };
     expect(component.vm.list[0]).toEqual(expectedMessage);
   });
 
   test("Renders the data list on a non empty sandbox (new added goes first)", async () => {
+    const item = {
+      ...msg,
+      date: "02/10/2021, 21:19"
+    }
     const options = {
       data() {
         return {
-          data: [expectedMessage1]
+          data: [{
+            ...item
+          }]
         };
       },
       global: {
@@ -97,14 +103,10 @@ describe("RestQAProjectSandbox", () => {
 
     expect(component.vm.list).toHaveLength(2);
 
-    const expectedMessage1 = {
-      ...msg,
-      date: "02/10/21 21:19"
-    };
-
+    const expectedMessage1 = item
     const expectedMessage2 = {
       ...msg,
-      date: "02/10/21 22:00"
+      date: "02/10/2021, 22:00"
     };
     expect(component.vm.list[0]).toEqual(expectedMessage2);
     expect(component.vm.list[1]).toEqual(expectedMessage1);
@@ -172,8 +174,8 @@ describe("RestQAProjectSandbox", () => {
       component.vm.deleteTransaction(1);
 
       expect(component.vm.list).toHaveLength(2);
-      expect(component.vm.list[0].date).toEqual("10/10/21 00:00");
-      expect(component.vm.list[1].date).toEqual("02/10/21 22:00");
+      expect(component.vm.list[0].date).toEqual("10/10/2021, 00:00");
+      expect(component.vm.list[1].date).toEqual("02/10/2021, 22:00");
     });
   });
 
