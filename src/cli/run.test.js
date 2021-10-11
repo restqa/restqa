@@ -486,7 +486,7 @@ environments:
         .spyOn(require("../core/executor"), "execute")
         .mockResolvedValue(childProcess);
 
-      return mockExecuteCommand
+      return mockExecuteCommand;
     }
 
     beforeEach(() => {
@@ -582,7 +582,7 @@ environments:
       const Run = require("./run");
 
       // When
-      expect.assertions(1)
+      expect.assertions(1);
       try {
         await Run(runOptionsWithCommand);
       } catch {
@@ -592,7 +592,6 @@ environments:
           runOptionsWithCommand.exec
         );
       }
-
     });
 
     test("given a -x option when we run restqa and execution failed then it use kill()", async () => {
