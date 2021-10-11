@@ -88,11 +88,14 @@ export default {
       return this.data.map((el) => {
         const date = new Date(el.createdAt);
         const options = {
-          timeStyle: "short",
-          dateStyle: "short",
-          hour12: false
+          hour12: false,
+          year: "2-digit",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
         };
-        el.date = date.toLocaleDateString('en-GB', options)
+        el.date = date.toLocaleString("en-GB", options);
         return el;
       });
     }
