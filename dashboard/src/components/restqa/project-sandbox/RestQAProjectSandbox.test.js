@@ -78,11 +78,6 @@ describe("RestQAProjectSandbox", () => {
   });
 
   test("Renders the data list on a non empty sandbox (new added goes first)", async () => {
-    const expectedMessage1 = {
-      ...msg,
-      date: "02/10/21 21:19"
-    };
-
     const options = {
       data() {
         return {
@@ -101,6 +96,11 @@ describe("RestQAProjectSandbox", () => {
     await component.vm.$nextTick();
 
     expect(component.vm.list).toHaveLength(2);
+
+    const expectedMessage1 = {
+      ...msg,
+      date: "02/10/21 21:19"
+    };
 
     const expectedMessage2 = {
       ...msg,

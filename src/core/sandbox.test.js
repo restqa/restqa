@@ -17,7 +17,8 @@ describe("Core - Sandbox", () => {
         const expectedData = {
           transaction,
           status: "PENDING",
-          scenario: "An error occured while generating the test: Please specify your url",
+          scenario:
+            "An error occured while generating the test: Please specify your url",
           createdAt: new Date("2012-10-10")
         };
         expect(data).toEqual(expectedData);
@@ -33,17 +34,17 @@ describe("Core - Sandbox", () => {
     return new Promise((resolve) => {
       const transaction = {
         request: {
-          method: 'GET',
-          path: '/test',
+          method: "GET",
+          path: "/test",
           query: {}
         },
         response: {
           statusCode: 200,
           headers: {
-            'x-request-id': '123456789'
+            "x-request-id": "123456789"
           },
           body: {
-            foo: 'barz'
+            foo: "barz"
           }
         }
       };
@@ -61,7 +62,7 @@ Then I should receive a response with the status 200
   "foo": "barz"
 }
   """
-`.trim()
+`.trim();
         const expectedData = {
           transaction,
           status: "PENDING",

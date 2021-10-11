@@ -28,7 +28,10 @@
       <el-table-column prop="date" label="Date" />
       <el-table-column prop="transaction.request.method" label="Method" />
       <el-table-column prop="transaction.request.path" label="Path" />
-      <el-table-column prop="transaction.response.statusCode" label="Status code">
+      <el-table-column
+        prop="transaction.response.statusCode"
+        label="Status code"
+      >
         <template #default="scope">
           <el-tag
             :type="getTagType(scope.row.transaction.response.statusCode)"
