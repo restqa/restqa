@@ -61,7 +61,7 @@ describe("RestQATeamBlog", () => {
     expect(component.find(".article .title").text()).toEqual(
       "We are doing TDD!"
     );
-    expect(component.find(".article .date").text()).toEqual("Dec 12, 2012");
+    expect(component.find(".article .date").text()).toEqual("December 12, 2012");
     expect(component.find(".article img").attributes("src")).toEqual(
       "https://example.com/img.png"
     );
