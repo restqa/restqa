@@ -94,14 +94,9 @@ module.exports = async function (opt, program = {}) {
   // Execute command argument
   let server;
   if (typeof command === "string") {
-    try {
-      server = await execute(command);
+    server = await execute(command);
 
-      await checkServer();
-    } catch (error) {
-      logger.error(error.message);
-      process.exit(1);
-    }
+    await checkServer();
   }
 
   return cucumberCli

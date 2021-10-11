@@ -566,7 +566,6 @@ environments:
         success: false
       });
       setCucumberMock(mockCucumberRun);
-      const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
       const mockExecuteCommand = jest
         .spyOn(require("../core/executor"), "execute")
         .mockRejectedValue(new Error("boom"));
@@ -583,13 +582,17 @@ environments:
       const Run = require("./run");
 
       // When
-      await Run(runOptionsWithCommand);
+      expect.assertions(1)
+      try {
+        await Run(runOptionsWithCommand);
+      } catch {
+        // Then
+        // eslint-disable-next-line
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          runOptionsWithCommand.exec
+        );
+      }
 
-      // Then
-      expect(mockExecuteCommand).toHaveBeenCalledWith(
-        runOptionsWithCommand.exec
-      );
-      expect(mockExit).toHaveBeenCalledWith(1);
     });
 
     test("given a -x option when we run restqa and execution failed then it use kill()", async () => {
