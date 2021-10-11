@@ -124,7 +124,7 @@ module.exports = async function (opt, program = {}) {
 
 /**
  * Kill the process safely
- * @param {ChildProcess} server 
+ * @param {ChildProcess} server
  */
 function killServer(server) {
   if (server instanceof ChildProcess) {
