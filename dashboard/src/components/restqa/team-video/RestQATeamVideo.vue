@@ -28,7 +28,13 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.video.last.date).format("ll");
+      const d = new Date(this.video.last.date);
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+      return d.toLocaleDateString("en", options);
     },
     video() {
       const {video} = (this.$store.getters.info &&
