@@ -8,11 +8,11 @@ class Sandbox extends EventEmitter {
   }
 
   async handler(transaction) {
-    let scenario = ''
+    let scenario = "";
     try {
-      scenario = await this.getScenario(transaction)
-    } catch(e) {
-      scenario = 'An error occured while generating the test: ' + e.message
+      scenario = await this.getScenario(transaction);
+    } catch (e) {
+      scenario = "An error occured while generating the test: " + e.message;
     }
 
     const data = {
@@ -25,7 +25,7 @@ class Sandbox extends EventEmitter {
   }
 
   getScenario(transaction) {
-    return Generator(transaction)
+    return Generator(transaction);
   }
 }
 
