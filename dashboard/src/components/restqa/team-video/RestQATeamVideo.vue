@@ -19,7 +19,6 @@
 
 <script>
 import Card from "@/components/UI/card/Card";
-import moment from "moment";
 
 export default {
   name: "RestQATeamVideo",
