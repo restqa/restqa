@@ -6,7 +6,7 @@ Really happy to see you here ^^.
 
 This document aims to onboard you onto RestQA contributing.
 
-Feel free to hit us on [discord](discord.gg/q8pKfsyq67) if you face a issue.
+Feel free to hit us on [discord](https://restqa.io/chat) if you face a issue.
 
 ## Dashboard
 
