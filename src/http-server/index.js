@@ -25,6 +25,26 @@ module.exports = function (configFile, options = {}) {
     })
     .use(express.text())
     .use(express.json())
+    .get("/events", (req, res) => {
+      if (!options.sandbox) {
+        return res.status(406).json({
+          message: "The sandbox mode is not enabled"
+        });
+      }
+
+      options.sandbox.on("generated", (data) => {
+        data = JSON.stringify(data);
+        res.write(`data: ${data}\n\n`);
+      });
+
+      res.set({
+        "Cache-Control": "no-cache",
+        "Content-Type": "text/event-stream",
+        Connection: "keep-alive"
+      });
+
+      res.flushHeaders();
+    })
     .use(
       express.static(path.resolve(__dirname, "..", "..", "dashboard", "dist"))
     )

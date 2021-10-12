@@ -44,6 +44,8 @@ npm run dashboard:dev:no-config
 npm run dashboard:build
 ```
 
+> For the dos users you might face issue during the build of the dashboard related to this: `ERROR  BrowserslistError: D:\restqa\restqa\dashboard contains both browserslist and package.json with browsers`. Refer to this to fix the issue: ERROR  BrowserslistError: D:\restqa\restqa\dashboard contains both browserslist and package.json with browsers
+
 
 ## Tests
 

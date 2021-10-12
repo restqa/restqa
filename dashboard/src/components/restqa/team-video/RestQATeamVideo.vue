@@ -30,10 +30,10 @@ export default {
       const d = new Date(this.video.last.date);
       const options = {
         year: "numeric",
-        month: "short",
+        month: "long",
         day: "numeric"
       };
-      return d.toLocaleDateString("en-CA", options);
+      return d.toLocaleDateString("en", options);
     },
     video() {
       const {video} = (this.$store.getters.info &&

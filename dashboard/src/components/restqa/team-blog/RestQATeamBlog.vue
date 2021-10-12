@@ -35,7 +35,7 @@ export default {
       const d = new Date(this.blog.last.date);
       const options = {
         year: "numeric",
-        month: "short",
+        month: "long",
         day: "numeric"
       };
       return d.toLocaleDateString("en-CA", options);
