@@ -9,20 +9,27 @@ module.exports = {
   execute: async function executeCommand(command) {
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
+        let initialized = false;
         const server = spawn(command, {
           shell: true
         });
 
         // reject if an error happened
         server.stderr.on("data", () => {
-          reject(new Error(`Error during running command ${command}`));
+          if (!initialized) {
+            initialized = true
+            reject(new Error(`Error during running command ${command}`));
+          }
         });
 
         // resolve when process is spawn successfully
         server.stdout.on("data", () => {
-          logger.success(`Server is running (command: ${command})`);
+          if (!initialized) {
+            initialized = true
+            logger.success(`Server is running (command: ${command})`);
 
-          resolve(server);
+            resolve(server);
+          }
         });
 
         // handle when server (process) is closing
