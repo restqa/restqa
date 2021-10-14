@@ -8,6 +8,7 @@ const HttpsServer = require("./http-server");
 const Sandbox = require("./core/sandbox");
 
 const Stream = require("stream");
+const path = require("path");
 
 /**
  * Initialize a restqa project
@@ -267,6 +268,9 @@ const Hooks = {
   express: function (server, options) {
     options.route = options.route || "/restqa";
     options.sandbox = options.sandbox || new Sandbox();
+    options.folder = options.folder || process.cwd();
+    options.configFile =
+      options.configFile || path.resolve(process.cwd(), ".restqa.yml");
     options.serve = false;
     server
       .use(options.route, HttpsServer(options.configFile, options))
