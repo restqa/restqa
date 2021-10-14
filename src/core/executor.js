@@ -27,7 +27,7 @@ module.exports = {
 
         // handle when server (process) is closing
         server.on("close", () => {
-          logger.info("Server closed!");
+          logger.debug("Server closed!");
         });
 
         // handle error
