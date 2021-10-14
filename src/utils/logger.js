@@ -9,7 +9,7 @@ function _log() {
 
 module.exports = {
   debug: function () {
-    debug(...arguments)
+    debug(...arguments);
   },
   error: function () {
     if (!(arguments[0] instanceof Error)) {
