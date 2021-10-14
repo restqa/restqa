@@ -4,13 +4,5 @@ const app = fastify();
 
 app.get("/hello", () => ({value: "world"}));
 
-app.listen(9999, () => {
-  forceClose();
-});
+app.listen(9999, () => {});
 
-// Hack: force close (due to bats cannot kill a subprocess)
-function forceClose() {
-  setTimeout(() => {
-    app.close();
-  }, 10000);
-}
