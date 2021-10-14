@@ -1,3 +1,4 @@
+const treekill = require("treekill");
 const path = require("path");
 const fs = require("fs");
 const {ChildProcess} = require("child_process");
@@ -128,6 +129,6 @@ module.exports = async function (opt, program = {}) {
  */
 function killServer(server) {
   if (server instanceof ChildProcess) {
-    server.kill();
+    treekill(server.pid);
   }
 }

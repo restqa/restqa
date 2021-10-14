@@ -141,5 +141,4 @@ load 'common.sh'
   assert_success
   assert_output --partial 'Server is running (command: npm start)'
   assert_output --partial '1 scenario (1 passed)'
-  assert_output --partial 'Server closed!'
 }

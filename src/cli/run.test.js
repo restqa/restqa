@@ -482,11 +482,19 @@ environments:
     function setExecutor(killProcessFn) {
       const childProcess = new ChildProcess();
       childProcess.kill = killProcessFn;
+      childProcess.pid = 9999;
       const mockExecuteCommand = jest
         .spyOn(require("../core/executor"), "execute")
         .mockResolvedValue(childProcess);
 
       return mockExecuteCommand;
+    }
+
+    function setTreeKillMock(mockTreeKill) {
+      jest.mock("treekill", () => {
+        return mockTreeKill;
+      });
+      return mockTreeKill;
     }
 
     beforeEach(() => {
@@ -502,6 +510,9 @@ environments:
         success: false
       });
       setCucumberMock(mockCucumberRun);
+
+      const mockTreeKill = setTreeKillMock(jest.fn());
+
       // Executor
       const mockProcessKill = jest.fn();
       const mockExecuteCommand = setExecutor(mockProcessKill);
@@ -528,7 +539,9 @@ environments:
       expect(mockExecuteCommand).toHaveBeenCalledWith(
         runOptionsWithCommand.exec
       );
-      expect(mockProcessKill).toHaveBeenCalled();
+      expect(mockProcessKill).not.toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalledWith(9999);
     });
 
     test("given no -x option when we run restqa nothing should be executed", async () => {
@@ -538,6 +551,7 @@ environments:
         success: false
       });
       setCucumberMock(mockCucumberRun);
+
       const mockExecuteCommand = setExecutor(jest.fn());
 
       // Given
@@ -598,6 +612,9 @@ environments:
       // Mocks
       const mockCucumberRun = jest.fn().mockRejectedValue(new Error("Boom"));
       setCucumberMock(mockCucumberRun);
+
+      const mockTreeKill = setTreeKillMock(jest.fn());
+
       const mockProcessKill = jest.fn();
       setExecutor(mockProcessKill);
 
@@ -616,7 +633,9 @@ environments:
       await Run(runOptionsWithCommand);
 
       // Then
-      expect(mockProcessKill).toHaveBeenCalled();
+      expect(mockProcessKill).not.toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalledWith(9999);
     });
   });
 });
