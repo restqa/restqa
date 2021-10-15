@@ -266,6 +266,7 @@ function Dashboard(options) {
  */
 const Hooks = {
   express: function (server, options) {
+    options = options || {};
     options.route = options.route || "/restqa";
     options.sandbox = options.sandbox || new Sandbox();
     options.folder = options.folder || process.cwd();

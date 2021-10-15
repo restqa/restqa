@@ -17,7 +17,7 @@ module.exports = {
         // reject if an error happened
         server.stderr.on("data", () => {
           if (!initialized) {
-            initialized = true
+            initialized = true;
             reject(new Error(`Error during running command ${command}`));
           }
         });
@@ -25,7 +25,7 @@ module.exports = {
         // resolve when process is spawn successfully
         server.stdout.on("data", () => {
           if (!initialized) {
-            initialized = true
+            initialized = true;
             logger.success(`Server is running (command: ${command})`);
 
             resolve(server);
