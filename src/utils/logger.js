@@ -8,6 +8,9 @@ function _log() {
 }
 
 module.exports = {
+  debug: function () {
+    debug(...arguments);
+  },
   error: function () {
     if (!(arguments[0] instanceof Error)) {
       arguments[0] = Locale.get(arguments[0]) || arguments[0];

@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -33,9 +33,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: npm run dashboard:install
     - run: npm install
       env:
         CI: true
+    - run: npm run build
     - run: npm run lint
     - run: npm test
     - run: npm run test:functional
@@ -53,9 +55,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 #    - run: npm install -g bats
+    - run: npm run dashboard:install
     - run: npm install
       env:
         CI: true
+    - run: del .\dashboard\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
+    - run: npm run build
     - run: npm test
 #   - run: npm run example
 #   - run: npm run test:functional

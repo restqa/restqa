@@ -6,22 +6,22 @@ async function getStepDefinition(keyword) {
       keyword
     }
   };
-  const result = await Http().get("/api/restqa/steps", options);
+  const result = await Http().get("api/restqa/steps", options);
   return result.data;
 }
 
 async function getConfig() {
-  const result = await Http().get("/config");
+  const result = await Http().get("config");
   return result.data;
 }
 
 async function initialize(data) {
-  const result = await Http().post("/api/restqa/initialize", data);
+  const result = await Http().post("api/restqa/initialize", data);
   return result.data;
 }
 
 async function getFeatures() {
-  const {data} = await Http().get("/api/project/features");
+  const {data} = await Http().get("api/project/features");
   let result = [];
   let level = {result};
 
@@ -44,7 +44,7 @@ async function getFeatures() {
 }
 
 async function getFeatureFile(name) {
-  const {data} = await Http().get("/api/project/features/" + name);
+  const {data} = await Http().get("api/project/features/" + name);
   return data;
 }
 
@@ -54,12 +54,12 @@ async function saveFeatureFile(name, content) {
       "content-Type": "text/plain"
     }
   };
-  await Http().put("/api/project/features/" + name, content, options);
+  await Http().put("api/project/features/" + name, content, options);
   return true;
 }
 
 async function testFeature(path) {
-  const {data} = await Http().post("/api/restqa/run", {path});
+  const {data} = await Http().post("api/restqa/run", {path});
   return {
     path,
     data

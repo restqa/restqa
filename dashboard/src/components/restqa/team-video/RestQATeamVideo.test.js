@@ -56,7 +56,7 @@ describe("RestQATeamVideo", () => {
     expect(component.find(".team-video").isVisible()).toBeTruthy();
 
     expect(component.find(".video .title").text()).toEqual("RestQA Channel");
-    expect(component.find(".video .date").text()).toEqual("Feb 21, 2021");
+    expect(component.find(".video .date").text()).toEqual("February 21, 2021");
     expect(component.find(".video img").attributes("src")).toEqual(
       "https://example.com/tdd.png"
     );

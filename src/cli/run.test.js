@@ -1,10 +1,35 @@
 const path = require("path");
 const os = require("os");
+const {ChildProcess} = require("child_process");
 
 const jestqa = new JestQA(__filename, true);
 
+jest.useFakeTimers();
+
 beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
+
+const validRestQAConfigFile = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: restqapi
+        config:
+          url: http://host.docker.internal:4046
+    outputs:
+      - type: file
+        enabled: true
+        config:
+          path: 'my-report.json'
+    `;
 
 describe("#Cli - Run", () => {
   test("Throw error if the passed file doesnt exist", async () => {
@@ -394,28 +419,7 @@ environments:
   });
 
   test("Error during cucumber run execution", async () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://host.docker.internal:4046
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
+    const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest
       .fn()
@@ -461,5 +465,177 @@ environments:
     expect(mockExit).toHaveBeenCalledWith(1);
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch("This is an error");
+  });
+
+  describe("-x / -exec option", () => {
+    // Mocks
+    function setCucumberMock(jestFn) {
+      jest
+        .spyOn(require("@cucumber/cucumber"), "Cli")
+        .mockImplementation(() => {
+          return {
+            run: jestFn
+          };
+        });
+    }
+
+    function setExecutor(killProcessFn) {
+      const childProcess = new ChildProcess();
+      childProcess.kill = killProcessFn;
+      childProcess.pid = 9999;
+      const mockExecuteCommand = jest
+        .spyOn(require("../core/executor"), "execute")
+        .mockResolvedValue(childProcess);
+
+      return mockExecuteCommand;
+    }
+
+    function setTreeKillMock(mockTreeKill) {
+      jest.mock("treekill", () => {
+        return mockTreeKill;
+      });
+      return mockTreeKill;
+    }
+
+    beforeEach(() => {
+      jest
+        .spyOn(require("../core/check-server"), "checkServer")
+        .mockImplementation(jest.fn());
+    });
+
+    test("given a -x option when we run restqa then it should execute command before running cucumber", async () => {
+      // Mocks
+      const mockCucumberRun = jest.fn().mockResolvedValue({
+        shouldExitImmediately: false,
+        success: false
+      });
+      setCucumberMock(mockCucumberRun);
+
+      const mockTreeKill = setTreeKillMock(jest.fn());
+
+      // Executor
+      const mockProcessKill = jest.fn();
+      const mockExecuteCommand = setExecutor(mockProcessKill);
+
+      // Given
+      const configFileName = jestqa.createTmpFile(
+        validRestQAConfigFile,
+        ".restqa.yml"
+      );
+      const runOptionsWithCommand = {
+        config: configFileName,
+        exec: "echo lol"
+      };
+      const Run = require("./run");
+
+      // When
+      await Run(runOptionsWithCommand);
+
+      // Then
+      const mockExecuteCommandOrder =
+        mockExecuteCommand.mock.invocationCallOrder[0];
+      const mockCucumberRunOrder = mockCucumberRun.mock.invocationCallOrder[0];
+      expect(mockExecuteCommandOrder).toBeLessThan(mockCucumberRunOrder);
+      expect(mockExecuteCommand).toHaveBeenCalledWith(
+        runOptionsWithCommand.exec
+      );
+      expect(mockProcessKill).not.toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalledWith(9999);
+    });
+
+    test("given no -x option when we run restqa nothing should be executed", async () => {
+      // Mocks
+      const mockCucumberRun = jest.fn().mockResolvedValue({
+        shouldExitImmediately: false,
+        success: false
+      });
+      setCucumberMock(mockCucumberRun);
+
+      const mockExecuteCommand = setExecutor(jest.fn());
+
+      // Given
+      const configFileName = jestqa.createTmpFile(
+        validRestQAConfigFile,
+        ".restqa.yml"
+      );
+      const runOptionsWithoutCommand = {
+        config: configFileName,
+        exec: undefined
+      };
+      const Run = require("./run");
+
+      // When
+      await Run(runOptionsWithoutCommand);
+
+      // Then
+      expect(mockExecuteCommand).not.toHaveBeenCalled();
+      expect(mockCucumberRun).toHaveBeenCalled();
+    });
+
+    test("given a -x option when we run restqa and execution failed then it should exit", async () => {
+      // Mocks
+      const mockCucumberRun = jest.fn().mockResolvedValue({
+        shouldExitImmediately: false,
+        success: false
+      });
+      setCucumberMock(mockCucumberRun);
+      const mockExecuteCommand = jest
+        .spyOn(require("../core/executor"), "execute")
+        .mockRejectedValue(new Error("boom"));
+
+      // Given
+      const configFileName = jestqa.createTmpFile(
+        validRestQAConfigFile,
+        ".restqa.yml"
+      );
+      const runOptionsWithCommand = {
+        config: configFileName,
+        exec: "echo lol"
+      };
+      const Run = require("./run");
+
+      // When
+      expect.assertions(1);
+      try {
+        await Run(runOptionsWithCommand);
+      } catch {
+        // Then
+        // eslint-disable-next-line
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          runOptionsWithCommand.exec
+        );
+      }
+    });
+
+    test("given a -x option when we run restqa and execution failed then it use kill()", async () => {
+      // Mocks
+      const mockCucumberRun = jest.fn().mockRejectedValue(new Error("Boom"));
+      setCucumberMock(mockCucumberRun);
+
+      const mockTreeKill = setTreeKillMock(jest.fn());
+
+      const mockProcessKill = jest.fn();
+      setExecutor(mockProcessKill);
+
+      // Given
+      const configFileName = jestqa.createTmpFile(
+        validRestQAConfigFile,
+        ".restqa.yml"
+      );
+      const runOptionsWithCommand = {
+        config: configFileName,
+        exec: "echo lol"
+      };
+
+      // When
+      const Run = require("./run");
+      await Run(runOptionsWithCommand);
+
+      // Then
+      expect(mockProcessKill).not.toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalled();
+      expect(mockTreeKill).toHaveBeenCalledWith(9999);
+    });
   });
 });

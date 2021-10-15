@@ -1,5 +1,5 @@
 const nock = require("nock");
-const request = require("supertest");
+const got = require("got");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
@@ -8,6 +8,7 @@ const {EventEmitter} = require("events");
 const YAML = require("yaml");
 
 let filename;
+let server;
 
 const jestqa = new JestQA(__filename, false);
 
@@ -15,6 +16,10 @@ afterEach(() => {
   if (filename && fs.existsSync(filename)) {
     fs.unlinkSync(filename);
     filename = undefined;
+  }
+  if (server) {
+    server.close();
+    server = undefined;
   }
 });
 
@@ -42,28 +47,42 @@ jest.mock("../utils/logger", () => {
   };
 });
 
-const server = require("./index");
+const app = require("./index");
+
+const getGotInstance = function (port) {
+  return got.extend({
+    prefixUrl: `http://127.0.0.1:${port}`,
+    responseType: "json",
+    throwHttpErrors: false
+  });
+};
 
 describe("#dashboard > Server", () => {
   describe("cors management", () => {
     test("does not return allows headers if the origin is not on the default white list", async () => {
       const config = {};
-      const response = await request(server(config)).get("/tes-cors");
-      expect(response.status).toBe(404);
-      expect(response.header["access-control-allow-origin"]).toBeUndefined();
-      expect(response.header["access-control-allow-headers"]).toBeUndefined();
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("tes-cors");
+      expect(response.statusCode).toBe(404);
+      expect(response.headers["access-control-allow-origin"]).toBeUndefined();
+      expect(response.headers["access-control-allow-headers"]).toBeUndefined();
     });
 
     test("return allows headers if the origin is on the default white list", async () => {
       const config = {};
-      const response = await request(server(config))
-        .get("/tes-cors")
-        .set("origin", "http://localhost:3000");
-      expect(response.status).toBe(404);
-      expect(response.header["access-control-allow-origin"]).toBe(
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("tes-cors", {
+        headers: {
+          origin: "http://localhost:3000"
+        }
+      });
+      expect(response.statusCode).toBe(404);
+      expect(response.headers["access-control-allow-origin"]).toBe(
         "http://localhost:3000"
       );
-      expect(response.header["access-control-allow-headers"]).toBe(
+      expect(response.headers["access-control-allow-headers"]).toBe(
         "Origin, X-Requested-With, Content-Type, Accept"
       );
     });
@@ -75,14 +94,18 @@ describe("#dashboard > Server", () => {
           whiteList: "https://www.foo-bar.com"
         }
       };
-      const response = await request(server(config, options))
-        .get("/tes-cors")
-        .set("origin", "https://www.foo-bar.com");
-      expect(response.status).toBe(404);
-      expect(response.header["access-control-allow-origin"]).toBe(
+      server = app(config, options).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("tes-cors", {
+        headers: {
+          origin: "https://www.foo-bar.com"
+        }
+      });
+      expect(response.statusCode).toBe(404);
+      expect(response.headers["access-control-allow-origin"]).toBe(
         "https://www.foo-bar.com"
       );
-      expect(response.header["access-control-allow-headers"]).toBe(
+      expect(response.headers["access-control-allow-headers"]).toBe(
         "Origin, X-Requested-With, Content-Type, Accept"
       );
     });
@@ -92,8 +115,10 @@ describe("#dashboard > Server", () => {
     test("get version", async () => {
       const pkg = require("../../package.json");
       const config = {};
-      const response = await request(server(config)).get("/version");
-      expect(response.status).toBe(200);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("version");
+      expect(response.statusCode).toBe(200);
       expect(response.body.version).toBe(pkg.version);
     });
   });
@@ -107,14 +132,18 @@ describe("#dashboard > Server", () => {
 
       fs.writeFileSync(filename, content);
 
-      const response = await request(server()).get("/preferences");
-      expect(response.status).toBe(200);
+      server = app().listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("preferences");
+      expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(JSON.parse(content));
     });
 
     test("Return the user preferences if the file doesn't exist", async () => {
-      const response = await request(server()).get("/preferences");
-      expect(response.status).toBe(200);
+      server = app().listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("preferences");
+      expect(response.statusCode).toBe(200);
       expect(response.body).toEqual({});
     });
   });
@@ -122,8 +151,10 @@ describe("#dashboard > Server", () => {
   describe("/config", () => {
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false;
-      const response = await request(server(config)).get("/config");
-      expect(response.status).toBe(403);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("config");
+      expect(response.statusCode).toBe(403);
       expect(response.body.message).toBe(
         "Please initiate your RestQA project before using this endpoint."
       );
@@ -154,8 +185,10 @@ environments:
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
 
-      const response = await request(server(filename)).get("/config");
-      expect(response.status).toBe(200);
+      server = app(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("config");
+      expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(YAML.parse(content));
     });
 
@@ -187,10 +220,10 @@ restqa:
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
 
-      const response = await request(server(filename, {readOnly: false})).get(
-        "/config"
-      );
-      expect(response.status).toBe(200);
+      server = app(filename, {readOnly: false}).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("config");
+      expect(response.statusCode).toBe(200);
       const expected = YAML.parse(content);
       expected.restqa.dashboard.readOnly = false;
       expect(response.body).toEqual(expected);
@@ -200,10 +233,10 @@ restqa:
   describe("/api/steps", () => {
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false;
-      const response = await request(server(config)).get(
-        "/api/restqa/steps?keyword=cool"
-      );
-      expect(response.status).toBe(403);
+      server = app(config, {readOnly: false}).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/restqa/steps?keyword=cool");
+      expect(response.statusCode).toBe(403);
       expect(response.body.message).toBe(
         "Please initiate your RestQA project before using this endpoint."
       );
@@ -211,10 +244,10 @@ restqa:
 
     test("throw error if the keyword is not incorrect", async () => {
       const config = ".restqa.yml";
-      const response = await request(server(config)).get(
-        "/api/restqa/steps?keyword=cool"
-      );
-      expect(response.status).toBe(406);
+      server = app(config, {readOnly: false}).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/restqa/steps?keyword=cool");
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         '"cool" is not a valid argument. Available: given | when | then'
       );
@@ -245,10 +278,10 @@ environments:
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
 
-      const response = await request(server(filename)).get(
-        "/api/restqa/steps?keyword=when"
-      );
-      expect(response.status).toBe(200);
+      server = app(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/restqa/steps?keyword=when");
+      expect(response.statusCode).toBe(200);
       const expectedResult = [
         {
           comment: "Trigger the api request",
@@ -285,8 +318,10 @@ environments:
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
 
-      const response = await request(server(filename)).get("/api/restqa/steps");
-      expect(response.status).toBe(200);
+      server = app(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/restqa/steps");
+      expect(response.statusCode).toBe(200);
       expect(response.body.length > 10).toBe(true);
       expect(response.body.some((el) => el.keyword === "given")).toBe(true);
       expect(response.body.some((el) => el.keyword === "when")).toBe(true);
@@ -298,54 +333,62 @@ environments:
     test("throw error if name is not defined", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
-      const response = await request(server(config))
-        .post("/api/restqa/initialize")
-        .send({
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/initialize", {
+        json: {
           folder
-        });
-      expect(response.status).toBe(406);
+        }
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe("Please share a project name.");
     });
 
     test("throw error if description is not defined", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
-      const response = await request(server(config))
-        .post("/api/restqa/initialize")
-        .send({
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/initialize", {
+        json: {
           name: "Backend api",
           folder
-        });
-      expect(response.status).toBe(406);
+        }
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe("Please share a project description.");
     });
 
     test("throw error if url is not defined", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
-      const response = await request(server(config))
-        .post("/api/restqa/initialize")
-        .send({
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/initialize", {
+        json: {
           name: "Backend api",
           description: "All the API used by the different frontends",
           folder
-        });
-      expect(response.status).toBe(406);
+        }
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe("Please share a project url.");
     });
 
     test("throw error if env is not defined", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
-      const response = await request(server(config))
-        .post("/api/restqa/initialize")
-        .send({
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/initialize", {
+        json: {
           name: "Backend api",
           description: "All the API used by the different frontends",
           url: "https://api.example.com",
           folder
-        });
-      expect(response.status).toBe(406);
+        }
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         "Please share a project url environment."
       );
@@ -354,17 +397,19 @@ environments:
     test("throw error if ci tool is invalid", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
-      const response = await request(server(config))
-        .post("/api/restqa/initialize")
-        .send({
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/initialize", {
+        json: {
           name: "Backend api",
           description: "All the API used by the different frontends",
           url: "https://api.example.com",
           ci: "gocd",
           env: "uat",
           folder
-        });
-      expect(response.status).toBe(406);
+        }
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         'The continous integration "gocd" is not supported by RestQa'
       );
@@ -377,16 +422,19 @@ environments:
 
       const folder = jestqa.getTmpFolder();
       const config = {};
-      const srv = server(config);
-      const response = await request(srv).post("/api/restqa/initialize").send({
-        name: "Backend api",
-        description: "All the API used by the different frontends",
-        url: "https://api.example.com",
-        env: "uat",
-        ci: "gitlab-ci",
-        folder
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/initialize", {
+        json: {
+          name: "Backend api",
+          description: "All the API used by the different frontends",
+          url: "https://api.example.com",
+          ci: "gitlab-ci",
+          env: "uat",
+          folder
+        }
       });
-      expect(response.status).toBe(200);
+      expect(response.statusCode).toBe(200);
       expect(response.body.configuration).toBe(
         path.join(folder, ".restqa.yml")
       );
@@ -399,18 +447,22 @@ environments:
         )
       ).toBe(true);
 
-      const responseConfig = await request(srv).get("/config");
-      expect(responseConfig.status).toBe(200);
+      const responseConfig = await instance.get("config");
+      expect(responseConfig.statusCode).toBe(200);
     });
   });
 
   describe("/api/generate", () => {
     test("throw error if the command is not a curl command", async () => {
       const config = {};
-      const response = await request(server(config))
-        .post("/api/restqa/generate")
-        .send({cmd: "ls -lah"});
-      expect(response.status).toBe(406);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/generate", {
+        json: {
+          cmd: "ls -lah"
+        }
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         "You need to provide a curl command for me to generate an awesome scenario"
       );
@@ -426,12 +478,15 @@ environments:
 
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
 
-      const response = await request(server(filename))
-        .post("/api/restqa/generate")
-        .send({
+      server = app(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/generate", {
+        json: {
           cmd: "curl -X GET https://jsonplaceholder.typicode.com/todos/1"
-        });
-      expect(response.status).toBe(200);
+        }
+      });
+
+      expect(response.statusCode).toBe(200);
       const expectedBody = {
         scenario: `
 Given I have the api gateway hosted on "https://jsonplaceholder.typicode.com"
@@ -456,10 +511,10 @@ Then I should receive a response with the status 200
   describe("/api/install", () => {
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false;
-      const response = await request(server(config)).post(
-        "/api/restqa/install"
-      );
-      expect(response.status).toBe(403);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/install");
+      expect(response.statusCode).toBe(403);
       expect(response.body.message).toBe(
         "Please initiate your RestQA project before using this endpoint."
       );
@@ -474,10 +529,12 @@ Then I should receive a response with the status 200
           url: "http://webhook.whatsapp.com/test"
         }
       };
-      const response = await request(server(config))
-        .post("/api/restqa/install")
-        .send(options);
-      expect(response.status).toBe(406);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/install", {
+        json: options
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         'The plugin "whatsapp" is not available. Use the command "restqa install" to retrive the list of available plugin'
       );
@@ -491,10 +548,12 @@ Then I should receive a response with the status 200
           url: "http://webhook.slack.com/test"
         }
       };
-      const response = await request(server(config))
-        .post("/api/restqa/install")
-        .send(options);
-      expect(response.status).toBe(406);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/install", {
+        json: options
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         "Please specify the target environment"
       );
@@ -532,10 +591,12 @@ environments:
           url: "http://webhook.slack.com/test"
         }
       };
-      const response = await request(server(filename))
-        .post("/api/restqa/install")
-        .send(options);
-      expect(response.status).toBe(406);
+      server = app(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/install", {
+        json: options
+      });
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         '"prod" is not an environment available in the config file, choose between : local'
       );
@@ -573,10 +634,13 @@ environments:
           url: "http://webhook.slack.com/test"
         }
       };
-      const response = await request(server(filename))
-        .post("/api/restqa/install")
-        .send(options);
-      expect(response.status).toBe(201);
+
+      server = app(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/install", {
+        json: options
+      });
+      expect(response.statusCode).toBe(201);
       const expectedResult = `version: 0.0.1
 metadata:
   code: API
@@ -612,8 +676,10 @@ environments:
 
     test('throw error if server is running on "NO CONFIG" mode', async () => {
       const config = false;
-      const response = await request(server(config)).post("/api/restqa/run");
-      expect(response.status).toBe(403);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/run");
+      expect(response.statusCode).toBe(403);
       expect(response.body.message).toBe(
         "Please initiate your RestQA project before using this endpoint."
       );
@@ -621,13 +687,13 @@ environments:
 
     test("throw error if the configuration file  doesn't exist", async () => {
       const config = "./.restqa.yml";
-      const options = {
+      const json = {
         env: "prod"
       };
-      const response = await request(server(config))
-        .post("/api/restqa/run")
-        .send(options);
-      expect(response.status).toBe(406);
+      server = app(config).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/run", {json});
+      expect(response.statusCode).toBe(406);
       expect(response.body.message).toBe(
         'The configuration file "./.restqa.yml" doesn\'t exist.'
       );
@@ -659,16 +725,15 @@ environments:
           Run: mockRun
         };
       });
-      const server = require("./index")(filename);
+      server = require("./index")(filename).listen();
 
-      const options = {
+      const json = {
         env: "local",
         path: "tests/"
       };
-      const response = await request(server)
-        .post("/api/restqa/run")
-        .send(options);
-      expect(response.status).toBe(201);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/run", {json});
+      expect(response.statusCode).toBe(201);
       expect(response.body).toEqual({foo: "bar"});
     });
 
@@ -704,19 +769,19 @@ environments:
           testFolder: path.resolve(__dirname, "../../example/tests")
         }
       };
-      const server = require("./index")(filename, srvOption);
+      server = require("./index")(filename, srvOption).listen();
 
-      const options = {
+      const json = {
         env: "local",
         path: "integration/delete-todos-id.feature"
       };
-      const response = await request(server)
-        .post("/api/restqa/run")
-        .send(options);
-      expect(response.status).toBe(201);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.post("api/restqa/run", {json});
+
+      expect(response.statusCode).toBe(201);
       expect(response.body).toEqual({foo: "bar"});
       const expectedResult = {
-        path: path.join(srvOption.server.testFolder, options.path)
+        path: path.join(srvOption.server.testFolder, json.path)
       };
       expect(mockRun.mock.calls[0][0].path).toEqual(expectedResult.path);
     });
@@ -738,31 +803,32 @@ environments:
     });
 
     test("Create a report for a result using default value", async () => {
-      const jsonBody = {
+      const json = {
         id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
       };
 
       buggedReportforlder = path.resolve(process.cwd(), "reports");
 
       const config = {};
-      const response = await request(server(config))
-        .post("/reports")
-        .send(jsonBody);
-      expect(response.status).toBe(201);
-      expect(response.body.id).toEqual(jsonBody.id);
-      expect(response.body.url).toMatch(
-        new RegExp(`http://127.0.0.1:(\\d{5})/reports/${jsonBody.id}`)
+      server = app(config).listen();
+      const {port} = server.address();
+      const instance = getGotInstance(port);
+      const response = await instance.post("reports", {json});
+      expect(response.statusCode).toBe(201);
+      expect(response.body.id).toEqual(json.id);
+      expect(response.body.url).toEqual(
+        `http://127.0.0.1:${port}/reports/${json.id}`
       );
       const expectedReport = path.resolve(
         buggedReportforlder,
-        jsonBody.id,
+        json.id,
         "index.html"
       );
       expect(fs.existsSync(expectedReport)).toBe(true);
     });
 
     test("Create a report for a result using passed options", async () => {
-      const jsonBody = {
+      const json = {
         id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
       };
 
@@ -777,24 +843,21 @@ environments:
           }
         }
       };
-      const response = await request(server(config, options))
-        .post("/reports")
-        .send(jsonBody);
-      expect(response.status).toBe(201);
-      expect(response.body.id).toEqual(jsonBody.id);
-      expect(response.body.url).toMatch(
-        new RegExp(`http://127.0.0.1:(\\d{5})/reports-restqa/${jsonBody.id}`)
+      server = app(config, options).listen();
+      const {port} = server.address();
+      const instance = getGotInstance(port);
+      const response = await instance.post("reports", {json});
+      expect(response.statusCode).toBe(201);
+      expect(response.body.id).toEqual(json.id);
+      expect(response.body.url).toEqual(
+        `http://127.0.0.1:${port}/reports-restqa/${json.id}`
       );
-      const expectedReport = path.resolve(
-        reportFolder,
-        jsonBody.id,
-        "index.html"
-      );
+      const expectedReport = path.resolve(reportFolder, json.id, "index.html");
       expect(fs.existsSync(expectedReport)).toBe(true);
     });
 
     test("Retrieve the list of report", async () => {
-      const jsonBody = {
+      const json = {
         id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
       };
 
@@ -810,25 +873,27 @@ environments:
         }
       };
 
-      const svr = server(config, options);
-      let response = await request(svr).get("/reports");
-      expect(response.status).toBe(200);
+      server = app(config, options).listen();
+      const {port} = server.address();
+      const instance = getGotInstance(port);
+      let response = await instance.get("reports");
+
+      expect(response.statusCode).toBe(200);
       expect(response.body).toEqual([]);
 
-      await request(svr).post("/reports").send(jsonBody);
+      await instance.post("reports", {json});
 
-      response = await request(svr).get("/reports");
-
-      expect(response.status).toBe(200);
+      response = await instance.get("reports");
+      expect(response.statusCode).toBe(200);
       expect(response.body).toHaveLength(1);
-      expect(response.body[0].id).toEqual(jsonBody.id);
-      expect(response.body[0].url).toMatch(
-        new RegExp(`http://127.0.0.1:(\\d{5})/reports/${jsonBody.id}`)
+      expect(response.body[0].id).toEqual(json.id);
+      expect(response.body[0].url).toEqual(
+        `http://127.0.0.1:${port}/reports/${json.id}`
       );
     });
 
     test("Access to the dashboard", async () => {
-      const jsonBody = {
+      const json = {
         id: `xx-yyy-zzzz-${Math.floor(Math.random() * 1000)}`
       };
 
@@ -845,15 +910,18 @@ environments:
         }
       };
 
-      const svr = server(config, options);
-      let response = await request(svr).get(`/reports-restqa/${jsonBody.id}`);
-      expect(response.status).toBe(404);
+      server = app(config, options).listen();
+      const {port} = server.address();
+      const instance = getGotInstance(port);
+      let response = await instance.get(`reports-restqa/${json.id}`);
+      expect(response.statusCode).toBe(404);
 
-      await request(svr).post("/reports").send(jsonBody);
+      await instance.post("reports", {json});
+      response = await instance.get(`reports-restqa/${json.id}`, {
+        responseType: "text"
+      });
 
-      response = await request(svr).get(`/reports-restqa/${jsonBody.id}`);
-
-      expect(response.status).toBe(301);
+      expect(response.statusCode).toBe(200);
       expect(response.headers["content-type"]).toEqual(
         "text/html; charset=UTF-8"
       );
@@ -889,10 +957,10 @@ environments:
       fs.writeFileSync(filename, content);
 
       const srvOption = {};
-      const response = await request(server(filename, srvOption)).get(
-        "/api/tips"
-      );
-      expect(response.status).toBe(200);
+      server = app(filename, srvOption).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/tips");
+      expect(response.statusCode).toBe(200);
       const expectedList = new Welcome().MESSAGES.map((str) => {
         const pattern = [
           "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
@@ -929,10 +997,10 @@ restqa:
       fs.writeFileSync(filename, content);
 
       const srvOption = {};
-      const response = await request(server(filename, srvOption)).get(
-        "/api/tips"
-      );
-      expect(response.status).toBe(200);
+      server = app(filename, srvOption).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/tips");
+      expect(response.statusCode).toBe(200);
       expect(response.body.message).toContain("This is a custom tips");
     });
   });
@@ -999,9 +1067,10 @@ environments:
       `;
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
-      const server = require("./index")(filename);
-      const response = await request(server).get("/api/info");
-      expect(response.status).toBe(200);
+      server = require("./index")(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/info");
+      expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(mockData);
       expect(mockRequest.mock.calls).toHaveLength(1);
       const expectedOption = {
@@ -1060,9 +1129,10 @@ environments:
       `;
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
-      const server = require("./index")(filename);
-      const response = await request(server).get("/api/info");
-      expect(response.status).toBe(200);
+      server = require("./index")(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/info");
+      expect(response.statusCode).toBe(200);
       const defaultData = {
         team: {
           blog: {
@@ -1155,9 +1225,10 @@ environments:
       `;
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
-      const server = require("./index")(filename);
-      const response = await request(server).get("/api/info");
-      expect(response.status).toBe(200);
+      server = require("./index")(filename).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/info");
+      expect(response.statusCode).toBe(200);
       const defaultData = {
         team: {
           blog: {
@@ -1230,19 +1301,15 @@ environments:
       `;
       filename = path.resolve(os.tmpdir(), ".restqa.yml");
       fs.writeFileSync(filename, content);
-      const options = {
-        env: "local",
-        path: path.resolve("./example/tests/integration")
-      };
       const srvOption = {
         server: {
           testFolder: path.resolve(__dirname, "../../example/tests")
         }
       };
-      const response = await request(server(filename, srvOption))
-        .get("/api/project/features")
-        .send(options);
-      expect(response.status).toBe(200);
+      server = app(filename, srvOption).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("api/project/features");
+      expect(response.statusCode).toBe(200);
       const expectedBody = [
         "integration/delete-todos-id.feature",
         "integration/get-todos-id.feature",
@@ -1288,16 +1355,19 @@ environments:
           }
         };
         const featureFilename = "integration/delete-todos-id.feature";
-        const response = await request(server(filename, srvOption)).get(
-          "/api/project/features/" + featureFilename
+        server = app(filename, srvOption).listen(0);
+        const instance = getGotInstance(server.address().port);
+        const response = await instance.get(
+          "api/project/features/" + featureFilename,
+          {responseType: "text"}
         );
-        expect(response.status).toBe(200);
+        expect(response.statusCode).toBe(200);
         const expectedBody = fs
           .readFileSync(
             path.resolve(__dirname, "../../example/tests", featureFilename)
           )
           .toString("utf-8");
-        expect(response.text).toEqual(expectedBody);
+        expect(response.body).toEqual(expectedBody);
       });
 
       test("throw error if the file doesnt exist", async () => {
@@ -1325,10 +1395,12 @@ environments:
             testFolder: path.resolve(__dirname, "../../example/tests")
           }
         };
-        const response = await request(server(filename, srvOption)).get(
-          "/api/project/features/foo-bar.feature"
+        server = app(filename, srvOption).listen(0);
+        const instance = getGotInstance(server.address().port);
+        const response = await instance.get(
+          "api/project/features/foo-bar.feature"
         );
-        expect(response.status).toBe(404);
+        expect(response.statusCode).toBe(404);
         expect(response.body).toEqual({
           message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
         });
@@ -1366,11 +1438,19 @@ environments:
             testFolder: os.tmpdir()
           }
         };
-        const response = await request(server(filename, srvOption))
-          .put("/api/project/features/" + featureFilename)
-          .set("Content-Type", "text/plain")
-          .send("this is the new content");
-        expect(response.status).toBe(204);
+        server = app(filename, srvOption).listen(0);
+        const instance = getGotInstance(server.address().port);
+        const response = await instance.put(
+          "api/project/features/" + featureFilename,
+          {
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: "this is the new content"
+          }
+        );
+
+        expect(response.statusCode).toBe(204);
         const fileContent = fs
           .readFileSync(path.resolve(os.tmpdir(), featureFilename))
           .toString("utf-8");
@@ -1406,11 +1486,19 @@ environments:
           folder: os.tmpdir()
         };
 
-        const response = await request(server(filename, srvOption))
-          .put("/api/project/features/" + featureFilename)
-          .set("Content-Type", "text/plain")
-          .send("this is the new content");
-        expect(response.status).toBe(204);
+        server = app(filename, srvOption).listen(0);
+        const instance = getGotInstance(server.address().port);
+        const response = await instance.put(
+          "api/project/features/" + featureFilename,
+          {
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: "this is the new content"
+          }
+        );
+
+        expect(response.statusCode).toBe(204);
         const fileContent = fs
           .readFileSync(path.resolve(os.tmpdir(), featureFilename))
           .toString("utf-8");
@@ -1442,13 +1530,86 @@ environments:
             testFolder: path.resolve(__dirname, "../../example/tests")
           }
         };
-        const response = await request(server(filename, srvOption)).put(
-          "/api/project/features/foo-bar.feature"
+        server = app(filename, srvOption).listen(0);
+        const instance = getGotInstance(server.address().port);
+        const response = await instance.put(
+          "api/project/features/foo-bar.feature",
+          {
+            headers: {
+              "Content-Type": "text/plain"
+            },
+            body: "this is the new content"
+          }
         );
-        expect(response.status).toBe(404);
+        expect(response.statusCode).toBe(404);
         expect(response.body).toEqual({
           message: `The file "foo-bar.feature" doesn't exist in the folder "${srvOption.server.testFolder}"`
         });
+      });
+    });
+  });
+
+  describe("/events", () => {
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+    const Sandbox = require("../core/sandbox");
+    test("Throw error if the sandbox mode is not enabled", async () => {
+      server = app(false).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("events");
+      expect(response.statusCode).toBe(406);
+      expect(response.body).toEqual({
+        message: "The sandbox mode is not enabled"
+      });
+    });
+
+    test("Send event when the sandbox got triggered", () => {
+      let stream;
+      return new Promise((resolve, reject) => {
+        jest.useFakeTimers("modern");
+        jest.setSystemTime(new Date("2012-10-10"));
+        const options = {
+          sandbox: new Sandbox()
+        };
+
+        const incomingRequest = {};
+
+        server = app(false, options).listen(0);
+        const instance = getGotInstance(server.address().port);
+
+        stream = instance
+          .stream("events")
+          .on("response", (response) => {
+            try {
+              expect(response.headers["cache-control"]).toBe("no-cache");
+              expect(response.headers["content-type"]).toBe(
+                "text/event-stream; charset=utf-8"
+              );
+              expect(response.headers.connection).toBe("keep-alive");
+              expect(response.headers["transfer-encoding"]).toBe("chunked");
+            } catch (e) {
+              reject(e);
+            }
+
+            options.sandbox.emit("request", incomingRequest);
+            server.close();
+          })
+          .on("data", (chunk) => {
+            const data = chunk.toString();
+            const expectedBody = JSON.stringify({
+              transaction: incomingRequest,
+              status: "PENDING",
+              scenario:
+                "An error occured while generating the test: Please specify your url",
+              createdAt: new Date("2012-10-10")
+            });
+            expect(data).toEqual(`data: ${expectedBody}\n\n`);
+            resolve(stream);
+          });
+      }).then((stream) => {
+        stream.destroy();
+        server.close();
       });
     });
   });

@@ -36,6 +36,7 @@ load 'common.sh'
   assert_output --partial '-t, --tags <tags>      Use --tags <EXPRESSION> to run specific features'
   #assert_output --partial "or scenarios (example: @prod)"
   assert_output --partial '-h, --help             display help for command'
+  assert_output --partial '-x, --exec <command>   Run a command before running tests (example'
 }
 
 ## Test Execution
@@ -130,5 +131,14 @@ load 'common.sh'
 @test "[RUN]> TAG > Run on the scenario taggdd" {
   run restqa run -t @select -c ./bin/tests/features/tags/.restqa.yml ./bin/tests/features/tags/
   assert_success
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+@test "[RUN]> EXEC > Execute a basic http server" {
+  cd ./bin/tests/test-server
+  run npm i
+  run restqa run . -x 'npm start'
+  assert_success
+  assert_output --partial 'Server is running (command: npm start)'
   assert_output --partial '1 scenario (1 passed)'
 }

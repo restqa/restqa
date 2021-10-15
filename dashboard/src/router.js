@@ -56,6 +56,14 @@ const router = createRouter({
           meta: {
             title: "Editor"
           }
+        },
+        {
+          path: "/sandbox",
+          name: "sandbox",
+          component: () => import("./views/sandbox/Sandbox.vue"),
+          meta: {
+            title: "Sandbox"
+          }
         }
       ]
     }

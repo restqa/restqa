@@ -8,7 +8,7 @@ async function get() {
   let result = window.localStorage.getItem(key);
   result = result && JSON.parse(result);
   if (!result || result.today !== today) {
-    const {data} = await Http().get("/api/info");
+    const {data} = await Http().get("api/info");
     result = {
       today,
       data
@@ -19,7 +19,7 @@ async function get() {
 }
 
 async function tips() {
-  const result = await Http().get("/api/tips");
+  const result = await Http().get("api/tips");
   return result.data;
 }
 
