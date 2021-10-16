@@ -7,5 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-#    - name: Check links
-#      uses: restqa/404-links@master
+    - name: Check links
+      uses: restqa/404-links@2.0.0
