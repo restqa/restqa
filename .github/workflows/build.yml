@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    types: [assigned, opened, synchronize, reopened]
 
 jobs:
   build-Dashboard:
