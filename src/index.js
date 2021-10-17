@@ -4,11 +4,8 @@ const steps = require("./cli/steps");
 const run = require("./cli/run");
 const dashboard = require("./cli/dashboard");
 const initialize = require("./cli/initialize");
-const HttpsServer = require("./http-server");
-const Sandbox = require("./core/sandbox");
 
 const Stream = require("stream");
-const path = require("path");
 
 /**
  * Initialize a restqa project
@@ -235,98 +232,7 @@ function Dashboard(options) {
   return dashboard(opt);
 }
 
-/**
- * Expose middleware for Express and Fastify
- *
- * @param {Object} options
- * @param {string} options.configFile - The path of the RestQA configuration file
- * @param {string} (optional) options.folder - Define the folder where to project is located
- * @param {string} (optional) options.readOnly - Restrict the access to the feature file into read only
- * @param {string} (optional) options.route - Route used to exposed the dashboard (default: '/restqa')
- *
- * @return http.server
- *
- * @example
- *
- * const express = require('express')
- * const { Hooks } = require('@restqa/restqa')
- *
- * const options = {
- *   configFile: './restqa.yml',
- *   folder: '/app/project',
- *   readOnly: true,
- *   route: '/restqa'
- * }
- *
- * const server = express()
- * Hooks.express(server, options)
- * server.listen(8000, () => {
- *   console.log('The Microservice is running on the port 8000')
- * })
- */
-const Hooks = {
-  express: function (server, options) {
-    options = options || {};
-    options.route = options.route || "/restqa";
-    options.sandbox = options.sandbox || new Sandbox();
-    options.folder = options.folder || process.cwd();
-    options.configFile =
-      options.configFile || path.resolve(process.cwd(), ".restqa.yml");
-    options.serve = false;
-    server
-      .use(options.route, HttpsServer(options.configFile, options))
-      .use((req, res, next) => {
-        const buffers = [];
-        const proxyHandler = {
-          apply(target, thisArg, argumentsList) {
-            const contentType = res.getHeader("content-type");
-            if (
-              typeof contentType === "string" &&
-              contentType.includes("json") &&
-              argumentsList[0]
-            ) {
-              buffers.push(argumentsList[0]);
-            }
-            return target.call(thisArg, ...argumentsList);
-          }
-        };
-        res.write = new Proxy(res.write, proxyHandler);
-        res.end = new Proxy(res.end, proxyHandler);
-        res.on("finish", function () {
-          if (req.path.startsWith(options.route)) return;
-
-          // tracing logic inside
-          const response = {
-            headers: this.getHeaders(),
-            statusCode: this.statusCode,
-            body: Buffer.concat(buffers).toString("utf-8")
-          };
-
-          delete response.headers.etag;
-
-          if ((response.headers["content-type"] || "").includes("json")) {
-            response.body = JSON.parse(response.body);
-          }
-
-          const request = {
-            path: req.path,
-            method: req.method,
-            query: req.query,
-            headers: req.headers,
-            body: req.body
-          };
-
-          const msg = {
-            request,
-            response
-          };
-          options.sandbox.emit("request", msg);
-        });
-        next();
-      });
-    return server;
-  }
-};
+const Hooks = require("./hooks");
 
 module.exports = {
   Initialize,
