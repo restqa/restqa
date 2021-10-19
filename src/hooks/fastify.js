@@ -25,32 +25,34 @@ module.exports = fp(async (fastify, opts) => {
   // await fastify.register(addRestQANamespace, options);
 
   fastify.addHook("onSend", async function (request, reply, payload) {
-    if (request.url.startsWith(options.route)) return;
-
-    // tracing logic inside
-    const response = {
-      headers: reply.getHeaders(),
-      statusCode: reply.statusCode,
-      body: payload
-    };
-
-    reply.removeHeader("etag");
-
-    if ((response.headers["content-type"] || "").includes("json")) {
-      response.body = JSON.parse(response.body);
-    }
-
-    const msg = {
-      request: {
-        path: request.url,
-        method: request.method,
-        query: request.query,
-        headers: request.headers,
-        body: request.body
-      },
-      response
-    };
-
-    options.sandbox.emit("request", msg);
+    setImmediate(() => {
+      if (request.url.startsWith(options.route)) return;
+  
+      // tracing logic inside
+      const response = {
+        headers: reply.getHeaders(),
+        statusCode: reply.statusCode,
+        body: payload
+      };
+  
+      reply.removeHeader("etag");
+  
+      if ((response.headers["content-type"] || "").includes("json")) {
+        response.body = JSON.parse(response.body);
+      }
+  
+      const msg = {
+        request: {
+          path: request.url,
+          method: request.method,
+          query: request.query,
+          headers: request.headers,
+          body: request.body
+        },
+        response
+      };
+  
+      options.sandbox.emit("request", msg);
+    })
   });
 }, { name: "restqa" });
