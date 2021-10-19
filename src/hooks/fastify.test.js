@@ -65,6 +65,7 @@ describe("Fastify hooks", () => {
     const expectedResponse = {
       statusCode: 200,
       headers: {
+        "content-length": "25",
         "content-type": "application/json; charset=utf-8",
       },
       body: {
