@@ -14,16 +14,7 @@ const Sandbox = require("../core/sandbox");
 //   fastify.use(options.route, HttpsServer(configFile, {...options, server: fastify}));
 // }
 
-module.exports = fp(async (fastify, opts) => {
-  const options = Object.assign({}, opts) || {}
-  options.route = opts.route || "/restqa";
-  options.sandbox = opts.sandbox || new Sandbox();
-  options.folder = opts.folder || process.cwd();
-  options.serve = false;
-
-  // add dashboard
-  // await fastify.register(addRestQANamespace, options);
-
+const watchEvents = fp(async (fastify, options) => {
   fastify.addHook("onSend", async function (request, reply, payload) {
     setImmediate(() => {
       if (request.url.startsWith(options.route)) return;
@@ -55,4 +46,17 @@ module.exports = fp(async (fastify, opts) => {
       options.sandbox.emit("request", msg);
     })
   });
+})
+
+module.exports = fp(async (fastify, opts) => {
+  const options = Object.assign({}, opts) || {}
+  options.route = opts.route || "/restqa";
+  options.sandbox = opts.sandbox || new Sandbox();
+  options.folder = opts.folder || process.cwd();
+  options.serve = false;
+
+  // add dashboard
+  // await fastify.register(addRestQANamespace, options);
+
+  fastify.register(watchEvents, options);
 }, { name: "restqa" });
