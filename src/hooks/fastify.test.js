@@ -20,6 +20,8 @@ describe("Fastify hooks", () => {
     app.get("/hello", () => {
       return {message};
     });
+
+    await app.listen(port)
   });
 
   afterAll(async() => {
@@ -27,28 +29,26 @@ describe("Fastify hooks", () => {
   })
 
   
-  test("Send Event on each request that passing (GET)", async () => {
+  test("Given a server with a plugin When send a request Then they should be catch", async () => {
     // Given
-    await app.listen(port)
     const serverPort = app.server.address().port;
-
     const instance = got.extend({
       prefixUrl: `http://127.0.0.1:${serverPort}`,
       throwHttpErrors: false
     });
 
     const requestAPI = instance.get("hello", {responseType: "json"});
-    const promiseEvent = once(options.sandbox, "request");
+    const watcher = once(options.sandbox, "request");
 
     // When
-    const [responseAPI, emittedEvent] =
-      await Promise.all([requestAPI, promiseEvent]);
+    const [responseAPI, watchedEvents] =
+      await Promise.all([requestAPI, watcher]);
 
     // Then
     expect(responseAPI.statusCode).toBe(200);
     expect(responseAPI.body.message).toBe(message);
 
-    expect(emittedEvent).toHaveLength(1);
+    expect(watchedEvents).toHaveLength(1);
     const expectedRequest = expect.objectContaining({
       method: "GET",
       path: "/hello",
@@ -72,8 +72,26 @@ describe("Fastify hooks", () => {
         message
       }
     };
-    const [event] = emittedEvent;
+    const [event] = watchedEvents;
     expect(event.request).toEqual(expectedRequest);
     expect(event.response).toEqual(expectedResponse);
+  });
+
+  test("Given a server with the plugin When send the request on /restqa Then server should respond dashboard", async () => {
+    // Given
+    const serverPort = app.server.address().port;
+    const instance = got.extend({
+      prefixUrl: `http://127.0.0.1:${serverPort}`,
+      throwHttpErrors: false
+    });
+
+    // When
+    const responseAPI = await instance.get("restqa");
+
+    // Then
+    expect(responseAPI.statusCode).toBe(200);
+    expect(responseAPI.headers).toEqual(expect.objectContaining({
+      "content-type": "text/html; charset=UTF-8"
+    }));
   });
 });

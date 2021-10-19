@@ -1,18 +1,18 @@
-// const path = require("path");
+const path = require("path");
 const fp = require("fastify-plugin");
-// const fastifyExpress = require("fastify-express");
+const fastifyExpress = require("fastify-express");
 
-// const HttpsServer = require("../http-server");
+const HttpsServer = require("../http-server");
 const Sandbox = require("../core/sandbox");
 
-// async function addRestQANamespace (fastify, options) {
-//   const configFile = 
-//         options.configFile ||
-//         path.resolve(process.cwd(), "..", ".restqa.yml");
+const addRestQANamespace = fp(async (fastify, options) => {
+  const configFile = 
+        options.configFile ||
+        path.resolve(process.cwd(), "..", ".restqa.yml");
 
-//   await fastify.register(fastifyExpress);
-//   fastify.use(options.route, HttpsServer(configFile, {...options, server: fastify}));
-// }
+  await fastify.register(fastifyExpress);
+  fastify.use(options.route, HttpsServer(configFile, {...options, server: fastify.express}));
+})
 
 const watchEvents = fp(async (fastify, options) => {
   fastify.addHook("onSend", async function (request, reply, payload) {
@@ -56,7 +56,8 @@ module.exports = fp(async (fastify, opts) => {
   options.serve = false;
 
   // add dashboard
-  // await fastify.register(addRestQANamespace, options);
+  fastify.register(addRestQANamespace, options);
 
+  // add watcher
   fastify.register(watchEvents, options);
 }, { name: "restqa" });
