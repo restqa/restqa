@@ -6,7 +6,7 @@ const got = require("got")
 const expressHook = require("./express");
 
 describe("Express hooks", () => {
-  let app;
+  let server;
   let httpClient;
   let serverPort;
 
@@ -18,7 +18,7 @@ describe("Express hooks", () => {
   };
   
   beforeAll(async() => {
-    app = express().use(express.json());
+    const app = express().use(express.json());
     expressHook(app, options);
     app.get("/hello", (req, res) => {
       return res.json({message});
@@ -27,7 +27,7 @@ describe("Express hooks", () => {
       return res.status(201).json({message});
     });
 
-    const server = app.listen(port);
+    server = app.listen(port);
 
     serverPort = server.address().port;
     httpClient = got.extend({
@@ -37,7 +37,7 @@ describe("Express hooks", () => {
   });
 
   afterAll(async() => {
-    await app.close()
+    await server.close()
   })
 
   test("Send Event on each request that passing (GET)", async () => {
@@ -136,7 +136,7 @@ describe("Express hooks", () => {
     expect(emittedEvent[0]).toEqual(expectedRequest);
   });
 
-  test("Send Event on each request that passing (get + header parameters)", async () => {
+  test("Send Event on each request that passing (GET + header parameters)", async () => {
     const requestAPI = httpClient.get("hello", {
       responseType: "json",
       headers: {
@@ -190,7 +190,7 @@ describe("Express hooks", () => {
     expect(emittedEvent[0]).toEqual(expectedRequest);
   });
 
-  test("Send Event on each request that passing (post + json body)", async () => {
+  test("Send Event on each request that passing (POST + json body)", async () => {
     const opt = {
       ...options,
       route: "/jestqa"
