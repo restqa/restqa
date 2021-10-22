@@ -6,6 +6,8 @@ const restQAPlugin = require("./fastify");
 
 describe("Fastify hooks", () => {
   let app;
+  let httpClient;
+  let serverPort;
 
   const port = 0
   const message = "hello world";
@@ -20,8 +22,17 @@ describe("Fastify hooks", () => {
     app.get("/hello", () => {
       return {message};
     });
+    app.post("/greeting", async() => {
+      return {message}
+    });
 
-    await app.listen(port)
+    await app.listen(port);
+
+    serverPort = app.server.address().port;
+    httpClient = got.extend({
+      prefixUrl: `http://127.0.0.1:${serverPort}`,
+      throwHttpErrors: false
+    });
   });
 
   afterAll(async() => {
@@ -29,15 +40,9 @@ describe("Fastify hooks", () => {
   })
 
   
-  test("Given a server with a plugin When send a request Then they should be catch", async () => {
+  test("Given a server with a plugin When send a request Then it should be catch", async () => {
     // Given
-    const serverPort = app.server.address().port;
-    const instance = got.extend({
-      prefixUrl: `http://127.0.0.1:${serverPort}`,
-      throwHttpErrors: false
-    });
-
-    const requestAPI = instance.get("hello", {responseType: "json"});
+    const requestAPI = httpClient.get("hello", {responseType: "json"});
     const watcher = once(options.sandbox, "request");
 
     // When
@@ -93,5 +98,72 @@ describe("Fastify hooks", () => {
     expect(responseAPI.headers).toEqual(expect.objectContaining({
       "content-type": "text/html; charset=UTF-8"
     }));
+  });
+
+  test("Given a server with a plugin When send a request Then query params should be catch", async() => {
+    // Given
+    const requestAPI = httpClient.get("hello?foo=bar&first=parameter", {
+      responseType: "json"
+    });
+    const watcher = once(options.sandbox, "request");
+
+    // When
+    const [, watchedEvents] =
+      await Promise.all([requestAPI, watcher]);
+
+    // Then
+    const [event] = watchedEvents;
+    expect(event.request.query).toEqual({
+      foo: "bar",
+      first: "parameter"
+    });
+  });
+
+  test("Given a server with a plugin When send a request Then header params should be catch", async() => {
+    // Given
+    const serverPort = app.server.address().port;
+    const instance = got.extend({
+      prefixUrl: `http://127.0.0.1:${serverPort}`,
+      throwHttpErrors: false
+    });
+    const headers = {
+      "x-api-key": "xxx-yyy-zzz",
+      "accept-type": "application/json"
+    }
+
+    const requestAPI = instance.get("hello", {
+      responseType: "json",
+      headers
+    });
+    const watcher = once(options.sandbox, "request");
+
+    // When
+    const [, watchedEvents] =
+      await Promise.all([requestAPI, watcher]);
+
+    // Then
+    const [event] = watchedEvents;
+    expect(event.request.headers).toEqual(expect.objectContaining(headers));
+  });
+
+  test("Given a server with a plugin When send a request Then body params should be catch", async() => {
+    // Given
+    const body = {
+      name: "John",
+      lastName: "Doe"
+    }
+    const requestAPI = httpClient.post("greeting", {
+      responseType: "json",
+      json: body
+    });
+    const watcher = once(options.sandbox, "request");
+
+    // When
+    const [, watchedEvents] =
+      await Promise.all([requestAPI, watcher]);
+
+    // Then
+    const [event] = watchedEvents;
+    expect(event.request.body).toEqual(body);
   });
 });

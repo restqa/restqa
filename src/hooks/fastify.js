@@ -26,7 +26,7 @@ const watchEvents = fp(async (fastify, options) => {
         body: payload
       };
   
-      reply.removeHeader("etag");
+      delete response.headers.etag;
   
       if ((response.headers["content-type"] || "").includes("json")) {
         response.body = JSON.parse(response.body);
