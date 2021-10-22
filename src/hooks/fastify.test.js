@@ -166,4 +166,32 @@ describe("Fastify hooks", () => {
     const [event] = watchedEvents;
     expect(event.request.body).toEqual(body);
   });
+
+  it("Given a server with a plugin and a custom route When start server Then dashboard is exposed on custom route", async() => {
+    // Given
+    const optionsWithCustomPath = {
+      ...options,
+      route: "/test-dashboard"
+    };
+    const localApp = fastify();
+    localApp.register(restQAPlugin, optionsWithCustomPath);
+
+    // When
+    await localApp.listen(0);
+
+    const localPort = localApp.server.address().port;
+    const localHttpClient = got.extend({
+      prefixUrl: `http://127.0.0.1:${localPort}`,
+      throwHttpErrors: false
+    });
+
+    // Then
+    const responseAPI = await localHttpClient.get("test-dashboard");
+    expect(responseAPI.statusCode).toBe(200);
+    expect(responseAPI.headers).toEqual(expect.objectContaining({
+      "content-type": "text/html; charset=UTF-8"
+    }));
+
+    await localApp.close();
+  });
 });
