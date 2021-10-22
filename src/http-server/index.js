@@ -4,7 +4,7 @@ const path = require("path");
 module.exports = function (configFile, options = {}) {
   options = formatOptions(options);
 
-  const instance = options.instance ? options.instance :  express();
+  const instance = options.instance ? options.instance : express();
 
   return instance
     .disable("x-powered-by")

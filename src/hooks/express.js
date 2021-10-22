@@ -3,7 +3,7 @@ const path = require("path");
 const Sandbox = require("../core/sandbox");
 const HttpsServer = require("../http-server");
 
-module.exports = function expressHook (server, options) {
+module.exports = function expressHook(server, options) {
   options = options || {};
   options.route = options.route || "/restqa";
   options.sandbox = options.sandbox || new Sandbox();
@@ -63,4 +63,4 @@ module.exports = function expressHook (server, options) {
       next();
     });
   return server;
-}
+};

@@ -1,7 +1,6 @@
-
-const express = require("express")
+const express = require("express");
 const {EventEmitter, once} = require("events");
-const got = require("got")
+const got = require("got");
 
 const expressHook = require("./express");
 
@@ -10,14 +9,14 @@ describe("Express hooks", () => {
   let httpClient;
   let serverPort;
 
-  const port = 0
+  const port = 0;
   const message = "hello world";
   const options = {
     configFile: false,
     sandbox: new EventEmitter()
   };
-  
-  beforeAll(async() => {
+
+  beforeAll(async () => {
     const app = express().use(express.json());
     expressHook(app, options);
     app.get("/hello", (req, res) => {
@@ -36,17 +35,20 @@ describe("Express hooks", () => {
     });
   });
 
-  afterAll(async() => {
-    await server.close()
-  })
+  afterAll(async () => {
+    await server.close();
+  });
 
   test("Send Event on each request that passing (GET)", async () => {
     const requestAPI = httpClient.get("hello", {responseType: "json"});
     const requestDashboard = httpClient.get("restqa");
     const promiseEvent = once(options.sandbox, "request");
 
-    const [responseAPI, responseDashboard, emittedEvent] =
-      await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+    const [responseAPI, responseDashboard, emittedEvent] = await Promise.all([
+      requestAPI,
+      requestDashboard,
+      promiseEvent
+    ]);
 
     expect(responseAPI.statusCode).toBe(200);
     expect(responseAPI.body.message).toBe(message);
@@ -92,8 +94,11 @@ describe("Express hooks", () => {
     const requestDashboard = httpClient.get("restqa");
     const promiseEvent = once(options.sandbox, "request");
 
-    const [responseAPI, responseDashboard, emittedEvent] =
-      await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+    const [responseAPI, responseDashboard, emittedEvent] = await Promise.all([
+      requestAPI,
+      requestDashboard,
+      promiseEvent
+    ]);
 
     expect(responseAPI.statusCode).toBe(200);
     expect(responseAPI.body.message).toBe(message);
@@ -147,8 +152,11 @@ describe("Express hooks", () => {
     const requestDashboard = httpClient.get("restqa");
     const promiseEvent = once(options.sandbox, "request");
 
-    const [responseAPI, responseDashboard, emittedEvent] =
-      await Promise.all([requestAPI, requestDashboard, promiseEvent]);
+    const [responseAPI, responseDashboard, emittedEvent] = await Promise.all([
+      requestAPI,
+      requestDashboard,
+      promiseEvent
+    ]);
 
     expect(responseAPI.statusCode).toBe(200);
     expect(responseAPI.body.message).toBe(message);
@@ -196,7 +204,7 @@ describe("Express hooks", () => {
       route: "/jestqa"
     };
     const localApp = express().use(express.json());
-    expressHook(localApp, opt)
+    expressHook(localApp, opt);
     const localServer = localApp.listen(0);
     const port = localServer.address().port;
 
@@ -204,7 +212,6 @@ describe("Express hooks", () => {
       prefixUrl: `http://127.0.0.1:${port}`,
       throwHttpErrors: false
     });
-
 
     const responseDashboard = await localHttpClient.get("jestqa");
 
