@@ -113,12 +113,12 @@ const LIST = {
       };
     }
   },
-  "http-html-report": {
+  "html-remote": {
     type: "outputs",
     questions: [],
     get: () => {
       return {
-        type: "http-html-report",
+        type: "html-remote",
         enabled: true
       };
     }
