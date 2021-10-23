@@ -243,7 +243,7 @@ function Dashboard(options) {
  *
  * @return http.server
  *
- * @example
+ * @example Express
  *
  * const express = require('express')
  * const { Hooks } = require('@restqa/restqa')
@@ -260,6 +260,28 @@ function Dashboard(options) {
  * server.listen(8000, () => {
  *   console.log('The Microservice is running on the port 8000')
  * })
+ *
+ * @example Fastify
+ *
+ * (async function() {
+ * const fastify = require('fastify')
+ * const { Hooks } = require('@restqa/restqa')
+ *   const opt = {
+ *     configFile: __dirname + './restqa.yml',
+ *     folder: '/app/project',
+ *     readOnly: true,
+ *     route: '/restqa'
+ *   };
+ *   const app = fastify({ logger:false});
+ *   await  app.register(Hooks.fastify, opt);
+ *   app.get("/hello", () => {
+ *     return {
+ *       message: 'hello'
+ *     };
+ *   });
+ *   
+ *   await app.listen(8083);
+ * })()
  */
 const Hooks = require("./hooks");
 
