@@ -1126,7 +1126,7 @@ environments:
       expect(result).toEqual(expectedContent);
     });
 
-    test("Add the http-html-report output into the configuration file in a specific environment", () => {
+    test("Add the html-remote output into the configuration file in a specific environment", () => {
       const content = `
 ---
 
@@ -1162,7 +1162,7 @@ environments:
 
       const Install = require("./install");
       const options = {
-        name: "http-html-report",
+        name: "html-remote",
         env: "local",
         configFile: filename
       };
@@ -1198,7 +1198,7 @@ environments:
                 }
               },
               {
-                type: "http-html-report",
+                type: "html-remote",
                 enabled: true
               }
             ]
@@ -1591,8 +1591,8 @@ environments:
           value: "file"
         },
         {
-          name: "Http-html-report (outputs)",
-          value: "http-html-report"
+          name: "Html-remote (outputs)",
+          value: "html-remote"
         },
         new MockSeparator(),
         {
@@ -2337,7 +2337,7 @@ environments:
       );
     });
 
-    test("Install http-html-report when there is only one environment available", async () => {
+    test("Install html-remote when there is only one environment available", async () => {
       const content = `
 ---
 
@@ -2373,7 +2373,7 @@ environments:
       });
 
       const Install = require("./install");
-      await Install("http-html-report", {config: filename});
+      await Install("html-remote", {config: filename});
 
       expect(mockPrompt.mock.calls).toHaveLength(1);
 
@@ -2409,7 +2409,7 @@ environments:
                 }
               },
               {
-                type: "http-html-report",
+                type: "html-remote",
                 enabled: true
               }
             ]
@@ -2420,7 +2420,7 @@ environments:
 
       expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(2);
       expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch(
-        'The "http-html-report" outputs addon has been configured successfully'
+        'The "html-remote" outputs addon has been configured successfully'
       );
       expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
         "Do not forget to use environment variable to secure your sensitive information"
