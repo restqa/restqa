@@ -16,7 +16,7 @@ describe("Fastify hooks", () => {
     sandbox: new EventEmitter()
   };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     app = fastify();
     app.register(restQAPlugin, options);
     app.get("/hello", () => {
@@ -35,7 +35,7 @@ describe("Fastify hooks", () => {
     });
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await app.close();
   });
 
