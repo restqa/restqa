@@ -16,13 +16,34 @@ Controllers.version = function (req, res) {
   res.json({version});
 };
 
-Controllers.config = function (req, res, next) {
+Controllers.config = async function (req, res, next) {
+  const file = req.app.get("restqa.configuration");
+  const options = req.app.get("restqa.options");
   try {
-    const file = req.app.get("restqa.configuration");
-    const options = req.app.get("restqa.options");
     const result = Project.config(file, options);
     res.json(result);
   } catch (e) {
+    const pkg = path.resolve(options.folder || process.cwd(), "package.json");
+    if (
+      options.hooks === true &&
+      fs.existsSync(pkg) &&
+      !fs.existsSync(options.configFile)
+    ) {
+      const packageContent = JSON.parse(fs.readFileSync(pkg).toString("utf-8"));
+      const port = req.headers.host.split(":")[1];
+      const opt = {
+        name: packageContent.name,
+        description: packageContent.description || packageContent.name,
+        env: "local",
+        url: `http://localhost:${port}`,
+        folder: options.folder
+      };
+
+      const result = await RestQA.Initialize(opt);
+      req.app.set("restqa.configuration", result);
+      const config = Project.config(result, options);
+      return res.json(config);
+    }
     next(e);
   }
 };
