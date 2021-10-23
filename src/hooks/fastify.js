@@ -1,6 +1,7 @@
 const path = require("path");
 const fp = require("fastify-plugin");
 const fastifyExpress = require("fastify-express");
+const express = require("express")
 
 const HttpsServer = require("../http-server");
 const Sandbox = require("../core/sandbox");
@@ -9,11 +10,10 @@ const addRestQANamespace = fp(async (fastify, options) => {
   const configFile =
     options.configFile || path.resolve(process.cwd(), "..", ".restqa.yml");
 
-  await fastify.register(fastifyExpress);
-  fastify.use(
-    options.route,
-    HttpsServer(configFile, {...options, server: fastify.express})
-  );
+  const app =  express()
+    .use(options.route, HttpsServer(configFile, options))
+  await fastify.register(fastifyExpress)
+    .after(() => {fastify.use(app)})
 });
 
 const watchEvents = fp(async (fastify, options) => {
