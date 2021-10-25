@@ -4,9 +4,7 @@ const path = require("path");
 module.exports = function (configFile, options = {}) {
   options = formatOptions(options);
 
-  const instance = options.instance ? options.instance : express();
-
-  return instance
+  return express()
     .disable("x-powered-by")
     .set("restqa.configuration", configFile)
     .set("restqa.options", options)

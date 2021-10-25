@@ -5,6 +5,7 @@ const HttpsServer = require("../http-server");
 
 module.exports = function expressHook(server, options) {
   options = options || {};
+  options.isHooked = true;
   options.route = options.route || "/restqa";
   options.sandbox = options.sandbox || new Sandbox();
   options.folder = options.folder || process.cwd();

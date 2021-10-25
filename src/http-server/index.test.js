@@ -12,6 +12,9 @@ let server;
 
 const jestqa = new JestQA(__filename, false);
 
+beforeEach(jestqa.beforeEach);
+afterEach(jestqa.afterEach);
+
 afterEach(() => {
   if (filename && fs.existsSync(filename)) {
     fs.unlinkSync(filename);
@@ -226,6 +229,108 @@ restqa:
       expect(response.statusCode).toBe(200);
       const expected = YAML.parse(content);
       expected.restqa.dashboard.readOnly = false;
+      expect(response.body).toEqual(expected);
+    });
+
+    test("Create the config only in case of hook and config doesn't exist", async () => {
+      nock("https://restqa.io").get("/welcome.json").reply(200, {
+        foo: "bar"
+      });
+      const folder = jestqa.getTmpFolder();
+      const content = JSON.stringify({
+        name: "microservice-account",
+        description: "The description of the microservice",
+        dependencies: {
+          got: "1.0.0"
+        }
+      });
+      filename = path.resolve(folder, "package.json");
+      const configFile = path.resolve(folder, ".restqa.yml");
+      fs.writeFileSync(filename, content);
+
+      const opt = {
+        folder,
+        isHooked: true
+      };
+      server = app(configFile, opt).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("config");
+      expect(response.statusCode).toBe(200);
+      const expectedContent = `
+---
+
+version: 0.0.1
+metadata:
+  code: MICROSERVICE-ACCOUNT
+  name: microservice-account
+  description: The description of the microservice
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:${server.address().port}
+    outputs:
+      - type: html
+        enabled: true
+      - type: file
+        enabled: true
+        config:
+          path: 'restqa-result.json'
+      `;
+      const expected = YAML.parse(expectedContent);
+      expect(response.body).toEqual(expected);
+    });
+
+    test("Create the config only in case of hook and config doesn't exist (no description on package.json)", async () => {
+      nock("https://restqa.io").get("/welcome.json").reply(200, {
+        foo: "bar"
+      });
+      const folder = jestqa.getTmpFolder();
+      const content = JSON.stringify({
+        name: "microservice-account",
+        description: "",
+        dependencies: {
+          got: "1.0.0"
+        }
+      });
+      filename = path.resolve(folder, "package.json");
+      const configFile = path.resolve(folder, ".restqa.yml");
+      fs.writeFileSync(filename, content);
+
+      const opt = {
+        folder,
+        isHooked: true
+      };
+      server = app(configFile, opt).listen(0);
+      const instance = getGotInstance(server.address().port);
+      const response = await instance.get("config");
+      expect(response.statusCode).toBe(200);
+      const expectedContent = `
+---
+
+version: 0.0.1
+metadata:
+  code: MICROSERVICE-ACCOUNT
+  name: microservice-account
+  description: microservice-account
+environments:
+  - name: local
+    default: true
+    plugins:
+      - name: '@restqa/restqapi'
+        config:
+          url: http://localhost:${server.address().port}
+    outputs:
+      - type: html
+        enabled: true
+      - type: file
+        enabled: true
+        config:
+          path: 'restqa-result.json'
+      `;
+      const expected = YAML.parse(expectedContent);
       expect(response.body).toEqual(expected);
     });
   });
