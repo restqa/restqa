@@ -250,7 +250,7 @@ restqa:
 
       const opt = {
         folder,
-        hooks: true
+        isHooked: true
       };
       server = app(configFile, opt).listen(0);
       const instance = getGotInstance(server.address().port);
@@ -301,7 +301,7 @@ environments:
 
       const opt = {
         folder,
-        hooks: true
+        isHooked: true
       };
       server = app(configFile, opt).listen(0);
       const instance = getGotInstance(server.address().port);

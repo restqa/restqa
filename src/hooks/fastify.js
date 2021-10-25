@@ -57,7 +57,7 @@ module.exports = fp(
     options.sandbox = opts.sandbox || new Sandbox();
     options.folder = opts.folder || process.cwd();
     options.serve = false;
-    options.hooks = true;
+    options.isHooked = true;
 
     // add dashboard
     fastify.register(addRestQANamespace, options);

@@ -25,7 +25,7 @@ Controllers.config = async function (req, res, next) {
   } catch (e) {
     const pkg = path.resolve(options.folder || process.cwd(), "package.json");
     if (
-      options.hooks === true &&
+      options.isHooked === true &&
       fs.existsSync(pkg) &&
       !fs.existsSync(options.configFile)
     ) {
