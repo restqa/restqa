@@ -1,11 +1,23 @@
 # Changelog
 
-All notable changes to this project is documented in this file.
+All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.0.35] - 2021-10-27
+
+## Added
+* Enable Fastify Plugin | [#154](https://github.com/restqa/restqa/pull/154) [#158](https://github.com/restqa/restqa/pull/158)
+* Generating the .restqa.yml at the first visit of the route GET /restqa (in hooks context) | [#160](https://github.com/restqa/restqa/pull/160)
+
+## Updated
+* Bump `@restqa/cucumber-export` to `0.1.14`
+
+## Bug Fix
+* Rename output http-html-report -> html-remote | [#157](https://github.com/restqa/restqa/pull/157)
 
 ## [0.0.34] - 2021-10-14
 
