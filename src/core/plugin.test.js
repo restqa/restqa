@@ -120,9 +120,11 @@ environments:
       // Execute Hooks
       const [beforeAll, afterAll] = Hooks;
       const $this = {
-        mock: {
-          envs: {
-            GITHUB_API: "http://localhost:8066/github"
+        restqa: {
+          mock: {
+            http: {
+              GITHUB_API: "http://localhost:8066/github"
+            }
           }
         }
       };
@@ -200,9 +202,11 @@ environments:
       // Execute Hooks
       const [beforeAll, afterAll] = Hooks;
       const $this = {
-        mock: {
-          envs: {
-            GITHUB_API: "http://localhost:8066/github"
+        restqa: {
+          mock: {
+            http: {
+              GITHUB_API: "http://localhost:8066/github"
+            }
           }
         }
       };
@@ -501,9 +505,11 @@ environments:
       // Execute Hooks
       const [beforeAll, afterAll] = Hooks;
       const $this = {
-        mock: {
-          envs: {
-            GITHUB_API: "http://localhost:8066/github"
+        restqa: {
+          mock: {
+            http: {
+              GITHUB_API: "http://localhost:8066/github"
+            }
           }
         }
       };
