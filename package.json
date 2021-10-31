@@ -4,8 +4,8 @@
   "description": "An all in one test automation runner",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch --runInBand --detectOpenHandles",
     "test:coverage": "jest --coverage",
     "test:functional": "bats bin/tests",
     "lint:fix": "eslint --fix src/ bin/restqa",

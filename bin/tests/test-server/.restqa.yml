@@ -7,7 +7,7 @@ environments:
   - name: local
     default: false
     plugins:
-      - name: restqapi
+      - name: "@restqa/restqapi"
         config:
           url: http://localhost:9999
 

@@ -1,12 +1,8 @@
-const treekill = require("treekill");
 const path = require("path");
 const fs = require("fs");
-const {ChildProcess} = require("child_process");
 const cucumber = require("@cucumber/cucumber");
 
 const logger = require("../utils/logger");
-const {execute} = require("../core/executor");
-const {checkServer} = require("../core/check-server");
 
 module.exports = async function (opt, program = {}) {
   let {
@@ -62,7 +58,8 @@ module.exports = async function (opt, program = {}) {
 
   global.restqaOptions = {
     config,
-    env
+    env,
+    command
   };
 
   // TODO : Add extra cucumber parameters from config file
@@ -92,19 +89,9 @@ module.exports = async function (opt, program = {}) {
 
   const cucumberCli = new cucumber.Cli(options);
 
-  // Execute command argument
-  let server;
-  if (typeof command === "string") {
-    server = await execute(command);
-
-    await checkServer();
-  }
-
   return cucumberCli
     .run()
     .then((result) => {
-      killServer(server);
-
       const exitCode = result.success ? 0 : 1;
       if (result.shouldExitImmediately) {
         process.exit(exitCode);
@@ -113,22 +100,7 @@ module.exports = async function (opt, program = {}) {
       }
     })
     .catch((err) => {
-      killServer(server);
       logger.error(err);
       process.exit(1);
     });
 };
-
-/**
- * Helpers
- */
-
-/**
- * Kill the process safely
- * @param {ChildProcess} server
- */
-function killServer(server) {
-  if (server instanceof ChildProcess) {
-    treekill(server.pid);
-  }
-}

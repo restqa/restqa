@@ -279,7 +279,7 @@ function Dashboard(options) {
  *       message: 'hello'
  *     };
  *   });
- *   
+ *
  *   await app.listen(8083);
  * })()
  */
