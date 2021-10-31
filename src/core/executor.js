@@ -22,7 +22,7 @@ module.exports = {
         });
 
         // reject if an error happened
-        server.stderr.on("data", (er) => {
+        server.stderr.on("data", () => {
           if (!initialized) {
             initialized = true;
             reject(new Error(`Error during running command ${command}`));
