@@ -25,8 +25,10 @@ module.exports = function ({command, config}, processor = {}) {
     let server;
     processor.BeforeAll(async function () {
       if (typeof command === "string") {
-        const {envs} = this.mock || {};
-        server = await execute(command, envs);
+        const { mock } = this.restqa || {};
+        const { http } = mock || {}
+
+        server = await execute(command, http);
         const restqapi = getPluginConfig("@restqa/restqapi", config);
         if (!restqapi) {
           throw new Error(Locale.get("error_missing_restqapi"));
