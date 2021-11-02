@@ -53,7 +53,7 @@ describe("#core - plugin", () => {
 
     test("Throw error if the url is not found on the restqapi config", async () => {
       const PORT = 5056;
-      const validRestQAConfigFile = `
+      const configFileWithoutUrl = `
 ---
 
 version: 0.0.1
@@ -81,7 +81,7 @@ environments:
           path: 'my-report.json'
     `;
       const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
+        configFileWithoutUrl,
         ".restqa.yml"
       );
 
@@ -138,7 +138,7 @@ environments:
 
     test("Throw error if the restqapi plugin is not found", async () => {
       const PORT = 5055;
-      const validRestQAConfigFile = `
+      const configFileWithoutRestQAPI = `
 ---
 
 version: 0.0.1
@@ -163,7 +163,7 @@ environments:
           path: 'my-report.json'
     `;
       const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
+        configFileWithoutRestQAPI,
         ".restqa.yml"
       );
 
@@ -292,6 +292,7 @@ environments:
     }, 10000);
 
     test("Run the command to run the server and kill the process (use 80 port if not defined on the url) // This test might fail if you can't use the port 80 locally...", async () => {
+      if (process.env.CI) return
       const validRestQAConfigFile = `
 ---
 
@@ -516,7 +517,7 @@ environments:
 
       await expect(beforeAll.call($this)).rejects.toThrow(
         new Error(
-          "Couldn't reach the server running on the port 5058 (timeout 5000ms)"
+          "Couldn't reach the server running on the port 5058 (timeout 4000ms)"
         )
       );
       afterAll();
