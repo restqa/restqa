@@ -25,10 +25,6 @@ module.exports = function ({command, config}, processor = {}) {
     let server;
     processor.BeforeAll(async function () {
       if (typeof command === "string") {
-        const { mock } = this.restqa || {};
-        const { http } = mock || {}
-
-        server = await execute(command, http);
         const restqapi = getPluginConfig("@restqa/restqapi", config);
         if (!restqapi) {
           throw new Error(Locale.get("error_missing_restqapi"));
@@ -41,6 +37,10 @@ module.exports = function ({command, config}, processor = {}) {
         if (Number.isNaN(Number.parseInt(port))) {
           port = 80;
         }
+
+        const { mock } = this.restqa || {};
+        const envs = (mock || {}).http
+        server = await execute(command, envs);
         await checkServer(port);
       }
     });
