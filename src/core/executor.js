@@ -2,6 +2,7 @@ const spawn = require("cross-spawn");
 const logger = require("../utils/logger");
 const net = require("net");
 const Locale = require("../locales")("service.run");
+const {format} = require("util");
 
 module.exports = {
   /**
@@ -57,6 +58,7 @@ module.exports = {
     });
   },
   checkServer: async function (port, timeout = 4000) {
+    const originalTimeout = 4000
     return new Promise((resolve, reject) => {
       const checker = () => {
         const socket = net.createConnection({port});
@@ -74,7 +76,7 @@ module.exports = {
           if (timeout > 0) {
             setTimeout(checker, 200);
           } else {
-            reject(new Error(Locale.get("error_port_timeout")));
+            reject(new Error(format(Locale.get("error_port_timeout"), port, originalTimeout)));
           }
         });
       };
