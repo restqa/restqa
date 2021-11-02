@@ -18,7 +18,7 @@ describe("#core - plugin", () => {
       serverPort,
       timoutBeforeLaunchServer = 0
     ) {
-      const childProcess = new ChildProcess();
+      const childProcess = Object.create(ChildProcess.prototype)
       childProcess.kill = killProcessFn;
       childProcess.pid = 9999;
       const executor = require("./executor");
