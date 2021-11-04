@@ -38,8 +38,8 @@ module.exports = function ({command, config}, processor = {}) {
           port = 80;
         }
 
-        const { mock } = this.restqa || {};
-        const envs = (mock || {}).http
+        const {mock} = this.restqa || {};
+        const envs = (mock || {}).http;
         server = await execute(command, envs);
         await checkServer(port);
       }
