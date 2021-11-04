@@ -8,9 +8,9 @@ afterEach(jestqa.afterEach);
 
 describe("#core - plugin", () => {
   describe("#core - plugin", () => {
-    let server;
-    afterEach(() => {
-      server && server.close();
+    const servers = [];
+    afterAll(() => {
+      servers.forEach(server => server.close())
     });
 
     function setExecutor(
@@ -27,7 +27,7 @@ describe("#core - plugin", () => {
         .mockResolvedValue(childProcess);
 
       setTimeout(() => {
-        server = express().listen(serverPort);
+        servers.push(express().listen(serverPort))
       }, timoutBeforeLaunchServer);
 
       return mockExecuteCommand;
