@@ -10,7 +10,7 @@ describe("#core - plugin", () => {
   describe("#core - plugin", () => {
     const servers = [];
     afterAll(() => {
-      servers.forEach(server => server.close())
+      servers.forEach((server) => server.close());
     });
 
     function setExecutor(
@@ -18,7 +18,7 @@ describe("#core - plugin", () => {
       serverPort,
       timoutBeforeLaunchServer = 0
     ) {
-      const childProcess = Object.create(ChildProcess.prototype)
+      const childProcess = Object.create(ChildProcess.prototype);
       childProcess.kill = killProcessFn;
       childProcess.pid = 9999;
       const executor = require("./executor");
@@ -27,7 +27,7 @@ describe("#core - plugin", () => {
         .mockResolvedValue(childProcess);
 
       setTimeout(() => {
-        servers.push(express().listen(serverPort))
+        servers.push(express().listen(serverPort));
       }, timoutBeforeLaunchServer);
 
       return mockExecuteCommand;
@@ -292,7 +292,7 @@ environments:
     }, 10000);
 
     test("Run the command to run the server and kill the process (use 80 port if not defined on the url) // This test might fail if you can't use the port 80 locally...", async () => {
-      if (process.env.CI) return
+      if (process.env.CI) return; // if you want to ignore this test run the command: CI=true npm test
       const validRestQAConfigFile = `
 ---
 
