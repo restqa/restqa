@@ -464,7 +464,7 @@ environments:
       expect(response.body.message).toBe("Please share a project description.");
     });
 
-    test("throw error if url is not defined", async () => {
+    test("throw error if port is not defined", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
       server = app(config).listen(0);
@@ -477,26 +477,7 @@ environments:
         }
       });
       expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe("Please share a project url.");
-    });
-
-    test("throw error if env is not defined", async () => {
-      const folder = jestqa.getTmpFolder();
-      const config = {};
-      server = app(config).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/initialize", {
-        json: {
-          name: "Backend api",
-          description: "All the API used by the different frontends",
-          url: "https://api.example.com",
-          folder
-        }
-      });
-      expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(
-        "Please share a project url environment."
-      );
+      expect(response.body.message).toBe("Please share a project port.");
     });
 
     test("throw error if ci tool is invalid", async () => {
@@ -508,9 +489,8 @@ environments:
         json: {
           name: "Backend api",
           description: "All the API used by the different frontends",
-          url: "https://api.example.com",
+          port: 9090,
           ci: "gocd",
-          env: "uat",
           folder
         }
       });
@@ -533,9 +513,8 @@ environments:
         json: {
           name: "Backend api",
           description: "All the API used by the different frontends",
-          url: "https://api.example.com",
           ci: "gitlab-ci",
-          env: "uat",
+          port: 9090,
           folder
         }
       });
