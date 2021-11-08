@@ -727,8 +727,6 @@ Given I have an example`;
       expect(result).toEqual(expectedContent);
       expect(mockPrompt.mock.calls).toHaveLength(1);
       const expectedQuestions = [
-        "Project name:",
-        "Description:",
         "On which port your microservice is running?",
         "Do you need a continuous integration configuration ?",
         "May RestQA report anonymous usage statistics to improve the tool over time ?"
@@ -762,7 +760,9 @@ Given I have an example`;
           value: "jenkins"
         }
       ];
-      expect(mockPrompt.mock.calls[0][0][3].choices).toEqual(
+
+      const [, ciPromptArgument] = mockPrompt.mock.calls[0][0]
+      expect(ciPromptArgument.choices).toEqual(
         expect.arrayContaining(expectedCI)
       );
     });
@@ -840,5 +840,11 @@ Given I have an example`;
       filename = path.resolve(process.cwd(), "circleci", "config.yml");
       expect(fs.existsSync(filename)).toBe(false);
     });
+
+    // test("Initialize should ask for name and description if a pakcage.json doesn't exists", async () => {
+    //   const Initialize = require("./initialize");
+
+    //   await Initialize({ });
+    // })
   });
 });
