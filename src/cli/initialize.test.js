@@ -729,7 +729,7 @@ Given I have an example`;
       const expectedQuestions = [
         "Project name:",
         "Description:",
-        "Port of the project api (default 8000):",
+        "On which port your microservice is running?",
         "Do you need a continuous integration configuration ?",
         "May RestQA report anonymous usage statistics to improve the tool over time ?"
       ];
