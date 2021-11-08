@@ -17,20 +17,15 @@ async function initialize(program) {
     telemetry: true
   };
 
+  let pkg;
+  const packageJsonPath = path.resolve(process.cwd(), "package.json");
+  if (typeof packageJsonPath === "string" && fs.existsSync(packageJsonPath)) {
+    const rawPkg = fs.readFileSync(packageJsonPath).toString("utf-8");
+    pkg = JSON.parse(rawPkg);
+  }
+
   if (program.y !== true) {
     const questions = [
-      {
-        type: "input",
-        name: "name",
-        default: answers.name,
-        message: Locale.get("service.init.questions.name")
-      },
-      {
-        type: "input",
-        name: "description",
-        message: Locale.get("service.init.questions.description"),
-        default: answers.description
-      },
       {
         type: "input",
         name: "port",
@@ -81,6 +76,25 @@ async function initialize(program) {
         default: answers.telemetry
       }
     ];
+
+      if (!pkg || (pkg && !pkg.name)) {
+        questions.push({
+          type: "input",
+          name: "name",
+          default: answers.name,
+          message: Locale.get("service.init.questions.name")
+        });
+      }
+
+      if (!pkg || (pkg && !pkg.description)) {
+        questions.push({
+          type: "input",
+          name: "description",
+          message: Locale.get("service.init.questions.description"),
+          default: answers.description
+        });
+      }
+
     answers = await inquirer.prompt(questions);
   }
   return initialize.generate(answers);
