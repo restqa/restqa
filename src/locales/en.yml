@@ -11,7 +11,7 @@ service:
     questions:
       name: "Project name:"
       description: "Description:"
-      port: "Port of the project api (default 8000):"
+      port: "On which port your microservice is running?"
       ci: "Do you need a continuous integration configuration ?"
       no_ci: "I want to configure the continuous integration by myself"
       telemetry: "May RestQA report anonymous usage statistics to improve the tool over time ?"
