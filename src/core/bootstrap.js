@@ -3,6 +3,7 @@ const Data = require("./data");
 const logger = require("../utils/logger");
 const path = require("path");
 const RestQAData = require("@restqa/restqdata");
+const CorePlugin = require("./plugin");
 
 const Module = require("module");
 
@@ -25,7 +26,7 @@ module.exports = function (processor, options = {}) {
     );
   }
 
-  const {defineParameterType, setWorldConstructor, Before} = processor;
+  const {defineParameterType, setWorldConstructor} = processor;
 
   const config = new Config(options);
   if (config.restqa && config.restqa.timeout) {
@@ -46,16 +47,9 @@ module.exports = function (processor, options = {}) {
     Object.keys(secrets).forEach((_) => dataInstance.set(_, secrets[_]));
   }
   defineParameterType(buildParameterTypeRegexp(data));
-  Before(async function (scenario) {
-    // In order to fetch the dynamic data from extenral sources.
-    // Let's parse the scenario to get all the placeholder
-    await this.data.parse(scenario);
-  });
 
-  Before({tags: "@skip or @wip"}, function () {
-    this.skipped = true;
-    return "skipped";
-  });
+  options.config = config;
+  CorePlugin(options, processor);
 
   // World settings
   const world = getWorld(plugins, dataInstance);
