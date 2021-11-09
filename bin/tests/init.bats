@@ -8,4 +8,5 @@ load 'common.sh'
   assert_output --partial 'You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀'
   assert_output --partial '🎁 We created a sample scenario, try it by using the command: restqa run'
   assert_output --partial '👉 More information: https://restqa.io/info'
+  run rm -rf .restqa.yml
 }
