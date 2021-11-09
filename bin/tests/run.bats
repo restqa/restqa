@@ -134,11 +134,13 @@ load 'common.sh'
   assert_output --partial '1 scenario (1 passed)'
 }
 
+## Basic Server
+
 @test "[RUN]> EXEC > Execute a basic http server" {
   cd ./bin/tests/test-server
   run npm i
   run restqa run . -x 'npm start'
   assert_success
   assert_output --partial 'Server is running (command: npm start)'
-  assert_output --partial '1 scenario (1 passed)'
+  assert_output --partial '2 scenarios (2 passed)'
 }
