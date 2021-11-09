@@ -841,10 +841,42 @@ Given I have an example`;
       expect(fs.existsSync(filename)).toBe(false);
     });
 
-    // test("Initialize should ask for name and description if a pakcage.json doesn't exists", async () => {
-    //   const Initialize = require("./initialize");
+    test("Initialize should ask for name and description if a pakcage.json doesn't exists", async () => {
+      // Mocks
+      const options = {
+        name: "my sample api",
+        description: "This is my description",
+        port: 9090,
+        folder: os.tmpdir(),
+        telemetry: false
+      };
+      const mockPrompt = jest.fn().mockResolvedValue(options);
 
-    //   await Initialize({ });
-    // })
+      jest.mock("inquirer", () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        };
+      });
+      
+      // Given
+      jest.spyOn(require("../utils/fs"), "getPackageJson").mockReturnValue(null);
+      const Initialize = require("./initialize");
+
+      // When
+      await Initialize({y: false});
+
+      // Then
+      const expectedQuestions = [
+        "Project name:",
+        "Description:",
+        "On which port your microservice is running?",
+        "Do you need a continuous integration configuration ?",
+        "May RestQA report anonymous usage statistics to improve the tool over time ?"
+      ];
+      expect(mockPrompt.mock.calls[0][0].map((_) => _.message)).toEqual(
+        expectedQuestions
+      );
+    })
   });
 });
