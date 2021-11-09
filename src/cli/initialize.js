@@ -4,6 +4,7 @@ const path = require("path");
 const inquirer = require("inquirer");
 const Generate = require("./generate");
 const logger = require("../utils/logger");
+const { getPackageJson } = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
 const Locale = require("../locales")();
 
@@ -17,15 +18,30 @@ async function initialize(program) {
     telemetry: true
   };
 
-  let pkg;
-  const packageJsonPath = path.resolve(process.cwd(), "package.json");
-  if (typeof packageJsonPath === "string" && fs.existsSync(packageJsonPath)) {
-    const rawPkg = fs.readFileSync(packageJsonPath).toString("utf-8");
-    pkg = JSON.parse(rawPkg);
-  }
+  const pkg = getPackageJson();
 
   if (program.y !== true) {
-    const questions = [
+    const questions = []
+
+    if (!pkg || (pkg && !pkg.name)) {
+      questions.push({
+        type: "input",
+        name: "name",
+        default: answers.name,
+        message: Locale.get("service.init.questions.name")
+      });
+    }
+
+    if (!pkg || (pkg && !pkg.description)) {
+      questions.push({
+        type: "input",
+        name: "description",
+        message: Locale.get("service.init.questions.description"),
+        default: answers.description
+      });
+    }
+
+    questions.push(...[
       {
         type: "input",
         name: "port",
@@ -75,25 +91,7 @@ async function initialize(program) {
         message: Locale.get("service.init.questions.telemetry"),
         default: answers.telemetry
       }
-    ];
-
-      if (!pkg || (pkg && !pkg.name)) {
-        questions.push({
-          type: "input",
-          name: "name",
-          default: answers.name,
-          message: Locale.get("service.init.questions.name")
-        });
-      }
-
-      if (!pkg || (pkg && !pkg.description)) {
-        questions.push({
-          type: "input",
-          name: "description",
-          message: Locale.get("service.init.questions.description"),
-          default: answers.description
-        });
-      }
+    ]);
 
     answers = await inquirer.prompt(questions);
   }
