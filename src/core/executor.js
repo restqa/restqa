@@ -16,7 +16,7 @@ module.exports = {
         let initialized = false;
         const server = spawn(command, {
           shell: true,
-          envs: {
+          env: {
             ...process.env,
             ...envs
           }

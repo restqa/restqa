@@ -10,4 +10,11 @@ environments:
       - name: "@restqa/restqapi"
         config:
           url: http://localhost:9999
+      - name: "@restqa/http-mock-plugin"
+        config:
+          folder: ./stubs
+          debug: false
+          port: 8888
+          envs:
+            GITHUB_API: github
 
