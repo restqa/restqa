@@ -24,10 +24,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "GoCd"
+        ci: "GoCd",
+        port: 9090
       };
       return expect(Initialize.generate(options)).rejects.toThrow(
         'The continous integration "GoCd" is not supported by RestQa'
@@ -46,10 +45,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "github-action"
+        ci: "github-action",
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -109,10 +107,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "gitlab-ci"
+        ci: "gitlab-ci",
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -156,10 +153,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "bitbucket-pipeline"
+        ci: "bitbucket-pipeline",
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -203,10 +199,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "circle-ci"
+        ci: "circle-ci",
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -270,10 +265,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "travis"
+        ci: "travis",
+        port: 9090
       };
       mockGenerator.mockResolvedValue("Given I have an example");
       await Initialize.generate(options);
@@ -318,10 +312,9 @@ describe("#Cli - Initialize", () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: "jenkins"
+        ci: "jenkins",
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -365,10 +358,9 @@ pipeline {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
         description: "my description",
-        ci: false
+        ci: false,
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -389,13 +381,12 @@ pipeline {
       expect(fs.existsSync(filename)).toBe(false);
     });
 
-    test("Do nothing if any CI hasn't  been answered", async () => {
+    test("Do nothing if any CI hasn't been answered", async () => {
       const Initialize = require("./initialize");
       const options = {
         name: "sample",
-        url: "http://test.com",
-        env: "test",
-        description: "my description"
+        description: "my description",
+        port: 9090
       };
       await Initialize.generate(options);
 
@@ -435,26 +426,14 @@ pipeline {
         );
       });
 
-      test("Throw an error if the url is not defined", () => {
+      test("Throw an error if the port is not defined", () => {
         const Initialize = require("./initialize");
         const options = {
           name: "sample",
           description: "here a description"
         };
         return expect(Initialize.generate(options)).rejects.toThrow(
-          "Please share a project url."
-        );
-      });
-
-      test("Throw an error if the environement is not defined", () => {
-        const Initialize = require("./initialize");
-        const options = {
-          name: "sample",
-          description: "here a description",
-          url: "http://test.com"
-        };
-        return expect(Initialize.generate(options)).rejects.toThrow(
-          "Please share a project url environment."
+          "Please share a project port."
         );
       });
 
@@ -475,9 +454,8 @@ pipeline {
 
         const options = {
           name: "my sample api",
-          url: "http://test.sample.com",
-          env: "production",
           description: "This is my description",
+          port: 9090,
           folder: os.tmpdir(),
           telemetry: false
         };
@@ -513,13 +491,13 @@ pipeline {
           },
           environments: [
             {
-              name: "production",
+              name: "local",
               default: true,
               plugins: [
                 {
                   name: "@restqa/restqapi",
                   config: {
-                    url: "http://test.sample.com"
+                    url: `http://localhost:${options.port}`
                   }
                 }
               ],
@@ -568,8 +546,7 @@ pipeline {
 
         const options = {
           name: "my sample api",
-          url: "http://test.sample.com",
-          env: "production",
+          port: 9090,
           description: "This is my description",
           folder: os.tmpdir(),
           telemetry: true
@@ -606,13 +583,13 @@ pipeline {
           },
           environments: [
             {
-              name: "production",
+              name: "local",
               default: true,
               plugins: [
                 {
                   name: "@restqa/restqapi",
                   config: {
-                    url: "http://test.sample.com"
+                    url: `http://localhost:${options.port}`
                   }
                 }
               ],
@@ -663,14 +640,14 @@ Given I have an example`;
       const prefFilename = path.resolve(os.homedir(), ".config", "restqa.pref");
       jestqa.getCurrent().files.push(prefFilename);
 
-      const mockPrompt = jest.fn().mockResolvedValue({
+      const options = {
         name: "my new sample api",
-        url: "http://test.new.sample.com",
-        env: "local",
         description: "This is my new description",
         ci: "gitlab-ci",
-        telemetry: false
-      });
+        telemetry: false,
+        port: 9090
+      };
+      const mockPrompt = jest.fn().mockResolvedValue(options);
 
       jest.mock("inquirer", () => {
         return {
@@ -727,7 +704,7 @@ Given I have an example`;
               {
                 name: "@restqa/restqapi",
                 config: {
-                  url: "http://test.new.sample.com"
+                  url: `http://localhost:${options.port}`
                 }
               }
             ],
@@ -750,10 +727,7 @@ Given I have an example`;
       expect(result).toEqual(expectedContent);
       expect(mockPrompt.mock.calls).toHaveLength(1);
       const expectedQuestions = [
-        "Project name:",
-        "Description:",
-        "Url of the project api:",
-        "Environment name of this url (local) ?",
+        "On which port your microservice is running?",
         "Do you need a continuous integration configuration ?",
         "May RestQA report anonymous usage statistics to improve the tool over time ?"
       ];
@@ -786,7 +760,9 @@ Given I have an example`;
           value: "jenkins"
         }
       ];
-      expect(mockPrompt.mock.calls[0][0][4].choices).toEqual(
+
+      const [, ciPromptArgument] = mockPrompt.mock.calls[0][0]
+      expect(ciPromptArgument.choices).toEqual(
         expect.arrayContaining(expectedCI)
       );
     });
@@ -827,7 +803,7 @@ Given I have an example`;
               {
                 name: "@restqa/restqapi",
                 config: {
-                  url: "https://api.restqa.io"
+                  url: "http://localhost:8000"
                 }
               }
             ],
@@ -864,5 +840,43 @@ Given I have an example`;
       filename = path.resolve(process.cwd(), "circleci", "config.yml");
       expect(fs.existsSync(filename)).toBe(false);
     });
+
+    test("Initialize should ask for name and description if a pakcage.json doesn't exists", async () => {
+      // Mocks
+      const options = {
+        name: "my sample api",
+        description: "This is my description",
+        port: 9090,
+        folder: os.tmpdir(),
+        telemetry: false
+      };
+      const mockPrompt = jest.fn().mockResolvedValue(options);
+
+      jest.mock("inquirer", () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        };
+      });
+      
+      // Given
+      jest.spyOn(require("../utils/fs"), "getPackageJson").mockReturnValue(null);
+      const Initialize = require("./initialize");
+
+      // When
+      await Initialize({y: false});
+
+      // Then
+      const expectedQuestions = [
+        "Project name:",
+        "Description:",
+        "On which port your microservice is running?",
+        "Do you need a continuous integration configuration ?",
+        "May RestQA report anonymous usage statistics to improve the tool over time ?"
+      ];
+      expect(mockPrompt.mock.calls[0][0].map((_) => _.message)).toEqual(
+        expectedQuestions
+      );
+    })
   });
 });

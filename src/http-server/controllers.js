@@ -34,8 +34,7 @@ Controllers.config = async function (req, res, next) {
       const opt = {
         name: packageContent.name,
         description: packageContent.description || packageContent.name,
-        env: "local",
-        url: `http://localhost:${port}`,
+        port,
         folder: options.folder
       };
 

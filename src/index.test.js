@@ -79,8 +79,7 @@ describe("# Index - Initialize", () => {
   test("Throw an error if ci is not valid", () => {
     const options = {
       url: "http://test.com",
-      env: "test",
-      description: "my description",
+      port: 9090,
       folder: jestqa.getTmpFolder()
     };
     const {Initialize} = require("./index");
@@ -98,8 +97,7 @@ describe("# Index - Initialize", () => {
     const folder = jestqa.getTmpFolder();
     const options = {
       name: "sample",
-      url: "http://test.com",
-      env: "test",
+      port: 9090,
       description: "my description",
       ci: "gitlab-ci",
       folder
