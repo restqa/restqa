@@ -32,15 +32,6 @@ async function initialize(program) {
       });
     }
 
-    if (!pkg || (pkg && !pkg.description)) {
-      questions.push({
-        type: "input",
-        name: "description",
-        message: Locale.get("service.init.questions.description"),
-        default: answers.description
-      });
-    }
-
     questions.push(...[
       {
         type: "input",
