@@ -869,7 +869,6 @@ Given I have an example`;
       // Then
       const expectedQuestions = [
         "Project name:",
-        "Description:",
         "On which port your microservice is running?",
         "Do you need a continuous integration configuration ?",
         "May RestQA report anonymous usage statistics to improve the tool over time ?"
