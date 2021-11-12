@@ -10,7 +10,6 @@ service:
   init:
     questions:
       name: "Project name:"
-      description: "Description:"
       port: "On which port your microservice is running?"
       ci: "Do you need a continuous integration configuration ?"
       no_ci: "I want to configure the continuous integration by myself"
