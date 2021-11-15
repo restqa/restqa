@@ -1,5 +1,5 @@
 {
-  "name": "test-server",
+  "name": "test-server-with-stub",
   "version": "1.0.0",
   "description": "Test server for restqa",
   "main": "index.js",
