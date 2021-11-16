@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 * Refactor the executor aiming to run it at the hook level | [#163](https://github.com/restqa/restqa/pull/163)
 * Delete `ENV` & `URL` from initialize questions | [#165](https://github.com/restqa/restqa/pull/165)
-* Make `description` optional from initialize questions | [#168]https://github.com/restqa/restqa/pull/168
+* Make `description` optional from initialize questions | [#168](https://github.com/restqa/restqa/pull/168)
 
 ## Updated
 * Update markdown linter version
