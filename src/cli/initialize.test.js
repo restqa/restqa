@@ -876,6 +876,36 @@ Given I have an example`;
       expect(mockPrompt.mock.calls[0][0].map((_) => _.message)).toEqual(
         expectedQuestions
       );
-    })
+    });
+
+    test("Initialize should call Initialize.generate with a name if package json exists", async () => {
+      // Mocks
+      const options = {
+        port: 9090,
+        folder: os.tmpdir(),
+        telemetry: false
+      };
+      const mockPrompt = jest.fn().mockResolvedValue(options);
+
+      jest.mock("inquirer", () => {
+        return {
+          Separator: jest.fn(),
+          prompt: mockPrompt
+        };
+      });
+      const Initialize = require("./initialize");
+      Initialize.generate = jest.fn();
+      
+      // Given, When
+      await Initialize({y: false});
+
+      // Then
+      expect(Initialize.generate).toHaveBeenCalledWith(expect.objectContaining({
+        port: options.port,
+        telemetry: options.telemetry,
+        name: "@restqa/restqa",
+        description: "An all in one test automation runner"
+      }));
+    });
   });
 });

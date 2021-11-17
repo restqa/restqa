@@ -18,12 +18,12 @@ async function initialize(program) {
     telemetry: true
   };
 
-  const pkg = getPackageJson();
+  const packageJson = getPackageJson();
 
   if (program.y !== true) {
     const questions = []
 
-    if (!pkg || (pkg && !pkg.name)) {
+    if (!packageJson || (packageJson && !packageJson.name)) {
       questions.push({
         type: "input",
         name: "name",
@@ -86,7 +86,30 @@ async function initialize(program) {
 
     answers = await inquirer.prompt(questions);
   }
+
+  addDefaultFromPackageJson(packageJson, answers);
+
   return initialize.generate(answers);
+}
+
+/**
+ * 
+ * Overwrite answers object with value from package json
+ * (as default/fallback values)
+ * 
+ * @param {object} packageJson 
+ * @param {object} answers 
+ */
+function addDefaultFromPackageJson(packageJson, answers) {
+  if (packageJson) {
+    if (packageJson.name && !answers.name) {
+      answers.name = packageJson.name;
+    }
+
+    if (packageJson.description && !answers.description) {
+      answers.description = packageJson.description;
+    }
+  }
 }
 
 initialize.generate = async function (options) {
