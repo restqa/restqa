@@ -86,7 +86,30 @@ async function initialize(program) {
 
     answers = await inquirer.prompt(questions);
   }
+
+  addDefaultAnswers(pkg, answers);
+
   return initialize.generate(answers);
+}
+
+/**
+ * 
+ * Overwrite answers object with value from package json
+ * (as default/fallback values)
+ * 
+ * @param {object} packageJson 
+ * @param {object} answers 
+ */
+function addDefaultAnswers(packageJson, answers) {
+  if (packageJson) {
+    if (packageJson.name && !answers.name) {
+      answers.name = packageJson.name;
+    }
+
+    if (packageJson.description && !answers.description) {
+      answers.description = packageJson.description;
+    }
+  }
 }
 
 initialize.generate = async function (options) {
