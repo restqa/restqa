@@ -1,6 +1,6 @@
 {
   "name": "@restqa/restqa",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "description": "An all in one test automation runner",
   "scripts": {
     "prepublishOnly": "npm run build",
