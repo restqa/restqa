@@ -1,5 +1,5 @@
 {
-  "name": "test-server",
+  "name": "test-server-with-stub",
   "version": "1.0.0",
   "description": "Test server for restqa",
   "main": "index.js",
@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fastify": "^3.22.0"
+    "@restqa/http-mock-plugin": "0.0.1",
+    "fastify": "^3.22.0",
+    "got": "^11.8.2"
   }
 }

@@ -9,7 +9,8 @@ process.env.RESTQA_CONFIG = global.restqaOptions.config;
 
 const options = {
   env: process.env.RESTQA_ENV,
-  configFile: process.env.RESTQA_CONFIG
+  configFile: process.env.RESTQA_CONFIG,
+  command: global.restqaOptions.command
 };
 
 Bootstrap(Cucumber, options);

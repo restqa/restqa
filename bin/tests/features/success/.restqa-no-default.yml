@@ -6,7 +6,7 @@ metadata:
 environments:
   - name: local
     plugins:
-      - name: restqapi
+      - name: "@restqa/restqapi"
         config:
           url: https://api.restqa.io
     outputs:
