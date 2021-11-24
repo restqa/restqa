@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const cucumber = require("@cucumber/cucumber");
 
+const { parseCommand } = require("../../bin/program");
 const logger = require("../utils/logger");
 
 module.exports = async function (opt, program = {}) {
@@ -51,9 +52,7 @@ module.exports = async function (opt, program = {}) {
   // -- config
   config = config || path.join(process.cwd(), ".restqa.yml");
   if (!fs.existsSync(config)) {
-    return Promise.reject(
-      new TypeError(`The configuration file "${config}" doesn't exist.`)
-    );
+    await parseCommand([undefined, path.join("bin", "restqa"), "init"]);
   }
 
   global.restqaOptions = {
