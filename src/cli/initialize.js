@@ -112,6 +112,9 @@ function addDefaultFromPackageJson(packageJson, answers) {
   }
 }
 
+// Note: exported like that for test purpose
+initialize.default = initialize;
+
 initialize.generate = async function (options) {
   options.folder = options.folder || process.cwd();
 

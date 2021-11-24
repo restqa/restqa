@@ -31,19 +31,6 @@ environments:
     `;
 
 describe("#Cli - Run", () => {
-  test("Throw error if the passed file doesnt exist", async () => {
-    const filename = path.resolve(os.tmpdir(), ".restqa.fake.yml");
-
-    const options = {
-      config: filename,
-      stream: "std-out-example"
-    };
-    const Run = require("./run");
-    return expect(Run(options)).rejects.toThrow(
-      `The configuration file "${filename}" doesn't exist.`
-    );
-  });
-
   test("Throw error if tag is not starting with a @", async () => {
     const filename = path.resolve(os.tmpdir(), ".restqa.fake.yml");
     const options = {
@@ -274,7 +261,7 @@ environments:
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
-  test("Run the cucumber test but shouldnt exit", async () => {
+  test("Run the cucumber test but should not exit", async () => {
     const content = `
 ---
 
@@ -464,5 +451,20 @@ environments:
     expect(mockExit).toHaveBeenCalledWith(1);
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch("This is an error");
+  });
+
+  test("it should call initialize if no .restqa.yml exist", async () => {
+    // Mocks
+    const parseCommandSpy = jest.spyOn(require("../../bin/program"), "parseCommand")
+      .mockImplementation(true);
+
+    // Given
+    const Run = require("./run");
+
+    // When
+    await Run({});
+
+    // Then
+    expect(parseCommandSpy).toHaveBeenCalled();
   });
 });
