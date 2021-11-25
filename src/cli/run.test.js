@@ -455,8 +455,20 @@ environments:
 
   test("it should call initialize if no .restqa.yml exist", async () => {
     // Mocks
+    const mockCucumberCli = jest.fn().mockImplementation(() => {
+      return {
+        run: jest.fn().mockResolvedValue(true)
+      };
+    });
+
+    jest.mock("@cucumber/cucumber", () => {
+      return {
+        Cli: mockCucumberCli
+      };
+    });
+
     const parseCommandSpy = jest.spyOn(require("../../bin/program"), "parseCommand")
-      .mockImplementation(true);
+      .mockResolvedValue(true);
 
     // Given
     const Run = require("./run");
