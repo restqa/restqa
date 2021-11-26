@@ -1,31 +1,30 @@
 #!/usr/bin/env node
 
-const pkg = require('../package.json')
-const updateNotifier = require('update-notifier')
+const pkg = require("../package.json");
+const updateNotifier = require("update-notifier");
 
-const logger = require('../src/utils/logger')
-const Telemetry = require('../src/utils/telemetry')
-const { program } = require('./program')
+const logger = require("../src/utils/logger");
+const Telemetry = require("../src/utils/telemetry");
+const {program} = require("./program");
 
-
-const telemetry = new Telemetry(pkg)
+const telemetry = new Telemetry(pkg);
 const notifier = updateNotifier({
   pkg,
   shouldNotifyInNpmScript: true
-})
+});
 
-async function main (argv) {
-  return program.parseAsync(argv || process.argv)
+async function main() {
+  return program.parseAsync(process.argv);
 }
 
 main()
-  .catch(e => {
-    telemetry.track('error', e.message, process.argv.join(' '))
-    logger.error(e)
-    process.exit(1)
+  .catch((e) => {
+    telemetry.track("error", e.message, process.argv.join(" "));
+    logger.error(e);
+    process.exit(1);
   })
   .finally(() => {
     if (notifier.update) {
-      notifier.notify()
+      notifier.notify();
     }
-  })
+  });

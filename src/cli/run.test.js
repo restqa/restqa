@@ -460,15 +460,19 @@ environments:
         run: jest.fn().mockResolvedValue(true)
       };
     });
-
     jest.mock("@cucumber/cucumber", () => {
       return {
         Cli: mockCucumberCli
       };
     });
-
-    const parseCommandSpy = jest.spyOn(require("../../bin/program"), "parseCommand")
-      .mockResolvedValue(true);
+    jest.mock("../../bin/program", () => {
+      return {
+        program: {
+          parseAsync: jest.fn().mockResolvedValue(true)
+        }
+      };
+    });
+    const {program} = require("../../bin/program");
 
     // Given
     const Run = require("./run");
@@ -477,6 +481,6 @@ environments:
     await Run({});
 
     // Then
-    expect(parseCommandSpy).toHaveBeenCalled();
+    expect(program.parseAsync).toHaveBeenCalled();
   });
 });
