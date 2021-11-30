@@ -112,6 +112,5 @@ program.on("--help", () => {
 });
 
 module.exports = {
-  program: program,
-  parseCommand: program.parseAsync
+  program: program
 };
