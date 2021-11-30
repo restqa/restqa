@@ -186,7 +186,8 @@ function Run(options) {
     env: options.env,
     stream: options.stream,
     tags: options.tags || [],
-    args
+    args,
+    skipInit: options.skipInit
   })
     .then(() => {
       return result;

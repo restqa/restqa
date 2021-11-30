@@ -770,24 +770,16 @@ environments:
     });
 
     test("throw error if the configuration file  doesn't exist", async () => {
-      jest.mock("../../bin/program", () => {
-        return {
-          program: {
-            parseAsync: jest.fn().mockResolvedValue(true)
-          }
-        };
-      });
-      const {program} = require("../../bin/program");
-
       const config = "./.restqa.yml";
       const json = {
         env: "prod"
       };
       server = app(config).listen(0);
       const instance = getGotInstance(server.address().port);
-      await instance.post("api/restqa/run", {json});
+      const response = await instance.post("api/restqa/run", {json});
 
-      expect(program.parseAsync).toHaveBeenCalled();
+      expect(response.statusCode).toBe(406);
+      expect(response.body.message).toBe(`The configuration file "${config}" doesn't exist.`);
     });
 
     test("Run the test and get the result", async () => {
