@@ -121,6 +121,7 @@ Controllers.run = async function (req, res, next) {
     options.stream = new Stream.Writable();
     options.stream._write = () => {};
     options.path = path.resolve(server.testFolder, options.path || "");
+    options.skipInit = true;
     const result = await RestQA.Run(options);
     res.status(201).json(result);
   } catch (e) {

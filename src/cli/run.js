@@ -12,7 +12,8 @@ module.exports = async function (opt, program = {}) {
     tags = [],
     stream = process.stdout,
     args,
-    exec: command
+    exec: command,
+    skipInit = false
   } = opt;
 
   args = args || program.args || ["."];
@@ -52,8 +53,14 @@ module.exports = async function (opt, program = {}) {
   // -- config
   config = config || path.join(process.cwd(), ".restqa.yml");
   if (!fs.existsSync(config)) {
-    await cliProgram.parseAsync([process.argv[0], process.argv[1], "init"]);
-  }
+    if (!skipInit) {
+      await cliProgram.parseAsync([process.argv[0], process.argv[1], "init"]);
+    } else {
+      return Promise.reject(
+        new TypeError(`The configuration file "${config}" doesn't exist.`)
+      );
+    }
+  } 
 
   global.restqaOptions = {
     config,

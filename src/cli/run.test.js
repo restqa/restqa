@@ -483,4 +483,34 @@ environments:
     // Then
     expect(program.parseAsync).toHaveBeenCalled();
   });
+
+  test("it should throw an error if no .restqa.yml exist an option skipInit is enabled", async () => {
+    // Mocks
+    const mockCucumberCli = jest.fn().mockImplementation(() => {
+      return {
+        run: jest.fn().mockResolvedValue(true)
+      };
+    });
+    jest.mock("@cucumber/cucumber", () => {
+      return {
+        Cli: mockCucumberCli
+      };
+    });
+    jest.mock("../../bin/program", () => {
+      return {
+        program: {
+          parseAsync: jest.fn().mockResolvedValue(true)
+        }
+      };
+    });
+
+    // Given
+    const config = ".lol.yml";
+    const Run = require("./run");
+
+    // When, Then
+    return expect(Run({ skipInit: true, config })).rejects.toThrow(
+      `The configuration file "${config}" doesn't exist.`
+    );
+  });
 });
