@@ -416,16 +416,6 @@ pipeline {
         );
       });
 
-      test("Throw an error if the description is not defined", () => {
-        const Initialize = require("./initialize");
-        const options = {
-          name: "sample"
-        };
-        return expect(Initialize.generate(options)).rejects.toThrow(
-          "Please share a project description."
-        );
-      });
-
       test("Throw an error if the port is not defined", () => {
         const Initialize = require("./initialize");
         const options = {
@@ -841,7 +831,7 @@ Given I have an example`;
       expect(fs.existsSync(filename)).toBe(false);
     });
 
-    test("Initialize should ask for name and description if a pakcage.json doesn't exists", async () => {
+    test("Initialize should ask for name and description if a package.json doesn't exists", async () => {
       // Mocks
       const options = {
         name: "my sample api",
@@ -906,6 +896,26 @@ Given I have an example`;
         name: "@restqa/restqa",
         description: "An all in one test automation runner"
       }));
+    });
+
+    test("Initialize.generate should not throw if called without description", async () => {
+      // Given
+      const optionsWithoutDescription = {
+        port: 9999,
+        telemetry: false,
+        name: "@restqa/restqa",
+      };
+      const Initialize = require("./initialize");
+
+      // When
+      try {
+        await Initialize.generate(optionsWithoutDescription);
+        // Then
+        expect(true).toEqual(true);
+      }
+      catch {
+        throw new Error("Should not throw");
+      }
     });
   });
 });

@@ -121,10 +121,6 @@ initialize.generate = async function (options) {
     throw new ReferenceError("Please share a project name.");
   }
 
-  if (!description) {
-    throw new ReferenceError("Please share a project description.");
-  }
-
   if (!port) {
     throw new ReferenceError("Please share a project port.");
   }
