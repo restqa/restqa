@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.36] - 2021-12-08
+
+### Fixed
+* RestQA init issue due to missing description [#178](https://github.com/restqa/restqa/issues/178)
 ## [0.0.36] - 2021-11-16
 
 ## Added
