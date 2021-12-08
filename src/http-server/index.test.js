@@ -449,21 +449,6 @@ environments:
       expect(response.body.message).toBe("Please share a project name.");
     });
 
-    test("throw error if description is not defined", async () => {
-      const folder = jestqa.getTmpFolder();
-      const config = {};
-      server = app(config).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/initialize", {
-        json: {
-          name: "Backend api",
-          folder
-        }
-      });
-      expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe("Please share a project description.");
-    });
-
     test("throw error if port is not defined", async () => {
       const folder = jestqa.getTmpFolder();
       const config = {};
