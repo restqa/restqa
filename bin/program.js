@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 const {program, Argument} = require("commander");
+const path = require("path");
+
 const pkg = require("../package.json");
 const Cli = require("../src/cli");
 const logger = require("../src/utils/logger");
-const path = require("path");
 const Telemetry = require("../src/utils/telemetry");
 
 const DEFAULT_CONFIG =
@@ -112,5 +113,6 @@ program.on("--help", () => {
 });
 
 module.exports = {
-  program: program
+  program: program,
+  telemetry
 };

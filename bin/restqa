@@ -4,10 +4,8 @@ const pkg = require("../package.json");
 const updateNotifier = require("update-notifier");
 
 const logger = require("../src/utils/logger");
-const Telemetry = require("../src/utils/telemetry");
-const {program} = require("./program");
+const {program, telemetry} = require("./program");
 
-const telemetry = new Telemetry(pkg);
 const notifier = updateNotifier({
   pkg,
   shouldNotifyInNpmScript: true
