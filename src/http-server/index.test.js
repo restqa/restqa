@@ -762,10 +762,9 @@ environments:
       server = app(config).listen(0);
       const instance = getGotInstance(server.address().port);
       const response = await instance.post("api/restqa/run", {json});
+
       expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(
-        'The configuration file "./.restqa.yml" doesn\'t exist.'
-      );
+      expect(response.body.message).toBe(`The configuration file "${config}" doesn't exist.`);
     });
 
     test("Run the test and get the result", async () => {

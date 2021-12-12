@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^2.0.0-beta",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.45",
-    "prismjs": "^1.23.0",
+    "prismjs": "^1.25.0",
     "vue": "^3.0.0",
     "vue-gtag-next": "^1.14.0",
     "vue-prism-editor": "^2.0.0-alpha.2",
