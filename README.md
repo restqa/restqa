@@ -12,39 +12,144 @@
     <a href="https://docs.restqa.io">📖 Documentation</a>
 </p>
 
+## 😃 Test Driven Happiness
+
+While developing microservices we all have the same pain point:
+
+- [X] Writting Unit Test
+- [X] Reviewing Unit Test
+- [X] Maintaining the Integration Test
+- [X] Maintainig the Performance Test
+- [X] Maintainig the API specification
+- [X] Maintaining the postman collection
+
+
+#### Screenshot
+
+
+
+![Screenshot](./example/assets/restqa-screenshot.png)
+
+## ⭐️ Features
+
+- 🌈 Unit test as Single source of truth
+- 💬 Write unit test using ordinary language
+- 🚦 Reuse your unit test to run the integration test
+- 🏎  Generate Test scenario for your favorite Performance testing tool
+- 📚  Generate an up to date API specification from the test results
+- 👩‍🚀 Generate an up to date postman collection
+- 🕐 Instant result
+- 👑 Programming language Agnostic
+- 👩‍💻 Community Driven
+
+
+## 📦 Install
+
 ```
 npm install -D @restqa/restqa
 ```
-> Next Generation End-to-End API test automation platform
 
-- 🚀 Instant installation
-- 🤩 low learning curve
-- ⭐️ 100+ built-in feature steps
-- 🔌 Dozen of integrations
-- 🕵️ Data privacy focused
+```
+yarn add @restqa/restqa -D
+```
+
+## 🎯 Usage
+
+In you `package.json` add the script:
+
+```
+  "scripts": {
+    "test": "restqa run",
+    "happy": "restqa run --report"
+  }
+
+```
+
+Write a Unit Test Using ordinary language:
+
+```gherkin
+Feature: GET /api/infos
+
+Scenario: Get the list of informations
+Given I have the api gateway
+  And I have the path "/api/info"
+  And I have the method "GET"
+When I run the API
+Then I should receive a response with the status 200
+  And the response body should be equal to:
+  """
+{
+  "message": "Hello World!"
+}
+  """
+```
+
+Then simply run the command:
+
+```
+npm run happy
+```
 
 
-[RestQA](https://restqa.io) was born from a need of getting more transparency of a product behavior. It consists of two major parts:
-
-- Use Gherkin to enforce the ATDD (acceptance test driven development) as pratice across the team member regardless of their background
-
-- Reuse the team toolset as maximum, in order to reduce the learning curve and focus on the product behavior test scenario
-
-In addition, RestQA is highly extensible via its [Plugin API](https://docs.restqa.io/api/plugin-api) and [Output API](https://docs.restqa.io/api/output-api).
-
-[Read the Docs to Learn More](https://docs.restqa.io).
-
-### Demo
-
-[<img src="https://restqa.io/assets/img/utils/video-600.png" width=600 />](https://www.youtube.com/watch?v=EberYFGPZPo)
-
-[Access to the Youtube Video](https://www.youtube.com/watch?v=EberYFGPZPo)
-
-### Example
+## 🌈 Example
 
 Take a look at the [example folder](./example) to see a basic setup.
 
 More example available on the [restqa-example](https://github.com/restqa/restqa-example) repository.
+
+## 🚧 Roadmap
+
+##### 🚀 Unit Test
+
+- [X] Mock external http depedencies
+- [ ] Mock MongoDB database
+- [ ] Mock Postgres database
+- [ ] Mock MySQL database
+- [ ] Mock S3 database
+
+##### 🚦 Integration Test
+
+- [X] Slack (alerting)
+- [X] Discord (alerting)
+- [X] Mattermost (alerting)
+- [X] Slack (alerting)
+- [X] Slack (alerting)
+- [X] Slack (alerting)
+- [ ] Kibana (Monitoring)
+- [ ] Grafana (Monitoring)
+- [X] Excel (Data)
+- [X] Google Sheet (Data)
+- [X] File system (Data)
+
+##### 🏎 Performance Test
+
+- [X] Artillery.io
+- [ ] K6
+- [ ] Jmeter
+- [ ] Vegeta
+
+#### 📚 API Specification
+
+- [X] Swagger
+- [ ] Redoc
+
+#### 👩‍🚀 API Collection
+
+- [ ] Postman
+- [ ] Insomnia
+- [ ] hoppscotch
+
+#### 📦 Continuous integration
+
+- [X] Github Action
+- [X] Gitlab CI
+- [X] Jenkins
+- [X] Circle CI
+- [X] Travis CI
+- [X] Bitbucket Pipeline
+- [X] Docker
+- [ ] Azure pipeline
+
 
 ## Contribution
 
