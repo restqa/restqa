@@ -1,5 +1,6 @@
 <p align="center"><img src="https://restqa.io/assets/img/content/mascote.png" alt="RestQA logo"/></p>
 <h1 align="center">RestQA</h1>
+<h3 align="center">Test Driven Happiness</h3>
 <p align="center">Making engineer happy by applying world class developer experience to any Microservices</p>
 <p align="center">
   <a href="https://www.npmjs.com/package/@restqa/restqa"><img src="https://img.shields.io/npm/v/@restqa/restqa" alt="npm package"></a>
@@ -12,16 +13,21 @@
     <a href="https://docs.restqa.io">📖 Documentation</a>
 </p>
 
-## 😃 Test Driven Happiness
+## 😃 Why Test Driven Happiness?
 
-While developing microservices we all have the same pain point:
+Within our DEV team while working with microservice, we realized a few thing:
 
-- [X] Writting Unit Test
-- [X] Reviewing Unit Test
-- [X] Maintaining the Integration Test
-- [X] Maintainig the Performance Test
-- [X] Maintainig the API specification
-- [X] Maintaining the postman collection
+- [X] **WE HATE** Writting Unit Test
+- [X] **WE HATE** Reviewing long unreadable Unit Test
+- [X] **WE HATE** Maintaining the Integration Test
+- [X] **WE HATE** Maintainig the Performance Test
+- [X] **WE HATE** Maintainig the API specification
+- [X] **WE HATE** Maintaining the postman collection
+
+This is why we decided to challenge ourself on how to transform this anger into a positive initative.
+RestQA was build with a simple goal Driving the happiness of the DEV team through testing.
+
+Run one command and get everything that you need to enjoy maintaining your microservice.
 
 
 #### Screenshot
