@@ -218,9 +218,220 @@ environments:
       afterAll();
     }, 10000);
 
-    test("Run the command to run the server and kill the process", async () => {
-      const PORT = 4049;
-      const validRestQAConfigFile = `
+    describe("command option", () => {
+      function createFakeProcessors(hook) {
+        return {
+          Before: jest.fn(function () {
+            this.data = {
+              parse: jest.fn().mockResolvedValue()
+            };
+            const fn = arguments[1] || arguments[0];
+            fn.call(this);
+          }),
+          After: jest.fn(function (fn) {
+            fn.call(this);
+          }),
+          BeforeAll: function (fn) {
+            hook.push(fn);
+          },
+          AfterAll: function (fn) {
+            hook.push(fn);
+          }
+        };
+      }
+
+      const defaultExecutorOptions = {silent: false};
+
+      test("Run the command to run the server and kill the process", async () => {
+        const PORT = 4049;
+        const mockTreeKill = setTreeKillMock(jest.fn());
+
+        // Executor
+        const mockProcessKill = jest.fn();
+        const mockExecuteCommand = setExecutor(mockProcessKill, PORT);
+
+        const Hooks = [];
+        const processor = createFakeProcessors(Hooks);
+        const configFile = createConfigFile(PORT);
+
+        const Plugin = require("./plugin");
+        const options = {
+          command: "npm start",
+          config: new Config({env: "local", configFile})
+        };
+        Plugin(options, processor);
+
+        // Execute Hooks
+        const [beforeAll, afterAll] = Hooks;
+        await beforeAll();
+        afterAll();
+
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          "npm start",
+          undefined,
+          defaultExecutorOptions
+        );
+        expect(mockProcessKill).not.toHaveBeenCalled();
+        expect(mockTreeKill).toHaveBeenCalled();
+        expect(mockTreeKill).toHaveBeenCalledWith(9999);
+      }, 10000);
+
+      test("Run the command to run the server and kill the process (use 80 port if not defined on the url) // This test might fail if you can't use the port 80 locally...", async () => {
+        if (process.env.CI) return; // if you want to ignore this test run the command: CI=true npm test
+        const configFile = createConfigFile();
+
+        const mockTreeKill = setTreeKillMock(jest.fn());
+
+        // Executor
+        const mockProcessKill = jest.fn();
+        const mockExecuteCommand = setExecutor(mockProcessKill, 80);
+
+        const Hooks = [];
+        const processor = createFakeProcessors(Hooks);
+
+        const Plugin = require("./plugin");
+        const options = {
+          command: "npm start",
+          config: new Config({env: "local", configFile})
+        };
+        Plugin(options, processor);
+
+        // Execute Hooks
+        const [beforeAll, afterAll] = Hooks;
+        await beforeAll();
+        afterAll();
+
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          "npm start",
+          undefined,
+          defaultExecutorOptions
+        );
+        expect(mockProcessKill).not.toHaveBeenCalled();
+        expect(mockTreeKill).toHaveBeenCalled();
+        expect(mockTreeKill).toHaveBeenCalledWith(9999);
+      }, 10000);
+
+      test("Run the command to run the server but with a short delay and kill the process", async () => {
+        const PORT = 5059;
+        const configFile = createConfigFile(PORT);
+
+        const mockTreeKill = setTreeKillMock(jest.fn());
+
+        // Executor
+        const mockProcessKill = jest.fn();
+        const mockExecuteCommand = setExecutor(mockProcessKill, PORT, 3000);
+
+        const Hooks = [];
+        const processor = createFakeProcessors(Hooks);
+
+        const Plugin = require("./plugin");
+        const options = {
+          command: "npm start",
+          config: new Config({env: "local", configFile})
+        };
+        Plugin(options, processor);
+
+        // Execute Hooks
+        const [beforeAll, afterAll] = Hooks;
+        await beforeAll();
+        afterAll();
+
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          "npm start",
+          undefined,
+          defaultExecutorOptions
+        );
+        expect(mockProcessKill).not.toHaveBeenCalled();
+        expect(mockTreeKill).toHaveBeenCalled();
+        expect(mockTreeKill).toHaveBeenCalledWith(9999);
+      }, 10000);
+
+      test("Throw error if the server is not started before the timeout", async () => {
+        const PORT = 5058;
+        const configFile = createConfigFile(PORT);
+
+        // Executor
+        const mockProcessKill = jest.fn();
+        const mockExecuteCommand = setExecutor(mockProcessKill, PORT, 6000);
+
+        const Hooks = [];
+        const processor = createFakeProcessors(Hooks);
+
+        const Plugin = require("./plugin");
+        const options = {
+          command: "npm start",
+          config: new Config({env: "local", configFile})
+        };
+        Plugin(options, processor);
+
+        // Execute Hooks
+        const [beforeAll, afterAll] = Hooks;
+        const $this = {
+          restqa: {
+            mock: {
+              http: {
+                GITHUB_API: "http://localhost:8066/github"
+              }
+            }
+          }
+        };
+
+        await expect(beforeAll.call($this)).rejects.toThrow(
+          new Error(
+            "Couldn't reach the server running on the port 5058 (timeout 4000ms)"
+          )
+        );
+        afterAll();
+        const expectedEnvs = {
+          GITHUB_API: "http://localhost:8066/github"
+        };
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          "npm start",
+          expectedEnvs,
+          defaultExecutorOptions
+        );
+      }, 10000);
+
+      test("when plugin is called with a command and a silent option it should pass them to the executor", async () => {
+        const PORT = 5059;
+        const Hooks = [];
+        const processor = createFakeProcessors(Hooks);
+        const mockExecuteCommand = setExecutor(() => {}, PORT, 1000);
+        const configFile = createConfigFile(PORT);
+
+        // Given
+        const options = {
+          config: new Config({env: "local", configFile}),
+          command: "npm start",
+          silent: true
+        };
+        const Plugin = require("./plugin");
+
+        // When
+        Plugin(options, processor);
+        const [BeforeAll, AfterAll] = Hooks;
+        await BeforeAll();
+        AfterAll();
+
+        // Then
+        expect(mockExecuteCommand).toHaveBeenCalledWith(
+          options.command,
+          undefined,
+          {
+            silent: options.silent
+          }
+        );
+      });
+    });
+  });
+});
+
+/**
+ * HELPERS
+ */
+
+function createConfigFile(port) {
+  const validRestQAConfigFile = `
 ---
 
 version: 0.0.1
@@ -234,226 +445,7 @@ environments:
     plugins:
       - name: "@restqa/restqapi"
         config:
-          url: http://localhost:${PORT}
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
-
-      const mockTreeKill = setTreeKillMock(jest.fn());
-
-      // Executor
-      const mockProcessKill = jest.fn();
-      const mockExecuteCommand = setExecutor(mockProcessKill, PORT);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      await beforeAll();
-      afterAll();
-
-      expect(mockExecuteCommand).toHaveBeenCalledWith("npm start", undefined);
-      expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalledWith(9999);
-    }, 10000);
-
-    test("Run the command to run the server and kill the process (use 80 port if not defined on the url) // This test might fail if you can't use the port 80 locally...", async () => {
-      if (process.env.CI) return; // if you want to ignore this test run the command: CI=true npm test
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
-
-      const mockTreeKill = setTreeKillMock(jest.fn());
-
-      // Executor
-      const mockProcessKill = jest.fn();
-      const mockExecuteCommand = setExecutor(mockProcessKill, 80);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      await beforeAll();
-      afterAll();
-
-      expect(mockExecuteCommand).toHaveBeenCalledWith("npm start", undefined);
-      expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalledWith(9999);
-    }, 10000);
-
-    test("Run the command to run the server but with a short delay and kill the process", async () => {
-      const PORT = 5059;
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost:${PORT}
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
-
-      const mockTreeKill = setTreeKillMock(jest.fn());
-
-      // Executor
-      const mockProcessKill = jest.fn();
-      const mockExecuteCommand = setExecutor(mockProcessKill, PORT, 3000);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      await beforeAll();
-      afterAll();
-
-      expect(mockExecuteCommand).toHaveBeenCalledWith("npm start", undefined);
-      expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalledWith(9999);
-    }, 10000);
-
-    test("Throw error if the server is not started before the timeout", async () => {
-      const PORT = 5058;
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost:${PORT}
+          url: http://localhost${port ? ":" + port : ""}
       - name: "@restqa/http-mock-plugin"
         config:
           debug: false
@@ -466,68 +458,6 @@ environments:
         config:
           path: 'my-report.json'
     `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
 
-      // Executor
-      const mockProcessKill = jest.fn();
-      const mockExecuteCommand = setExecutor(mockProcessKill, PORT, 6000);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      const $this = {
-        restqa: {
-          mock: {
-            http: {
-              GITHUB_API: "http://localhost:8066/github"
-            }
-          }
-        }
-      };
-
-      await expect(beforeAll.call($this)).rejects.toThrow(
-        new Error(
-          "Couldn't reach the server running on the port 5058 (timeout 4000ms)"
-        )
-      );
-      afterAll();
-      const expectedEnvs = {
-        GITHUB_API: "http://localhost:8066/github"
-      };
-      expect(mockExecuteCommand).toHaveBeenCalledWith(
-        "npm start",
-        expectedEnvs
-      );
-    }, 10000);
-  });
-});
+  return jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
+}

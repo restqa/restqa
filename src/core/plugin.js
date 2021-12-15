@@ -3,7 +3,7 @@ const treekill = require("treekill");
 const {execute, checkServer} = require("../core/executor");
 const Locale = require("../locales")("service.run");
 
-module.exports = function ({command, config}, processor = {}) {
+module.exports = function ({command, config, silent = false}, processor = {}) {
   if (!processor.BeforeAll || !processor.AfterAll) {
     throw new Error(
       "Please provide a processor containing the methods:  BeforeAll, AfterAll"
@@ -11,7 +11,7 @@ module.exports = function ({command, config}, processor = {}) {
   }
 
   processor.Before(async function (scenario) {
-    // In order to fetch the dynamic data from extenral sources.
+    // In order to fetch the dynamic data from external sources.
     // Let's parse the scenario to get all the placeholder
     await this.data.parse(scenario);
   });
@@ -25,11 +25,11 @@ module.exports = function ({command, config}, processor = {}) {
     let server;
     processor.BeforeAll(async function () {
       if (typeof command === "string") {
-        const restqapi = getPluginConfig("@restqa/restqapi", config);
-        if (!restqapi) {
+        const pluginConfig = getPluginConfig("@restqa/restqapi", config);
+        if (!pluginConfig) {
           throw new Error(Locale.get("error_missing_restqapi"));
         }
-        const {url} = restqapi;
+        const {url} = pluginConfig;
         if (!url) {
           throw new Error(Locale.get("error_missing_url"));
         }
@@ -40,7 +40,7 @@ module.exports = function ({command, config}, processor = {}) {
 
         const {mock} = this.restqa || {};
         const envs = (mock || {}).http;
-        server = await execute(command, envs);
+        server = await execute(command, envs, {silent});
         await checkServer(port);
       }
     });

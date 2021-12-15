@@ -5,6 +5,15 @@ const cucumber = require("@cucumber/cucumber");
 const {program: cliProgram} = require("../../bin/program");
 const logger = require("../utils/logger");
 
+function setGlobals(config, env, command, silent) {
+  global.restqaOptions = {
+    config,
+    env,
+    command,
+    silent
+  };
+}
+
 module.exports = async function (opt, program = {}) {
   let {
     env,
@@ -13,7 +22,8 @@ module.exports = async function (opt, program = {}) {
     stream = process.stdout,
     args,
     exec: command,
-    skipInit = false
+    skipInit = false,
+    silent = false
   } = opt;
 
   args = args || program.args || ["."];
@@ -60,13 +70,9 @@ module.exports = async function (opt, program = {}) {
         new TypeError(`The configuration file "${config}" doesn't exist.`)
       );
     }
-  } 
+  }
 
-  global.restqaOptions = {
-    config,
-    env,
-    command
-  };
+  setGlobals(config, env, command, silent);
 
   // TODO : Add extra cucumber parameters from config file
   const customOptions = [
