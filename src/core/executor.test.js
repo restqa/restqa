@@ -88,8 +88,9 @@ describe("# utils - executor", () => {
     await execute(validCommand, envs, options);
 
     // Then
+    const firstCharactersFromLsCommand = "total";
     expect(loggerDebugSpy).toHaveBeenCalledWith(
-      expect.stringContaining("[DEBUG]: total")
+      expect.stringContaining(`[DEBUG]: ${firstCharactersFromLsCommand}`)
     );
   });
 
