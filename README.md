@@ -23,6 +23,7 @@ Within our DEV team while working with microservice, we realized a few thing:
 - [X] **WE HATE** Maintainig the Performance Test
 - [X] **WE HATE** Maintainig the API specification
 - [X] **WE HATE** Maintaining the postman collection
+- [X] **WE HATE** Rewrite the test while changing the microservice technology
 
 This is why we decided to challenge ourself on how to transform this anger into a positive initative.
 RestQA was build with a simple goal Driving the happiness of the DEV team through testing.
@@ -118,9 +119,9 @@ More example available on the [restqa-example](https://github.com/restqa/restqa-
 - [X] Slack (alerting)
 - [X] Discord (alerting)
 - [X] Mattermost (alerting)
-- [X] Slack (alerting)
-- [X] Slack (alerting)
-- [X] Slack (alerting)
+- [X] Microsoft Team (alerting)
+- [X] Line (alerting)
+- [X] Webhook (alerting)
 - [ ] Kibana (Monitoring)
 - [ ] Grafana (Monitoring)
 - [X] Excel (Data)
