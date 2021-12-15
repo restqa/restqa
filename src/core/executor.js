@@ -4,13 +4,28 @@ const net = require("net");
 const Locale = require("../locales")("service.run");
 const {format} = require("util");
 
+/**
+ *
+ * Will print a debug message
+ * with the decorator `[DEBUG]`
+ *
+ * @param {string} message message to print
+ */
+function debug(message) {
+  logger.debug(`[DEBUG]: ${message}`);
+}
+
 module.exports = {
   /**
    *
    * @param {string} command
    * @param {object} envs
+   * @param {object} options execute command options
+   * @param {boolean} options.debug enable log from executed command
    */
-  execute: async function executeCommand(command, envs) {
+  execute: async function executeCommand(command, envs, options = {}) {
+    const isDebugModeEnabled = options.debug;
+
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
@@ -31,12 +46,22 @@ module.exports = {
         });
 
         // resolve when process is spawn successfully
-        server.stdout.on("data", () => {
+        // and log data in debug mode
+        server.stdout.on("data", (data) => {
           if (!initialized) {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
 
-            resolve(server);
+            if (isDebugModeEnabled) {
+              debug("debug mode enabled!");
+              debug(data.toString());
+            }
+
+            return resolve(server);
+          }
+
+          if (isDebugModeEnabled) {
+            debug(data.toString());
           }
         });
 
