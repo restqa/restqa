@@ -12,7 +12,7 @@ const {format} = require("util");
  * @param {string} message message to print
  */
 function debug(message) {
-  logger.debug(`[DEBUG]: ${message}`);
+  logger.info(`[DEBUG]: ${message}`);
 }
 
 const defaultOptions = {
