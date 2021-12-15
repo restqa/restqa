@@ -62,11 +62,13 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const checker = () => {
         const socket = net.createConnection({port});
+
         socket.on("ready", function (err) {
           if (err) reject(err);
           resolve();
           socket.destroy();
         });
+
         socket.on("error", function (err) {
           socket.destroy();
           timeout -= 200;
@@ -84,6 +86,8 @@ module.exports = {
           }
         });
       };
+
+      // Start execution
       checker();
     });
   }
