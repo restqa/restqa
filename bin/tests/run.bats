@@ -120,6 +120,16 @@ load 'common.sh'
   run restqa run . -x 'npm start'
   assert_success
   assert_output --partial 'Server is running (command: npm start)'
+  assert_output --partial 'Silent mode enabled'
+  assert_output --partial '1 scenario (1 passed)'
+}
+
+@test "[RUN]> EXEC > Execute a basic http server in silent mode" {
+  cd ./bin/tests/test-servers/basic
+  run npm i
+  run restqa run . -x 'npm start' -s
+  assert_success
+  assert_output --partial 'Server is running (command: npm start)'
   assert_output --partial '1 scenario (1 passed)'
 }
 

@@ -60,7 +60,7 @@ module.exports = {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
 
-            if (isSilent) {
+            if (!isSilent) {
               logger.warning("Silent mode enabled");
             }
 

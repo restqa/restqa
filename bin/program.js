@@ -66,6 +66,7 @@ program
     "-x, --exec <command>",
     "Run a command before running tests (example: npm start)"
   )
+  .option("-s, --silent", "Disable log from --exec command")
   .description("Execute the RestQA test suite")
   .usage("-c ./.restqa.yml -e local -t @success customer.feature")
   .action(Cli("run"));
