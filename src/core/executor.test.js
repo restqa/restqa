@@ -8,13 +8,17 @@ describe("# utils - executor", () => {
     .spyOn(require("../utils/logger"), "success")
     .mockImplementation(jest.fn());
 
-  const loggerDebugSpy = jest
-    .spyOn(require("../utils/logger"), "debug")
+  const loggerInfoSpy = jest
+    .spyOn(require("../utils/logger"), "info")
     .mockImplementation(jest.fn());
 
   const loggerWarningSpy = jest
     .spyOn(require("../utils/logger"), "warning")
     .mockImplementation(jest.fn());
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   test("given an valid command when we execute it then process.stdout.write should have been called", async () => {
     // Given
@@ -89,7 +93,7 @@ describe("# utils - executor", () => {
 
     // Then
     const firstCharactersFromLsCommand = "total";
-    expect(loggerDebugSpy).toHaveBeenCalledWith(
+    expect(loggerInfoSpy).toHaveBeenCalledWith(
       expect.stringContaining(`[DEBUG]: ${firstCharactersFromLsCommand}`)
     );
   });
