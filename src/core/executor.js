@@ -15,16 +15,24 @@ function debug(message) {
   logger.debug(`[DEBUG]: ${message}`);
 }
 
+const defaultOptions = {
+  silent: false
+};
+
 module.exports = {
   /**
    *
    * @param {string} command
    * @param {object} envs
    * @param {object} options execute command options
-   * @param {boolean} options.debug enable log from executed command
+   * @param {boolean} options.silent enable log from executed command
    */
-  execute: async function executeCommand(command, envs, options = {}) {
-    const isDebugModeEnabled = options.debug;
+  execute: async function executeCommand(
+    command,
+    envs = Object.create(null),
+    options = defaultOptions
+  ) {
+    const isSilent = options.silent;
 
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
@@ -52,15 +60,14 @@ module.exports = {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
 
-            if (isDebugModeEnabled) {
-              debug("debug mode enabled!");
-              debug(data.toString());
+            if (isSilent) {
+              logger.warning("Silent mode enabled");
             }
 
-            return resolve(server);
+            resolve(server);
           }
 
-          if (isDebugModeEnabled) {
+          if (!isSilent) {
             debug(data.toString());
           }
         });

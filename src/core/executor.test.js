@@ -12,6 +12,10 @@ describe("# utils - executor", () => {
     .spyOn(require("../utils/logger"), "debug")
     .mockImplementation(jest.fn());
 
+  const loggerWarningSpy = jest
+    .spyOn(require("../utils/logger"), "warning")
+    .mockImplementation(jest.fn());
+
   test("given an valid command when we execute it then process.stdout.write should have been called", async () => {
     // Given
     const validCommand = "ls -l";
@@ -74,21 +78,33 @@ describe("# utils - executor", () => {
     }
   });
 
-  test("given a debug option passed it should log each stdout data", async () => {
+  test("given a silent set to false it should log each stdout data", async () => {
     // Given
     const validCommand = "ls -l";
     const envs = {};
-    const options = {debug: true};
+    const options = {silent: false};
 
     // When
     await execute(validCommand, envs, options);
 
     // Then
     expect(loggerDebugSpy).toHaveBeenCalledWith(
-      expect.stringContaining("[DEBUG]: debug mode enabled!")
-    );
-    expect(loggerDebugSpy).toHaveBeenCalledWith(
       expect.stringContaining("[DEBUG]: total")
+    );
+  });
+
+  test("given a silent set to true it should display a warning message", async () => {
+    // Given
+    const validCommand = "ls -l";
+    const envs = {};
+    const options = {silent: true};
+
+    // When
+    await execute(validCommand, envs, options);
+
+    // Then
+    expect(loggerWarningSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Silent mode enabled")
     );
   });
 });
