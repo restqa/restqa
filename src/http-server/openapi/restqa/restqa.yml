@@ -372,56 +372,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/definitions/error500"
-  /api/restqa/install:
-    post:
-      tags:
-        - RestQA
-      deprecated: false
-      operationId: InstallIntegration
-      summary: Install an integration into the current configuration file
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  description: The name of the integration to install
-                  example: "slack"
-                  type: "string"
-                env:
-                  description: The target environment to install the integration
-                  example: "slack"
-                  type: "string"
-                config:
-                  description: Depending on the integration you will need to provide some parameters, check the documentation
-                  example: {"url": "https://test.webhook.com"}
-                  type: "object"
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/definitions/install"
-        "403":
-          description: Forbiden Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/definitions/error403"
-        "406":
-          description: Processing Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/definitions/error406"
-        "500":
-          description: Server Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/definitions/error500"
   /api/restqa/run:
     post:
       tags:
