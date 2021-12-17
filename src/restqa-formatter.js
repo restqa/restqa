@@ -8,19 +8,37 @@ const restqa = {
   tmpFileExport: global.restqa && global.restqa.tmpExport
 };
 
-const config = new Config(restqa);
-config.restqa = config.restqa || {};
+const config = new Config();
+config.load(restqa.configFile);
 
-const msg = new Welcome(config.restqa.tips);
+const msg = new Welcome(config.getSettings().getTips());
 
 let title = "Exporting the test result...";
 title = msg.text || title;
 
+const test = {
+  name: config.getUnitTest().getName(),
+  outputs: [
+    {
+      type: "html",
+      enabled: true,
+      config: {
+        folder: "restqa"
+      }
+    }
+  ]
+};
+
+if (restqa.env) {
+  test.name = config.getIntegrationTest(restqa.env).getName();
+  test.outputs = config.getIntegrationTest(restqa.env).getOutputs();
+}
+
 const options = {
   title,
-  key: config.metadata.code,
-  name: config.metadata.name,
-  env: config.environment.name,
+  key: config.getCode(),
+  name: config.getName(),
+  env: test.name,
   repository:
     process.env.GITHUB_REPOSITORY ||
     process.env.CI_PROJECT_PATH ||
@@ -31,7 +49,7 @@ const options = {
     process.env.CI_COMMIT_SHA ||
     process.env.BITBUCKET_COMMIT ||
     process.env.RESTQA_COMMIT_SHA,
-  outputs: config.environment.outputs || []
+  outputs: test.outputs || []
 };
 
 if (restqa.tmpFileExport) {
