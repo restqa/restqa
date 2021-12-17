@@ -101,17 +101,6 @@ Controllers.generate = async function (req, res, next) {
   }
 };
 
-Controllers.install = async function (req, res, next) {
-  try {
-    const options = req.body;
-    options.configFile = req.app.get("restqa.configuration");
-    const config = await RestQA.Install(options);
-    res.status(201).json({config});
-  } catch (e) {
-    next(e);
-  }
-};
-
 Controllers.run = async function (req, res, next) {
   try {
     const {server} = req.app.get("restqa.options");

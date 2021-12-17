@@ -23,7 +23,6 @@ module.exports = express
   .post("/api/restqa/initialize", Controllers.initialize)
   .get("/api/restqa/steps", NoConfigForbidden, Controllers.steps)
   .post("/api/restqa/generate", Controllers.generate)
-  .post("/api/restqa/install", NoConfigForbidden, Controllers.install)
   .post("/api/restqa/run", NoConfigForbidden, Controllers.run)
   .get("/api/info", Controllers.info)
   .get("/api/tips", Controllers.tips);
