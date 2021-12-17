@@ -13,4 +13,4 @@ function getPackageJson(pathSegment = process.cwd()) {
 
 module.exports = {
   getPackageJson
-}
+};

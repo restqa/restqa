@@ -509,7 +509,7 @@ environments:
     const Run = require("./run");
 
     // When, Then
-    return expect(Run({ skipInit: true, config })).rejects.toThrow(
+    return expect(Run({skipInit: true, config})).rejects.toThrow(
       `The configuration file "${config}" doesn't exist.`
     );
   });

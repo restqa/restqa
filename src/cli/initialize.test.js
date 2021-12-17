@@ -751,7 +751,7 @@ Given I have an example`;
         }
       ];
 
-      const [, ciPromptArgument] = mockPrompt.mock.calls[0][0]
+      const [, ciPromptArgument] = mockPrompt.mock.calls[0][0];
       expect(ciPromptArgument.choices).toEqual(
         expect.arrayContaining(expectedCI)
       );
@@ -848,9 +848,11 @@ Given I have an example`;
           prompt: mockPrompt
         };
       });
-      
+
       // Given
-      jest.spyOn(require("../utils/fs"), "getPackageJson").mockReturnValue(null);
+      jest
+        .spyOn(require("../utils/fs"), "getPackageJson")
+        .mockReturnValue(null);
       const Initialize = require("./initialize");
 
       // When
@@ -885,17 +887,19 @@ Given I have an example`;
       });
       const Initialize = require("./initialize");
       Initialize.generate = jest.fn();
-      
+
       // Given, When
       await Initialize({y: false});
 
       // Then
-      expect(Initialize.generate).toHaveBeenCalledWith(expect.objectContaining({
-        port: options.port,
-        telemetry: options.telemetry,
-        name: "@restqa/restqa",
-        description: "An all in one test automation runner"
-      }));
+      expect(Initialize.generate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          port: options.port,
+          telemetry: options.telemetry,
+          name: "@restqa/restqa",
+          description: "An all in one test automation runner"
+        })
+      );
     });
 
     test("Initialize.generate should not throw if called without description", async () => {
@@ -903,7 +907,7 @@ Given I have an example`;
       const optionsWithoutDescription = {
         port: 9999,
         telemetry: false,
-        name: "@restqa/restqa",
+        name: "@restqa/restqa"
       };
       const Initialize = require("./initialize");
 
@@ -912,8 +916,7 @@ Given I have an example`;
         await Initialize.generate(optionsWithoutDescription);
         // Then
         expect(true).toEqual(true);
-      }
-      catch {
+      } catch {
         throw new Error("Should not throw");
       }
     });
