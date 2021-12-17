@@ -66,22 +66,8 @@ module.exports = function (keyword, program) {
   output = output && output.toLowerCase();
 
   const options = {
-    configFile: Config.locate({configFile: config}),
-    env
+    configFile: config
   };
-
-  if (options.env) {
-    const restqaConfig = Config.raw({configFile: config});
-    if (restqaConfig.environments.findIndex((_) => _.name === env) === -1) {
-      throw new Error(
-        `"${
-          options.env
-        }" is not an environment available in the config file, choose between : ${restqaConfig.environments
-          .map((_) => _.name)
-          .join(", ")}`
-      );
-    }
-  }
 
   const columns = [
     {name: "Plugin", alignment: "left", color: "green"},
