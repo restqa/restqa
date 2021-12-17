@@ -23,14 +23,6 @@ program
   .action(Cli("initialize"));
 
 program
-  .command("install [name]")
-  .alias("i")
-  .option("-c, --config <config>", "Use a specific .restqa.yml file")
-  .option("-e, --env <env>", "Define the current environment")
-  .description("Install an addon to your project")
-  .action(Cli("install"));
-
-program
   .command("steps [keyword]")
   .alias("st")
   .alias("step")

@@ -69,37 +69,6 @@ async function Generate(cmd) {
 }
 
 /**
- * Install a new integration into your configuration
- *
- * @param {Object} options
- * @param {string} option.name - The name of the integration you want to install (ex: 'slack')
- * @param {string} option.configFile - Location of the RestQA Configuration File (ex: './restqa.yml')
- * @param {string} option.env - The target enviironment (from your RestQA config file) (ex: 'local')
- * @param {options} option.config - Represent the configuration required to setup the addon
- *
- * @return Array<obj>
- *
- * @example
- *
- * const { Install } = require('@restqa/restqa')
- *
- * const options = {
- *   name: 'discord',
- *   configFile: './restqa.yml',
- *   env: 'prod',
- *   config: {
- *     url: 'http://webhook.discord.com/test'
- *   }
- * }
- *
- * const result = await Install(options)
- * console.log(result)
- */
-function Install(options) {
-  return install.generate(options);
-}
-
-/**
  * Retrieve the list of step definition available
  *
  * @param {Object} options
