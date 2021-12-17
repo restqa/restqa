@@ -1,92 +1,452 @@
 const fs = require("fs");
-const Path = require("path");
 const YAML = require("yaml");
 const Schema = require("./schema");
 
-function Config({env, configFile}) {
-  if (!fs.existsSync(configFile)) {
-    throw new Error(`THE RESTQA CONFIG FILE IS MISSING (${configFile})`);
+class Config {
+  constructor() {
+    this._config = null || {};
   }
 
-  const envVar = {
-    identify: (value) => value instanceof RegExp,
-    tag: "!env-var",
-    resolve(doc, node) {
-      const {strValue} = node;
-      return (
-        process.env[strValue] ||
-        `${strValue} not found in the environment variable`
+  load(filename) {
+    if (!fs.existsSync(filename)) {
+      throw new Error(
+        `The configuration file locate at "${filename}" doesn't exist.`
       );
     }
-  };
+    const file = fs.readFileSync(filename, "utf8");
+    const envVar = {
+      identify: (value) => value instanceof RegExp,
+      tag: "!env-var",
+      resolve(doc, node) {
+        const {strValue} = node;
+        return (
+          process.env[strValue] ||
+          `${strValue} not found in the environment variable`
+        );
+      }
+    };
 
-  const file = fs.readFileSync(configFile, "utf8");
-  const config = YAML.parse(file, {customTags: [envVar]});
-  const envs = config.environments.map((env) => env.name);
-
-  if (!env) {
-    env = (config.environments.find((e) => e.default) || {}).name;
+    const config = YAML.parse(file, {customTags: [envVar]});
+    Schema.validate(config);
+    this._config = config;
+    this._config.tests.unit = new UnitTest(this._config.tests.unit);
+    this._config.tests.integrations = (
+      this._config.tests.integrations || []
+    ).map((_) => new IntegrationTest(_));
+    this._config.tests.performance = new PerformanceTest(
+      this._config.tests.performance
+    );
+    this._config.specification = new Specification(this._config.specification);
+    this._config.collection = new Collection(this._config.collection);
+    this._config.plugins = (this._config.plugins || []).map(
+      (_) => new Plugin(_)
+    );
+    this._config.settings = new Settings(this._config.settings);
   }
 
-  if (!env && envs.length === 1) {
-    env = envs[0];
+  getCode() {
+    return this._config.metadata.code;
   }
 
-  env = String(env).toLowerCase();
+  getName() {
+    return this._config.metadata.name;
+  }
 
-  if (!env || !envs.map((_) => _.toLowerCase()).includes(env)) {
-    throw new Error(
-      `THE ENVIRONMENT NEEDS TO BE DEFINED AS (${envs.join(" | ")})`
+  setName(name) {
+    this._config.metadata = this._config.metadata || {};
+    this._config.metadata.name = name;
+    this._config.metadata.code = name
+      .replace(/[^A-Z0-9]+/gi, "-")
+      .toUpperCase();
+  }
+
+  getDescription() {
+    return this._config.metadata.description;
+  }
+
+  setDescription(description) {
+    this._config.metadata = this._config.metadata || {};
+    this._config.metadata.description = description;
+  }
+
+  getUnitTest() {
+    this._config.tests = this._config.tests || {};
+    this._config.tests.unit = this._config.tests.unit || new UnitTest();
+    return this._config.tests.unit;
+  }
+
+  getIntegrationTests() {
+    return this._config.tests.integrations;
+  }
+
+  getIntegrationTest(name) {
+    const instance = this._config.tests.integrations.find(
+      (c) => c.getName().toLowerCase() === name.toLowerCase()
+    );
+    if (!instance) {
+      const list = this._config.tests.integrations.map((_) => _.getName());
+      throw new Error(
+        `The environment "${name}" doesn't exist. Available: ${list.join(", ")}`
+      );
+    }
+    return instance;
+  }
+
+  addIntegration(name, url) {
+    const config = {
+      name,
+      url,
+      outputs: []
+    };
+    this._config.tests = this._config.tests || {};
+    this._config.tests.integrations = this._config.tests.integrations || [];
+    this._config.tests.integrations.push(new IntegrationTest(config));
+  }
+
+  getPerformanceTest() {
+    this._config.tests = this._config.tests || {};
+    this._config.tests.performance =
+      this._config.tests.performance || new PerformanceTest();
+    return this._config.tests.performance;
+  }
+
+  getSpecification() {
+    this._config.specification =
+      this._config.specification || new Specification();
+    return this._config.specification;
+  }
+
+  getCollection() {
+    this._config.collection = this._config.collection || new Collection();
+    return this._config.collection;
+  }
+
+  getPlugins() {
+    return this._config.plugins;
+  }
+
+  getPlugin(name) {
+    const instance = this._config.plugins.find(
+      (plugin) => plugin.getName().toLowerCase() === name.toLowerCase()
+    );
+    if (!instance) {
+      throw new Error(`The ${name} hasn't been declared.`);
+    }
+    return instance;
+  }
+
+  addPlugin(name, config) {
+    this._config.plugins = this._config.plugins || [];
+    this._config.plugins.push(
+      new Plugin({
+        name,
+        config
+      })
     );
   }
 
-  config.environment = config.environments.find(
-    (e) => env === e.name.toLowerCase()
-  );
+  getSettings() {
+    this._config.settings = this._config.settings || new Settings();
+    return this._config.settings;
+  }
 
-  delete config.environments;
+  toJSON() {
+    return {
+      version: "0.0.1",
+      metadata: {
+        code: this.getCode(),
+        name: this.getName(),
+        description: this.getDescription()
+      },
+      tests: {
+        unit: this.getUnitTest().toJSON(),
+        integrations: this.getIntegrationTests().map((integration) =>
+          integration.toJSON()
+        ),
+        performance: this.getPerformanceTest().toJSON()
+      },
+      specification: this.getSpecification().toJSON(),
+      collection: this.getCollection().toJSON(),
+      plugins: this.getPlugins().map((plugin) => plugin.toJSON()),
+      settings: this.getSettings().toJSON()
+    };
+  }
 
-  return Schema.validate(config);
+  toYAML() {
+    return YAML.stringify(this.toJSON());
+  }
 }
 
-Config.locate = function (options) {
-  let {configFile, path} = options || {};
-  let fileName = ".restqa.yml";
-  let filePath = Path.join(process.cwd(), fileName);
-  let parsed;
-  if (configFile) {
-    parsed = Path.parse(configFile);
-    if (!parsed.dir) {
-      parsed.dir = process.cwd();
-      parsed.root = "/";
+class UnitTest {
+  constructor(config) {
+    this._config = config || {};
+    if (this._config.data) {
+      this._config.data = new Data(this._config.data);
     }
-    filePath = Path.format(parsed);
   }
 
-  if (path) {
-    path = Path.resolve(path);
-    const isFolder = fs.lstatSync(path).isDirectory();
-    if (!isFolder) {
-      throw new ReferenceError(`The path "${path}" is not a folder`);
-    }
-    if (configFile && parsed) {
-      fileName = parsed.base;
-    }
-    filePath = Path.join(path, fileName);
+  getName() {
+    return "local";
   }
 
-  if (!fs.existsSync(filePath)) {
-    throw new ReferenceError(
-      `The configuration file "${filePath}" doesn't exist."`
-    );
+  getUrl() {
+    return `http://localhost:${this._config.port}`;
   }
 
-  return filePath;
-};
+  getPort() {
+    return this._config.port;
+  }
 
-Config.raw = function (options) {
-  const {configFile} = options || {};
-  return YAML.parse(fs.readFileSync(configFile).toString("utf-8"));
-};
+  setPort(port) {
+    this._config.port = port;
+  }
+
+  getCommand() {
+    return this._config.command;
+  }
+
+  setCommand(command) {
+    this._config.command = command;
+  }
+
+  getData() {
+    if (!this._config.data) {
+      this._config.data = new Data();
+    }
+    return this._config.data;
+  }
+
+  toJSON() {
+    return {
+      ...this._config,
+      data: this._config.data && this._config.data.toJSON()
+    };
+  }
+}
+
+class IntegrationTest {
+  constructor(config) {
+    this._config = config || {};
+    if (this._config.data) {
+      this._config.data = new Data(this._config.data);
+    }
+  }
+
+  getName() {
+    return this._config.name;
+  }
+
+  getUrl() {
+    return this._config.url;
+  }
+
+  getOutputs() {
+    return this._config.outputs;
+  }
+
+  addOutput(output) {
+    this._config.outputs = this._config.outputs || [];
+    this._config.outputs.push(output);
+  }
+
+  getData() {
+    if (!this._config.data) {
+      this._config.data = new Data();
+    }
+    return this._config.data;
+  }
+
+  toJSON() {
+    return {
+      ...this._config,
+      data: this._config.data && this._config.data.toJSON()
+    };
+  }
+}
+
+class PerformanceTest {
+  constructor(config) {
+    this._config = config || {};
+  }
+
+  getTool() {
+    return this._config.tool;
+  }
+
+  setTool(tool) {
+    this._config.tool = tool;
+  }
+
+  getOutputFolder() {
+    return this._config.outputFolder;
+  }
+
+  setOutputFolder(val) {
+    this._config.outputFolder = val;
+  }
+
+  isOnlySuccess() {
+    return this._config.onlySuccess;
+  }
+
+  setOnlySuccess(val) {
+    this._config.onlySuccess = val;
+  }
+
+  toJSON() {
+    return this._config;
+  }
+}
+
+class Specification {
+  constructor(config) {
+    this._config = config || {};
+  }
+
+  getTitle() {
+    return this._config.title;
+  }
+
+  setTitle(val) {
+    this._config.title = val;
+  }
+
+  getDescription() {
+    return this._config.description;
+  }
+
+  setDescription(val) {
+    this._config.description = val;
+  }
+
+  toJSON() {
+    return this._config;
+  }
+}
+
+class Collection {
+  constructor(config) {
+    this._config = config || {};
+  }
+
+  getTool() {
+    return this._config.tool;
+  }
+
+  setTool(val) {
+    this._config.tool = val;
+  }
+
+  getExportFile() {
+    return this._config.exportFile;
+  }
+
+  setExportFile(val) {
+    this._config.exportFile = val;
+  }
+
+  toJSON() {
+    return this._config;
+  }
+}
+
+class Plugin {
+  constructor(config) {
+    this._config = config || {};
+  }
+
+  getName() {
+    return this._config.name;
+  }
+
+  getConfig() {
+    return this._config.config;
+  }
+
+  toJSON() {
+    return this._config;
+  }
+}
+
+class Data {
+  constructor(config) {
+    this._config = config || {};
+  }
+
+  getStorage() {
+    return this._config.storage;
+  }
+
+  setStorage(val) {
+    this._config.storage = val;
+  }
+
+  getChannel() {
+    return this._config.channel;
+  }
+
+  setChannel(val) {
+    this._config.channel = val;
+  }
+
+  getConfig() {
+    return this._config.config;
+  }
+
+  setConfig(val) {
+    this._config.config = val;
+  }
+
+  getStartSymbol() {
+    return this._config.startSymbol || "{{";
+  }
+
+  setStartSymbol(val) {
+    this._config.startSymbol = val;
+  }
+
+  getEndSymbol() {
+    return this._config.endSymbol || "}}";
+  }
+
+  setEndSymbol(val) {
+    this._config.endSymbol = val;
+  }
+
+  getVariables() {
+    return this._config.variables || {};
+  }
+
+  addVariables(key, val) {
+    this._config.variables = this._config.variables || {};
+    this._config.variables[key] = val;
+  }
+
+  toJSON() {
+    return this._config;
+  }
+}
+
+class Settings {
+  constructor(config) {
+    this._config = config || {};
+  }
+
+  getTimeout() {
+    return this._config.timeout;
+  }
+
+  setTimeout(val) {
+    this._config.timeout = val;
+  }
+
+  getTips() {
+    return this._config.tips || {};
+  }
+
+  toJSON() {
+    return this._config;
+  }
+}
 
 module.exports = Config;

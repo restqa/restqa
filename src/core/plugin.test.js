@@ -40,10 +40,10 @@ describe("#core - plugin", () => {
       return mockTreeKill;
     }
 
-    test("Throw error error if RestQA config is not container", () => {
+    test("Throw error error if RestQA config is not accepted", () => {
       const Plugin = require("./plugin");
       expect(() => {
-        Plugin("npm start");
+        Plugin({});
       }).toThrow(
         new Error(
           "Please provide a processor containing the methods:  BeforeAll, AfterAll"
@@ -51,200 +51,12 @@ describe("#core - plugin", () => {
       );
     });
 
-    test("Throw error if the url is not found on the restqapi config", async () => {
-      const PORT = 5056;
-      const configFileWithoutUrl = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          foo: bar
-      - name: "@restqa/http-mock-plugin"
-        config:
-          debug: false
-          port: 8888
-          envs:
-            GITHUB_API: github
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        configFileWithoutUrl,
-        ".restqa.yml"
-      );
-
-      // Executor
-      const mockProcessKill = jest.fn();
-      setExecutor(mockProcessKill, PORT, 6000);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      const $this = {
-        restqa: {
-          mock: {
-            http: {
-              GITHUB_API: "http://localhost:8066/github"
-            }
-          }
-        }
-      };
-      await expect(beforeAll.call($this)).rejects.toThrow(
-        new Error(
-          "Please share the target url of your service on @restqa/restqapi plugin section"
-        )
-      );
-      afterAll();
-    }, 10000);
-
-    test("Throw error if the restqapi plugin is not found", async () => {
-      const PORT = 5055;
-      const configFileWithoutRestQAPI = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/http-mock-plugin"
-        config:
-          debug: false
-          port: 8888
-          envs:
-            GITHUB_API: github
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        configFileWithoutRestQAPI,
-        ".restqa.yml"
-      );
-
-      // Executor
-      const mockProcessKill = jest.fn();
-      setExecutor(mockProcessKill, PORT, 6000);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      const $this = {
-        restqa: {
-          mock: {
-            http: {
-              GITHUB_API: "http://localhost:8066/github"
-            }
-          }
-        }
-      };
-      await expect(beforeAll.call($this)).rejects.toThrow(
-        new Error(
-          'Please enable the @restqa/restqapi plugin on the "environements" section of your .restqa.yml'
-        )
-      );
-      afterAll();
-    }, 10000);
-
     test("Run the command to run the server and kill the process", async () => {
       const PORT = 4049;
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost:${PORT}
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
+      const COMMAND = "npm start";
+      const config = new Config();
+      config.getUnitTest().setPort(PORT);
+      config.getUnitTest().setCommand(COMMAND);
 
       const mockTreeKill = setTreeKillMock(jest.fn());
 
@@ -275,81 +87,7 @@ environments:
 
       const Plugin = require("./plugin");
       const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
-      };
-      Plugin(options, processor);
-
-      // Execute Hooks
-      const [beforeAll, afterAll] = Hooks;
-      await beforeAll();
-      afterAll();
-
-      expect(mockExecuteCommand).toHaveBeenCalledWith("npm start", undefined);
-      expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalledWith(9999);
-    }, 10000);
-
-    test("Run the command to run the server and kill the process (use 80 port if not defined on the url) // This test might fail if you can't use the port 80 locally...", async () => {
-      if (process.env.CI) return; // if you want to ignore this test run the command: CI=true npm test
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
-
-      const mockTreeKill = setTreeKillMock(jest.fn());
-
-      // Executor
-      const mockProcessKill = jest.fn();
-      const mockExecuteCommand = setExecutor(mockProcessKill, 80);
-
-      const Hooks = [];
-
-      const processor = {
-        Before: jest.fn(function () {
-          this.data = {
-            parse: jest.fn().mockResolvedValue()
-          };
-          const fn = arguments[1] || arguments[0];
-          fn.call(this);
-        }),
-        After: jest.fn(function (fn) {
-          fn.call(this);
-        }),
-        BeforeAll: function (fn) {
-          Hooks.push(fn);
-        },
-        AfterAll: function (fn) {
-          Hooks.push(fn);
-        }
-      };
-
-      const Plugin = require("./plugin");
-      const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
+        config
       };
       Plugin(options, processor);
 
@@ -365,32 +103,11 @@ environments:
     }, 10000);
 
     test("Run the command to run the server but with a short delay and kill the process", async () => {
-      const PORT = 5059;
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost:${PORT}
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
+      const PORT = 4040;
+      const COMMAND = "npm start";
+      const config = new Config();
+      config.getUnitTest().setPort(PORT);
+      config.getUnitTest().setCommand(COMMAND);
 
       const mockTreeKill = setTreeKillMock(jest.fn());
 
@@ -421,8 +138,7 @@ environments:
 
       const Plugin = require("./plugin");
       const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
+        config
       };
       Plugin(options, processor);
 
@@ -431,45 +147,66 @@ environments:
       await beforeAll();
       afterAll();
 
-      expect(mockExecuteCommand).toHaveBeenCalledWith("npm start", undefined);
+      expect(mockExecuteCommand).toHaveBeenCalledWith(COMMAND, undefined);
       expect(mockProcessKill).not.toHaveBeenCalled();
       expect(mockTreeKill).toHaveBeenCalled();
       expect(mockTreeKill).toHaveBeenCalledWith(9999);
     }, 10000);
 
+    test("Do not run the command if an environement is passed (integration test)", async () => {
+      const config = new Config();
+      config.addIntegration("UAT", "http://test.com");
+
+      const mockTreeKill = setTreeKillMock(jest.fn());
+
+      // Executor
+      const mockProcessKill = jest.fn();
+      const mockExecuteCommand = setExecutor(mockProcessKill, 9090, 3000);
+
+      const Hooks = [];
+
+      const processor = {
+        Before: jest.fn(function () {
+          this.data = {
+            parse: jest.fn().mockResolvedValue()
+          };
+          const fn = arguments[1] || arguments[0];
+          fn.call(this);
+        }),
+        After: jest.fn(function (fn) {
+          fn.call(this);
+        }),
+        BeforeAll: function (fn) {
+          Hooks.push(fn);
+        },
+        AfterAll: function (fn) {
+          Hooks.push(fn);
+        }
+      };
+
+      const Plugin = require("./plugin");
+      const options = {
+        env: "UAT",
+        config
+      };
+      Plugin(options, processor);
+
+      // Execute Hooks
+      const [beforeAll, afterAll] = Hooks;
+      beforeAll && (await beforeAll());
+      afterAll && afterAll();
+
+      expect(mockExecuteCommand).not.toHaveBeenCalled();
+      expect(mockProcessKill).not.toHaveBeenCalled();
+      expect(mockTreeKill).not.toHaveBeenCalled();
+    });
+
     test("Throw error if the server is not started before the timeout", async () => {
       const PORT = 5058;
-      const validRestQAConfigFile = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost:${PORT}
-      - name: "@restqa/http-mock-plugin"
-        config:
-          debug: false
-          port: 8888
-          envs:
-            GITHUB_API: github
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-      const configFile = jestqa.createTmpFile(
-        validRestQAConfigFile,
-        ".restqa.yml"
-      );
+      const COMMAND = "npm start";
+      const config = new Config();
+      config.getUnitTest().setPort(PORT);
+      config.getUnitTest().setCommand(COMMAND);
 
       // Executor
       const mockProcessKill = jest.fn();
@@ -498,8 +235,7 @@ environments:
 
       const Plugin = require("./plugin");
       const options = {
-        command: "npm start",
-        config: new Config({env: "local", configFile})
+        config
       };
       Plugin(options, processor);
 

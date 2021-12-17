@@ -1,9 +1,8 @@
 const {ChildProcess} = require("child_process");
 const treekill = require("treekill");
 const {execute, checkServer} = require("../core/executor");
-const Locale = require("../locales")("service.run");
 
-module.exports = function ({command, config}, processor = {}) {
+module.exports = function ({env, config}, processor = {}) {
   if (!processor.BeforeAll || !processor.AfterAll) {
     throw new Error(
       "Please provide a processor containing the methods:  BeforeAll, AfterAll"
@@ -21,28 +20,14 @@ module.exports = function ({command, config}, processor = {}) {
     return "skipped";
   });
 
-  if (command) {
+  if (!env) {
     let server;
     processor.BeforeAll(async function () {
-      if (typeof command === "string") {
-        const restqapi = getPluginConfig("@restqa/restqapi", config);
-        if (!restqapi) {
-          throw new Error(Locale.get("error_missing_restqapi"));
-        }
-        const {url} = restqapi;
-        if (!url) {
-          throw new Error(Locale.get("error_missing_url"));
-        }
-        let port = url.split(":").pop();
-        if (Number.isNaN(Number.parseInt(port))) {
-          port = 80;
-        }
-
-        const {mock} = this.restqa || {};
-        const envs = (mock || {}).http;
-        server = await execute(command, envs);
-        await checkServer(port);
-      }
+      const port = config.getUnitTest().getPort();
+      const {mock} = this.restqa || {};
+      const envs = (mock || {}).http;
+      server = await execute(config.getUnitTest().getCommand(), envs);
+      await checkServer(port);
     });
 
     processor.AfterAll(() => {
@@ -52,8 +37,3 @@ module.exports = function ({command, config}, processor = {}) {
     });
   }
 };
-
-function getPluginConfig(pluginName, config) {
-  const plugin = config.environment.plugins.find((_) => _.name === pluginName);
-  return (plugin || {}).config;
-}
