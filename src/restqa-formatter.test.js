@@ -24,7 +24,7 @@ jestqa.hooks.beforeEach = function () {
 };
 
 describe("restqa-formatter", () => {
-  test("Export information with default information", () => {
+  test("Export information for the unit tests", () => {
     const content = `
 ---
 
@@ -33,30 +33,12 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://localhost:3000
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-  - name: uat
-    plugins:
-      - name: restqapi
-        config:
-          url: http://test.uat.com
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-      `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+`;
+    const filename = jestqa.createCwdConfig(content);
 
     const mockGetFormatter = jest.fn();
     jest.mock("@restqa/cucumber-export", () => {
@@ -76,10 +58,10 @@ environments:
       env: "local",
       outputs: [
         {
-          type: "file",
+          type: "html",
           enabled: true,
           config: {
-            path: "my-report.json"
+            folder: "restqa"
           }
         }
       ]
@@ -97,29 +79,19 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://localhost:3000
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+  integrations:
   - name: uat
-    plugins:
-      - name: restqapi
-        config:
-          url: http://test.uat.com
+    url: http://test.uat.com
     outputs:
       - type: file
         enabled: true
         config:
           path: 'my-report.json'
-restqa:
+settings:
   tips:
     enabled: false
       `;
@@ -133,6 +105,7 @@ restqa:
     });
 
     process.env.RESTQA_CONFIG = filename;
+    process.env.RESTQA_ENV = "uat";
 
     require("./restqa-formatter");
 
@@ -141,7 +114,7 @@ restqa:
       title: "Exporting the test result...",
       key: "API",
       name: "My test API",
-      env: "local",
+      env: "uat",
       outputs: [
         {
           type: "file",
@@ -164,29 +137,19 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://localhost:3000
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+  integrations:
+  - name: uat
+    url: http://test.uat.com
     outputs:
       - type: file
         enabled: true
         config:
           path: 'my-report.json'
-  - name: uat
-    plugins:
-      - name: restqapi
-        config:
-          url: http://test.uat.com
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.uat.json'
-restqa:
+settings:
   tips:
     messages:
       - This test is passing!
@@ -221,7 +184,7 @@ restqa:
           type: "file",
           enabled: true,
           config: {
-            path: "my-report.uat.json"
+            path: "my-report.json"
           }
         }
       ]
@@ -238,29 +201,19 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://localhost:3000
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+  integrations:
+  - name: uat
+    url: http://test.uat.com
     outputs:
       - type: file
         enabled: true
         config:
           path: 'my-report.json'
-  - name: uat
-    plugins:
-      - name: restqapi
-        config:
-          url: http://test.uat.com
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.uat.json'
-restqa:
+settings:
   tips:
     enabled: false
       `;
@@ -298,7 +251,7 @@ restqa:
           type: "file",
           enabled: true,
           config: {
-            path: "my-report.uat.json"
+            path: "my-report.json"
           }
         },
         {
@@ -322,29 +275,19 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://localhost:3000
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+  integrations:
+  - name: uat
+    url: http://test.uat.com
     outputs:
       - type: file
         enabled: true
         config:
           path: 'my-report.json'
-  - name: uat
-    plugins:
-      - name: restqapi
-        config:
-          url: http://test.uat.com
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.uat.json'
-restqa:
+settings:
   tips:
     enabled: false
       `;
@@ -378,7 +321,7 @@ restqa:
           type: "file",
           enabled: true,
           config: {
-            path: "my-report.uat.json"
+            path: "my-report.json"
           }
         }
       ]
@@ -395,29 +338,19 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: restqapi
-        config:
-          url: http://localhost:3000
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+  integrations:
+  - name: uat
+    url: http://test.uat.com
     outputs:
       - type: file
         enabled: true
         config:
           path: 'my-report.json'
-  - name: uat
-    plugins:
-      - name: restqapi
-        config:
-          url: http://test.uat.com
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.uat.json'
-restqa:
+settings:
   tips:
     enabled: false
       `;
@@ -451,7 +384,7 @@ restqa:
           type: "file",
           enabled: true,
           config: {
-            path: "my-report.uat.json"
+            path: "my-report.json"
           }
         }
       ]
