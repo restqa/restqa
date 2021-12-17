@@ -60,7 +60,7 @@ module.exports = async function (opt, program = {}) {
         new TypeError(`The configuration file "${config}" doesn't exist.`)
       );
     }
-  } 
+  }
 
   global.restqaOptions = {
     config,
