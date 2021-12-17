@@ -78,12 +78,6 @@ program
   .action(Cli("dashboard"));
 
 program
-  .command("example")
-  .alias("ex")
-  .description("Run a simple RestQA example")
-  .action(Cli("example"));
-
-program
   .command("telemetry")
   .addArgument(
     new Argument("[status]", 'status of the telemetry (choices: "on", "off")')
