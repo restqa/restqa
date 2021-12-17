@@ -4,7 +4,7 @@ const path = require("path");
 const inquirer = require("inquirer");
 const Generate = require("./generate");
 const logger = require("../utils/logger");
-const { getPackageJson } = require("../utils/fs");
+const {getPackageJson} = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
 const Locale = require("../locales")();
 
@@ -21,7 +21,7 @@ async function initialize(program) {
   const packageJson = getPackageJson();
 
   if (program.y !== true) {
-    const questions = []
+    const questions = [];
 
     if (!packageJson || (packageJson && !packageJson.name)) {
       questions.push({
@@ -32,57 +32,59 @@ async function initialize(program) {
       });
     }
 
-    questions.push(...[
-      {
-        type: "input",
-        name: "port",
-        message: Locale.get("service.init.questions.port"),
-        default: answers.port
-      },
-      {
-        type: "list",
-        name: "ci",
-        message: Locale.get("service.init.questions.ci"),
-        default: false,
-        choices: [
-          {
-            name: "Github Action",
-            value: "github-action"
-          },
-          {
-            name: "Gitlab Ci",
-            value: "gitlab-ci"
-          },
-          {
-            name: "Bitbucket Pipelines",
-            value: "bitbucket-pipeline"
-          },
-          {
-            name: "Circle Ci",
-            value: "circle-ci"
-          },
-          {
-            name: "Travis Ci",
-            value: "travis"
-          },
-          {
-            name: "Jenkins",
-            value: "jenkins"
-          },
-          new inquirer.Separator(),
-          {
-            name: Locale.get("service.init.questions.no_ci"),
-            value: false
-          }
-        ]
-      },
-      {
-        type: "confirm",
-        name: "telemetry",
-        message: Locale.get("service.init.questions.telemetry"),
-        default: answers.telemetry
-      }
-    ]);
+    questions.push(
+      ...[
+        {
+          type: "input",
+          name: "port",
+          message: Locale.get("service.init.questions.port"),
+          default: answers.port
+        },
+        {
+          type: "list",
+          name: "ci",
+          message: Locale.get("service.init.questions.ci"),
+          default: false,
+          choices: [
+            {
+              name: "Github Action",
+              value: "github-action"
+            },
+            {
+              name: "Gitlab Ci",
+              value: "gitlab-ci"
+            },
+            {
+              name: "Bitbucket Pipelines",
+              value: "bitbucket-pipeline"
+            },
+            {
+              name: "Circle Ci",
+              value: "circle-ci"
+            },
+            {
+              name: "Travis Ci",
+              value: "travis"
+            },
+            {
+              name: "Jenkins",
+              value: "jenkins"
+            },
+            new inquirer.Separator(),
+            {
+              name: Locale.get("service.init.questions.no_ci"),
+              value: false
+            }
+          ]
+        },
+        {
+          type: "confirm",
+          name: "telemetry",
+          message: Locale.get("service.init.questions.telemetry"),
+          default: answers.telemetry
+        }
+      ]
+    );
 
     answers = await inquirer.prompt(questions);
   }
@@ -93,12 +95,12 @@ async function initialize(program) {
 }
 
 /**
- * 
+ *
  * Overwrite answers object with value from package json
  * (as default/fallback values)
- * 
- * @param {object} packageJson 
- * @param {object} answers 
+ *
+ * @param {object} packageJson
+ * @param {object} answers
  */
 function addDefaultFromPackageJson(packageJson, answers) {
   if (packageJson) {

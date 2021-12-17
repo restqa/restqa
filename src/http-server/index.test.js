@@ -764,7 +764,9 @@ environments:
       const response = await instance.post("api/restqa/run", {json});
 
       expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(`The configuration file "${config}" doesn't exist.`);
+      expect(response.body.message).toBe(
+        `The configuration file "${config}" doesn't exist.`
+      );
     });
 
     test("Run the test and get the result", async () => {
