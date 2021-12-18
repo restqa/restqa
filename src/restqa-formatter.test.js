@@ -21,10 +21,61 @@ jestqa.hooks.beforeEach = function () {
   delete process.env.RESTQA_COMMIT_SHA;
 
   delete global.restqa;
+  delete global.restqaOptions;
 };
 
 describe("restqa-formatter", () => {
+  test("Do not Export information for the unit tests (default behavior)", () => {
+    const content = `
+---
+
+version: 0.0.1
+metadata:
+  code: API
+  name: My test API
+  description: The decription of the test api
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+`;
+    const filename = jestqa.createCwdConfig(content);
+
+    const mockGetFormatter = jest.fn();
+    jest.mock("@restqa/cucumber-export", () => {
+      return {
+        getFormatter: mockGetFormatter
+      };
+    });
+
+    process.env.RESTQA_CONFIG = filename;
+
+    require("./restqa-formatter");
+
+    expect(mockGetFormatter).toHaveBeenCalled();
+    const expectedOption = {
+      key: "API",
+      name: "My test API",
+      env: "local",
+      outputs: [
+        {
+          type: "html",
+          enabled: false,
+          config: {
+            folder: "restqa"
+          }
+        }
+      ]
+    };
+    expect(mockGetFormatter.mock.calls[0][0]).toMatchObject(expectedOption);
+    expect(MESSAGES).toContain(mockGetFormatter.mock.calls[0][0].title);
+  });
   test("Export information for the unit tests", () => {
+
+    global.restqaOptions = {
+      report: true
+    }
+
     const content = `
 ---
 

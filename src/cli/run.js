@@ -12,7 +12,8 @@ module.exports = async function (opt, program = {}) {
     tags = [],
     stream = process.stdout,
     args,
-    skipInit = false
+    skipInit = false,
+    report
   } = opt;
 
   args = args || program.args || ["."];
@@ -63,7 +64,8 @@ module.exports = async function (opt, program = {}) {
 
   global.restqaOptions = {
     config,
-    env
+    env,
+    report
   };
 
   // TODO : Add extra cucumber parameters from config file
