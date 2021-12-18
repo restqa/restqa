@@ -6,56 +6,50 @@ const net = require("net");
 const Locale = require("../locales")("service.run");
 const {format} = require("util");
 
-const DEFAULT_TIMEOUT = 4000
+const DEFAULT_TIMEOUT = 4000;
 class Executor {
   constructor(options) {
-    const {
-      port,
-      command,
-      envs,
-      silent,
-      timeout,
-    } = options
+    const {port, command, envs, silent, timeout} = options;
 
-    this._port = port
-    this._command = command
-    this._envs = envs || {}
-    this._silent =  silent || false
-    this._timeout =  timeout || DEFAULT_TIMEOUT
-    this._isRunning = false
+    this._port = port;
+    this._command = command;
+    this._envs = envs || {};
+    this._silent = silent || false;
+    this._timeout = timeout || DEFAULT_TIMEOUT;
+    this._isRunning = false;
   }
 
   get port() {
-    return this._port
+    return this._port;
   }
 
   get command() {
-    return this._command
+    return this._command;
   }
 
   get envs() {
-    return this._envs
+    return this._envs;
   }
 
   get silent() {
-    return this._silent
+    return this._silent;
   }
 
   get timeout() {
-    return this._timeout
+    return this._timeout;
   }
 
   get server() {
-    return this._server
+    return this._server;
   }
 
   get isRunning() {
-    return this._isRunning
+    return this._isRunning;
   }
 
   execute() {
-    const command = this.command
-    const envs = this.envs
+    const command = this.command;
+    const envs = this.envs;
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
@@ -68,7 +62,7 @@ class Executor {
         });
 
         // reject if an error happened
-        server.stderr.on("data", (a,b,c) => {
+        server.stderr.on("data", (a, b, c) => {
           if (!initialized) {
             initialized = true;
             reject(new Error(`Error during running command ${command}`));
@@ -76,7 +70,7 @@ class Executor {
         });
 
         // resolve when process is spawn successfully
-        server.stdout.on("data", (a,b,c) => {
+        server.stdout.on("data", (a, b, c) => {
           if (!initialized) {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
@@ -94,26 +88,26 @@ class Executor {
           // Note: we only do it this way to be win32 compliant.
           server.kill();
         });
-        this._server = server
+        this._server = server;
       } else {
         throw new Error(
           `Executor: command should be a string but received ${typeof command}`
         );
       }
     })
-    .then(() => {
-      if (!this.port) return
-      return this.checkServer()
-    })
-    .then(() => {
-      return this.server
-    })
+      .then(() => {
+        if (!this.port) return;
+        return this.checkServer();
+      })
+      .then(() => {
+        return this.server;
+      });
   }
 
-  async checkServer () {
+  async checkServer() {
     logger.info("service.run.waiting_server");
-    const port = this.port
-    let timeout = this.timeout
+    const port = this.port;
+    let timeout = this.timeout;
     return new Promise((resolve, reject) => {
       const checker = () => {
         const socket = net.createConnection({port});
@@ -140,9 +134,8 @@ class Executor {
         });
       };
       checker();
-    })
-    .then(() => {
-      this._isRunning = true
+    }).then(() => {
+      this._isRunning = true;
     });
   }
 
@@ -153,4 +146,4 @@ class Executor {
   }
 }
 
-module.exports = Executor
+module.exports = Executor;

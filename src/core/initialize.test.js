@@ -20,18 +20,15 @@ jestqa.hooks.beforeEach = function () {
 
   jest.mock("./executor", () => {
     return class {
-      execute() {
-      }
+      execute() {}
 
-      terminate() {
-      }
-    }
+      terminate() {}
+    };
   });
 };
 
 describe("#Cli - Initialize", () => {
   describe("Genereate", () => {
-
     describe("restqa configuration file and welcome scenario", () => {
       test("Throw an error if the name is not defined", () => {
         const Initialize = require("./initialize");
@@ -100,7 +97,7 @@ describe("#Cli - Initialize", () => {
           "You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀"
         );
         expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-          "We couldn't create the sample scenario but no worries you can generate it using: restqa generate curl https://restqa.io/welcome.json -o welcome.feature"
+          "We couldn't create the sample scenario but no worries you can generate it using: restqa generate curl http://localhost:9090/ -o welcome.feature"
         );
         expect(jestqa.getLoggerMock().mock.calls[2][0]).toMatch(
           "👉 More information: https://restqa.io/info"
@@ -312,7 +309,7 @@ Given I have an example`;
         description: "This is my new description",
         command: "npm run start:dev",
         telemetry: false,
-        port: 9090,
+        port: 9090
       };
       const mockPrompt = jest.fn().mockResolvedValue(options);
 
@@ -327,13 +324,13 @@ Given I have an example`;
 
       await Initialize({
         folder: jestqa.getTmpFolder()
-      })
+      });
 
       const contentPref = fs.readFileSync(prefFilename).toString("utf-8");
       const resultPref = JSON.parse(contentPref);
       expect(resultPref.telemetry).toBe(false);
 
-      const filename = jestqa.getConfigFile()
+      const filename = jestqa.getConfigFile();
       jestqa.getCurrent().files.push(filename);
 
       const content = fs.readFileSync(filename).toString("utf-8");
@@ -387,13 +384,12 @@ Given I have an example`;
         description: "This is my new desc",
         scripts: {
           start: "node index.js",
-          'start:dev': "nodemon index.js",
-          "test": "jest"
+          "start:dev": "nodemon index.js",
+          test: "jest"
         }
-      }
+      };
 
-      jestqa.createTmpFile(JSON.stringify(mockPkg), 'package.json')
-      
+      jestqa.createTmpFile(JSON.stringify(mockPkg), "package.json");
 
       // Given
       const Initialize = require("./initialize");
@@ -402,8 +398,8 @@ Given I have an example`;
       await Initialize({folder: jestqa.getTmpFolder()});
 
       // Then
-      
-      const filename = jestqa.getConfigFile()
+
+      const filename = jestqa.getConfigFile();
       jestqa.getCurrent().files.push(filename);
 
       const content = fs.readFileSync(filename).toString("utf-8");
@@ -433,14 +429,17 @@ Given I have an example`;
         expectedQuestions
       );
 
-      const [,commandArguments] = mockPrompt.mock.calls[0][0]
-      expect(commandArguments.choices).toEqual([{
-        name: 'npm start',
-        value: 'npm start'
-      }, {
-        name: 'npm run start:dev',
-        value: 'npm run start:dev'
-      }])
+      const [, commandArguments] = mockPrompt.mock.calls[0][0];
+      expect(commandArguments.choices).toEqual([
+        {
+          name: "npm start",
+          value: "npm start"
+        },
+        {
+          name: "npm run start:dev",
+          value: "npm run start:dev"
+        }
+      ]);
     });
   });
 });

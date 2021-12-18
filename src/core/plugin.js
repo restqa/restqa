@@ -20,20 +20,20 @@ module.exports = function ({env, config}, processor = {}) {
 
   if (!env) {
     processor.BeforeAll(async function () {
-      this.restqa = this.restqa || {}
+      this.restqa = this.restqa || {};
       const envs = (this.restqa.mock || {}).http;
       const options = {
         port: config.getUnitTest().getPort(),
         command: config.getUnitTest().getCommand(),
-        envs,
-      }
-      const microservice = new Executor(options)
-      await microservice.execute()
-      this.restqa.microservice = microservice
+        envs
+      };
+      const microservice = new Executor(options);
+      await microservice.execute();
+      this.restqa.microservice = microservice;
     });
 
-    processor.AfterAll(function() {
-      this.restqa.microservice && this.restqa.microservice.terminate()
+    processor.AfterAll(function () {
+      this.restqa.microservice && this.restqa.microservice.terminate();
     });
   }
 };

@@ -74,7 +74,6 @@ describe("# Index - Generate", () => {
   });
 });
 
-
 describe("# Index - Step", () => {
   test("Get result from Step defintions", () => {
     const mockSteps = jest.fn().mockReturnValue("result");

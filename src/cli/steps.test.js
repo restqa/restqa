@@ -58,7 +58,7 @@ tests:
         config:
           path: 'my-report.json'
     `;
-    const filename = jestqa.createTmpFile(content, '.restqa.yml');
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const mockPlugin = new Plugin("restqapi");
     mockPlugin
@@ -237,7 +237,6 @@ plugins:
       }
     ]);
   });
-
 
   test("Load the steps search tags and no print", () => {
     const content = `

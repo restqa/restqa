@@ -89,7 +89,7 @@ tests:
         hello: world
 
 `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const mockPlugin = new Plugin("restqapi");
     mockPlugin.addGivenStep("my step", () => {}, "my description", "example");
@@ -173,7 +173,7 @@ tests:
         hello: world
 
 `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const mockPlugin = new Plugin("restqapi");
     mockPlugin.addGivenStep("my step", () => {}, "my description", "example");
@@ -376,7 +376,7 @@ tests:
     port: 8080
     command: npm run dev
     `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const processor = {
       After: jest.fn(),
@@ -420,7 +420,7 @@ tests:
     - name: UAT
       url: https://uat.example.com
     `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const processor = {
       After: jest.fn(),

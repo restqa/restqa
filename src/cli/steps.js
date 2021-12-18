@@ -66,9 +66,8 @@ module.exports = function (keyword, program) {
   output = output && output.toLowerCase();
 
   const options = {
-    configFile: config || path.resolve(process.cwd(), '.restqa.yml')
+    configFile: config || path.resolve(process.cwd(), ".restqa.yml")
   };
-
 
   const columns = [
     {name: "Plugin", alignment: "left", color: "green"},
