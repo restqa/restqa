@@ -17,12 +17,6 @@ program.version(pkg.version).hook("preAction", (parent, cmd) => {
 });
 
 program
-  .command("init")
-  .option("-y", "Initialize with default values")
-  .description("Initialize a new RestQA project")
-  .action(Cli("initialize"));
-
-program
   .command("steps [keyword]")
   .alias("st")
   .alias("step")
@@ -54,6 +48,7 @@ program
     "Use --tags <EXPRESSION> to run specific features or scenarios (example: @prod)",
     (value, previous) => (previous || []).concat([value])
   )
+  .option("--report", "Export and open the RestQA report", false)
   .description("Execute the RestQA test suite")
   .usage("-c ./.restqa.yml -e local -t @success customer.feature")
   .action(Cli("run"));
