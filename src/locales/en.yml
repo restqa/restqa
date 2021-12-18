@@ -30,7 +30,7 @@ service:
     toggle: "🕵️ The telemetry has been %s."
     detail: "More detail on %s"
   run:
-    waiting_server: 'Waiting for the server to be up...'
+    waiting_server: "Waiting for the server to be up..."
     error_missing_restqapi: 'Please enable the @restqa/restqapi plugin on the "environements" section of your .restqa.yml'
     error_missing_url: "Please share the target url of your service on @restqa/restqapi plugin section"
     error_port_timeout: "Couldn't reach the server running on the port %s (timeout %sms)"

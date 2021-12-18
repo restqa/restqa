@@ -1,10 +1,9 @@
 const generate = require("./cli/generate");
 const steps = require("./cli/steps");
 const run = require("./cli/run");
-const dashboard = require("./cli/dashboard");
+// const dashboard = require("./cli/dashboard");
 
 const Stream = require("stream");
-
 
 /**
  * Generate a test scenario from a curl command
@@ -159,6 +158,7 @@ function Run(options) {
  * })
  */
 
+/*
 function Dashboard(options) {
   const opt = {
     config: options.configFile,
@@ -167,6 +167,7 @@ function Dashboard(options) {
   };
   return dashboard(opt);
 }
+*/
 
 /**
  * Expose middleware for Express and Fastify
@@ -219,12 +220,12 @@ function Dashboard(options) {
  *   await app.listen(8083);
  * })()
  */
-//const Hooks = require("./hooks");
+// const Hooks = require("./hooks");
 
 module.exports = {
   Generate,
   Steps,
-  //Dashboard,
-  Run,
-  //Hooks
+  // Dashboard,
+  Run
+  // Hooks
 };

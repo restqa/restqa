@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const cucumber = require("@cucumber/cucumber");
 
-const Initialize= require("../core/initialize");
+const Initialize = require("../core/initialize");
 const logger = require("../utils/logger");
 
 module.exports = async function (opt, program = {}) {

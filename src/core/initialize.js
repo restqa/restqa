@@ -7,10 +7,10 @@ const {getPackageJson} = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
 const Locale = require("../locales")();
 const Config = require("../config");
-const Executor = require('./executor')
+const Executor = require("./executor");
 
 async function initialize(program = {}) {
-  const { folder } = program
+  const {folder} = program;
 
   let answers = {
     name: "app",
@@ -24,57 +24,57 @@ async function initialize(program = {}) {
     name: "name",
     default: answers.name,
     message: Locale.get("service.init.questions.name")
-  }
+  };
 
   const questionPort = {
     type: "input",
     name: "port",
     message: Locale.get("service.init.questions.port"),
     default: answers.port
-  }
+  };
 
   const questionCommand = {
     type: "input",
     name: "command",
-    message: Locale.get("service.init.questions.command"),
-  }
+    message: Locale.get("service.init.questions.command")
+  };
 
   const questionTelemetry = {
     type: "confirm",
     name: "telemetry",
     message: Locale.get("service.init.questions.telemetry"),
     default: answers.telemetry
-  }
+  };
 
   const questions = [
     questionName,
     questionPort,
     questionCommand,
     questionTelemetry
-  ]
+  ];
 
   const packageJson = getPackageJson(folder);
   if (packageJson) {
-    questions.shift()
-    const availablesCommands = Object.keys(packageJson.scripts)
-    questionCommand.type = 'list'
+    questions.shift();
+    const availablesCommands = Object.keys(packageJson.scripts);
+    questionCommand.type = "list";
     questionCommand.choices = availablesCommands
-      .filter(cmd => {
-        return cmd !== "test"
+      .filter((cmd) => {
+        return cmd !== "test";
       })
-      .map(cmd => {
-        if (cmd !== 'start') {
-          cmd = `run ${cmd}`
+      .map((cmd) => {
+        if (cmd !== "start") {
+          cmd = `run ${cmd}`;
         }
         return {
           name: `npm ${cmd}`,
           value: `npm ${cmd}`
-        }
-    })
+        };
+      });
   }
 
   answers = await inquirer.prompt(questions);
-  answers.folder = folder
+  answers.folder = folder;
 
   if (packageJson) {
     if (packageJson.name && !answers.name) {
@@ -92,14 +92,7 @@ async function initialize(program = {}) {
 initialize.generate = async function (options) {
   options.folder = options.folder || process.cwd();
 
-  const {
-    name,
-    description,
-    port,
-    command,
-    folder,
-    telemetry
-  } = options;
+  const {name, description, port, command, folder, telemetry} = options;
 
   if (!name) {
     throw new ReferenceError("Please share a project name.");
@@ -110,33 +103,35 @@ initialize.generate = async function (options) {
   }
 
   if (!command) {
-    throw new ReferenceError("Please share the dev command to run the microservice.");
+    throw new ReferenceError(
+      "Please share the dev command to run the microservice."
+    );
   }
 
   const _telemetry = new Telemetry();
   _telemetry.toggle(telemetry);
 
-  const config = new Config()
-  config.setName(name)
-  config.setDescription(description)
-  config.getUnitTest().setPort(port)
-  config.getUnitTest().setCommand(command)
+  const config = new Config();
+  config.setName(name);
+  config.setDescription(description);
+  config.getUnitTest().setPort(port);
+  config.getUnitTest().setCommand(command);
 
   const filename = path.resolve(folder, ".restqa.yml");
-  config.save(filename)
+  config.save(filename);
 
   logger.success("service.init.success.welcome");
 
-  const opt  = {
+  const opt = {
     port: config.getUnitTest().getPort(),
-    command: config.getUnitTest().getCommand(),
-  }
-  const microservice = new Executor(opt)
+    command: config.getUnitTest().getCommand()
+  };
+  const microservice = new Executor(opt);
 
+  const localURL = `http://localhost:${opt.port}/`;
   try {
-    await microservice.execute()
+    await microservice.execute();
 
-    const localURL = `http://localhost:${opt.port}/`
     const curl = ["curl", localURL];
 
     const response = await Generate({print: false}, {args: curl});
@@ -156,13 +151,12 @@ initialize.generate = async function (options) {
 
     logger.info("service.init.success.sample");
   } catch (err) {
-    logger.log("service.init.error.scenario_generation", WELCOME_API_URL);
+    logger.log("service.init.error.scenario_generation", localURL);
   }
-  microservice.terminate()
+  microservice.terminate();
   logger.log("service.init.success.info");
   return config;
 };
-
 
 function createRecursiveFolder(filename, root) {
   fs.mkdirSync(path.resolve(root, path.dirname(filename)), {recursive: true});

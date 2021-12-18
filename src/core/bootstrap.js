@@ -66,7 +66,7 @@ module.exports = function (processor, options = {}) {
 
   // Plugin settings
   const RestQAPI = {
-    getName: () =>  "@restqa/restqapi",
+    getName: () => "@restqa/restqapi",
     getConfig: () => ({
       url: environment.url
     })
@@ -92,8 +92,7 @@ module.exports = function (processor, options = {}) {
 
 function getPluginModule(options, processor) {
   return function (plugin) {
-
-    const name = plugin.getName()
+    const name = plugin.getName();
 
     let instance;
     if (name === "@restqa/restqapi") {

@@ -39,7 +39,7 @@ tests:
     port: 8080
     command: npm run dev
 `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const mockGetFormatter = jest.fn();
     jest.mock("@restqa/cucumber-export", () => {
@@ -71,10 +71,9 @@ tests:
     expect(MESSAGES).toContain(mockGetFormatter.mock.calls[0][0].title);
   });
   test("Export information for the unit tests", () => {
-
     global.restqaOptions = {
       report: true
-    }
+    };
 
     const content = `
 ---
@@ -89,7 +88,7 @@ tests:
     port: 8080
     command: npm run dev
 `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
     const mockGetFormatter = jest.fn();
     jest.mock("@restqa/cucumber-export", () => {

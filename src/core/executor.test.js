@@ -8,7 +8,7 @@ beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
 
 describe("# utils - executor", () => {
-  const Logger = require('../utils/logger')
+  const Logger = require("../utils/logger");
   // Mocks and spies
   const loggerSuccessSpy = jest
     .spyOn(Logger, "success")
@@ -24,8 +24,7 @@ describe("# utils - executor", () => {
     // Given
     const options = {
       command: "ls -l"
-
-    }
+    };
     const Instance = new Executor(options);
 
     // When
@@ -41,7 +40,7 @@ describe("# utils - executor", () => {
     // Given
     const options = {
       command: ["ls", ["-l"]]
-    }
+    };
     const Instance = new Executor(options);
 
     // When
@@ -63,8 +62,8 @@ describe("# utils - executor", () => {
     // Given
     const options = {
       command: "cd dsqsq"
-    }
-    const Instance = new Executor(options)
+    };
+    const Instance = new Executor(options);
 
     // When
     expect.assertions(1);
