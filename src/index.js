@@ -1,5 +1,4 @@
 const generate = require("./cli/generate");
-const install = require("./cli/install");
 const steps = require("./cli/steps");
 const run = require("./cli/run");
 const dashboard = require("./cli/dashboard");
