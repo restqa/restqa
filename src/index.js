@@ -2,42 +2,9 @@ const generate = require("./cli/generate");
 const steps = require("./cli/steps");
 const run = require("./cli/run");
 const dashboard = require("./cli/dashboard");
-const initialize = require("./cli/initialize");
 
 const Stream = require("stream");
 
-/**
- * Initialize a restqa project
- *
- * @param {Object} options
- * @param {string} options.name - The name of the project
- * @param {string} options.description - The description of the project
- * @param {string} options.env - The default environment of your project
- * @param {string} options.url - The api url of the current environement
- * @param {options} (optional) options.ci - Continuous integration tool that required to be setup
- * @param {options} (optional) options.folder - Define the folder where to initiate restqa
- *
- * @return String - path of the configuration file
- *
- * @example
- *
- * const { Initialize } = require('@restqa/restqa')
- *
- * const options = {
- *   name: 'my application',
- *   description: 'This application is used for sample',
- *   env: 'local',
- *   url: 'https://api.example.com',
- *   ci: 'github-action',
- *   folder: './integration-tests'
- * }
- *
- * const result = await Initialize(options)
- * console.log(result)
- */
-async function Initialize(options) {
-  return initialize.generate(options);
-}
 
 /**
  * Generate a test scenario from a curl command
@@ -252,14 +219,12 @@ function Dashboard(options) {
  *   await app.listen(8083);
  * })()
  */
-const Hooks = require("./hooks");
+//const Hooks = require("./hooks");
 
 module.exports = {
-  Initialize,
   Generate,
-  Install,
   Steps,
-  Dashboard,
+  //Dashboard,
   Run,
-  Hooks
+  //Hooks
 };

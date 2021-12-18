@@ -18,7 +18,7 @@ jestqa.hooks.afterEach = function () {
   }
 };
 
-describe("# cli - dashboard", () => {
+describe.skip("# cli - dashboard", () => {
   test("Throw an error if passed port is not a number", () => {
     const Dashboard = require("./dashboard");
     const program = {
