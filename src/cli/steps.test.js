@@ -58,7 +58,7 @@ tests:
         config:
           path: 'my-report.json'
     `;
-    const filename = jestqa.createCwdConfig(content);
+    const filename = jestqa.createTmpFile(content, '.restqa.yml');
 
     const mockPlugin = new Plugin("restqapi");
     mockPlugin

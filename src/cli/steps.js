@@ -1,5 +1,4 @@
 const {Table} = require("console-table-printer");
-const Config = require("../config");
 const Bootstrap = require("../core/bootstrap");
 const chalk = require("chalk");
 const path = require("path");
@@ -39,7 +38,7 @@ function getSteps(keyword, options) {
 }
 
 module.exports = function (keyword, program) {
-  let {config, tag, print, env, output} = program || {};
+  let {config, tag, print, output} = program || {};
 
   print = undefined === print ? true : print;
 
