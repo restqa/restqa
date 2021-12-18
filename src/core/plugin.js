@@ -1,6 +1,4 @@
-const {ChildProcess} = require("child_process");
-const treekill = require("treekill");
-const {execute, checkServer} = require("../core/executor");
+const Executor = require("../core/executor");
 
 module.exports = function ({env, config}, processor = {}) {
   if (!processor.BeforeAll || !processor.AfterAll) {
@@ -21,19 +19,21 @@ module.exports = function ({env, config}, processor = {}) {
   });
 
   if (!env) {
-    let server;
     processor.BeforeAll(async function () {
-      const port = config.getUnitTest().getPort();
-      const {mock} = this.restqa || {};
-      const envs = (mock || {}).http;
-      server = await execute(config.getUnitTest().getCommand(), envs);
-      await checkServer(port);
+      this.restqa = this.restqa || {}
+      const envs = (this.restqa.mock || {}).http;
+      const options = {
+        port: config.getUnitTest().getPort(),
+        command: config.getUnitTest().getCommand(),
+        envs,
+      }
+      const microservice = new Executor(options)
+      await microservice.execute()
+      this.restqa.microservice = microservice
     });
 
-    processor.AfterAll(() => {
-      if (server instanceof ChildProcess) {
-        treekill(server.pid);
-      }
+    processor.AfterAll(function() {
+      this.restqa.microservice && this.restqa.microservice.terminate()
     });
   }
 };

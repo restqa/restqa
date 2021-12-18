@@ -18,26 +18,33 @@ describe("#core - plugin", () => {
       serverPort,
       timoutBeforeLaunchServer = 0
     ) {
+      jest.mock("cross-spawn", () => {
+        return () => {
+          return {
+            stderr: {
+              on: jest.fn()
+            },
+            stdout: {
+              on: (evt, fn) => {
+                setTimeout(fn, 100)
+              }
+            },
+            on: jest.fn()
+          }
+        }
+      })
       const childProcess = Object.create(ChildProcess.prototype);
       childProcess.kill = killProcessFn;
       childProcess.pid = 9999;
-      const executor = require("./executor");
+      const Executor = require("./executor");
       const mockExecuteCommand = jest
-        .spyOn(executor, "execute")
-        .mockResolvedValue(childProcess);
+        .spyOn(Executor.prototype, "execute")
 
       setTimeout(() => {
         servers.push(express().listen(serverPort));
       }, timoutBeforeLaunchServer);
 
       return mockExecuteCommand;
-    }
-
-    function setTreeKillMock(mockTreeKill) {
-      jest.mock("treekill", () => {
-        return mockTreeKill;
-      });
-      return mockTreeKill;
     }
 
     test("Throw error error if RestQA config is not accepted", () => {
@@ -57,8 +64,6 @@ describe("#core - plugin", () => {
       const config = new Config();
       config.getUnitTest().setPort(PORT);
       config.getUnitTest().setCommand(COMMAND);
-
-      const mockTreeKill = setTreeKillMock(jest.fn());
 
       // Executor
       const mockProcessKill = jest.fn();
@@ -96,10 +101,8 @@ describe("#core - plugin", () => {
       await beforeAll();
       afterAll();
 
-      expect(mockExecuteCommand).toHaveBeenCalledWith("npm start", undefined);
+      expect(mockExecuteCommand).toHaveBeenCalledWith();
       expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalledWith(9999);
     }, 10000);
 
     test("Run the command to run the server but with a short delay and kill the process", async () => {
@@ -108,8 +111,6 @@ describe("#core - plugin", () => {
       const config = new Config();
       config.getUnitTest().setPort(PORT);
       config.getUnitTest().setCommand(COMMAND);
-
-      const mockTreeKill = setTreeKillMock(jest.fn());
 
       // Executor
       const mockProcessKill = jest.fn();
@@ -147,17 +148,14 @@ describe("#core - plugin", () => {
       await beforeAll();
       afterAll();
 
-      expect(mockExecuteCommand).toHaveBeenCalledWith(COMMAND, undefined);
+      expect(mockExecuteCommand).toHaveBeenCalledWith();
       expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalled();
-      expect(mockTreeKill).toHaveBeenCalledWith(9999);
     }, 10000);
 
     test("Do not run the command if an environement is passed (integration test)", async () => {
       const config = new Config();
       config.addIntegration("UAT", "http://test.com");
 
-      const mockTreeKill = setTreeKillMock(jest.fn());
 
       // Executor
       const mockProcessKill = jest.fn();
@@ -198,7 +196,6 @@ describe("#core - plugin", () => {
 
       expect(mockExecuteCommand).not.toHaveBeenCalled();
       expect(mockProcessKill).not.toHaveBeenCalled();
-      expect(mockTreeKill).not.toHaveBeenCalled();
     });
 
     test("Throw error if the server is not started before the timeout", async () => {
@@ -256,14 +253,8 @@ describe("#core - plugin", () => {
           "Couldn't reach the server running on the port 5058 (timeout 4000ms)"
         )
       );
-      afterAll();
-      const expectedEnvs = {
-        GITHUB_API: "http://localhost:8066/github"
-      };
-      expect(mockExecuteCommand).toHaveBeenCalledWith(
-        "npm start",
-        expectedEnvs
-      );
+      afterAll.call($this);
+      expect(mockExecuteCommand).toHaveBeenCalledWith()
     }, 10000);
   });
 });
