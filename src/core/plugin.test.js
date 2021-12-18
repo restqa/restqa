@@ -26,19 +26,18 @@ describe("#core - plugin", () => {
             },
             stdout: {
               on: (evt, fn) => {
-                setTimeout(fn, 100)
+                setTimeout(fn, 100);
               }
             },
             on: jest.fn()
-          }
-        }
-      })
+          };
+        };
+      });
       const childProcess = Object.create(ChildProcess.prototype);
       childProcess.kill = killProcessFn;
       childProcess.pid = 9999;
       const Executor = require("./executor");
-      const mockExecuteCommand = jest
-        .spyOn(Executor.prototype, "execute")
+      const mockExecuteCommand = jest.spyOn(Executor.prototype, "execute");
 
       setTimeout(() => {
         servers.push(express().listen(serverPort));
@@ -156,7 +155,6 @@ describe("#core - plugin", () => {
       const config = new Config();
       config.addIntegration("UAT", "http://test.com");
 
-
       // Executor
       const mockProcessKill = jest.fn();
       const mockExecuteCommand = setExecutor(mockProcessKill, 9090, 3000);
@@ -254,7 +252,7 @@ describe("#core - plugin", () => {
         )
       );
       afterAll.call($this);
-      expect(mockExecuteCommand).toHaveBeenCalledWith()
+      expect(mockExecuteCommand).toHaveBeenCalledWith();
     }, 10000);
   });
 });

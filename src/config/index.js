@@ -61,12 +61,15 @@ class Config {
   }
 
   getDescription() {
-    return this._config.metadata.description || "Delicious Microservice maintained with RestQA";
+    return (
+      this._config.metadata.description ||
+      "Delicious Microservice maintained with RestQA"
+    );
   }
 
   setDescription(description) {
     this._config.metadata = this._config.metadata || {};
-    this._config.metadata.description = description 
+    this._config.metadata.description = description;
   }
 
   getUnitTest() {
@@ -158,40 +161,39 @@ class Config {
         name: this.getName(),
         description: this.getDescription()
       },
-      tests: {
-      }
-    }
+      tests: {}
+    };
 
     if (!this.getUnitTest().isEmpty()) {
-      obj.tests.unit = this.getUnitTest().toJSON()
+      obj.tests.unit = this.getUnitTest().toJSON();
     }
 
     if (this.getIntegrationTests().length) {
       obj.tests.integrations = this.getIntegrationTests().map((integration) =>
         integration.toJSON()
-      )
+      );
     }
 
     if (!this.getPerformanceTest().isEmpty()) {
-      obj.tests.performance = this.getPerformanceTest().toJSON()
+      obj.tests.performance = this.getPerformanceTest().toJSON();
     }
 
     if (!this.getSpecification().isEmpty()) {
-      obj.specification = this.getSpecification().toJSON()
+      obj.specification = this.getSpecification().toJSON();
     }
 
     if (!this.getCollection().isEmpty()) {
-      obj.collection =  this.getCollection().toJSON()
+      obj.collection = this.getCollection().toJSON();
     }
 
     if (this.getPlugins().length) {
-      obj.plugins =  this.getPlugins().map((plugin) => plugin.toJSON())
+      obj.plugins = this.getPlugins().map((plugin) => plugin.toJSON());
     }
 
-    if(!this.getSettings().isEmpty()) {
-      obj.settings =this.getSettings().toJSON()
+    if (!this.getSettings().isEmpty()) {
+      obj.settings = this.getSettings().toJSON();
     }
-    return obj
+    return obj;
   }
 
   toYAML() {
@@ -247,16 +249,16 @@ class UnitTest {
 
   toJSON() {
     const obj = {
-      ...this._config,
-    }
+      ...this._config
+    };
     if (obj.data) {
-      obj.data = this._config.data.toJSON()
+      obj.data = this._config.data.toJSON();
     }
-    return obj
+    return obj;
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -300,7 +302,7 @@ class IntegrationTest {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -338,7 +340,7 @@ class PerformanceTest {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -368,7 +370,7 @@ class Specification {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -398,7 +400,7 @@ class Collection {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -420,7 +422,7 @@ class Plugin {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -483,7 +485,7 @@ class Data {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 
@@ -509,7 +511,7 @@ class Settings {
   }
 
   isEmpty() {
-    return Object.keys(this._config).length === 0
+    return Object.keys(this._config).length === 0;
   }
 }
 

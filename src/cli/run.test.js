@@ -466,9 +466,9 @@ environments:
       };
     });
     jest.mock("../core/initialize", () => {
-      return jest.fn().mockResolvedValue(true)
+      return jest.fn().mockResolvedValue(true);
     });
-    const Initialize= require("../core/initialize");
+    const Initialize = require("../core/initialize");
 
     // Given
     const Run = require("./run");
