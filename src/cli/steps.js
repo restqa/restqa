@@ -2,6 +2,7 @@ const {Table} = require("console-table-printer");
 const Config = require("../config");
 const Bootstrap = require("../core/bootstrap");
 const chalk = require("chalk");
+const path = require("path");
 
 function getSteps(keyword, options) {
   const result = {};
@@ -66,8 +67,9 @@ module.exports = function (keyword, program) {
   output = output && output.toLowerCase();
 
   const options = {
-    configFile: config
+    configFile: config || path.resolve(process.cwd(), '.restqa.yml')
   };
+
 
   const columns = [
     {name: "Plugin", alignment: "left", color: "green"},
