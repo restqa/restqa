@@ -1,4 +1,3 @@
-const YAML = require("yaml");
 const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
@@ -8,11 +7,10 @@ const {getPackageJson} = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
 const Locale = require("../locales")();
 const Config = require("../config");
-
-const WELCOME_API_URL = "https://restqa.io/welcome.json";
+const Executor = require('./executor')
 
 async function initialize(program = {}) {
-  let { folder } = program
+  const { folder } = program
 
   let answers = {
     name: "app",
@@ -48,7 +46,7 @@ async function initialize(program = {}) {
     default: answers.telemetry
   }
 
-  let questions = [
+  const questions = [
     questionName,
     questionPort,
     questionCommand,
@@ -62,10 +60,10 @@ async function initialize(program = {}) {
     questionCommand.type = 'list'
     questionCommand.choices = availablesCommands
       .filter(cmd => {
-        return cmd != "test"
+        return cmd !== "test"
       })
       .map(cmd => {
-        if (cmd != 'start') {
+        if (cmd !== 'start') {
           cmd = `run ${cmd}`
         }
         return {
@@ -129,8 +127,17 @@ initialize.generate = async function (options) {
 
   logger.success("service.init.success.welcome");
 
+  const opt  = {
+    port: config.getUnitTest().getPort(),
+    command: config.getUnitTest().getCommand(),
+  }
+  const microservice = new Executor(opt)
+
   try {
-    const curl = ["curl", WELCOME_API_URL];
+    await microservice.execute()
+
+    const localURL = `http://localhost:${opt.port}/`
+    const curl = ["curl", localURL];
 
     const response = await Generate({print: false}, {args: curl});
 
@@ -151,8 +158,9 @@ initialize.generate = async function (options) {
   } catch (err) {
     logger.log("service.init.error.scenario_generation", WELCOME_API_URL);
   }
+  microservice.terminate()
   logger.log("service.init.success.info");
-  return filename;
+  return config;
 };
 
 

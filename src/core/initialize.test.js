@@ -17,6 +17,16 @@ jestqa.hooks.beforeEach = function () {
   jest.mock("@restqa/restqapi", () => ({
     Generator: mockGenerator
   }));
+
+  jest.mock("./executor", () => {
+    return class {
+      execute() {
+      }
+
+      terminate() {
+      }
+    }
+  });
 };
 
 describe("#Cli - Initialize", () => {
