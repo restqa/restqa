@@ -80,6 +80,10 @@ global.JestQA = function(filename, unmount = false, debug = false) {
     }
   }
 
+  const getConfigFile = function() {
+    return path.resolve(getTmpFolder(), '.restqa.yml')
+  }
+
   const hooks = Object.seal({
     beforeEach: null,
     afterEach: null
@@ -109,6 +113,7 @@ global.JestQA = function(filename, unmount = false, debug = false) {
     createCwdConfig,
     getLoggerMock,
     hooks,
+    getConfigFile
   }
 
 }
