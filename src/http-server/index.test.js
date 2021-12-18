@@ -60,7 +60,7 @@ const getGotInstance = function (port) {
   });
 };
 
-describe("#dashboard > Server", () => {
+describe.skip("#dashboard > Server", () => {
   describe("cors management", () => {
     test("does not return allows headers if the origin is not on the default white list", async () => {
       const config = {};

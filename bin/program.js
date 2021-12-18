@@ -53,6 +53,7 @@ program
   .usage("-c ./.restqa.yml -e local -t @success customer.feature")
   .action(Cli("run"));
 
+/*
 program
   .command("dashboard")
   .alias("d")
@@ -71,6 +72,7 @@ program
   .description("Launch the RestQA Dashboard web server")
   .usage("[options]")
   .action(Cli("dashboard"));
+ */
 
 program
   .command("telemetry")
