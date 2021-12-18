@@ -5,7 +5,8 @@ const Welcome = require("./utils/welcome");
 const restqa = {
   env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
   configFile: process.env.RESTQA_CONFIG,
-  tmpFileExport: global.restqa && global.restqa.tmpExport
+  tmpFileExport: global.restqa && global.restqa.tmpExport,
+  report: (global.restqaOptions && global.restqaOptions.report) || false
 };
 
 const config = new Config();
@@ -21,7 +22,7 @@ const test = {
   outputs: [
     {
       type: "html",
-      enabled: true,
+      enabled: restqa.report,
       config: {
         folder: "restqa"
       }
