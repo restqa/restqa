@@ -11,8 +11,7 @@ service:
     questions:
       name: "Project name:"
       port: "On which port your microservice is running?"
-      ci: "Do you need a continuous integration configuration ?"
-      no_ci: "I want to configure the continuous integration by myself"
+      command: "What command are you using to run your microservice (development)?"
       telemetry: "May RestQA report anonymous usage statistics to improve the tool over time ?"
     success:
       welcome: "You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀"

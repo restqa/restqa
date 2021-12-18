@@ -61,12 +61,12 @@ class Config {
   }
 
   getDescription() {
-    return this._config.metadata.description;
+    return this._config.metadata.description || "Delicious Microservice maintained with RestQA";
   }
 
   setDescription(description) {
     this._config.metadata = this._config.metadata || {};
-    this._config.metadata.description = description;
+    this._config.metadata.description = description 
   }
 
   getUnitTest() {
@@ -76,7 +76,7 @@ class Config {
   }
 
   getIntegrationTests() {
-    return this._config.tests.integrations;
+    return this._config.tests.integrations || [];
   }
 
   getIntegrationTest(name) {
@@ -122,7 +122,7 @@ class Config {
   }
 
   getPlugins() {
-    return this._config.plugins;
+    return this._config.plugins || [];
   }
 
   getPlugin(name) {
@@ -151,7 +151,7 @@ class Config {
   }
 
   toJSON() {
-    return {
+    const obj = {
       version: "0.0.1",
       metadata: {
         code: this.getCode(),
@@ -159,21 +159,50 @@ class Config {
         description: this.getDescription()
       },
       tests: {
-        unit: this.getUnitTest().toJSON(),
-        integrations: this.getIntegrationTests().map((integration) =>
-          integration.toJSON()
-        ),
-        performance: this.getPerformanceTest().toJSON()
-      },
-      specification: this.getSpecification().toJSON(),
-      collection: this.getCollection().toJSON(),
-      plugins: this.getPlugins().map((plugin) => plugin.toJSON()),
-      settings: this.getSettings().toJSON()
-    };
+      }
+    }
+
+    if (!this.getUnitTest().isEmpty()) {
+      obj.tests.unit = this.getUnitTest().toJSON()
+    }
+
+    if (this.getIntegrationTests().length) {
+      obj.tests.integrations = this.getIntegrationTests().map((integration) =>
+        integration.toJSON()
+      )
+    }
+
+    if (!this.getPerformanceTest().isEmpty()) {
+      obj.tests.performance = this.getPerformanceTest().toJSON()
+    }
+
+    if (!this.getSpecification().isEmpty()) {
+      obj.specification = this.getSpecification().toJSON()
+    }
+
+    if (!this.getCollection().isEmpty()) {
+      obj.collection =  this.getCollection().toJSON()
+    }
+
+    if (this.getPlugins().length) {
+      obj.plugins =  this.getPlugins().map((plugin) => plugin.toJSON())
+    }
+
+    if(!this.getSettings().isEmpty()) {
+      obj.settings =this.getSettings().toJSON()
+    }
+    return obj
   }
 
   toYAML() {
     return YAML.stringify(this.toJSON());
+  }
+
+  save(filename) {
+    const contentYAML = YAML.stringify(this.toJSON(), null, {
+      directivesEndMarker: true
+    });
+    fs.writeFileSync(filename, contentYAML);
   }
 }
 
@@ -217,10 +246,17 @@ class UnitTest {
   }
 
   toJSON() {
-    return {
+    const obj = {
       ...this._config,
-      data: this._config.data && this._config.data.toJSON()
-    };
+    }
+    if (obj.data) {
+      obj.data = this._config.data.toJSON()
+    }
+    return obj
+  }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
   }
 }
 
@@ -262,6 +298,10 @@ class IntegrationTest {
       data: this._config.data && this._config.data.toJSON()
     };
   }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
+  }
 }
 
 class PerformanceTest {
@@ -296,6 +336,10 @@ class PerformanceTest {
   toJSON() {
     return this._config;
   }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
+  }
 }
 
 class Specification {
@@ -321,6 +365,10 @@ class Specification {
 
   toJSON() {
     return this._config;
+  }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
   }
 }
 
@@ -348,6 +396,10 @@ class Collection {
   toJSON() {
     return this._config;
   }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
+  }
 }
 
 class Plugin {
@@ -365,6 +417,10 @@ class Plugin {
 
   toJSON() {
     return this._config;
+  }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
   }
 }
 
@@ -425,6 +481,10 @@ class Data {
   toJSON() {
     return this._config;
   }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
+  }
 }
 
 class Settings {
@@ -446,6 +506,10 @@ class Settings {
 
   toJSON() {
     return this._config;
+  }
+
+  isEmpty() {
+    return Object.keys(this._config).length === 0
   }
 }
 

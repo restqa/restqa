@@ -1,4 +1,7 @@
 const Config = require("./index");
+const fs = require('fs')
+const path = require('path')
+const YAML = require('yaml')
 
 const jestqa = new JestQA(__filename, true);
 
@@ -571,4 +574,34 @@ settings:
 `;
     expect(Instance.toYAML().trim()).toEqual(expectedYAML.trim());
   });
+
+  test('Save config file using the default description', () => {
+    const Instance = new Config();
+    Instance.setName("my config name");
+    Instance.getUnitTest().setPort(8080);
+    Instance.getUnitTest().setCommand("npm run dev");
+    const filename = path.resolve(jestqa.getTmpFolder(), '.restqa.yml')
+    Instance.save(filename)
+    expect(fs.existsSync(filename)).toBeTruthy()
+
+    const content = fs.readFileSync(filename).toString("utf-8");
+    const result = YAML.parse(content);
+
+    const expectedContent = {
+      version: "0.0.1",
+      metadata: {
+        code: "MY-CONFIG-NAME",
+        name: "my config name",
+        description: "Delicious Microservice maintained with RestQA",
+      },
+      tests: {
+        unit: {
+          port: 8080,
+          command: "npm run dev"
+        }
+      }
+    };
+
+    expect(result).toEqual(expectedContent);
+  })
 });
