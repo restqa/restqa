@@ -2,7 +2,7 @@ const YAML = require("yaml");
 const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
-const Generate = require("./generate");
+const Generate = require("../cli/generate");
 const logger = require("../utils/logger");
 const {getPackageJson} = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
@@ -11,7 +11,7 @@ const Config = require("../config");
 
 const WELCOME_API_URL = "https://restqa.io/welcome.json";
 
-async function initialize(program) {
+async function initialize(program = {}) {
   let { folder } = program
 
   let answers = {
