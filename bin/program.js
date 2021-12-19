@@ -21,7 +21,6 @@ program
   .alias("st")
   .alias("step")
   .option("-c, --config <config>", "Use a specific .restqa.yml file")
-  .option("-e, --env <env>", "Define the current environment")
   .option("-t, --tag <tag>", "Filter the step definition by tag")
   .option(
     "-o, --output <output>",

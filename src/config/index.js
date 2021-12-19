@@ -9,8 +9,8 @@ class Config {
 
   load(filename) {
     if (!fs.existsSync(filename)) {
-      throw new Error(
-        `The configuration file locate at "${filename}" doesn't exist.`
+      throw new ReferenceError(
+        `The configuration file located at "${filename}" doesn't exist.`
       );
     }
     const file = fs.readFileSync(filename, "utf8");
