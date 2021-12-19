@@ -62,7 +62,7 @@ class Executor {
         });
 
         // reject if an error happened
-        server.stderr.on("data", (a, b, c) => {
+        server.stderr.on("data", () => {
           if (!initialized) {
             initialized = true;
             reject(new Error(`Error during running command ${command}`));
@@ -70,7 +70,7 @@ class Executor {
         });
 
         // resolve when process is spawn successfully
-        server.stdout.on("data", (a, b, c) => {
+        server.stdout.on("data", () => {
           if (!initialized) {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
@@ -96,12 +96,9 @@ class Executor {
       }
     })
       .then(() => {
-        if (!this.port) return;
+        if (!this.port) return this.server;
         return this.checkServer();
       })
-      .then(() => {
-        return this.server;
-      });
   }
 
   async checkServer() {
@@ -136,6 +133,9 @@ class Executor {
       checker();
     }).then(() => {
       this._isRunning = true;
+    })
+    .then(() => {
+      return this.server;
     });
   }
 
