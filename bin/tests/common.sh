@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 
 export PATH="$PWD/bin/:$PATH"
+export RESTQA_TELEMETRY="off"
 
 debug() {
   status="$1"

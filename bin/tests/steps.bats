@@ -10,10 +10,9 @@ load 'common.sh'
   [ "${lines[0]}" =  "Usage: restqa steps|st [options] [keyword]" ]
   [ "${lines[1]}" =  "Get the list of step by keyword : given | when | then" ]
   [ "${lines[3]}" =  "  -c, --config <config>  Use a specific .restqa.yml file" ]
-  [ "${lines[4]}" =  "  -e, --env <env>        Define the current environment" ]
-  [ "${lines[5]}" =  "  -t, --tag <tag>        Filter the step definition by tag" ]
-  [ "${lines[6]}" =  "  -o, --output <output>  Formating the output: short | medium | large" ]
-  [ "${lines[7]}" =  "  -h, --help             display help for command" ]
+  [ "${lines[4]}" =  "  -t, --tag <tag>        Filter the step definition by tag" ]
+  [ "${lines[5]}" =  "  -o, --output <output>  Formating the output: short | medium | large" ]
+  [ "${lines[6]}" =  "  -h, --help             display help for command" ]
 }
 
 MAINDIR="$BATS_TMPDIR/restqa-bats-tests"
@@ -44,19 +43,13 @@ teardown() {
 @test "[STEPS]> Get an error if the .restqa.yml is not found" {
   run restqa steps given
   assert_failure
-  assert_output --partial "ReferenceError: The configuration file \""$PWD"/.restqa.yml\" doesn't exist."
+  assert_output --partial "ReferenceError: The configuration file located at \""$PWD"/.restqa.yml\" doesn't exist."
 }
 
 @test "[STEPS]> Get an error if the keyword doesn't exist" {
   run restqa st Sachant
   assert_failure
   assert_output --partial 'TypeError: "Sachant" is not a valid argument. Available: given | when | then'
-}
-
-@test "[STEPS]> Get Error if the passed environemt doesn't exist (using the alias st)" {
-  run restqa st -c ./bin/tests/features/success/.restqa.yml -e prod given
-  assert_failure
-  assert_output --partial "Error: \"prod\" is not an environment available in the config file, choose between : local"
 }
 
 @test "[STEPS]> Get Error if the output is not valid" {
