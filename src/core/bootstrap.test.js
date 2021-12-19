@@ -63,7 +63,7 @@ describe("#bootstrap", () => {
         setDefaultTimeout: jest.fn()
       });
     }).toThrow(
-      new Error('The configuration file locate at "undefined" doesn\'t exist.')
+      new Error('The configuration file located at "undefined" doesn\'t exist.')
     );
   });
 

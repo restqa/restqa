@@ -13,7 +13,7 @@ describe("#Config instance", () => {
     const Instance = new Config();
     expect(() => {
       Instance.load("");
-    }).toThrow(`The configuration file locate at "" doesn't exist.`);
+    }).toThrow(`The configuration file located at "" doesn't exist.`);
   });
 
   test("Throw error when the loaded file is not formated properly", () => {
