@@ -37,7 +37,7 @@ if (restqa.env) {
 
 const options = {
   title,
-  key: config.getCode(),
+  key: config.code,
   name: config.getName(),
   env: test.name,
   repository:
