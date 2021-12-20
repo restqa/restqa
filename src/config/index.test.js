@@ -116,7 +116,7 @@ plugins:
     const Instance = new Config();
     Instance.load(filename);
     // metadata
-    expect(Instance.getCode()).toEqual("API");
+    expect(Instance.code).toEqual("API");
     expect(Instance.getName()).toEqual("My test API");
     expect(Instance.getDescription()).toEqual(
       "The description of the test api"
@@ -313,7 +313,7 @@ settings:
     const Instance = new Config();
     Instance.load(filename);
     // metadata
-    expect(Instance.getCode()).toEqual("API");
+    expect(Instance.code).toEqual("API");
     expect(Instance.getName()).toEqual("My test API");
     expect(Instance.getDescription()).toEqual(
       "The description of the test api"

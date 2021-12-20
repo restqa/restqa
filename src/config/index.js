@@ -44,7 +44,7 @@ class Config {
     this._config.settings = new Settings(this._config.settings);
   }
 
-  getCode() {
+  get code() {
     return this._config.metadata.code;
   }
 
@@ -157,7 +157,7 @@ class Config {
     const obj = {
       version: "0.0.1",
       metadata: {
-        code: this.getCode(),
+        code: this.code,
         name: this.getName(),
         description: this.getDescription()
       },
