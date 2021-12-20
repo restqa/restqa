@@ -11,8 +11,7 @@ service:
     questions:
       name: "Project name:"
       port: "On which port your microservice is running?"
-      ci: "Do you need a continuous integration configuration ?"
-      no_ci: "I want to configure the continuous integration by myself"
+      command: "What command are you using to run your microservice (development)?"
       telemetry: "May RestQA report anonymous usage statistics to improve the tool over time ?"
     success:
       welcome: "You have successfully installed RestQA! Let’s begin your test automation with RestQA 💥🚀"
@@ -31,6 +30,7 @@ service:
     toggle: "🕵️ The telemetry has been %s."
     detail: "More detail on %s"
   run:
+    waiting_server: "Waiting for the server to be up..."
     error_missing_restqapi: 'Please enable the @restqa/restqapi plugin on the "environements" section of your .restqa.yml'
     error_missing_url: "Please share the target url of your service on @restqa/restqapi plugin section"
     error_port_timeout: "Couldn't reach the server running on the port %s (timeout %sms)"

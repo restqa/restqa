@@ -36,52 +36,6 @@ describe("#Cli - Steps", () => {
     );
   });
 
-  test("Throw an error if the passed environment in not in the config File", () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: uat
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
-    const opt = {
-      env: "prod",
-      config: filename
-    };
-    const Steps = require("./steps");
-    expect(() => {
-      Steps("Given", opt);
-    }).toThrow(
-      '"prod" is not an environment available in the config file, choose between : uat, local'
-    );
-  });
-
   test("Load the steps", () => {
     const content = `
 ---
@@ -91,13 +45,13 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
+tests:
+  unit:
+    port: 8080
+    command: npm run dev
+  integrations:
   - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
+    url: http://uat.example.com
     outputs:
       - type: file
         enabled: true
@@ -184,19 +138,12 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
+tests:
+  unit:
+    port: 8089
+    command: npm run dev
+plugins:
+  - name: '@restqa/restqmocki'
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
@@ -291,356 +238,6 @@ environments:
     ]);
   });
 
-  test("Load the steps from multiple plugin but selecting the environment (output: short)", () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-  - name: prod
-    default: true
-    plugins:
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
-
-    const mockPluginMocki = new Plugin("restqmocki");
-    mockPluginMocki.addThenStep(
-      "ma definition de mock",
-      () => {},
-      "mon commentaire de mock"
-    );
-    jest.mock("@restqa/restqmocki", () => mockPluginMocki, {virtual: true});
-
-    const mockAddRow = jest.fn();
-    const mockPrintTable = jest.fn();
-    const mockTable = jest.fn(() => {
-      return {
-        addRow: mockAddRow,
-        printTable: mockPrintTable
-      };
-    });
-
-    jest.mock("console-table-printer", () => {
-      return {
-        Table: mockTable
-      };
-    });
-
-    const Steps = require("./steps");
-    const opt = {
-      config: filename,
-      env: "prod",
-      output: "short"
-    };
-    const result = Steps("Then", opt);
-
-    expect(mockTable.mock.calls).toHaveLength(1);
-    expect(mockTable.mock.calls[0][0].columns).toHaveLength(2);
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual("Keyword");
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual("Step");
-
-    expect(mockAddRow.mock.calls).toHaveLength(1);
-    expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Keyword: "then",
-      Step: "ma definition de mock"
-    });
-    expect(mockPrintTable.mock.calls).toHaveLength(1);
-    expect(result).toEqual([
-      {
-        Keyword: "then",
-        Step: "ma definition de mock"
-      }
-    ]);
-  });
-
-  test("Load the steps from multiple plugin but selecting the environment (output: medium)", () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-  - name: prod
-    default: true
-    plugins:
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
-
-    const mockPluginMocki = new Plugin("restqmocki");
-    mockPluginMocki.addThenStep(
-      "ma definition de mock",
-      () => {},
-      "mon commentaire de mock"
-    );
-    jest.mock("@restqa/restqmocki", () => mockPluginMocki, {virtual: true});
-
-    const mockAddRow = jest.fn();
-    const mockPrintTable = jest.fn();
-    const mockTable = jest.fn(() => {
-      return {
-        addRow: mockAddRow,
-        printTable: mockPrintTable
-      };
-    });
-
-    jest.mock("console-table-printer", () => {
-      return {
-        Table: mockTable
-      };
-    });
-
-    const Steps = require("./steps");
-    const opt = {
-      config: filename,
-      env: "prod",
-      output: "medium"
-    };
-    const result = Steps("Then", opt);
-
-    expect(mockTable.mock.calls).toHaveLength(1);
-    expect(mockTable.mock.calls[0][0].columns).toHaveLength(3);
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual("Plugin");
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual("Keyword");
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual("Step");
-
-    expect(mockAddRow.mock.calls).toHaveLength(1);
-    expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "restqmocki",
-      Keyword: "then",
-      Step: "ma definition de mock"
-    });
-    expect(mockPrintTable.mock.calls).toHaveLength(1);
-    expect(result).toEqual([
-      {
-        Plugin: "restqmocki",
-        Keyword: "then",
-        Step: "ma definition de mock"
-      }
-    ]);
-  });
-
-  test("Load the steps from multiple plugin but selecting the environment (output: large)", () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-  - name: prod
-    default: true
-    plugins:
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
-
-    const mockPluginMocki = new Plugin("restqmocki");
-    mockPluginMocki.addThenStep(
-      "ma definition de mock",
-      () => {},
-      "mon commentaire de mock"
-    );
-    jest.mock("@restqa/restqmocki", () => mockPluginMocki, {virtual: true});
-
-    const mockAddRow = jest.fn();
-    const mockPrintTable = jest.fn();
-    const mockTable = jest.fn(() => {
-      return {
-        addRow: mockAddRow,
-        printTable: mockPrintTable
-      };
-    });
-
-    jest.mock("console-table-printer", () => {
-      return {
-        Table: mockTable
-      };
-    });
-
-    const Steps = require("./steps");
-    const opt = {
-      config: filename,
-      env: "prod",
-      output: "large"
-    };
-    const result = Steps("Then", opt);
-
-    expect(mockTable.mock.calls).toHaveLength(1);
-    expect(mockTable.mock.calls[0][0].columns).toHaveLength(4);
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual("Plugin");
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual("Keyword");
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual("Step");
-    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual("Comment");
-
-    expect(mockAddRow.mock.calls).toHaveLength(1);
-    expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "restqmocki",
-      Keyword: "then",
-      Step: "ma definition de mock",
-      Comment: "mon commentaire de mock"
-    });
-    expect(mockPrintTable.mock.calls).toHaveLength(1);
-    expect(result).toEqual([
-      {
-        Plugin: "restqmocki",
-        Keyword: "then",
-        Step: "ma definition de mock",
-        Comment: "mon commentaire de mock"
-      }
-    ]);
-  });
-
-  test("Load the steps from multiple plugin but no output selected", () => {
-    const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-  - name: prod
-    default: true
-    plugins:
-      - name: '@restqa/restqmocki'
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-    `;
-    const filename = jestqa.createTmpFile(content, ".restqa.yml");
-
-    const mockPluginMocki = new Plugin("restqmocki");
-    mockPluginMocki.addThenStep(
-      "ma definition de mock",
-      () => {},
-      "mon commentaire de mock"
-    );
-    jest.mock("@restqa/restqmocki", () => mockPluginMocki, {virtual: true});
-
-    const mockAddRow = jest.fn();
-    const mockPrintTable = jest.fn();
-    const mockTable = jest.fn(() => {
-      return {
-        addRow: mockAddRow,
-        printTable: mockPrintTable
-      };
-    });
-
-    jest.mock("console-table-printer", () => {
-      return {
-        Table: mockTable
-      };
-    });
-
-    const Steps = require("./steps");
-    const opt = {
-      config: filename,
-      env: "prod"
-    };
-    const result = Steps("Then", opt);
-
-    expect(mockTable.mock.calls).toHaveLength(1);
-    expect(mockTable.mock.calls[0][0].columns).toHaveLength(4);
-    expect(mockTable.mock.calls[0][0].columns[0].name).toEqual("Plugin");
-    expect(mockTable.mock.calls[0][0].columns[1].name).toEqual("Keyword");
-    expect(mockTable.mock.calls[0][0].columns[2].name).toEqual("Step");
-    expect(mockTable.mock.calls[0][0].columns[3].name).toEqual("Comment");
-
-    expect(mockAddRow.mock.calls).toHaveLength(1);
-    expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "restqmocki",
-      Keyword: "then",
-      Step: "ma definition de mock",
-      Comment: "mon commentaire de mock"
-    });
-    expect(mockPrintTable.mock.calls).toHaveLength(1);
-    expect(result).toEqual([
-      {
-        Plugin: "restqmocki",
-        Keyword: "then",
-        Step: "ma definition de mock",
-        Comment: "mon commentaire de mock"
-      }
-    ]);
-  });
-
   test("Load the steps search tags and no print", () => {
     const content = `
 ---
@@ -650,18 +247,10 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
+tests:
+  unit:
+    port: 8089
+    command: npm run dev
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
@@ -741,18 +330,10 @@ metadata:
   code: API
   name: My test API
   description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://host.docker.internal:4046
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
+tests:
+  unit:
+    port: 8089
+    command: npm run dev
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 

@@ -1,16 +1,55 @@
+const treekill = require("treekill");
+const {ChildProcess} = require("child_process");
 const spawn = require("cross-spawn");
 const logger = require("../utils/logger");
 const net = require("net");
 const Locale = require("../locales")("service.run");
 const {format} = require("util");
 
-module.exports = {
-  /**
-   *
-   * @param {string} command
-   * @param {object} envs
-   */
-  execute: async function executeCommand(command, envs) {
+const DEFAULT_TIMEOUT = 4000;
+class Executor {
+  constructor(options) {
+    const {port, command, envs, silent, timeout} = options;
+
+    this._port = port;
+    this._command = command;
+    this._envs = envs || {};
+    this._silent = silent || false;
+    this._timeout = timeout || DEFAULT_TIMEOUT;
+    this._isRunning = false;
+  }
+
+  get port() {
+    return this._port;
+  }
+
+  get command() {
+    return this._command;
+  }
+
+  get envs() {
+    return this._envs;
+  }
+
+  get silent() {
+    return this._silent;
+  }
+
+  get timeout() {
+    return this._timeout;
+  }
+
+  get server() {
+    return this._server;
+  }
+
+  get isRunning() {
+    return this._isRunning;
+  }
+
+  execute() {
+    const command = this.command;
+    const envs = this.envs;
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
@@ -35,7 +74,6 @@ module.exports = {
           if (!initialized) {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
-
             resolve(server);
           }
         });
@@ -50,15 +88,23 @@ module.exports = {
           // Note: we only do it this way to be win32 compliant.
           server.kill();
         });
+        this._server = server;
       } else {
         throw new Error(
           `Executor: command should be a string but received ${typeof command}`
         );
       }
-    });
-  },
-  checkServer: async function (port, timeout = 4000) {
-    const originalTimeout = 4000;
+    })
+      .then(() => {
+        if (!this.port) return this.server;
+        return this.checkServer();
+      })
+  }
+
+  async checkServer() {
+    logger.info("service.run.waiting_server");
+    const port = this.port;
+    let timeout = this.timeout;
     return new Promise((resolve, reject) => {
       const checker = () => {
         const socket = net.createConnection({port});
@@ -78,13 +124,26 @@ module.exports = {
           } else {
             reject(
               new Error(
-                format(Locale.get("error_port_timeout"), port, originalTimeout)
+                format(Locale.get("error_port_timeout"), port, DEFAULT_TIMEOUT)
               )
             );
           }
         });
       };
       checker();
+    }).then(() => {
+      this._isRunning = true;
+    })
+    .then(() => {
+      return this.server;
     });
   }
-};
+
+  terminate() {
+    if (this.server instanceof ChildProcess) {
+      treekill(this.server.pid);
+    }
+  }
+}
+
+module.exports = Executor;

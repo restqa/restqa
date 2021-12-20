@@ -1,25 +1,20 @@
 const Joi = require("joi");
 
 function validate(config) {
-  const schemaEnvironment = Joi.object({
+  const data = Joi.object({
+    storage: Joi.string(),
+    channel: Joi.string(),
+    config: Joi.object({}).unknown(),
+    variables: Joi.object({}).unknown(),
+    startSymbol: Joi.string().default("{{"),
+    endSymbol: Joi.string().default("}}")
+  });
+
+  const integration = Joi.object({
     name: Joi.string().required(),
-    default: Joi.boolean().optional(),
+    url: Joi.string().required(),
     secrets: Joi.object({}).unknown(),
-    plugins: Joi.array()
-      .items(
-        Joi.object({
-          name: Joi.string().required(),
-          config: Joi.any()
-        })
-      )
-      .required(),
-    data: Joi.object({
-      storage: Joi.string(),
-      channel: Joi.string(),
-      config: Joi.object({}).unknown(),
-      startSymbol: Joi.string().default("{{"),
-      endSymbol: Joi.string().default("}}")
-    }).default(),
+    data,
     outputs: Joi.array().items(
       Joi.object({
         type: Joi.string(),
@@ -27,7 +22,7 @@ function validate(config) {
         config: Joi.any()
       })
     )
-  });
+  }).default([]);
 
   const schemaConfig = Joi.object({
     version: Joi.any().allow("0.0.1"),
@@ -36,12 +31,40 @@ function validate(config) {
       name: Joi.string().required(),
       description: Joi.string().required()
     },
-    environment: schemaEnvironment,
-    analytics: Joi.object({
-      key: Joi.string(),
-      ignore: Joi.array()
-    }),
-    restqa: Joi.object({
+    tests: {
+      unit: {
+        port: Joi.number().port().required(),
+        command: Joi.string().required(),
+        data
+      },
+      integrations: Joi.array().items(integration),
+      performance: {
+        tool: Joi.string().allow("artillery"),
+        outputFolder: Joi.string(),
+        onlySuccess: Joi.boolean()
+      }
+    },
+    specification: {
+      title: Joi.string(),
+      description: Joi.string(),
+      matches: {
+        ids: Joi.array()
+      },
+      export: Joi.string()
+    },
+    collection: {
+      tool: Joi.string().allow("postman"),
+      exportFile: Joi.string()
+    },
+    plugins: Joi.array()
+      .default([])
+      .items(
+        Joi.object({
+          name: Joi.string().required(),
+          config: Joi.any()
+        })
+      ),
+    settings: Joi.object({
       timeout: Joi.number(),
       dashboard: Joi.object({
         server: Joi.object({

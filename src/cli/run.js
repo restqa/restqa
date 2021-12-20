@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const cucumber = require("@cucumber/cucumber");
 
-const {program: cliProgram} = require("../../bin/program");
+const Initialize = require("../core/initialize");
 const logger = require("../utils/logger");
 
 module.exports = async function (opt, program = {}) {
@@ -12,8 +12,8 @@ module.exports = async function (opt, program = {}) {
     tags = [],
     stream = process.stdout,
     args,
-    exec: command,
-    skipInit = false
+    skipInit = false,
+    report
   } = opt;
 
   args = args || program.args || ["."];
@@ -54,18 +54,18 @@ module.exports = async function (opt, program = {}) {
   config = config || path.join(process.cwd(), ".restqa.yml");
   if (!fs.existsSync(config)) {
     if (!skipInit) {
-      await cliProgram.parseAsync([process.argv[0], process.argv[1], "init"]);
+      await Initialize();
     } else {
       return Promise.reject(
         new TypeError(`The configuration file "${config}" doesn't exist.`)
       );
     }
-  } 
+  }
 
   global.restqaOptions = {
     config,
     env,
-    command
+    report
   };
 
   // TODO : Add extra cucumber parameters from config file

@@ -60,7 +60,7 @@ const getGotInstance = function (port) {
   });
 };
 
-describe("#dashboard > Server", () => {
+describe.skip("#dashboard > Server", () => {
   describe("cors management", () => {
     test("does not return allows headers if the origin is not on the default white list", async () => {
       const config = {};
@@ -577,166 +577,6 @@ Then I should receive a response with the status 200
     });
   });
 
-  describe("/api/install", () => {
-    test('throw error if server is running on "NO CONFIG" mode', async () => {
-      const config = false;
-      server = app(config).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/install");
-      expect(response.statusCode).toBe(403);
-      expect(response.body.message).toBe(
-        "Please initiate your RestQA project before using this endpoint."
-      );
-    });
-
-    test("throw error if the integration to install doesn't exist", async () => {
-      const config = "./restqa.yml";
-      const options = {
-        name: "whatsapp",
-        env: "prod",
-        config: {
-          url: "http://webhook.whatsapp.com/test"
-        }
-      };
-      server = app(config).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/install", {
-        json: options
-      });
-      expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(
-        'The plugin "whatsapp" is not available. Use the command "restqa install" to retrive the list of available plugin'
-      );
-    });
-
-    test("throw error if the env is not passed", async () => {
-      const config = "./restqa.yml";
-      const options = {
-        name: "slack",
-        config: {
-          url: "http://webhook.slack.com/test"
-        }
-      };
-      server = app(config).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/install", {
-        json: options
-      });
-      expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(
-        "Please specify the target environment"
-      );
-    });
-
-    test("throw error if the env is not available", async () => {
-      const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://localhost:3000
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-      `;
-      filename = path.resolve(os.tmpdir(), ".restqa.yml");
-      fs.writeFileSync(filename, content);
-
-      const options = {
-        name: "slack",
-        env: "prod",
-        config: {
-          url: "http://webhook.slack.com/test"
-        }
-      };
-      server = app(filename).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/install", {
-        json: options
-      });
-      expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(
-        '"prod" is not an environment available in the config file, choose between : local'
-      );
-    });
-
-    test("Install slack", async () => {
-      const content = `
----
-
-version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: '@restqa/restqapi'
-        config:
-          url: http://localhost:3000
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: 'my-report.json'
-      `;
-      filename = path.resolve(os.tmpdir(), ".restqa.yml");
-      fs.writeFileSync(filename, content);
-
-      const options = {
-        name: "slack",
-        env: "local",
-        config: {
-          url: "http://webhook.slack.com/test"
-        }
-      };
-
-      server = app(filename).listen(0);
-      const instance = getGotInstance(server.address().port);
-      const response = await instance.post("api/restqa/install", {
-        json: options
-      });
-      expect(response.statusCode).toBe(201);
-      const expectedResult = `version: 0.0.1
-metadata:
-  code: API
-  name: My test API
-  description: The decription of the test api
-environments:
-  - name: local
-    default: true
-    plugins:
-      - name: "@restqa/restqapi"
-        config:
-          url: http://localhost:3000
-    outputs:
-      - type: file
-        enabled: true
-        config:
-          path: my-report.json
-      - type: slack
-        enabled: true
-        config:
-          url: http://webhook.slack.com/test
-          onlyFailed: false
-`;
-      expect(response.body.config).toEqual(expectedResult);
-    });
-  });
-
   describe("/api/run", () => {
     beforeEach(() => {
       jest.resetModules();
@@ -764,7 +604,9 @@ environments:
       const response = await instance.post("api/restqa/run", {json});
 
       expect(response.statusCode).toBe(406);
-      expect(response.body.message).toBe(`The configuration file "${config}" doesn't exist.`);
+      expect(response.body.message).toBe(
+        `The configuration file "${config}" doesn't exist.`
+      );
     });
 
     test("Run the test and get the result", async () => {

@@ -1,6 +1,5 @@
 const Stream = require("stream");
 const fs = require("fs");
-const path = require("path");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -72,69 +71,6 @@ describe("# Index - Generate", () => {
     };
     expect(mockGenerate.mock.calls[0][0]).toEqual(expectedOption);
     expect(mockGenerate.mock.calls[0][1]).toEqual(program);
-  });
-});
-
-describe("# Index - Initialize", () => {
-  test("Throw an error if ci is not valid", () => {
-    const options = {
-      url: "http://test.com",
-      port: 9090,
-      folder: jestqa.getTmpFolder()
-    };
-    const {Initialize} = require("./index");
-    return expect(Initialize(options)).rejects.toThrow(
-      "Please share a project name."
-    );
-  });
-
-  test("Initiate a new project", async () => {
-    jestqa.getLoggerMock();
-    const mockGenerate = jest.fn().mockResolvedValue("result");
-    jest.mock("./cli/generate", () => {
-      return mockGenerate;
-    });
-    const folder = jestqa.getTmpFolder();
-    const options = {
-      name: "sample",
-      port: 9090,
-      description: "my description",
-      ci: "gitlab-ci",
-      folder
-    };
-    const {Initialize} = require("./index");
-    const result = await Initialize(options);
-    expect(result).toEqual(path.join(folder, ".restqa.yml"));
-    expect(fs.existsSync(path.join(folder, ".gitlab-ci.yml"))).toBe(true);
-    expect(
-      fs.existsSync(
-        path.join(folder, "tests", "integration", "welcome-restqa.feature")
-      )
-    ).toBe(true);
-  });
-});
-
-describe("# Index - Install", () => {
-  test("Get result from an addon  Install", () => {
-    const mockInstall = {
-      generate: jest.fn().mockReturnValue("result")
-    };
-
-    jest.mock("./cli/install", () => {
-      return mockInstall;
-    });
-
-    const {Install} = require("./index");
-    const opt = {
-      name: "slack",
-      env: "uat"
-    };
-    expect(Install(opt)).toEqual("result");
-    expect(mockInstall.generate.mock.calls).toHaveLength(1);
-    expect(mockInstall.generate.mock.calls[0][0]).toEqual({
-      name: "slack",
-      env: "uat"
-    });
   });
 });
 
@@ -302,7 +238,7 @@ describe("# Index - Step", () => {
     });
   });
 
-  describe("# Index - Dashboard", () => {
+  describe.skip("# Index - Dashboard", () => {
     const http = require("http");
 
     test("Get the http server object", async () => {

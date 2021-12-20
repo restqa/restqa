@@ -17,25 +17,10 @@ program.version(pkg.version).hook("preAction", (parent, cmd) => {
 });
 
 program
-  .command("init")
-  .option("-y", "Initialize with default values")
-  .description("Initialize a new RestQA project")
-  .action(Cli("initialize"));
-
-program
-  .command("install [name]")
-  .alias("i")
-  .option("-c, --config <config>", "Use a specific .restqa.yml file")
-  .option("-e, --env <env>", "Define the current environment")
-  .description("Install an addon to your project")
-  .action(Cli("install"));
-
-program
   .command("steps [keyword]")
   .alias("st")
   .alias("step")
   .option("-c, --config <config>", "Use a specific .restqa.yml file")
-  .option("-e, --env <env>", "Define the current environment")
   .option("-t, --tag <tag>", "Filter the step definition by tag")
   .option(
     "-o, --output <output>",
@@ -62,14 +47,12 @@ program
     "Use --tags <EXPRESSION> to run specific features or scenarios (example: @prod)",
     (value, previous) => (previous || []).concat([value])
   )
-  .option(
-    "-x, --exec <command>",
-    "Run a command before running tests (example: npm start)"
-  )
+  .option("--report", "Export and open the RestQA report", false)
   .description("Execute the RestQA test suite")
   .usage("-c ./.restqa.yml -e local -t @success customer.feature")
   .action(Cli("run"));
 
+/*
 program
   .command("dashboard")
   .alias("d")
@@ -88,12 +71,7 @@ program
   .description("Launch the RestQA Dashboard web server")
   .usage("[options]")
   .action(Cli("dashboard"));
-
-program
-  .command("example")
-  .alias("ex")
-  .description("Run a simple RestQA example")
-  .action(Cli("example"));
+ */
 
 program
   .command("telemetry")

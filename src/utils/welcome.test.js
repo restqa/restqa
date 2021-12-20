@@ -73,7 +73,7 @@ describe("# utils - welcome", () => {
 });
 
 test("Detect broken link from the messages", async () => {
-  if (undefined === process.env.CI) return
+  if (undefined === process.env.CI) return;
   const ignoreList = [
     "https://linkedin.com/company/restqa",
     "https://restqa.io/pair"

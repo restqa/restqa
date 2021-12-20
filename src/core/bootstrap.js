@@ -27,26 +27,60 @@ module.exports = function (processor, options = {}) {
   }
 
   const {defineParameterType, setWorldConstructor} = processor;
+  const {env, configFile} = options;
 
-  const config = new Config(options);
-  if (config.restqa && config.restqa.timeout) {
-    processor.setDefaultTimeout(config.restqa.timeout);
+  const config = new Config();
+  config.load(configFile);
+  if (config.getSettings().getTimeout()) {
+    processor.setDefaultTimeout(config.getSettings().getTimeout());
   }
-  logger.info("service.select_environment", config.environment.name);
+
+  if (
+    !env &&
+    (!config.getUnitTest().getPort() || !config.getUnitTest().getCommand())
+  ) {
+    throw new Error(
+      "The unit test can't be executed due to missing unit test configuration"
+    );
+  }
+
+  if (env && !config.getIntegrationTests().length) {
+    throw new Error(
+      "The integration test can't be executed due to missing integration test configuration"
+    );
+  }
+
+  const environment = {
+    name: config.getUnitTest().getName(),
+    url: config.getUnitTest().getUrl(),
+    data: config.getUnitTest().getData()
+  };
+
+  if (env) {
+    environment.name = config.getIntegrationTest(env).getName();
+    environment.url = config.getIntegrationTest(env).getUrl();
+    environment.data = config.getIntegrationTest(env).getData();
+  }
+
+  logger.info("service.select_environment", environment.name);
 
   // Plugin settings
-  const plugins = config.environment.plugins.map(
-    getPluginModule(options, processor)
-  );
+  const RestQAPI = {
+    getName: () => "@restqa/restqapi",
+    getConfig: () => ({
+      url: environment.url
+    })
+  };
+  let plugins = [RestQAPI].concat(config.getPlugins());
+  plugins = plugins.map(getPluginModule(options, processor));
 
   // Data settings
-  const {data, secrets} = config.environment;
-  const provider = RestQAData(data);
-  const dataInstance = new Data(data, provider);
-  if (secrets) {
-    Object.keys(secrets).forEach((_) => dataInstance.set(_, secrets[_]));
+  const provider = RestQAData(environment.data);
+  const dataInstance = new Data(environment.data.toJSON(), provider);
+  for (const key in environment.data.getVariables()) {
+    dataInstance.set(key, environment.data.getVariables()[key]);
   }
-  defineParameterType(buildParameterTypeRegexp(data));
+  defineParameterType(buildParameterTypeRegexp(environment.data));
 
   options.config = config;
   CorePlugin(options, processor);
@@ -58,12 +92,7 @@ module.exports = function (processor, options = {}) {
 
 function getPluginModule(options, processor) {
   return function (plugin) {
-    let {name} = plugin;
-
-    // Due to some changes we need to handle retro-compatibility
-    if (["restqapi"].includes(name)) {
-      name = `@restqa/${name}`;
-    }
+    const name = plugin.getName();
 
     let instance;
     if (name === "@restqa/restqapi") {
@@ -75,7 +104,7 @@ function getPluginModule(options, processor) {
       )(name);
     }
     options.plugin = instance.name;
-    instance._commit(processor, plugin.config);
+    instance._commit(processor, plugin.getConfig());
     return instance;
   };
 }
@@ -123,16 +152,15 @@ function getWorld(plugins, data) {
 
 function buildParameterTypeRegexp(data) {
   const regexp = new RegExp(
-    `${data.startSymbol.replace(/(?=\W)/g, "\\")}(.*)${data.endSymbol.replace(
-      /(?=\W)/g,
-      "\\"
-    )}`
+    `${data.getStartSymbol().replace(/(?=\W)/g, "\\")}(.*)${data
+      .getEndSymbol()
+      .replace(/(?=\W)/g, "\\")}`
   );
 
   return {
     regexp,
     transformer: function (value) {
-      value = `${data.startSymbol} ${value} ${data.endSymbol}`;
+      value = `${data.getStartSymbol()} ${value} ${data.getEndSymbol()}`;
       return this.data.get(value);
     },
     name: "data"

@@ -1,7 +1,7 @@
 const {Table} = require("console-table-printer");
-const Config = require("../config");
 const Bootstrap = require("../core/bootstrap");
 const chalk = require("chalk");
+const path = require("path");
 
 function getSteps(keyword, options) {
   const result = {};
@@ -38,7 +38,7 @@ function getSteps(keyword, options) {
 }
 
 module.exports = function (keyword, program) {
-  let {config, tag, print, env, output} = program || {};
+  let {config, tag, print, output} = program || {};
 
   print = undefined === print ? true : print;
 
@@ -66,22 +66,8 @@ module.exports = function (keyword, program) {
   output = output && output.toLowerCase();
 
   const options = {
-    configFile: Config.locate({configFile: config}),
-    env
+    configFile: config || path.resolve(process.cwd(), ".restqa.yml")
   };
-
-  if (options.env) {
-    const restqaConfig = Config.raw({configFile: config});
-    if (restqaConfig.environments.findIndex((_) => _.name === env) === -1) {
-      throw new Error(
-        `"${
-          options.env
-        }" is not an environment available in the config file, choose between : ${restqaConfig.environments
-          .map((_) => _.name)
-          .join(", ")}`
-      );
-    }
-  }
 
   const columns = [
     {name: "Plugin", alignment: "left", color: "green"},
