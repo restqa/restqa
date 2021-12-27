@@ -12,6 +12,8 @@ load 'common.sh'
   assert_output --partial '-e, --env <env>        Define the current environment'
   assert_output --partial '-c, --config <config>  Use a specific .restqa.yml file'
   assert_output --partial '-t, --tags <tags>      Use --tags <EXPRESSION> to run specific features'
+  assert_output --partial '-s, --silent           Hide the logs output of the microservice'
+  assert_output --partial '-r, --report           Export and open the RestQA report'
   #assert_output --partial "or scenarios (example: @prod)"
   assert_output --partial '-h, --help             display help for command'
 }
@@ -54,7 +56,7 @@ teardown() {
   cp ./bin/tests/features/success/.restqa.yml "$WORKDIR/.restqa.yml"
   cd $WORKDIR
 
-  run restqa run -e prod
+  run restqa run -e PROD
 
   assert_failure
   assert_output --partial "Error: The environment \"PROD\" doesn't exist. Available: UAT"
@@ -66,12 +68,35 @@ teardown() {
   cp ./bin/tests/features/success/.restqa.yml "$WORKDIR/"
   cd $WORKDIR
 
-  run restqa run
+  run restqa run -t @unit
 
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   assert_output --partial 'Target url: http://localhost:3010'
-  assert_output --partial '1 scenario (1 passed)'
+  assert_output --partial 'Server is running (command: npm run dev)'
+  assert_output --partial 'Waiting for the server to be up...'
+  assert_output --partial '|> DEBUG: log'
+  assert_output --partial 'Console log from the microservice'
+  assert_output --partial 'PASSED - Fixture to do the functional testing > Scenario all good'
+  assert_output --partial '1 passed, 1 total'
+}
+
+@test "[RUN]> Successfull unit test silent mode" {
+  cp ./bin/tests/features/success/* "$WORKDIR/"
+  cp ./bin/tests/features/success/.restqa.yml "$WORKDIR/"
+  cd $WORKDIR
+
+  run restqa run -s -t @unit
+
+  assert_success
+  assert_output --partial 'The selected environment is: "local"'
+  assert_output --partial 'Target url: http://localhost:3010'
+  assert_output --partial 'Server is running (command: npm run dev)'
+  assert_output --partial 'Waiting for the server to be up...'
+  refute_output --partial '|> DEBUG: log'
+  refute_output --partial 'Console log from the microservice'
+  assert_output --partial 'PASSED - Fixture to do the functional testing > Scenario all good'
+  assert_output --partial '1 passed, 1 total'
 }
 
 @test "[RUN]> Successfull integration test" {
@@ -79,7 +104,7 @@ teardown() {
   cp ./bin/tests/features/success/.restqa.yml "$WORKDIR/"
   cd $WORKDIR
 
-  run restqa run -e uat
+  run restqa run -e uat -t @integration
   assert_success
   assert_output --partial 'The selected environment is: "UAT"'
   assert_output --partial 'Target url: https://api.restqa.io'
@@ -87,7 +112,7 @@ teardown() {
 }
 
 @test "[RUN]> Using the alias (r) using -c options" {
-  run restqa r -c ./bin/tests/features/success/.restqa.yml ./bin/tests/features/success/ -e uat
+  run restqa r -c ./bin/tests/features/success/.restqa.yml ./bin/tests/features/success/ -e uat -t @integration
   assert_success
   assert_output --partial 'The selected environment is: "UAT"'
   assert_output --partial '1 scenario (1 passed)'
@@ -119,7 +144,7 @@ teardown() {
   assert_output --partial 'Error: The tags should start with the symbol "@" (example: @select)'
 }
 
-@test "[RUN]> TAG > Run on the scenario taggdd" {
+@test "[RUN]> TAG > Run on the scenario tagged" {
   run restqa run -t @select -c ./bin/tests/features/tags/.restqa.yml  -e uat ./bin/tests/features/tags/
   assert_success
   assert_output --partial '1 scenario (1 passed)'
@@ -134,7 +159,12 @@ teardown() {
   npm i
   run restqa run
   assert_success
+  assert_output --partial 'The selected environment is: "local"'
+  assert_output --partial 'Target url: http://localhost:9999'
+  assert_output --partial '> Spin up the http-mock-server 👻 <'
+  assert_output --partial 'Loaded: GET /github/status'
   assert_output --partial 'Server is running (command: npm start)'
-  assert_output --partial '1 scenario (1 passed)'
-  assert_output --partial '6 steps (6 passed)'
+  assert_output --partial 'Waiting for the server to be up...'
+  assert_output --partial 'PASSED - Hello > Scenario using mock'
+  assert_output --partial '1 passed, 1 total'
 }

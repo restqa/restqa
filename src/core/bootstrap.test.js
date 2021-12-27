@@ -1,4 +1,5 @@
 const Plugin = require("@restqa/plugin");
+const Config = require("../config");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -62,9 +63,7 @@ describe("#bootstrap", () => {
         setWorldConstructor: jest.fn(),
         setDefaultTimeout: jest.fn()
       });
-    }).toThrow(
-      new Error('The configuration file located at "undefined" doesn\'t exist.')
-    );
+    }).toThrow(new Error("The configuration is not loaded"));
   });
 
   test("Load plugin @restqa/restqapi then run setup the processor", () => {
@@ -108,8 +107,12 @@ tests:
       setWorldConstructor: jest.fn(),
       setDefaultTimeout: jest.fn()
     };
+
+    const config = new Config();
+    config.load(filename);
     const options = {
-      configFile: filename
+      config,
+      isUnitTest: true
     };
 
     const Bootstrap = require("./bootstrap");
@@ -191,8 +194,12 @@ tests:
       setWorldConstructor: jest.fn(),
       setDefaultTimeout: jest.fn()
     };
+
+    const config = new Config();
+    config.load(filename);
     const options = {
-      configFile: filename,
+      config,
+      isUnitTest: false,
       env: "uat"
     };
 
@@ -298,8 +305,11 @@ settings:
       setDefaultTimeout: jest.fn()
     };
 
+    const config = new Config();
+    config.load(filename);
     const options = {
-      configFile: filename,
+      config,
+      isUnitTest: false,
       env: "local"
     };
 
@@ -391,8 +401,11 @@ tests:
       setDefaultTimeout: jest.fn()
     };
 
+    const config = new Config();
+    config.load(filename);
     const options = {
-      configFile: filename,
+      config,
+      isUnitTest: false,
       env: "uat"
     };
 
@@ -435,8 +448,11 @@ tests:
       setDefaultTimeout: jest.fn()
     };
 
+    const config = new Config();
+    config.load(filename);
     const options = {
-      configFile: filename
+      config,
+      isUnitTest: true
     };
 
     const Bootstrap = require("./bootstrap");

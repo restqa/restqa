@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const cucumber = require("@cucumber/cucumber");
 
+const Global = require("../core/global");
 const Initialize = require("../core/initialize");
 const logger = require("../utils/logger");
 
@@ -11,8 +12,10 @@ module.exports = async function (opt, program = {}) {
     config,
     tags = [],
     stream = process.stdout,
+    exportStream,
     args,
     skipInit = false,
+    silent,
     report
   } = opt;
 
@@ -62,11 +65,31 @@ module.exports = async function (opt, program = {}) {
     }
   }
 
-  global.restqaOptions = {
+  const globalOptions = {
+    configFile: config,
     config,
     env,
-    report
+    report,
+    exportStream,
+    silent
   };
+
+  const $global = new Global(globalOptions);
+  global.restqa = $global;
+
+  const exportFormatter = "../src/formatters/export-formatter:.restqa.log";
+
+  let formatters = [];
+  if ($global.isUnitTest()) {
+    if (report) {
+      formatters.push(exportFormatter);
+    }
+    formatters.push("../src/formatters/unit-test-formatter");
+  } else {
+    formatters.push(exportFormatter);
+  }
+
+  formatters = formatters.map((_) => ["--format", _]).flat();
 
   // TODO : Add extra cucumber parameters from config file
   const customOptions = [
@@ -74,11 +97,9 @@ module.exports = async function (opt, program = {}) {
     "cucumber-js",
     "--require",
     "../src/setup.js",
-    "--format",
-    "../src/restqa-formatter:.restqa.log",
     "--format-options",
     '{"snippetSyntax": "../src/restqa-snippet.js"}'
-  ];
+  ].concat(formatters);
 
   if (tags) {
     tags.forEach((tag) => {
