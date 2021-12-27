@@ -1,16 +1,17 @@
 const {getFormatter} = require("@restqa/cucumber-export");
-const Config = require("./config");
-const Welcome = require("./utils/welcome");
+const Welcome = require("../utils/welcome");
 
+/*
 const restqa = {
-  env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
-  configFile: process.env.RESTQA_CONFIG,
+  //env: process.env.RESTQA_ENV && String(process.env.RESTQA_ENV).toLowerCase(),
+  //configFile: process.env.RESTQA_CONFIG,
   tmpFileExport: global.restqa && global.restqa.tmpExport,
   report: (global.restqaOptions && global.restqaOptions.report) || false
 };
+*/
 
-const config = new Config();
-config.load(restqa.configFile);
+const {restqa} = global;
+const {config, env, report, exportStream} = restqa;
 
 const msg = new Welcome(config.getSettings().getTips());
 
@@ -22,7 +23,7 @@ const test = {
   outputs: [
     {
       type: "html",
-      enabled: restqa.report,
+      enabled: report,
       config: {
         folder: "restqa"
       }
@@ -30,9 +31,9 @@ const test = {
   ]
 };
 
-if (restqa.env) {
-  test.name = config.getIntegrationTest(restqa.env).getName();
-  test.outputs = config.getIntegrationTest(restqa.env).getOutputs();
+if (!restqa.isUnitTest()) {
+  test.name = config.getIntegrationTest(env).getName();
+  test.outputs = config.getIntegrationTest(env).getOutputs();
 }
 
 const options = {
@@ -53,12 +54,12 @@ const options = {
   outputs: test.outputs || []
 };
 
-if (restqa.tmpFileExport) {
+if (restqa.exportStream) {
   options.outputs.push({
     type: "stream",
     enabled: true,
     config: {
-      instance: restqa.tmpFileExport
+      instance: exportStream
     }
   });
 }

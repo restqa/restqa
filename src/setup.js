@@ -1,16 +1,12 @@
 const Cucumber = require("@cucumber/cucumber");
 const Bootstrap = require("./core/bootstrap");
 
-if (global.restqaOptions.env) {
-  process.env.RESTQA_ENV =
-    global.restqaOptions.env && String(global.restqaOptions.env).toUpperCase();
-}
-process.env.RESTQA_CONFIG = global.restqaOptions.config;
-
+const {restqa} = global;
 const options = {
-  env: process.env.RESTQA_ENV,
-  configFile: process.env.RESTQA_CONFIG,
-  command: global.restqaOptions.command
+  env: restqa.env,
+  config: restqa.config,
+  isUnitTest: restqa.isUnitTest(),
+  outputStream: restqa.outputStream
 };
 
 Bootstrap(Cucumber, options);

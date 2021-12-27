@@ -129,17 +129,15 @@ describe("# Index - Step", () => {
         fs.unlinkSync(filename);
         filename = undefined;
       }
-      global.restqa = global.restqa || {};
-      global.restqa.tmpExport = null;
     });
 
     test("Get result from run", async () => {
-      const mockRun = jest.fn().mockImplementation(() => {
+      let exportStream;
+      const mockRun = jest.fn().mockImplementation((options) => {
         // simulate the writting of an file export from cucumber-export module
-        global.restqa.tmpExport.write(
-          Buffer.from(JSON.stringify({foo: "bar"}))
-        );
-        global.restqa.tmpExport.end();
+        options.exportStream.write(Buffer.from(JSON.stringify({foo: "bar"})));
+        options.exportStream.end();
+        exportStream = options.exportStream;
 
         return Promise.resolve("result");
       });
@@ -157,27 +155,26 @@ describe("# Index - Step", () => {
         path: "tests/"
       };
 
-      expect(global.restqa.tmpExport).toBeNull();
       const {Run} = require("./index");
       await expect(Run(opt)).resolves.toEqual({foo: "bar"});
-      expect(global.restqa.tmpExport).not.toBeNull();
       expect(mockRun.mock.calls).toHaveLength(1);
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: "/tmp/.restqa.yml",
         env: "local",
         stream,
         tags: [],
-        args: ["tests/"]
+        args: ["tests/"],
+        exportStream
       });
     });
 
     test("Get result from run without path", async () => {
-      const mockRun = jest.fn().mockImplementation(() => {
+      let exportStream;
+      const mockRun = jest.fn().mockImplementation((options) => {
         // simulate the writting of an file export from cucumber-export module
-        global.restqa.tmpExport.write(
-          Buffer.from(JSON.stringify({foo: "bar"}))
-        );
-        global.restqa.tmpExport.end();
+        options.exportStream.write(Buffer.from(JSON.stringify({foo: "bar"})));
+        options.exportStream.end();
+        exportStream = options.exportStream;
 
         return Promise.resolve("result");
       });
@@ -195,22 +192,27 @@ describe("# Index - Step", () => {
       };
 
       const {Run} = require("./index");
-      expect(global.restqa.tmpExport).toBeNull();
       await expect(Run(opt)).resolves.toEqual({foo: "bar"});
-      expect(global.restqa.tmpExport).not.toBeNull();
       expect(mockRun.mock.calls).toHaveLength(1);
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: "/tmp/.restqa.yml",
         env: "local",
         tags: [],
-        stream
+        stream,
+        exportStream
       });
     });
 
     test("throw error if runner has an issue", async () => {
-      const mockRun = jest
-        .fn()
-        .mockRejectedValue(new Error("Issue with the file"));
+      let exportStream;
+      const mockRun = jest.fn().mockImplementation((options) => {
+        // simulate the writting of an file export from cucumber-export module
+        options.exportStream.write(Buffer.from(JSON.stringify({foo: "bar"})));
+        options.exportStream.end();
+        exportStream = options.exportStream;
+
+        return Promise.reject(new Error("Issue with the file"));
+      });
 
       jest.mock("./cli/run", () => {
         return mockRun;
@@ -225,15 +227,14 @@ describe("# Index - Step", () => {
       };
 
       const {Run} = require("./index");
-      expect(global.restqa.tmpExport).toBeNull();
       await expect(Run(opt)).rejects.toEqual(new Error("Issue with the file"));
-      expect(global.restqa.tmpExport).not.toBeNull();
       expect(mockRun.mock.calls).toHaveLength(1);
       expect(mockRun.mock.calls[0][0]).toEqual({
         config: "/tmp/.restqa.yml",
         env: "local",
         stream,
-        tags: ["@success"]
+        tags: ["@success"],
+        exportStream
       });
     });
   });

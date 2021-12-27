@@ -1,3 +1,4 @@
+const Global = require("../core/global");
 const {Table} = require("console-table-printer");
 const Bootstrap = require("../core/bootstrap");
 const chalk = require("chalk");
@@ -65,10 +66,6 @@ module.exports = function (keyword, program) {
   keyword = keyword.toLowerCase();
   output = output && output.toLowerCase();
 
-  const options = {
-    configFile: config || path.resolve(process.cwd(), ".restqa.yml")
-  };
-
   const columns = [
     {name: "Plugin", alignment: "left", color: "green"},
     {name: "Keyword", alignment: "left"},
@@ -87,7 +84,16 @@ module.exports = function (keyword, program) {
 
   const table = new Table({columns});
 
-  let steps = getSteps(keyword, options);
+  const options = {
+    configFile: config || path.resolve(process.cwd(), ".restqa.yml")
+  };
+
+  const $global = new Global(options);
+
+  let steps = getSteps(keyword, {
+    config: $global.config,
+    isUnitTest: true
+  });
 
   if (tag) {
     const reg = new RegExp(tag);
