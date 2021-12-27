@@ -1,4 +1,5 @@
 const Executor = require("./executor");
+const Global = require("./global");
 
 jest.useFakeTimers("legacy");
 
@@ -14,11 +15,13 @@ describe("# utils - executor", () => {
     .spyOn(Logger, "success")
     .mockImplementation(jest.fn());
 
-  /*
-  const loggerInfoSpy = jest
-    .spyOn(Logger, "info")
-    .mockImplementation(jest.fn());
-  */
+  beforeEach(() => {
+    global.restqa = new Global();
+  });
+
+  afterEach(() => {
+    delete global.restqa;
+  });
 
   test("given an valid command when we execute it then process.stdout.write should have been called (not a server)", async () => {
     // Given
@@ -73,7 +76,9 @@ describe("# utils - executor", () => {
       // Then
       // eslint-disable-next-line
       expect(error).toEqual(
-        new Error(`Error during running command ${optionsWithInvalidCommand.command}`)
+        new Error(
+          `Error during running command ${optionsWithInvalidCommand.command}`
+        )
       );
     }
   });

@@ -1,6 +1,7 @@
 const http = require('http')
 
 http.createServer(function (req, res) {
+  console.log('Console log from the microservice')
   const result = JSON.stringify({
     message: "Hello World"
   });

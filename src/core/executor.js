@@ -62,7 +62,8 @@ class Executor {
         });
 
         // reject if an error happened
-        server.stderr.on("data", () => {
+        server.stderr.on("data", (chunk) => {
+          this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
             reject(new Error(`Error during running command ${command}`));
@@ -70,7 +71,8 @@ class Executor {
         });
 
         // resolve when process is spawn successfully
-        server.stdout.on("data", () => {
+        server.stdout.on("data", (chunk) => {
+          this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
@@ -94,11 +96,14 @@ class Executor {
           `Executor: command should be a string but received ${typeof command}`
         );
       }
-    })
-      .then(() => {
-        if (!this.port) return this.server;
-        return this.checkServer();
-      })
+    }).then(() => {
+      if (!this.port) return this.server;
+      return this.checkServer();
+    });
+  }
+
+  log(str) {
+    global.restqa.outputStream.addDebugLog(str);
   }
 
   async checkServer() {
@@ -131,12 +136,13 @@ class Executor {
         });
       };
       checker();
-    }).then(() => {
-      this._isRunning = true;
     })
-    .then(() => {
-      return this.server;
-    });
+      .then(() => {
+        this._isRunning = true;
+      })
+      .then(() => {
+        return this.server;
+      });
   }
 
   terminate() {

@@ -105,9 +105,7 @@ function Run(options) {
       next();
     }
   };
-  const stream = new Stream.Writable(optStream);
-  global.restqa = global.restqa || {};
-  global.restqa.tmpExport = stream;
+  const exportStream = new Stream.Writable(optStream);
 
   let args;
 
@@ -121,13 +119,14 @@ function Run(options) {
     stream: options.stream,
     tags: options.tags || [],
     args,
-    skipInit: options.skipInit
+    skipInit: options.skipInit,
+    exportStream
   })
     .then(() => {
       return result;
     })
     .finally(() => {
-      delete require.cache[require.resolve("./restqa-formatter.js")];
+      delete require.cache[require.resolve("./formatters/export-formatter.js")];
       delete require.cache[require.resolve("./setup.js")];
     });
 }

@@ -19,7 +19,6 @@ const DEFAULT_ANSWER = {
 async function initialize(program = {}) {
   const {folder} = program;
 
-
   const questionName = {
     type: "input",
     name: "name",
