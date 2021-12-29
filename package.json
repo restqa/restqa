@@ -67,7 +67,7 @@
     "restqa": "./bin/restqa"
   },
   "engines": {
-    "node": ">=12.2.0"
+    "node": ">=14.2.0"
   },
   "main": "src/index.js",
   "devDependencies": {
