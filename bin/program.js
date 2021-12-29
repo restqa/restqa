@@ -47,7 +47,8 @@ program
     "Use --tags <EXPRESSION> to run specific features or scenarios (example: @prod)",
     (value, previous) => (previous || []).concat([value])
   )
-  .option("--report", "Export and open the RestQA report", false)
+  .option("-r, --report", "Export and open the RestQA report", false)
+  .option("-s, --silent", "Hide the logs output of the microservice", false)
   .description("Execute the RestQA test suite")
   .usage("-c ./.restqa.yml -e local -t @success customer.feature")
   .action(Cli("run"));

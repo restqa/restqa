@@ -1,5 +1,6 @@
 const Stream = require("stream");
-const Welcome = require("./utils/welcome");
+const Welcome = require("../utils/welcome");
+const Global = require("../core/global");
 
 const {MESSAGES} = new Welcome();
 
@@ -21,7 +22,6 @@ jestqa.hooks.beforeEach = function () {
   delete process.env.RESTQA_COMMIT_SHA;
 
   delete global.restqa;
-  delete global.restqaOptions;
 };
 
 describe("restqa-formatter", () => {
@@ -48,9 +48,12 @@ tests:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
+    const options = {
+      configFile: filename
+    };
+    global.restqa = new Global(options);
 
-    require("./restqa-formatter");
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {
@@ -70,11 +73,8 @@ tests:
     expect(mockGetFormatter.mock.calls[0][0]).toMatchObject(expectedOption);
     expect(MESSAGES).toContain(mockGetFormatter.mock.calls[0][0].title);
   });
-  test("Export information for the unit tests", () => {
-    global.restqaOptions = {
-      report: true
-    };
 
+  test("Export information for the unit tests", () => {
     const content = `
 ---
 
@@ -97,9 +97,13 @@ tests:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
+    const options = {
+      configFile: filename,
+      report: true
+    };
+    global.restqa = new Global(options);
 
-    require("./restqa-formatter");
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {
@@ -154,10 +158,13 @@ settings:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
-    process.env.RESTQA_ENV = "uat";
+    const options = {
+      configFile: filename,
+      env: "uat"
+    };
+    global.restqa = new Global(options);
 
-    require("./restqa-formatter");
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {
@@ -214,12 +221,16 @@ settings:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
-    process.env.RESTQA_ENV = "uat";
     process.env.RESTQA_REPOSITORY = "restqa/restqa-test";
     process.env.RESTQA_COMMIT_SHA = "70a94f1b8b568ff6101a9a7fe20bce64f3db1983";
 
-    require("./restqa-formatter");
+    const options = {
+      configFile: filename,
+      env: "uat"
+    };
+    global.restqa = new Global(options);
+
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {
@@ -277,16 +288,17 @@ settings:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
-    process.env.RESTQA_ENV = "uat";
     process.env.GITHUB_REPOSITORY = "restqa/restqa-github";
     process.env.GITHUB_SHA = "6666f1b8b568ff6101a9a7fe20bce64f3db1983";
 
-    global.restqa = {
-      tmpExport: new Stream.Writable()
+    const options = {
+      configFile: filename,
+      env: "uat",
+      exportStream: new Stream.Writable()
     };
+    global.restqa = new Global(options);
 
-    require("./restqa-formatter");
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {
@@ -308,7 +320,7 @@ settings:
           type: "stream",
           enabled: true,
           config: {
-            instance: global.restqa.tmpExport
+            instance: options.exportStream
           }
         }
       ]
@@ -351,12 +363,16 @@ settings:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
-    process.env.RESTQA_ENV = "uat";
     process.env.CI_PROJECT_PATH = "restqa/restqa-gitlab";
     process.env.CI_COMMIT_SHA = "77777f1b8b568ff6101a9a7fe20bce64f3db1983";
 
-    require("./restqa-formatter");
+    const options = {
+      configFile: filename,
+      env: "uat"
+    };
+    global.restqa = new Global(options);
+
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {
@@ -414,12 +430,16 @@ settings:
       };
     });
 
-    process.env.RESTQA_CONFIG = filename;
-    process.env.RESTQA_ENV = "uat";
     process.env.BITBUCKET_REPO_SLUG = "restqa/restqa-bitbucket";
     process.env.BITBUCKET_COMMIT = "8888f1b8b568ff6101a9a7fe20bce64f3db1983";
 
-    require("./restqa-formatter");
+    const options = {
+      configFile: filename,
+      env: "uat"
+    };
+    global.restqa = new Global(options);
+
+    require("./export-formatter");
 
     expect(mockGetFormatter).toHaveBeenCalled();
     const expectedOption = {

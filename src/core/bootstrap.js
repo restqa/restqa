@@ -1,4 +1,3 @@
-const Config = require("../config");
 const Data = require("./data");
 const logger = require("../utils/logger");
 const path = require("path");
@@ -27,16 +26,18 @@ module.exports = function (processor, options = {}) {
   }
 
   const {defineParameterType, setWorldConstructor} = processor;
-  const {env, configFile} = options;
+  const {env, config, isUnitTest} = options;
 
-  const config = new Config();
-  config.load(configFile);
+  if (!config) {
+    throw new Error("The configuration is not loaded");
+  }
+
   if (config.getSettings().getTimeout()) {
     processor.setDefaultTimeout(config.getSettings().getTimeout());
   }
 
   if (
-    !env &&
+    isUnitTest &&
     (!config.getUnitTest().getPort() || !config.getUnitTest().getCommand())
   ) {
     throw new Error(
@@ -44,7 +45,7 @@ module.exports = function (processor, options = {}) {
     );
   }
 
-  if (env && !config.getIntegrationTests().length) {
+  if (!isUnitTest && !config.getIntegrationTests().length) {
     throw new Error(
       "The integration test can't be executed due to missing integration test configuration"
     );

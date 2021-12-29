@@ -2,6 +2,7 @@ const jestqa = new JestQA(__filename, true);
 const {ChildProcess} = require("child_process");
 const Config = require("../config");
 const express = require("express");
+const Global = require("./global");
 
 beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
@@ -11,6 +12,14 @@ describe("#core - plugin", () => {
     const servers = [];
     afterAll(() => {
       servers.forEach((server) => server.close());
+    });
+
+    beforeEach(() => {
+      global.restqa = new Global();
+    });
+
+    afterEach(() => {
+      delete global.restqa;
     });
 
     function setExecutor(
@@ -26,7 +35,9 @@ describe("#core - plugin", () => {
             },
             stdout: {
               on: (evt, fn) => {
-                setTimeout(fn, 100);
+                setTimeout(() => {
+                  fn("output");
+                }, 100);
               }
             },
             on: jest.fn()
