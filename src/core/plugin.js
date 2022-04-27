@@ -1,4 +1,4 @@
-const Executor = require("../core/executor");
+const Executor = require("./executor");
 
 module.exports = function ({env, config}, processor = {}) {
   if (!processor.BeforeAll || !processor.AfterAll) {

@@ -1,33 +1,31 @@
 <template>
-  <div id="dashboard-analytics">
-    <el-row v-if="!hasConfig">
-      <el-col :span="10" :offset="7">
-        <restqa-project-init></restqa-project-init>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20" v-if="hasConfig">
-      <el-col :span="8">
-        <el-space class="w100" direction="vertical">
-          <restqa-project-config></restqa-project-config>
-          <restqa-team-note></restqa-team-note>
-          <restqa-sponsors></restqa-sponsors>
-        </el-space>
-      </el-col>
-      <el-col :span="10">
-        <el-space class="w100" direction="vertical">
-          <restqa-project-result></restqa-project-result>
-          <restqa-project-ai></restqa-project-ai>
-          <restqa-tips></restqa-tips>
-        </el-space>
-      </el-col>
-      <el-col :span="6">
-        <el-space class="w100" direction="vertical">
-          <restqa-team-blog></restqa-team-blog>
-          <restqa-team-video></restqa-team-video>
-        </el-space>
-      </el-col>
-    </el-row>
-  </div>
+  <el-row v-if="!hasConfig">
+    <el-col :span="10" :offset="7">
+      <restqa-project-init></restqa-project-init>
+    </el-col>
+  </el-row>
+  <el-row :gutter="20" v-if="hasConfig">
+    <el-col :span="8">
+      <el-space class="w100" direction="vertical">
+        <restqa-project-config></restqa-project-config>
+        <restqa-team-note></restqa-team-note>
+        <restqa-sponsors></restqa-sponsors>
+      </el-space>
+    </el-col>
+    <el-col :span="10">
+      <el-space class="w100" direction="vertical">
+        <restqa-project-result></restqa-project-result>
+        <restqa-project-ai></restqa-project-ai>
+        <restqa-tips></restqa-tips>
+      </el-space>
+    </el-col>
+    <el-col :span="6">
+      <el-space class="w100" direction="vertical">
+        <restqa-team-blog></restqa-team-blog>
+        <restqa-team-video></restqa-team-video>
+      </el-space>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -42,7 +40,7 @@ import RestqaTips from "@/components/restqa/tips/RestQATips.vue";
 import RestqaProjectAi from "@/components/restqa/project-ai/RestQAProjectAi.vue";
 
 export default {
-  name: "Homepage",
+  name: "HomepageDashboard",
   components: {
     RestqaTeamNote,
     RestqaTeamVideo,
