@@ -229,4 +229,30 @@ describe("getters", () => {
       expect(result).toEqual(false);
     });
   });
+
+  describe("testReport", () => {
+    test("get the test report", () => {
+      const state = {
+        testReport: {
+          foo: "bar"
+        }
+      };
+
+      const result = getters.testReport(state);
+      expect(result).toEqual({foo: "bar"});
+    });
+  });
+
+  describe("projectStatus", () => {
+    test("get the project status", () => {
+      const state = {
+        projectStatus: {
+          foo: "bar"
+        }
+      };
+
+      const result = getters.projectStatus(state);
+      expect(result).toEqual({foo: "bar"});
+    });
+  });
 });
