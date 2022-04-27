@@ -36,7 +36,7 @@ const router = createRouter({
         {
           path: "",
           name: "homepage",
-          component: () => import("./views/Homepage.vue"),
+          component: () => import("./views/homepage/Homepage.vue"),
           meta: {
             title: "Dashboard"
           }
@@ -63,6 +63,39 @@ const router = createRouter({
           component: () => import("./views/sandbox/Sandbox.vue"),
           meta: {
             title: "Sandbox"
+          }
+        },
+        {
+          path: "/features",
+          name: "features",
+          component: () => import("./views/testReport/Features.vue"),
+          meta: {
+            title: "Feature"
+          }
+        },
+        {
+          path: "/features/:id",
+          name: "feature",
+          component: () => import("./views/testReport/Feature.vue"),
+          meta: {
+            title: "Feature",
+            parentRoute: "features"
+          }
+        },
+        {
+          path: "/openapi",
+          name: "openapi",
+          component: () => import("./views/openapi/Openapi.vue"),
+          meta: {
+            title: "API Specification"
+          }
+        },
+        {
+          path: "/postam-collection",
+          name: "postman-collection",
+          component: () => import("./views/postman/Postman.vue"),
+          meta: {
+            title: "Postman Collection"
           }
         }
       ]

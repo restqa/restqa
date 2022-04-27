@@ -12,10 +12,18 @@
     >
     <el-link
       type="info"
+      icon="el-icon-magic-stick"
+      @click.prevent="copyCurl()"
+      class="btn btn-info"
+      v-if="hasAttachement && data.keyword.trim() === 'When'"
+      >Copy Curl command</el-link
+    >
+    <el-link
+      type="info"
       icon="el-icon-info"
       @click.prevent="showInfo"
       class="btn btn-info"
-      v-if="hasAttachement"
+      v-if="hasAttachement && data.keyword.trim() !== 'When'"
       >Show info</el-link
     >
     <pre class="debug debug-error" v-if="show.error">{{
@@ -32,6 +40,8 @@
   </div>
 </template>
 <script>
+import {copyText} from "vue3-clipboard";
+
 export default {
   name: "RestQAProjectEditorRunnerStep",
   props: {
@@ -83,6 +93,19 @@ export default {
         */
       }
       return result;
+    },
+    copyCurl() {
+      const curlCommand = this.data.embeddings[0].data;
+      copyText(curlCommand, undefined, (error) => {
+        const type = error ? "error" : "success";
+        const message = error
+          ? error.message
+          : "Curl command copied into your clipboard";
+        this.$notify({
+          message,
+          type
+        });
+      });
     }
   }
 };
