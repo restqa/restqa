@@ -1,6 +1,10 @@
 const Executor = require("./executor");
+const GitStat = require("./git-stat");
 
 module.exports = function ({env, config}, processor = {}) {
+  global.result = {};
+  global.restqa = global.restqa || {};
+
   if (!processor.BeforeAll || !processor.AfterAll) {
     throw new Error(
       "Please provide a processor containing the methods:  BeforeAll, AfterAll"
@@ -32,8 +36,11 @@ module.exports = function ({env, config}, processor = {}) {
       this.restqa.microservice = microservice;
     });
 
-    processor.AfterAll(function () {
+    processor.AfterAll(async function () {
       this.restqa.microservice && this.restqa.microservice.terminate();
+      if (this.restqa.report) {
+        global.restqa.contributors = await GitStat();
+      }
     });
   }
 };

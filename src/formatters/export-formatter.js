@@ -110,10 +110,15 @@ function getDataOutput(RESTQA_RESULT) {
   let RESTQA_SPECIFICATION,
     RESTQA_INTEGRATION,
     RESTQA_PERFORMANCE,
-    RESTQA_POSTMAN;
+    RESTQA_POSTMAN,
+    RESTQA_CONTRIBUTORS;
 
   if (global.restqa && global.restqa.openapi) {
     RESTQA_SPECIFICATION = global.restqa.openapi;
+  }
+
+  if (global.restqa && global.restqa.contributors) {
+    RESTQA_CONTRIBUTORS = global.restqa.contributors;
   }
 
   return {
@@ -121,7 +126,8 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_INTEGRATION,
     RESTQA_PERFORMANCE,
     RESTQA_SPECIFICATION,
-    RESTQA_POSTMAN
+    RESTQA_POSTMAN,
+    RESTQA_CONTRIBUTORS
   };
 }
 
