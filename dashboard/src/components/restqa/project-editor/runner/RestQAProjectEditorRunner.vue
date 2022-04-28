@@ -1,7 +1,7 @@
 <template>
   <card :loading="loading">
     <el-collapse-transition>
-      <div class="result" v-if="result">
+      <div class="result" v-if="hasResult">
         <el-alert
           effect="dark"
           :closable="false"
@@ -9,7 +9,8 @@
           type="error"
           show-icon
           ><template #title
-            >{{ scenarios.length }} scenarios failed</template
+            >{{ result.scenarios.failed }}/{{ scenarios.length }} scenarios
+            failed</template
           ></el-alert
         >
         <el-alert
@@ -19,8 +20,8 @@
           type="success"
           show-icon
           ><template #title
-            >{{ result.scenarios.passed }} scenarios successfully
-            passed</template
+            >{{ result.scenarios.passed }}/{{ scenarios.length }} scenarios
+            successfully passed</template
           ></el-alert
         >
         <el-alert
@@ -30,7 +31,8 @@
           type="warning"
           show-icon
           ><template #title
-            >{{ scenarios.length }} scenarios skipped</template
+            >{{ result.scenarios.skipped }}/{{ scenarios.length }} scenarios
+            skipped</template
           ></el-alert
         >
         <el-collapse v-model="activeSection">
@@ -66,7 +68,7 @@
         </el-collapse>
       </div>
     </el-collapse-transition>
-    <el-button class="btn" @click="run()" type="primary" round
+    <el-button class="btn" v-if="!readOnly" @click="run()" type="primary" round
       >Run the test on the {{ env }} environment</el-button
     >
   </card>
@@ -86,13 +88,38 @@ export default {
     file: {
       type: String,
       default: "",
-      required: true
+      required: false
+    },
+    data: {
+      type: Object,
+      default: null,
+      required: false
+    },
+    readOnly: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
+    let result = {
+      scenarios: {
+        failed: 0,
+        passed: 0,
+        skipped: 0,
+        undefined: 0
+      }
+    };
+    if (this.data) {
+      result.scenarios.failed = this.data.failed;
+      result.scenarios.passed = this.data.passed;
+      result.scenarios.skipped = this.data.skipped;
+      result.scenarios.undefined = this.data.undefined;
+      result.features = [this.data];
+    }
     return {
       loading: false,
-      result: null,
+      result,
       activeSection: []
     };
   },
@@ -100,6 +127,7 @@ export default {
     scenarios() {
       return (
         (this.result &&
+          this.result.features &&
           this.result.features[0] &&
           this.result.features[0].elements) ||
         []
@@ -107,6 +135,9 @@ export default {
     },
     env() {
       return this.$store.getters.selectedEnv;
+    },
+    hasResult() {
+      return true;
     }
   },
   methods: {

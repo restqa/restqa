@@ -11,6 +11,7 @@ describe("mutations", () => {
       features,
       selectedFile,
       testResult,
+      projectStatus,
       preferences
     } = mutations;
 
@@ -97,6 +98,16 @@ describe("mutations", () => {
       testResult(state, {bar: "foo"});
 
       expect(state.testResult).toEqual({bar: "foo"});
+    });
+
+    test("update projectStatus", () => {
+      const state = {
+        projectStatus: {foo: "bar"}
+      };
+
+      projectStatus(state, {bar: "foo"});
+
+      expect(state.projectStatus).toEqual({bar: "foo"});
     });
 
     test("update preferences", () => {

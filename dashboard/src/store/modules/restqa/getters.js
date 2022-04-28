@@ -44,6 +44,12 @@ const getters = {
       return state.config.restqa.dashboard.readOnly;
     }
     return false;
+  },
+  testReport(state) {
+    return state.testReport;
+  },
+  projectStatus(state) {
+    return state.projectStatus;
   }
 };
 

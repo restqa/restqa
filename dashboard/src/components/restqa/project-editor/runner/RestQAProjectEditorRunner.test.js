@@ -61,7 +61,14 @@ describe("RestQAProjectEditorRunner", () => {
 
     expect(component.findComponent({name: "card"}).vm.title).toBe(undefined);
     expect(component.findComponent({name: "card"}).vm.loading).toBe(false);
-    expect(component.vm.result).toBe(null);
+    expect(component.vm.result).toEqual({
+      scenarios: {
+        failed: 0,
+        passed: 0,
+        skipped: 0,
+        undefined: 0
+      }
+    });
 
     await component.vm.$nextTick();
 
@@ -86,7 +93,7 @@ describe("RestQAProjectEditorRunner", () => {
 
     const alert = component.findComponent({name: "el-alert"});
     expect(alert.vm.type).toBe("success");
-    expect(alert.text()).toBe("2 scenarios successfully passed");
+    expect(alert.text()).toBe("2/2 scenarios successfully passed");
 
     await component.vm.$nextTick();
 
@@ -150,7 +157,14 @@ describe("RestQAProjectEditorRunner", () => {
 
     expect(component.findComponent({name: "card"}).vm.title).toBe(undefined);
     expect(component.findComponent({name: "card"}).vm.loading).toBe(false);
-    expect(component.vm.result).toBe(null);
+    expect(component.vm.result).toEqual({
+      scenarios: {
+        failed: 0,
+        passed: 0,
+        skipped: 0,
+        undefined: 0
+      }
+    });
 
     await component.vm.$nextTick();
 
@@ -175,7 +189,7 @@ describe("RestQAProjectEditorRunner", () => {
 
     const alert = component.findComponent({name: "el-alert"});
     expect(alert.vm.type).toBe("error");
-    expect(alert.text()).toBe("2 scenarios failed");
+    expect(alert.text()).toBe("2/2 scenarios failed");
 
     await component.vm.$nextTick();
 
@@ -243,7 +257,14 @@ describe("RestQAProjectEditorRunner", () => {
 
     expect(component.findComponent({name: "card"}).vm.title).toBe(undefined);
     expect(component.findComponent({name: "card"}).vm.loading).toBe(false);
-    expect(component.vm.result).toBe(null);
+    expect(component.vm.result).toEqual({
+      scenarios: {
+        failed: 0,
+        passed: 0,
+        skipped: 0,
+        undefined: 0
+      }
+    });
 
     await component.vm.$nextTick();
 
@@ -270,7 +291,7 @@ describe("RestQAProjectEditorRunner", () => {
     expect(alerts.length).toBe(1);
     const alert = alerts[0];
     expect(alert.vm.type).toBe("success");
-    expect(alert.text()).toBe("1 scenarios successfully passed");
+    expect(alert.text()).toBe("1/2 scenarios successfully passed");
 
     await component.vm.$nextTick();
 
@@ -334,7 +355,14 @@ describe("RestQAProjectEditorRunner", () => {
 
     expect(component.findComponent({name: "card"}).vm.title).toBe(undefined);
     expect(component.findComponent({name: "card"}).vm.loading).toBe(false);
-    expect(component.vm.result).toBe(null);
+    expect(component.vm.result).toEqual({
+      scenarios: {
+        failed: 0,
+        passed: 0,
+        skipped: 0,
+        undefined: 0
+      }
+    });
 
     await component.vm.$nextTick();
 
@@ -359,7 +387,7 @@ describe("RestQAProjectEditorRunner", () => {
 
     const alert = component.findComponent({name: "el-alert"});
     expect(alert.vm.type).toBe("warning");
-    expect(alert.text()).toBe("2 scenarios skipped");
+    expect(alert.text()).toBe("2/2 scenarios skipped");
 
     await component.vm.$nextTick();
 
