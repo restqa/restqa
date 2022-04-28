@@ -59,35 +59,12 @@
         </card>
       </el-col>
     </el-row>
+    -->
     <el-row :gutter="20">
       <el-col :span="24">
-        <card title="Contributors" >
-          <div class="contrib">
-            <el-avatar :size="100" src="https://restqa.io/pictures/tonygo.jpeg"></el-avatar>
-            <br /><br />
-            Tony Go
-            <br />
-            <small>(36 commits)</small>
-          </div>
-          <div class="contrib">
-            <el-avatar :size="100" src="https://restqa.io/pictures/olivier.jpeg"></el-avatar>
-            <br /><br />
-            Olivierodo
-            <br />
-            <small>(22 commits)</small>
-          </div>
-          <div class="contrib">
-            <el-avatar :size="100" src="https://restqa.io/pictures/kat.jpeg"></el-avatar>
-            <br /><br />
-            Katlaz<br />
-            <small>(1 commits)</small>
-          <br />
-          <br />
-          </div>
-        </card>
+        <restqa-contributors></restqa-contributors>
       </el-col>
     </el-row>
-    -->
   </el-space>
 </template>
 
@@ -95,12 +72,14 @@
 //import Card from "@/components/UI/card/Card";
 import RestqaTestResultChartFeatures from "@/components/restqa/test-result-charts/RestQATestResultChartFeatures.vue";
 import RestqaProjectStatus from "@/components/restqa/project-status/RestQAProjectStatus.vue";
+import RestqaContributors from "@/components/restqa/contributors/RestQAContributors.vue";
 
 export default {
   name: "HomepageTestReport",
   components: {
     RestqaTestResultChartFeatures,
-    RestqaProjectStatus
+    RestqaProjectStatus,
+    RestqaContributors
     //Card
   },
   data() {
@@ -122,12 +101,5 @@ export default {
   img {
     height: 200px;
   }
-}
-
-.contrib {
-  height: 170px;
-  text-align: center;
-  float: left;
-  margin-right: 20px;
 }
 </style>
