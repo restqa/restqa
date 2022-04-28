@@ -16,26 +16,36 @@ describe("state", () => {
         unit: {
           label: "Unit Test",
           enabled: true,
+          hidden: false,
           data: undefined
         },
         integration: {
           label: "Integration Tests",
           enabled: false,
+          hidden: false,
           data: undefined
         },
         performance: {
           label: "Performance Tests",
           enabled: false,
+          hidden: false,
           data: undefined
         },
         specification: {
           label: "API specification",
           enabled: false,
+          hidden: false,
           data: undefined
         },
         postman: {
           label: "Postman collection",
           enabled: false,
+          hidden: false,
+          data: undefined
+        },
+        contributors: {
+          label: "Contributors",
+          hidden: true,
           data: undefined
         }
       }
