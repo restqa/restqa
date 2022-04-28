@@ -76,7 +76,8 @@ test("Detect broken link from the messages", async () => {
   if (undefined === process.env.CI) return;
   const ignoreList = [
     "https://linkedin.com/company/restqa",
-    "https://restqa.io/pair"
+    "https://restqa.io/pair",
+    "https://twitter.com/restqa"
   ];
   const mockYellow = jest.fn();
   jest.mock("chalk", () => {
