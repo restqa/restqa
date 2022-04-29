@@ -33,8 +33,6 @@ Run one command and get everything that you need to enjoy maintaining your micro
 
 #### Screenshot
 
-
-
 ![Screenshot](./example/assets/restqa-screenshot.png)
 
 ## ⭐️ Features
