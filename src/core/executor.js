@@ -28,7 +28,7 @@ class Executor {
   }
 
   get envs() {
-    return this._envs;
+    return this._envs || {};
   }
 
   get silent() {
@@ -49,7 +49,8 @@ class Executor {
 
   execute() {
     const command = this.command;
-    const envs = this.envs;
+    const envs = this.envs || {};
+    envs.PORT = this.port;
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
