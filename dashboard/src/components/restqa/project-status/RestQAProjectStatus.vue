@@ -46,14 +46,18 @@ export default {
   },
   data() {
     const status = this.$store.getters.projectStatus;
-    const data = Object.keys(status).map((key) => {
-      const el = status[key];
-      return {
-        ...el,
-        content: el.label,
-        type: el.enabled ? "success" : "danger"
-      };
-    });
+    const data = Object.keys(status)
+      .map((key) => {
+        const el = status[key];
+        return {
+          ...el,
+          content: el.label,
+          type: el.enabled ? "success" : "danger"
+        };
+      })
+      .filter((el) => {
+        return !el.hidden;
+      });
     return {
       activities: data,
       status: data.reduce((state, el) => {

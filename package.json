@@ -55,6 +55,7 @@
     "express": "^4.17.1",
     "fastify-express": "^0.3.3",
     "fastify-plugin": "^3.0.0",
+    "fuzzy-string-matching": "^1.0.2",
     "glob": "^7.1.7",
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
