@@ -9,3 +9,4 @@ dist
 .clinic
 tests/
 !bin/tests
+example/restqa
