@@ -91,6 +91,14 @@ const router = createRouter({
           }
         },
         {
+          path: "/performance",
+          name: "performance",
+          component: () => import("./views/performance/Performance.vue"),
+          meta: {
+            title: "Performance testing"
+          }
+        },
+        {
           path: "/postam-collection",
           name: "postman-collection",
           component: () => import("./views/postman/Postman.vue"),

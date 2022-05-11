@@ -6,7 +6,8 @@ const options = {
   env: restqa.env,
   config: restqa.config,
   isUnitTest: restqa.isUnitTest(),
-  outputStream: restqa.outputStream
+  outputStream: restqa.outputStream,
+  report: restqa.report
 };
 
 Bootstrap(Cucumber, options);
