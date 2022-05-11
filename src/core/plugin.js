@@ -1,7 +1,9 @@
 const Executor = require("./executor");
 const GitStat = require("./git-stat");
+const Performance = require('./performance')
+const path = require('path')
 
-module.exports = function ({env, config}, processor = {}) {
+module.exports = function ({env, report, config}, processor = {}) {
   global.result = {};
   global.restqa = global.restqa || {};
 
@@ -38,9 +40,32 @@ module.exports = function ({env, config}, processor = {}) {
 
     processor.AfterAll(async function () {
       this.restqa.microservice && this.restqa.microservice.terminate();
-      if (this.restqa.report) {
-        global.restqa.contributors = await GitStat();
+    });
+  }
+
+  if (report) {
+    let performanceInstance;
+    if (!config.getPerformanceTest().isEmpty()) {
+      processor.Before('@performance', function(scenario) {
+        const performance = config.getPerformanceTest().toJSON()
+        performance.outputFolder = performance.outputFolder || path.resolve(process.cwd(), "tests", "performance");
+        performance.onlySuccess = performance.onlySuccess === undefined ? true : Boolean(performance.onlySuccess);
+        performanceInstance = new Performance(performance);
+      })
+
+      processor.After('@performance', function(scenario) {
+        if (performanceInstance) {
+          performanceInstance.add(this.apis, scenario)
+        }
+      })
+    }
+
+    processor.AfterAll(async function () {
+      global.restqa.contributors = await GitStat();
+      if (performanceInstance) {
+        this.restqa.performance = performanceInstance.generate();
       }
     });
   }
+
 };

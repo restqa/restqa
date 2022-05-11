@@ -10,3 +10,5 @@ dist
 tests/
 !bin/tests
 example/restqa
+*.swn
+*.swm
