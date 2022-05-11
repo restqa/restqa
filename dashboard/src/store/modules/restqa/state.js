@@ -46,6 +46,7 @@ const state = {
       hidden: true,
       data: OUTPUT.RESTQA_CONTRIBUTORS
     }
-  }
+  },
+  projectConfiguration: OUTPUT.RESTQA_CONFIG
 };
 export default state;

@@ -426,4 +426,28 @@ const contributors = [
       
 OUTPUT.RESTQA_CONTRIBUTORS = contributors
 
+OUTPUT.RESTQA_CONFIG = {
+    "version": "0.0.1",
+    "metadata": {
+      "code": "EXAMPLE-RESTQA",
+      "name": "Example Restqa",
+      "description": "Delicious Microservice example maintained with RestQA"
+    },
+    "tests": {
+      "unit": {
+        "port": 8887,
+        "command": "npm run dev",
+        "data": {}
+      },
+      performance: {
+        tool: 'artillery',
+        outputFolder: 'tests/performance'
+      }
+    }
+}
+
+OUTPUT.RESTQA_PERFORMANCE = [
+ 'tests/performances/get.yml',
+]
+
 window.OUTPUT = OUTPUT

@@ -50,6 +50,9 @@ const getters = {
   },
   projectStatus(state) {
     return state.projectStatus;
+  },
+  projectConfiguration(state) {
+    return state.projectConfiguration;
   }
 };
 

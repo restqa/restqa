@@ -121,13 +121,18 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_CONTRIBUTORS = global.restqa.contributors;
   }
 
+  if (global.restqa && global.restqa.performance) {
+    RESTQA_PERFORMANCE = global.restqa.performance;
+  }
+
   return {
     RESTQA_RESULT,
     RESTQA_INTEGRATION,
     RESTQA_PERFORMANCE,
     RESTQA_SPECIFICATION,
     RESTQA_POSTMAN,
-    RESTQA_CONTRIBUTORS
+    RESTQA_CONTRIBUTORS,
+    RESTQA_CONFIG: config
   };
 }
 
