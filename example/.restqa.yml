@@ -1,3 +1,4 @@
+---
 version: 0.0.1
 metadata:
   code: EXAMPLE-RESTQA
@@ -7,4 +8,9 @@ tests:
   unit:
     port: 8887
     command: npm run dev
+    data: {}
+  performance:
+    tool: artillery
+    outputFolder: tests/performances
+    onlySuccess: false
 

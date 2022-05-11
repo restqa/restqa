@@ -20,8 +20,8 @@
         <restqa-project-status></restqa-project-status>
       </el-col>
     </el-row>
-    <!--
     <el-row :gutter="20">
+      <!--
       <el-col :span="12">
         <card title="Integration Tests" class="ccard">
           <el-descriptions :column="1" :border="true">
@@ -35,14 +35,12 @@
           </el-descriptions>
         </card>
       </el-col>
-      <el-col :span="12">
-        <card title="Performance testing" class="ccard">
-          <img src="@/assets/images/k6.png"/>
-          <br /><br />
-          <el-link type="primary">Access to your Performance tests</el-link>
-        </card>
+      -->
+      <el-col :span="6">
+        <performance-widget></performance-widget>
       </el-col>
     </el-row>
+    <!--
     <el-row :gutter="20">
       <el-col :span="12">
         <card title="API Specification" class="ccard">
@@ -73,13 +71,15 @@
 import RestqaTestResultChartFeatures from "@/components/restqa/test-result-charts/RestQATestResultChartFeatures.vue";
 import RestqaProjectStatus from "@/components/restqa/project-status/RestQAProjectStatus.vue";
 import RestqaContributors from "@/components/restqa/contributors/RestQAContributors.vue";
+import PerformanceWidget from "@/components/restqa/performance/Widget.vue";
 
 export default {
   name: "HomepageTestReport",
   components: {
     RestqaTestResultChartFeatures,
     RestqaProjectStatus,
-    RestqaContributors
+    RestqaContributors,
+    PerformanceWidget,
     //Card
   },
   data() {

@@ -51,6 +51,7 @@ export default {
         const el = status[key];
         return {
           ...el,
+          key,
           content: el.label,
           type: el.enabled ? "success" : "danger"
         };
@@ -71,8 +72,8 @@ export default {
     }
   },
   methods: {
-    configure(key) {
-      window.open("https://docs.restqa.io/install/" + key);
+    configure(name) {
+      this.$router.push({ name })
     }
   }
 };
