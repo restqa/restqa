@@ -20,7 +20,7 @@ afterEach(() => {
 
 describe("#lib - performance", () => {
   test("throw an error if the configuration doesn't contains the tool", () => {
-    const Performance = require("./performance");
+    const Performance = require("./index");
     expect(() => Performance({})).toThrow(
       'The performance property "tool" should be specify. (available: artillery)'
     );
@@ -32,7 +32,7 @@ describe("#lib - performance", () => {
         tool: "artillery",
         onlySuccess: true
       };
-      const Performance = require("./performance")(config);
+      const Performance = require("./index")(config);
 
       expect(Performance.add([])).toBe(false);
       expect(Performance.features).toEqual({});
@@ -43,7 +43,7 @@ describe("#lib - performance", () => {
         tool: "artillery",
         onlySuccess: true
       };
-      const Performance = require("./performance")(config);
+      const Performance = require("./index")(config);
       const api = {
         request: {},
         response: {}
@@ -74,7 +74,7 @@ describe("#lib - performance", () => {
       const config = {
         tool: "artillery"
       };
-      const Performance = require("./performance")(config);
+      const Performance = require("./index")(config);
       const apis = [
         {request: Request("http://localhost", false, "xx-yyy-zzzz")}
       ];
@@ -166,7 +166,7 @@ describe("#lib - performance", () => {
           onlySuccess: true
         };
         tmpFiles.push(path.join(config.outputFolder, "users.api.yml"));
-        const Performance = require("./performance")(config);
+        const Performance = require("./index")(config);
         Performance.add(apis, scenario);
         Performance.generate();
         const expectedFile = {
@@ -251,7 +251,7 @@ describe("#lib - performance", () => {
           onlySuccess: true
         };
         tmpFiles.push(path.join(config.outputFolder, "users.api.yml"));
-        const Performance = require("./performance")(config);
+        const Performance = require("./index")(config);
         Performance.add(apis, scenario);
         Performance.generate();
         const expectedFile = {
@@ -336,7 +336,7 @@ describe("#lib - performance", () => {
           onlySuccess: true
         };
         tmpFiles.push(path.join(config.outputFolder, "users.api.yml"));
-        const Performance = require("./performance")(config);
+        const Performance = require("./index")(config);
         Performance.add(apis, scenario);
         Performance.generate();
         const expectedFile = {
@@ -425,7 +425,7 @@ describe("#lib - performance", () => {
           onlySuccess: false
         };
         tmpFiles.push(path.join(config.outputFolder, "users.api.yml"));
-        const Performance = require("./performance")(config);
+        const Performance = require("./index")(config);
         Performance.add(apis, scenario);
         Performance.generate();
         const expectedFile = {
@@ -529,7 +529,7 @@ describe("#lib - performance", () => {
           onlySuccess: true
         };
         tmpFiles.push(path.join(config.outputFolder, "users.api.yml"));
-        const Performance = require("./performance")(config);
+        const Performance = require("./index")(config);
         Performance.add(apis, scenario);
         Performance.generate();
         const expectedFile = {
