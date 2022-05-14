@@ -1,6 +1,7 @@
 const Executor = require("./executor");
 const GitStat = require("./git-stat");
 const Performance = require('./performance')
+const Specification = require('./specification')
 const path = require('path')
 
 module.exports = function ({env, report, config}, processor = {}) {
@@ -44,7 +45,23 @@ module.exports = function ({env, report, config}, processor = {}) {
   }
 
   if (report) {
-    let performanceInstance;
+
+    let performanceInstance, specificationInstance;
+
+    if (!config.getSpecification().isEmpty()) {
+      specificationInstance = new Specification(config.toJSON());
+      processor.After(function(scenario) {
+        const exportApi  = this.api.toJSON()
+        exportApi.scenario = {
+          pickle: {
+            name: scenario.pickle.name,
+            tags: scenario.pickle.tags
+          }
+        }
+        specificationInstance.add(exportApi)
+      })
+    }
+
     if (!config.getPerformanceTest().isEmpty()) {
       processor.Before('@performance', function(scenario) {
         const performance = config.getPerformanceTest().toJSON()
@@ -54,6 +71,8 @@ module.exports = function ({env, report, config}, processor = {}) {
       })
 
       processor.After('@performance', function(scenario) {
+        if (this.skipped) return
+
         if (performanceInstance) {
           performanceInstance.add(this.apis, scenario)
         }
@@ -61,9 +80,13 @@ module.exports = function ({env, report, config}, processor = {}) {
     }
 
     processor.AfterAll(async function () {
-      global.restqa.contributors = await GitStat();
+      this.restqa.contributors = await GitStat();
       if (performanceInstance) {
         this.restqa.performance = performanceInstance.generate();
+      }
+
+      if (specificationInstance) {
+        this.restqa.specification = specificationInstance.format()
       }
     });
   }
