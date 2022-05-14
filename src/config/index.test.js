@@ -98,6 +98,7 @@ tests:
     outputFolder: "tests/performance"
     onlySuccess: true
 specification:
+  tool: "swagger"
   title: "override title"
   description: "override description"
 collection:
@@ -218,6 +219,7 @@ plugins:
     expect(Instance.getPerformanceTest().isOnlySuccess()).toEqual(true);
 
     // specification
+    expect(Instance.getSpecification().getTool()).toEqual("swagger");
     expect(Instance.getSpecification().getTitle()).toEqual("override title");
     expect(Instance.getSpecification().getDescription()).toEqual(
       "override description"
@@ -288,6 +290,7 @@ tests:
     outputFolder: "tests/performance"
     onlySuccess: true
 specification:
+  tool: "swagger"
   title: "override title"
   description: "override description"
 collection:
@@ -378,6 +381,7 @@ settings:
     expect(Instance.getPerformanceTest().isOnlySuccess()).toEqual(true);
 
     // specification
+    expect(Instance.getSpecification().getTool()).toEqual("swagger");
     expect(Instance.getSpecification().getTitle()).toEqual("override title");
     expect(Instance.getSpecification().getDescription()).toEqual(
       "override description"
@@ -448,6 +452,7 @@ settings:
     Instance.getPerformanceTest().setOutputFolder("./test/performance");
     Instance.getPerformanceTest().setOnlySuccess(true);
 
+    Instance.getSpecification().setTool("swagger");
     Instance.getSpecification().setTitle("my spec title");
     Instance.getSpecification().setDescription("my spec description");
 
@@ -507,6 +512,7 @@ settings:
         }
       },
       specification: {
+        tool: "swagger",
         title: "my spec title",
         description: "my spec description"
       },
@@ -560,6 +566,7 @@ tests:
     outputFolder: ./test/performance
     onlySuccess: true
 specification:
+  tool: swagger
   title: my spec title
   description: my spec description
 collection:

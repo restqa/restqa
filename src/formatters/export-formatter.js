@@ -113,8 +113,8 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_POSTMAN,
     RESTQA_CONTRIBUTORS;
 
-  if (global.restqa && global.restqa.openapi) {
-    RESTQA_SPECIFICATION = global.restqa.openapi;
+  if (global.restqa && global.restqa.specification) {
+    RESTQA_SPECIFICATION = global.restqa.specification;
   }
 
   if (global.restqa && global.restqa.contributors) {
