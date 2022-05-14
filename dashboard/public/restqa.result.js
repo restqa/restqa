@@ -443,11 +443,50 @@ OUTPUT.RESTQA_CONFIG = {
         tool: 'artillery',
         outputFolder: 'tests/performance'
       }
+    },
+    specification: {
+      tool: 'swagger'
     }
 }
 
 OUTPUT.RESTQA_PERFORMANCE = [
  'tests/performances/get.yml',
 ]
+
+OUTPUT.RESTQA_SPECIFICATION = {
+    "openapi": "3.0.0",
+    "info": {
+      "version": "0.0.1",
+      "title": "Example Restqa",
+      "description": "helloe my friend"
+    },
+    "paths": {
+      "/": {
+        "get": {
+          "deprecated": false,
+          "operationId": "get",
+          "summary": "Successfull hello world",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "hello": {
+                        "type": "string",
+                        "example": "world"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+}
 
 window.OUTPUT = OUTPUT
