@@ -315,7 +315,7 @@ describe("RestQAProjectEditorRunner", () => {
     });
 
     expect(sections[1].find(".el-collapse-item__header").text()).toBe(
-      "Scenario: Update of a Todo when the todo doesn't exist"
+      "Scenario: Update of a Todo when the todo doesn't exist@skip"
     );
     expect(sections[1].find(".el-collapse-item__header i").classes()).toContain(
       "el-icon-warning"
@@ -396,7 +396,7 @@ describe("RestQAProjectEditorRunner", () => {
     expect(sections).toHaveLength(2);
 
     expect(sections[0].find(".el-collapse-item__header").text()).toBe(
-      "Scenario: Partial update of the Todo"
+      "Scenario: Partial update of the Todo@skip"
     );
     expect(sections[0].find(".el-collapse-item__header i").classes()).toContain(
       "el-icon-warning"
@@ -411,7 +411,7 @@ describe("RestQAProjectEditorRunner", () => {
     });
 
     expect(sections[1].find(".el-collapse-item__header").text()).toBe(
-      "Scenario: Partial update of a todo that doesn't exist"
+      "Scenario: Partial update of a todo that doesn't exist@skip"
     );
     expect(sections[1].find(".el-collapse-item__header i").classes()).toContain(
       "el-icon-warning"
