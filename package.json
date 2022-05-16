@@ -45,7 +45,7 @@
   "dependencies": {
     "@cucumber/cucumber": "^7.3.0",
     "@restqa/cucumber-export": "^0.1.15",
-    "@restqa/restqapi": "^0.1.4",
+    "@restqa/restqapi": "^0.1.5",
     "@restqa/restqdata": "^0.1.1",
     "chalk": "^4.0.0",
     "commander": "^8.0.0",
