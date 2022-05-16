@@ -13,6 +13,7 @@
 
   span.title {
     margin-left: 16px;
+    margin-right: 20px;
     &.failed {
       color: red;
     }
@@ -24,5 +25,9 @@
     &.passed {
       color: green;
     }
+  }
+
+  .el-tag {
+    margin-right: 8px;
   }
 }
