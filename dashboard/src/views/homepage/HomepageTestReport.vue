@@ -39,6 +39,9 @@
       <el-col :span="6">
         <performance-widget></performance-widget>
       </el-col>
+      <el-col :span="6">
+        <specification-widget></specification-widget>
+      </el-col>
     </el-row>
     <!--
     <el-row :gutter="20">
@@ -72,6 +75,7 @@ import RestqaTestResultChartFeatures from "@/components/restqa/test-result-chart
 import RestqaProjectStatus from "@/components/restqa/project-status/RestQAProjectStatus.vue";
 import RestqaContributors from "@/components/restqa/contributors/RestQAContributors.vue";
 import PerformanceWidget from "@/components/restqa/performance/Widget.vue";
+import SpecificationWidget from "@/components/restqa/specification/Widget.vue";
 
 export default {
   name: "HomepageTestReport",
@@ -80,6 +84,7 @@ export default {
     RestqaProjectStatus,
     RestqaContributors,
     PerformanceWidget,
+    SpecificationWidget
     //Card
   },
   data() {

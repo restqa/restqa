@@ -419,12 +419,89 @@ describe("#core - plugin", () => {
       expect(fs.existsSync(tmpFiles)).toBe(true);
       const generatedFile = fs.readFileSync(tmpFiles).toString("utf-8");
       expect(YAML.parse(generatedFile)).toEqual(expectedFile);
-      expect($$this.restqa).toEqual({
-        performance: [
-          tmpFiles
-        ]
-      })
+      expect($$this.restqa.performance).toEqual([ tmpFiles ])
+    });
+  });
 
+  describe("specification", () => {
+    test("init with specification config", async () => {
+      const config = new Config();
+      config.setName('My fixture 1')
+      config.setDescription('My description 1')
+      config.getSpecification().setTool('swagger');
+
+      const $this = {
+        api: {
+          toJSON: () => require('./specification/tests/fixture-1/api-list.json')[0]
+        }
+      };
+
+
+      const scenario = {
+        pickle: {
+          uri: "example/features/account.api.feature",
+          language: "en",
+          locations: [
+            {
+              column: 1,
+              line: 4
+            }
+          ],
+          name: "Successfull hello world",
+          steps: [
+            {
+              arguments: [],
+              locations: [
+                {
+                  column: 7,
+                  line: 5
+                }
+              ],
+              text: "I have the api gateway"
+            }
+          ]
+        },
+      };
+
+      const Hooks = []
+
+      const processor = {
+        Before: jest.fn(function () {
+          this.data = {
+            parse: jest.fn().mockResolvedValue()
+          };
+          const fn = arguments[1] || arguments[0];
+          fn.call(this, scenario);
+        }),
+        After: jest.fn(function () {
+          const fn = arguments[1] || arguments[0];
+          fn.call($this, scenario);
+        }),
+        BeforeAll: function (fn) {
+          Hooks.push(fn);
+        },
+        AfterAll: function (fn) {
+          Hooks.push(fn);
+        }
+      };
+
+      const Plugin = require("./plugin");
+      const options = {
+        config,
+        report: true,
+        env: 'uat'
+      };
+      Plugin(options, processor);
+
+      const [AfterAll] = Hooks
+
+      const $$this = {
+        restqa: {}
+      }
+      await AfterAll.call($$this);
+
+      const specification = require('./specification/tests/fixture-1/expect.swagger.json')
+      expect($$this.restqa.specification).toEqual(specification)
     });
   });
 });

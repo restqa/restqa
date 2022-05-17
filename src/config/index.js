@@ -349,6 +349,14 @@ class Specification {
     this._config = config || {};
   }
 
+  setTool(val) {
+    this._config.tool = val;
+  }
+
+  getTool() {
+    return this._config.tool;
+  }
+
   getTitle() {
     return this._config.title;
   }

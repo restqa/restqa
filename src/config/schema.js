@@ -45,6 +45,7 @@ function validate(config) {
       }
     },
     specification: {
+      tool: Joi.string(),
       title: Joi.string(),
       description: Joi.string(),
       matches: {

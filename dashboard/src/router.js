@@ -83,8 +83,8 @@ const router = createRouter({
           }
         },
         {
-          path: "/openapi",
-          name: "openapi",
+          path: "/specification",
+          name: "specification",
           component: () => import("./views/openapi/Openapi.vue"),
           meta: {
             title: "API Specification"
