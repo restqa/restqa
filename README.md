@@ -135,8 +135,8 @@ More example available on the [restqa-example](https://github.com/restqa/restqa-
 
 #### 📚 API Specification
 
-- [X] Swagger
-- [ ] Redoc
+- [X] OAS (swagger)
+- [ ] Raml
 
 #### 👩‍🚀 API Collection
 
