@@ -25,7 +25,7 @@ jestqa.hooks.beforeEach = function () {
 };
 
 describe("restqa-formatter", () => {
-  test("Do not Export information for the unit tests (default behavior)", () => {
+  test("Do not Export information for the local tests (default behavior)", () => {
     const content = `
 ---
 
@@ -35,7 +35,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
 `;
@@ -74,7 +74,7 @@ tests:
     expect(MESSAGES).toContain(mockGetFormatter.mock.calls[0][0].title);
   });
 
-  test("Export information for the unit tests", () => {
+  test("Export information for the local tests", () => {
     const content = `
 ---
 
@@ -84,7 +84,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
 `;
@@ -134,7 +134,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:
@@ -195,7 +195,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:
@@ -263,7 +263,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:
@@ -338,7 +338,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:
@@ -405,7 +405,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:

@@ -30,8 +30,8 @@ module.exports = function ({env, report, config}, processor = {}) {
       this.restqa = this.restqa || {};
       const envs = (this.restqa.mock || {}).http;
       const options = {
-        port: config.getUnitTest().getPort(),
-        command: config.getUnitTest().getCommand(),
+        port: config.getLocalTest().getPort(),
+        command: config.getLocalTest().getCommand(),
         envs
       };
       const microservice = new Executor(options);

@@ -5,7 +5,7 @@ metadata:
   name: Example Restqa
   description: Delicious Microservice example maintained with RestQA
 tests:
-  unit:
+  local:
     port: 8887
     command: npm run dev
     data: {}

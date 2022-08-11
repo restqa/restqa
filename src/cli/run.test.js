@@ -17,7 +17,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     command: npm run dev
     port: 8080 
   integrations:
@@ -44,7 +44,7 @@ describe("#Cli - Run", () => {
     );
   });
 
-  test("Run the cucumber success unit tests with passed stdout", async () => {
+  test("Run the cucumber success local tests with passed stdout", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -83,7 +83,7 @@ describe("#Cli - Run", () => {
         "--format-options",
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
         os.tmpdir()
       ],
@@ -95,7 +95,7 @@ describe("#Cli - Run", () => {
     expect(mockExit).toHaveBeenCalledWith(0);
   });
 
-  test("Run the cucumber success unit tests with passed stdout, with the args passed as commander", async () => {
+  test("Run the cucumber success local tests with passed stdout, with the args passed as commander", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -138,7 +138,7 @@ describe("#Cli - Run", () => {
         "--format-options",
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
         os.tmpdir()
       ],
@@ -150,7 +150,7 @@ describe("#Cli - Run", () => {
     expect(mockExit).toHaveBeenCalledWith(0);
   });
 
-  test("Run the cucumber failing unit tests with default stdout", async () => {
+  test("Run the cucumber failing local tests with default stdout", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -187,7 +187,7 @@ describe("#Cli - Run", () => {
         "--format-options",
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         path.dirname(filename)
       ],
       cwd: path.join(__dirname, "../"),
@@ -198,7 +198,7 @@ describe("#Cli - Run", () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 
-  test("Run the cucumber unit test but should not exit", async () => {
+  test("Run the cucumber local test but should not exit", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -235,7 +235,7 @@ describe("#Cli - Run", () => {
         "--format-options",
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}")
       ],
       cwd: path.join(__dirname, "../"),
@@ -246,7 +246,7 @@ describe("#Cli - Run", () => {
     expect(mockExit).not.toHaveBeenCalled();
   });
 
-  test("Run the cucumber unit test with expected tag", async () => {
+  test("Run the cucumber local test with expected tag", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -284,7 +284,7 @@ describe("#Cli - Run", () => {
         "--format-options",
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         "--tags",
         "@production",
         "--tags",
@@ -299,7 +299,7 @@ describe("#Cli - Run", () => {
     expect(mockExit).not.toHaveBeenCalled();
   });
 
-  test("Error during cucumber run execution unit test", async () => {
+  test("Error during cucumber run execution local test", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest
@@ -335,7 +335,7 @@ describe("#Cli - Run", () => {
         "--format-options",
         '{"snippetSyntax": "../src/restqa-snippet.js"}',
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}")
       ],
       cwd: path.join(__dirname, "../"),
@@ -405,7 +405,7 @@ describe("#Cli - Run", () => {
     );
   });
 
-  test("Run the cucumber success unit tests with passed report that add the export formatter", async () => {
+  test("Run the cucumber success local tests with passed report that add the export formatter", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({
@@ -447,7 +447,7 @@ describe("#Cli - Run", () => {
         "--format",
         "../src/formatters/export-formatter:.restqa.log",
         "--format",
-        "../src/formatters/unit-test-formatter",
+        "../src/formatters/local-test-formatter",
         path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
         os.tmpdir()
       ],
@@ -459,7 +459,7 @@ describe("#Cli - Run", () => {
     expect(mockExit).toHaveBeenCalledWith(0);
   });
 
-  test("Run the cucumber success integration tests with passed stdout that remove the unit test formatter", async () => {
+  test("Run the cucumber success integration tests with passed stdout that remove the local test formatter", async () => {
     const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
 
     const mockCucumberRun = jest.fn().mockResolvedValue({

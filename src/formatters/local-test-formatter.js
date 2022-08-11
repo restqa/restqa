@@ -1,7 +1,7 @@
 const {Formatter, formatterHelpers, Status} = require("@cucumber/cucumber");
 const chalk = require("chalk");
 // class SimpleFormatter extends SummaryFormatter {
-class UnitTestFormatter extends Formatter {
+class LocalTestFormatter extends Formatter {
   constructor(options) {
     super(options);
     options.eventBroadcaster.on("envelope", (envelope) => {
@@ -23,7 +23,7 @@ class UnitTestFormatter extends Formatter {
     const uuid = envelope.id;
     const testCaseAttempt = this.eventDataCollector.getTestCaseAttempt(uuid);
 
-    const instance = new UnitTestOutput(uuid);
+    const instance = new LocalTestOutput(uuid);
     instance.feature = testCaseAttempt.gherkinDocument.feature.name;
     instance.scenario = testCaseAttempt.pickle.name;
     this.outputStream.add(instance);
@@ -63,7 +63,7 @@ class UnitTestFormatter extends Formatter {
   }
 }
 
-class UnitTestOutput {
+class LocalTestOutput {
   constructor(uuid) {
     this._uuid = uuid;
   }
@@ -113,7 +113,7 @@ class UnitTestOutput {
   }
 
   getColor() {
-    let result = "";
+    let result = chalk.grey;
     switch (this.status) {
       case "PASSED":
         result = chalk.green;
@@ -136,4 +136,4 @@ class UnitTestOutput {
   }
 }
 
-module.exports = UnitTestFormatter;
+module.exports = LocalTestFormatter;
