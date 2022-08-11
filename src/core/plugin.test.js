@@ -77,8 +77,8 @@ describe("#core - plugin", () => {
       const PORT = 4049;
       const COMMAND = "npm start";
       const config = new Config();
-      config.getUnitTest().setPort(PORT);
-      config.getUnitTest().setCommand(COMMAND);
+      config.getLocalTest().setPort(PORT);
+      config.getLocalTest().setCommand(COMMAND);
 
       // Executor
       const mockProcessKill = jest.fn();
@@ -124,8 +124,8 @@ describe("#core - plugin", () => {
       const PORT = 4040;
       const COMMAND = "npm start";
       const config = new Config();
-      config.getUnitTest().setPort(PORT);
-      config.getUnitTest().setCommand(COMMAND);
+      config.getLocalTest().setPort(PORT);
+      config.getLocalTest().setCommand(COMMAND);
 
       // Executor
       const mockProcessKill = jest.fn();
@@ -216,8 +216,8 @@ describe("#core - plugin", () => {
       const PORT = 5058;
       const COMMAND = "npm start";
       const config = new Config();
-      config.getUnitTest().setPort(PORT);
-      config.getUnitTest().setCommand(COMMAND);
+      config.getLocalTest().setPort(PORT);
+      config.getLocalTest().setCommand(COMMAND);
 
       // Executor
       const mockProcessKill = jest.fn();

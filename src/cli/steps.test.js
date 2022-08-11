@@ -46,7 +46,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:
@@ -139,7 +139,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8089
     command: npm run dev
 plugins:
@@ -248,7 +248,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8089
     command: npm run dev
     `;
@@ -331,7 +331,7 @@ metadata:
   name: My test API
   description: The decription of the test api
 tests:
-  unit:
+  local:
     port: 8089
     command: npm run dev
     `;

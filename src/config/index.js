@@ -29,7 +29,7 @@ class Config {
     const config = YAML.parse(file, {customTags: [envVar]});
     Schema.validate(config);
     this._config = config;
-    this._config.tests.unit = new UnitTest(this._config.tests.unit);
+    this._config.tests.local = new LocalTest(this._config.tests.local);
     this._config.tests.integrations = (
       this._config.tests.integrations || []
     ).map((_) => new IntegrationTest(_));
@@ -72,10 +72,10 @@ class Config {
     this._config.metadata.description = description;
   }
 
-  getUnitTest() {
+  getLocalTest() {
     this._config.tests = this._config.tests || {};
-    this._config.tests.unit = this._config.tests.unit || new UnitTest();
-    return this._config.tests.unit;
+    this._config.tests.local = this._config.tests.local || new LocalTest();
+    return this._config.tests.local;
   }
 
   getIntegrationTests() {
@@ -164,8 +164,8 @@ class Config {
       tests: {}
     };
 
-    if (!this.getUnitTest().isEmpty()) {
-      obj.tests.unit = this.getUnitTest().toJSON();
+    if (!this.getLocalTest().isEmpty()) {
+      obj.tests.local = this.getLocalTest().toJSON();
     }
 
     if (this.getIntegrationTests().length) {
@@ -208,7 +208,7 @@ class Config {
   }
 }
 
-class UnitTest {
+class LocalTest {
   constructor(config) {
     this._config = config || {};
     if (this._config.data) {

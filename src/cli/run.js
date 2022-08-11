@@ -80,11 +80,11 @@ module.exports = async function (opt, program = {}) {
   const exportFormatter = "../src/formatters/export-formatter:.restqa.log";
 
   let formatters = [];
-  if ($global.isUnitTest()) {
+  if ($global.isLocalTest()) {
     if (report) {
       formatters.push(exportFormatter);
     }
-    formatters.push("../src/formatters/unit-test-formatter");
+    formatters.push("../src/formatters/local-test-formatter");
   } else {
     formatters.push(exportFormatter);
   }

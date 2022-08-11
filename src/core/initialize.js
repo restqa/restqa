@@ -114,8 +114,8 @@ initialize.generate = async function (options) {
   const config = new Config();
   config.setName(name);
   config.setDescription(description);
-  config.getUnitTest().setPort(port);
-  config.getUnitTest().setCommand(command);
+  config.getLocalTest().setPort(port);
+  config.getLocalTest().setCommand(command);
 
   const filename = path.resolve(folder, ".restqa.yml");
   config.save(filename);
@@ -123,8 +123,8 @@ initialize.generate = async function (options) {
   logger.success("service.init.success.welcome");
 
   const opt = {
-    port: config.getUnitTest().getPort(),
-    command: config.getUnitTest().getCommand()
+    port: config.getLocalTest().getPort(),
+    command: config.getLocalTest().getCommand()
   };
   const microservice = new Executor(opt);
 

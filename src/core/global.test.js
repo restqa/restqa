@@ -8,7 +8,7 @@ beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
 
 describe("#Global instance", () => {
-  test("Create a new global class base on Unit test options", () => {
+  test("Create a new global class base on Local test options", () => {
     const validRestQAConfigFile = `
 ---
 
@@ -18,25 +18,25 @@ metadata:
   name: My test API
   description: The description of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
     `;
     const configFile = jestqa.createCwdConfig(validRestQAConfigFile);
 
-    const optionsUnitTest = {
+    const optionsLocalTest = {
       configFile,
       report: true
     };
 
-    const InstanceGlobal = new Global(optionsUnitTest);
-    expect(InstanceGlobal.isUnitTest()).toBeTruthy();
+    const InstanceGlobal = new Global(optionsLocalTest);
+    expect(InstanceGlobal.isLocalTest()).toBeTruthy();
     expect(InstanceGlobal.configFile).toEqual(configFile);
     expect(InstanceGlobal.report).toEqual(true);
     expect(InstanceGlobal.env).toBeUndefined();
     expect(InstanceGlobal.config).toBeInstanceOf(Config);
-    expect(InstanceGlobal.config.getUnitTest().getPort()).toEqual(8080);
-    expect(InstanceGlobal.config.getUnitTest().getCommand()).toEqual(
+    expect(InstanceGlobal.config.getLocalTest().getPort()).toEqual(8080);
+    expect(InstanceGlobal.config.getLocalTest().getCommand()).toEqual(
       "npm run dev"
     );
     expect(InstanceGlobal.exportStream).toBeUndefined();
@@ -59,13 +59,13 @@ tests:
     `;
     const configFile = jestqa.createCwdConfig(validRestQAConfigFile);
 
-    const optionsUnitTest = {
+    const optionsLocalTest = {
       configFile,
       env: "UAT"
     };
 
-    const InstanceGlobal = new Global(optionsUnitTest);
-    expect(InstanceGlobal.isUnitTest()).toBeFalsy();
+    const InstanceGlobal = new Global(optionsLocalTest);
+    expect(InstanceGlobal.isLocalTest()).toBeFalsy();
     expect(InstanceGlobal.configFile).toEqual(configFile);
     expect(InstanceGlobal.report).toEqual(false);
     expect(InstanceGlobal.env).toEqual("UAT");

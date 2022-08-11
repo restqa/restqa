@@ -114,7 +114,7 @@ describe("#Cli - Initialize", () => {
             description: "This is my description"
           },
           tests: {
-            unit: {
+            local: {
               port: 9090,
               command: "npm run dev"
             }
@@ -186,7 +186,7 @@ describe("#Cli - Initialize", () => {
             description: "This is my description"
           },
           tests: {
-            unit: {
+            local: {
               port: 9090,
               command: "npm run dev"
             }
@@ -266,7 +266,7 @@ Given I have an example`;
             description: "Delicious Microservice maintained with RestQA"
           },
           tests: {
-            unit: {
+            local: {
               port: 9090,
               command: "npm run dev"
             }
@@ -344,7 +344,7 @@ Given I have an example`;
           description: "This is my new description"
         },
         tests: {
-          unit: {
+          local: {
             port: 9090,
             command: "npm run start:dev"
           }
@@ -413,7 +413,7 @@ Given I have an example`;
           description: "This is my new desc"
         },
         tests: {
-          unit: {
+          local: {
             port: 9090,
             command: "npm run start:dev"
           }

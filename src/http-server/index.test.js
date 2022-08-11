@@ -1339,7 +1339,7 @@ environments:
         fs.writeFileSync(filename, content);
 
         content = "foo bar";
-        const featureFilename = "unit-test.feature";
+        const featureFilename = "local-test.feature";
         filename = path.resolve(os.tmpdir(), featureFilename);
         fs.writeFileSync(filename, content);
 
@@ -1388,7 +1388,7 @@ environments:
         fs.writeFileSync(filename, content);
 
         content = "foo bar";
-        const featureFilename = "unit-test.feature";
+        const featureFilename = "local-test.feature";
         filename = path.resolve(os.tmpdir(), featureFilename);
         fs.writeFileSync(filename, content);
 

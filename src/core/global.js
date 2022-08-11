@@ -14,7 +14,7 @@ class Global {
     this._silent = options.silent || false;
   }
 
-  isUnitTest() {
+  isLocalTest() {
     return undefined === this.env;
   }
 
