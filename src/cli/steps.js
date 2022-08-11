@@ -92,7 +92,7 @@ module.exports = function (keyword, program) {
 
   let steps = getSteps(keyword, {
     config: $global.config,
-    isUnitTest: true
+    isLocalTest: true
   });
 
   if (tag) {

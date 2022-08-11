@@ -13,7 +13,7 @@ jestqa.hooks.beforeEach = function () {
   delete global.restqa;
 };
 
-describe("unit-test-formatter", () => {
+describe("local-test-formatter", () => {
   function getTestCaseAttemptMock(feature, scenario, status) {
     const envelope = new Message.Envelope();
     envelope.gherkinDocument = new Message.GherkinDocument();
@@ -111,7 +111,7 @@ ${chalk.green("1 passed")}, 1 total
         };
       });
 
-      const UnitTestFormatter = require("./unit-test-formatter");
+      const LocalTestFormatter = require("./local-test-formatter");
       const opt = {
         eventBroadcaster: new EventEmitter(),
         eventDataCollector: {
@@ -127,7 +127,7 @@ ${chalk.green("1 passed")}, 1 total
         }
       };
 
-      const formatter = new UnitTestFormatter(opt); // eslint-disable-line
+      const formatter = new LocalTestFormatter(opt); // eslint-disable-line
       const uuid = Message.IdGenerator.uuid()();
       triggerEvent(opt.eventBroadcaster, uuid);
 
@@ -193,7 +193,7 @@ ${chalk.red("1 failed")}, ${chalk.green("1 passed")}, 2 total
         };
       });
 
-      const UnitTestFormatter = require("./unit-test-formatter");
+      const LocalTestFormatter = require("./local-test-formatter");
       const opt = {
         eventBroadcaster: new EventEmitter(),
         eventDataCollector: {
@@ -223,7 +223,7 @@ ${chalk.red("1 failed")}, ${chalk.green("1 passed")}, 2 total
         }
       };
 
-      const formatter = new UnitTestFormatter(opt); // eslint-disable-line
+      const formatter = new LocalTestFormatter(opt); // eslint-disable-line
 
       triggerEvent(opt.eventBroadcaster, uuid1);
       triggerEvent(opt.eventBroadcaster, uuid2);
@@ -309,7 +309,7 @@ ${chalk.red("1 failed")}, ${chalk.yellow("1 skipped")}, ${chalk.green(
         };
       });
 
-      const UnitTestFormatter = require("./unit-test-formatter");
+      const LocalTestFormatter = require("./local-test-formatter");
       const opt = {
         eventBroadcaster: new EventEmitter(),
         eventDataCollector: {
@@ -353,7 +353,7 @@ ${chalk.red("1 failed")}, ${chalk.yellow("1 skipped")}, ${chalk.green(
         }
       };
 
-      const formatter = new UnitTestFormatter(opt); // eslint-disable-line
+      const formatter = new LocalTestFormatter(opt); // eslint-disable-line
       const logs1 = ["Server up", '{\n  "foo": "bar"\n}'];
       triggerEvent(opt.eventBroadcaster, uuid1, logs1);
 
@@ -431,7 +431,7 @@ ${chalk.red("1 failed")}, ${chalk.yellow("1 skipped")}, ${chalk.green(
         };
       });
 
-      const UnitTestFormatter = require("./unit-test-formatter");
+      const LocalTestFormatter = require("./local-test-formatter");
       const opt = {
         eventBroadcaster: new EventEmitter(),
         eventDataCollector: {
@@ -475,7 +475,7 @@ ${chalk.red("1 failed")}, ${chalk.yellow("1 skipped")}, ${chalk.green(
         }
       };
 
-      const formatter = new UnitTestFormatter(opt); // eslint-disable-line
+      const formatter = new LocalTestFormatter(opt); // eslint-disable-line
       const logs1 = ["Server up", '{\n  "foo": "bar"\n}'];
       triggerEvent(opt.eventBroadcaster, uuid1, logs1);
 

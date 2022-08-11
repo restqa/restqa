@@ -5,7 +5,7 @@ const {restqa} = global;
 const options = {
   env: restqa.env,
   config: restqa.config,
-  isUnitTest: restqa.isUnitTest(),
+  isLocalTest: restqa.isLocalTest(),
   outputStream: restqa.outputStream,
   report: restqa.report
 };

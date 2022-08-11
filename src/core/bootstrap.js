@@ -26,7 +26,7 @@ module.exports = function (processor, options = {}) {
   }
 
   const {defineParameterType, setWorldConstructor} = processor;
-  const {env, config, isUnitTest} = options;
+  const {env, config, isLocalTest} = options;
 
   if (!config) {
     throw new Error("The configuration is not loaded");
@@ -37,24 +37,24 @@ module.exports = function (processor, options = {}) {
   }
 
   if (
-    isUnitTest &&
-    (!config.getUnitTest().getPort() || !config.getUnitTest().getCommand())
+    isLocalTest &&
+    (!config.getLocalTest().getPort() || !config.getLocalTest().getCommand())
   ) {
     throw new Error(
-      "The unit test can't be executed due to missing unit test configuration"
+      "The local test can't be executed due to missing local test configuration"
     );
   }
 
-  if (!isUnitTest && !config.getIntegrationTests().length) {
+  if (!isLocalTest && !config.getIntegrationTests().length) {
     throw new Error(
       "The integration test can't be executed due to missing integration test configuration"
     );
   }
 
   const environment = {
-    name: config.getUnitTest().getName(),
-    url: config.getUnitTest().getUrl(),
-    data: config.getUnitTest().getData()
+    name: config.getLocalTest().getName(),
+    url: config.getLocalTest().getUrl(),
+    data: config.getLocalTest().getData()
   };
 
   if (env) {

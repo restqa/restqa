@@ -14,7 +14,7 @@ let title = "Exporting the test result...";
 title = msg.text || title;
 
 const test = {
-  name: config.getUnitTest().getName(),
+  name: config.getLocalTest().getName(),
   outputs: [
     {
       type: "html",
@@ -27,7 +27,7 @@ const test = {
   ]
 };
 
-if (!restqa.isUnitTest()) {
+if (!restqa.isLocalTest()) {
   test.name = config.getIntegrationTest(env).getName();
   test.outputs = config.getIntegrationTest(env).getOutputs();
 }

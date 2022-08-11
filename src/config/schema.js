@@ -32,7 +32,7 @@ function validate(config) {
       description: Joi.string().required()
     },
     tests: {
-      unit: {
+      local: {
         port: Joi.number().port().required(),
         command: Joi.string().required(),
         data

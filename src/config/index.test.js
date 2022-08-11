@@ -62,7 +62,7 @@ metadata:
   name: My test API
   description: The description of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
     data:
@@ -123,19 +123,19 @@ plugins:
       "The description of the test api"
     );
 
-    // unit test
-    expect(Instance.getUnitTest().getPort()).toEqual(8080);
-    expect(Instance.getUnitTest().getCommand()).toEqual("npm run dev");
-    expect(Instance.getUnitTest().getName()).toEqual("local");
-    expect(Instance.getUnitTest().getUrl()).toEqual("http://localhost:8080");
-    expect(Instance.getUnitTest().getData().getStorage()).toEqual(
+    // local test
+    expect(Instance.getLocalTest().getPort()).toEqual(8080);
+    expect(Instance.getLocalTest().getCommand()).toEqual("npm run dev");
+    expect(Instance.getLocalTest().getName()).toEqual("local");
+    expect(Instance.getLocalTest().getUrl()).toEqual("http://localhost:8080");
+    expect(Instance.getLocalTest().getData().getStorage()).toEqual(
       "./test/data"
     );
-    expect(Instance.getUnitTest().getData().getChannel()).toEqual("excel");
-    expect(Instance.getUnitTest().getData().getConfig()).toEqual({foo: "bar"});
-    expect(Instance.getUnitTest().getData().getStartSymbol()).toEqual("{{");
-    expect(Instance.getUnitTest().getData().getEndSymbol()).toEqual("}}");
-    expect(Instance.getUnitTest().getData().getVariables()).toEqual({
+    expect(Instance.getLocalTest().getData().getChannel()).toEqual("excel");
+    expect(Instance.getLocalTest().getData().getConfig()).toEqual({foo: "bar"});
+    expect(Instance.getLocalTest().getData().getStartSymbol()).toEqual("{{");
+    expect(Instance.getLocalTest().getData().getEndSymbol()).toEqual("}}");
+    expect(Instance.getLocalTest().getData().getVariables()).toEqual({
       key: "value"
     });
 
@@ -271,7 +271,7 @@ metadata:
   name: My test API
   description: The description of the test api
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
   integrations:
@@ -322,9 +322,9 @@ settings:
       "The description of the test api"
     );
 
-    // unit test
-    expect(Instance.getUnitTest().getPort()).toEqual(8080);
-    expect(Instance.getUnitTest().getCommand()).toEqual("npm run dev");
+    // local test
+    expect(Instance.getLocalTest().getPort()).toEqual(8080);
+    expect(Instance.getLocalTest().getCommand()).toEqual("npm run dev");
 
     // integration test
     expect(Instance.getIntegrationTests()[0].getName()).toEqual("UAT");
@@ -431,14 +431,14 @@ settings:
     const Instance = new Config();
     Instance.setName("my config name");
     Instance.setDescription("my config description");
-    Instance.getUnitTest().setPort(8080);
-    Instance.getUnitTest().setCommand("npm run dev");
-    Instance.getUnitTest().getData().setStorage("./my-storage");
-    Instance.getUnitTest().getData().setChannel("excel");
-    Instance.getUnitTest().getData().setConfig({key: "val"});
-    Instance.getUnitTest().getData().setStartSymbol("[[");
-    Instance.getUnitTest().getData().setEndSymbol("]]");
-    Instance.getUnitTest().getData().addVariables("foo", "bar");
+    Instance.getLocalTest().setPort(8080);
+    Instance.getLocalTest().setCommand("npm run dev");
+    Instance.getLocalTest().getData().setStorage("./my-storage");
+    Instance.getLocalTest().getData().setChannel("excel");
+    Instance.getLocalTest().getData().setConfig({key: "val"});
+    Instance.getLocalTest().getData().setStartSymbol("[[");
+    Instance.getLocalTest().getData().setEndSymbol("]]");
+    Instance.getLocalTest().getData().addVariables("foo", "bar");
 
     Instance.addIntegration("UAT", "https://uat.example.com");
     Instance.getIntegrationTest("uat").addOutput({
@@ -473,7 +473,7 @@ settings:
         description: "my config description"
       },
       tests: {
-        unit: {
+        local: {
           port: 8080,
           command: "npm run dev",
           data: {
@@ -540,7 +540,7 @@ metadata:
   name: my config name
   description: my config description
 tests:
-  unit:
+  local:
     port: 8080
     command: npm run dev
     data:
@@ -585,8 +585,8 @@ settings:
   test("Save config file using the default description", () => {
     const Instance = new Config();
     Instance.setName("my config name");
-    Instance.getUnitTest().setPort(8080);
-    Instance.getUnitTest().setCommand("npm run dev");
+    Instance.getLocalTest().setPort(8080);
+    Instance.getLocalTest().setCommand("npm run dev");
     const filename = path.resolve(jestqa.getTmpFolder(), ".restqa.yml");
     Instance.save(filename);
     expect(fs.existsSync(filename)).toBeTruthy();
@@ -602,7 +602,7 @@ settings:
         description: "Delicious Microservice maintained with RestQA"
       },
       tests: {
-        unit: {
+        local: {
           port: 8080,
           command: "npm run dev"
         }
