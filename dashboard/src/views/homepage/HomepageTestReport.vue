@@ -11,6 +11,11 @@
   <br />
   <el-space class="w100" direction="vertical">
     <el-row :gutter="20">
+      <el-col :span="24">
+        <Game />
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
       <el-col :span="16">
         <restqa-test-result-chart-features
           :access-link="true"
@@ -76,6 +81,7 @@ import RestqaProjectStatus from "@/components/restqa/project-status/RestQAProjec
 import RestqaContributors from "@/components/restqa/contributors/RestQAContributors.vue";
 import PerformanceWidget from "@/components/restqa/performance/Widget.vue";
 import SpecificationWidget from "@/components/restqa/specification/Widget.vue";
+import Game from "@/components/restqa/game/Game.vue"
 
 export default {
   name: "HomepageTestReport",
@@ -84,7 +90,8 @@ export default {
     RestqaProjectStatus,
     RestqaContributors,
     PerformanceWidget,
-    SpecificationWidget
+    SpecificationWidget,
+    Game
     //Card
   },
   data() {

@@ -88,11 +88,12 @@ options.customExporters = {
         2
       )}\n\n`;
 
+      const entrypoint = path.resolve(config.folder, "index.html")
+      fs.writeFileSync(entrypoint, fs.readFileSync(entrypoint).toString('utf-8').replace('type="module"', ''));
+
       fs.writeFileSync(path.resolve(config.folder, "restqa.result.js"), output);
 
-      const url = URL.pathToFileURL(
-        path.resolve(config.folder, "index.html")
-      ).href;
+      const url = URL.pathToFileURL(entrypoint).href;
 
       config.browserOpening && (await open(url));
       return Promise.resolve(
@@ -132,8 +133,41 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_SPECIFICATION,
     RESTQA_POSTMAN,
     RESTQA_CONTRIBUTORS,
-    RESTQA_CONFIG: config
+    RESTQA_CONFIG: config,
+    RESTQA_CITY: getCity(RESTQA_RESULT)
   };
+}
+
+function getCity(result) {
+  return {
+    id: result.id,
+    name: result.name,
+    buildings: result.features.map(feature => {
+      return {
+        id: feature.id,
+        name: feature.name,
+        rooms: feature.elements.map(element => {
+          return {
+            "bed": "sidecar-logs:8.0.4",
+            "name": "sidecar-log",
+            "servers": [
+              {
+                "level": "critical",
+                "name": "limits",
+                "racks": "medium"
+              },
+              {
+                "level": "critical",
+                "name": "request",
+                "racks": "medium"
+              }
+            ]
+          }
+        }),
+        status: feature.status
+      }
+    })
+  }
 }
 
 module.exports = getFormatter(options);

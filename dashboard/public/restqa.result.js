@@ -489,4 +489,48 @@ OUTPUT.RESTQA_SPECIFICATION = {
     }
 }
 
+OUTPUT.RESTQA_CITY = {
+    "id": "6604b38f-8fbe-4bfa-b1e1-3510e91f0f37",
+    "name": "Example Restqa",
+    "buildings": [
+      {
+        "id": "get-/",
+        "rooms": [
+          {
+            "bed": "sidecar-logs:8.0.4",
+            "name": "sidecar-log",
+            "servers": [
+              {
+                "level": "critical",
+                "name": "limits",
+                "racks": "medium"
+              },
+              {
+                "level": "critical",
+                "name": "request",
+                "racks": "medium"
+              }
+            ]
+          },
+          {
+            "bed": "sidecar-logs:8.0.4",
+            "name": "sidecar-log",
+            "servers": [
+              {
+                "level": "critical",
+                "name": "limits",
+                "racks": "medium"
+              },
+              {
+                "level": "critical",
+                "name": "request",
+                "racks": "medium"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+
 window.OUTPUT = OUTPUT

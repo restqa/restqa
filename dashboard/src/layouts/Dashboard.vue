@@ -31,6 +31,7 @@
 import PartialHeader from "./partials/Header";
 import PartialSideBar from "./partials/SideBar";
 import PartialFooter from "./partials/Footer";
+import { EVENTS } from "../events/restqa.js";
 
 export default {
   name: "Dashboard",
@@ -38,7 +39,12 @@ export default {
     PartialHeader,
     PartialSideBar,
     PartialFooter
-  }
+  },
+  mounted () {
+    window.addEventListener(EVENTS.GO, (e) => {
+      this.$router.push(e.route)
+    })
+  },
 };
 </script>
 
