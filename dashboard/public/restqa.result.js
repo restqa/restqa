@@ -446,6 +446,9 @@ OUTPUT.RESTQA_CONFIG = {
     },
     specification: {
       tool: 'swagger'
+    },
+    settings: {
+      gameMode: true
     }
 }
 

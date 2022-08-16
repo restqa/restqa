@@ -1,5 +1,5 @@
 <template>
-  <card style="height: 610px" title="City" emoji="🏘">
+  <card v-if="enabled" style="height: 610px" title="City" emoji="🏘">
     <Suspense>
       <PhaserContainer />
       <template #fallback>
@@ -18,8 +18,15 @@ export default {
   components: {
     PhaserContainer,
     Card
+  },
+  data () {
+    const config = this.$store.getters.projectConfiguration
+    return {
+      enabled: config?.settings?.gameMode
+    }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>

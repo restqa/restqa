@@ -502,6 +502,15 @@ class Settings {
     this._config = config || {};
   }
 
+  getGameMode() {
+    return this._config.gameMode;
+  }
+
+  setGameMode(val) {
+    this._config.gameMode = val;
+    return this
+  }
+
   getTimeout() {
     return this._config.timeout;
   }

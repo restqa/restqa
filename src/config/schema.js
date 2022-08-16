@@ -66,6 +66,7 @@ function validate(config) {
         })
       ),
     settings: Joi.object({
+      gameMode: Joi.boolean(),
       timeout: Joi.number(),
       dashboard: Joi.object({
         server: Joi.object({
