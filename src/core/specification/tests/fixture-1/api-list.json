@@ -1,99 +1,95 @@
 [
-    {
-        "curl": "curl -X GET --url http://localhost/",
-        "request": {
-            "headers": {
-                "user-agent": "restqa (https://github.com/restqa/restqa)",
-                "x-correlation-id": "test-e2e-get-797-1652489283315"
-            },
-            "hooks": {
-                "afterResponse": [
-                    null
-                ]
-            },
-            "hostname": "localhost",
-            "method": "get",
-            "pathname": "/",
-            "port": "8887",
-            "protocol": "http:",
-            "responseType": "json"
-        },
-        "response": {
-            "body": {
-                "hello": "world"
-            },
-            "headers": {
-                "connection": "close",
-                "content-length": "17",
-                "content-type": "application/json; charset=utf-8",
-                "date": "Sat, 14 May 2022 00:48:03 GMT",
-                "etag": "W/\"11-IkjuL6CqqtmReFMfkkvwC0sKj04\"",
-                "x-powered-by": "Express"
-            },
-            "request": {
-                "method": "get",
-                "path": "/",
-                "prefix": "[GET /]"
-            },
-            "statusCode": 200,
-            "timing": 6
-        },
-        "scenario": {
-            "pickle": {
-                "name": "Successfull hello world",
-                "tags": [
-                    {
-                        "astNodeId": "f265eff6-92cd-432c-b874-04fe6bc2b1c5",
-                        "name": "@performance"
-                    }
-                ]
-            }
-        }
+  {
+    "curl": "curl -X GET --url http://localhost/",
+    "request": {
+      "headers": {
+        "user-agent": "restqa (https://github.com/restqa/restqa)",
+        "x-correlation-id": "test-e2e-get-797-1652489283315"
+      },
+      "hooks": {
+        "afterResponse": [null]
+      },
+      "hostname": "localhost",
+      "method": "get",
+      "pathname": "/",
+      "port": "8887",
+      "protocol": "http:",
+      "responseType": "json"
     },
-    {
-        "curl": "curl -X GET --url http://localhost/",
-        "request": {
-            "headers": {
-                "user-agent": "restqa (https://github.com/restqa/restqa)",
-                "x-correlation-id": "test-e2e-get-455-1652489283334"
-            },
-            "hooks": {
-                "afterResponse": [
-                    null
-                ]
-            },
-            "hostname": "localhost",
-            "method": "get",
-            "pathname": "/",
-            "port": "8887",
-            "protocol": "http:",
-            "responseType": "json"
-        },
-        "response": {
-            "body": {
-                "hello": "world"
-            },
-            "headers": {
-                "connection": "close",
-                "content-length": "17",
-                "content-type": "application/json; charset=utf-8",
-                "date": "Sat, 14 May 2022 00:48:03 GMT",
-                "etag": "W/\"11-IkjuL6CqqtmReFMfkkvwC0sKj04\"",
-                "x-powered-by": "Express"
-            },
-            "request": {
-                "method": "get",
-                "path": "/",
-                "prefix": "[GET /]"
-            },
-            "statusCode": 200,
-            "timing": 2
-        },
-        "scenario": {
-            "pickle": {
-                "name": "Non successfull",
-                "tags": []
-            }
-        }
+    "response": {
+      "body": {
+        "hello": "world"
+      },
+      "headers": {
+        "connection": "close",
+        "content-length": "17",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 14 May 2022 00:48:03 GMT",
+        "etag": "W/\"11-IkjuL6CqqtmReFMfkkvwC0sKj04\"",
+        "x-powered-by": "Express"
+      },
+      "request": {
+        "method": "get",
+        "path": "/",
+        "prefix": "[GET /]"
+      },
+      "statusCode": 200,
+      "timing": 6
+    },
+    "scenario": {
+      "pickle": {
+        "name": "Successfull hello world",
+        "tags": [
+          {
+            "astNodeId": "f265eff6-92cd-432c-b874-04fe6bc2b1c5",
+            "name": "@performance"
+          }
+        ]
+      }
     }
+  },
+  {
+    "curl": "curl -X GET --url http://localhost/",
+    "request": {
+      "headers": {
+        "user-agent": "restqa (https://github.com/restqa/restqa)",
+        "x-correlation-id": "test-e2e-get-455-1652489283334"
+      },
+      "hooks": {
+        "afterResponse": [null]
+      },
+      "hostname": "localhost",
+      "method": "get",
+      "pathname": "/",
+      "port": "8887",
+      "protocol": "http:",
+      "responseType": "json"
+    },
+    "response": {
+      "body": {
+        "hello": "world"
+      },
+      "headers": {
+        "connection": "close",
+        "content-length": "17",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 14 May 2022 00:48:03 GMT",
+        "etag": "W/\"11-IkjuL6CqqtmReFMfkkvwC0sKj04\"",
+        "x-powered-by": "Express"
+      },
+      "request": {
+        "method": "get",
+        "path": "/",
+        "prefix": "[GET /]"
+      },
+      "statusCode": 200,
+      "timing": 2
+    },
+    "scenario": {
+      "pickle": {
+        "name": "Non successfull",
+        "tags": []
+      }
+    }
+  }
 ]

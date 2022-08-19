@@ -23,13 +23,13 @@
         <card title="Feature Detail" class="ccard">
           <el-descriptions :column="1" :border="true">
             <el-descriptions-item label="Tag">
-            <el-tag
-              size="medium"
-              v-for="(item, index) in this.feature.tags"
-              :key="index"
-            >
-            {{ item.name }}
-            </el-tag>
+              <el-tag
+                size="medium"
+                v-for="(item, index) in this.feature.tags"
+                :key="index"
+              >
+                {{ item.name }}
+              </el-tag>
             </el-descriptions-item>
             <el-descriptions-item label="Unique identifier">{{
               this.feature.id

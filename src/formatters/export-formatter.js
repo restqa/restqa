@@ -111,6 +111,7 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_INTEGRATION,
     RESTQA_PERFORMANCE,
     RESTQA_POSTMAN,
+    RESTQA_HTTP_MOCKS,
     RESTQA_CONTRIBUTORS;
 
   if (global.restqa && global.restqa.specification) {
@@ -125,6 +126,10 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_PERFORMANCE = global.restqa.performance;
   }
 
+  if (global.restqa && global.restqa.httpMock) {
+    RESTQA_HTTP_MOCKS = global.restqa.httpMock;
+  }
+
   return {
     RESTQA_RESULT,
     RESTQA_INTEGRATION,
@@ -132,7 +137,8 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_SPECIFICATION,
     RESTQA_POSTMAN,
     RESTQA_CONTRIBUTORS,
-    RESTQA_CONFIG: config
+    RESTQA_CONFIG: config,
+    RESTQA_HTTP_MOCKS
   };
 }
 

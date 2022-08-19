@@ -3,11 +3,9 @@ describe("#lib - specification", () => {
     const Specification = require("./index");
     const config = {
       specification: {}
-    }
+    };
     expect(() => new Specification(config)).toThrow(
       'The specification property "tool" should be specify. (available: swagger)'
     );
   });
 });
-
-

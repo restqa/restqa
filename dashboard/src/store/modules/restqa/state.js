@@ -45,6 +45,12 @@ const state = {
       label: "Contributors",
       hidden: true,
       data: OUTPUT.RESTQA_CONTRIBUTORS
+    },
+    httpMocks: {
+      label: "HTTP Mocks",
+      enabled: OUTPUT.RESTQA_HTTP_MOCKS && true,
+      hidden: true,
+      data: OUTPUT.RESTQA_HTTP_MOCKS
     }
   },
   projectConfiguration: OUTPUT.RESTQA_CONFIG
