@@ -67,9 +67,6 @@ Welcome.prototype.MESSAGES = [
   )} to pair to do a feature with the maintainer: ${chalk.yellow(
     "https://restqa.io/pair"
   )}`,
-  `${chalk.green("Create")} your own plugin using the ${chalk.red(
-    "Yo generator"
-  )} 🔌: ${chalk.yellow("https://github.com/restqa/generator-plugin")}`,
   `Do not forget to ${chalk.green("add a linter")} to your ${chalk.red(
     "Gherkin"
   )} files 🧹: ${chalk.yellow(
