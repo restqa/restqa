@@ -47,6 +47,12 @@ describe("state", () => {
           label: "Contributors",
           hidden: true,
           data: undefined
+        },
+        httpMocks: {
+          label: "HTTP Mocks",
+          enabled: false,
+          hidden: true,
+          data: undefined
         }
       }
     };

@@ -105,6 +105,14 @@ const router = createRouter({
           meta: {
             title: "Postman Collection"
           }
+        },
+        {
+          path: "/http-mock",
+          name: "http-mock",
+          component: () => import("./views/http-mock/HttpMock.vue"),
+          meta: {
+            title: "HTTP Mock"
+          }
         }
       ]
     }
