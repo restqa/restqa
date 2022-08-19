@@ -11,6 +11,7 @@ describe("state", () => {
       features: [],
       selectedFile: null,
       preferences: {},
+      projectConfiguration: undefined,
       testReport: undefined,
       projectStatus: {
         unit: {
@@ -50,7 +51,7 @@ describe("state", () => {
         },
         httpMocks: {
           label: "HTTP Mocks",
-          enabled: false,
+          enabled: undefined,
           hidden: true,
           data: undefined
         }
