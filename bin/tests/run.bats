@@ -39,7 +39,7 @@ teardown() {
 
   #assert_failure Need to update
   assert_success
-  assert_output --partial "Error: The unit test can't be executed due to missing unit test configuration"
+  assert_output --partial "Error: The local test can't be executed due to missing local test configuration"
 }
 
 @test "[RUN]> Throw error if try to run integration test but the integration config not exist" {
