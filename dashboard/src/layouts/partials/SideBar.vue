@@ -101,7 +101,7 @@ export default {
         enabled: status.performance.enabled
       },
       {
-        route: "openapi",
+        route: "specification",
         label: "API Specification",
         icon: "el-icon-collection",
         mode: "test-result",
@@ -113,16 +113,21 @@ export default {
         icon: "el-icon-moon",
         mode: "test-result",
         enabled: status.postman.enabled
-      }
-      /*
+      },
+      {
+        route: "http-mock",
+        label: "HTTP mocks",
+        icon: "el-icon-basketball",
+        mode: "test-result",
+        enabled: status.httpMocks.enabled
+      },
       {
         route: "continuous-integration",
         label: "Continuous Integration",
         icon: "el-icon-ship",
         mode: "test-result",
-        enabled: true
+        enabled: false
       },
-      */
     ];
     return {
       isCollapse: false,

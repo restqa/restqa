@@ -489,4 +489,12 @@ OUTPUT.RESTQA_SPECIFICATION = {
     }
 }
 
+OUTPUT.RESTQA_HTTP_MOCKS = {
+  outputFolder: '/Users/olivierodo/WORKS/restqa/restqa/example/tests/mocks',
+  files: [
+    '/Users/olivierodo/WORKS/restqa/restqa/example/tests/mocks/get.feature1.mock.yml',
+    '/Users/olivierodo/WORKS/restqa/restqa/example/tests/mocks/get.feature2.mock.yml'
+  ]
+}
+
 window.OUTPUT = OUTPUT
