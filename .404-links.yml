@@ -1,2 +1,6 @@
+ignore: 
+  urls:
+  - https://github.com/restqa/generator-plugin
+
 delay:
   'https://github.com': 500
