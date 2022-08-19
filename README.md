@@ -17,12 +17,13 @@
 
 Within our DEV team while working with microservice, we realized a few thing:
 
-- [X] **WE HATE** Writting Unit Test
-- [X] **WE HATE** Reviewing long unreadable Unit Test
+- [X] **WE HATE** Writting Local Test
+- [X] **WE HATE** Reviewing long unreadable Local Test
 - [X] **WE HATE** Maintaining the Integration Test
-- [X] **WE HATE** Maintainig the Performance Test
-- [X] **WE HATE** Maintainig the API specification
+- [X] **WE HATE** Maintaining the Performance Test
+- [X] **WE HATE** Maintaining the API specification
 - [X] **WE HATE** Maintaining the postman collection
+- [X] **WE HATE** Maintaining the HTTP Mocks
 - [X] **WE HATE** Rewrite the test while changing the microservice technology
 
 This is why we decided to challenge ourself on how to transform this anger into a positive initative.
@@ -37,10 +38,10 @@ Run one command and get everything that you need to enjoy maintaining your micro
 
 ## ⭐️ Features
 
-- 🌈 Unit test as Single source of truth
-- 💬 Write unit test using ordinary language
-- 🚦 Reuse your unit test to run the integration test
-- 🏎  Generate Test scenario for your favorite Performance testing tool
+- 🌈 Local API test as Single source of truth
+- 💬 Write local API test using ordinary language
+- 🚦 Reuse your local API test to run the integration test
+- 🏎  Generate Performace Test scenario compatible with your favorite Performance testing tool
 - 📚  Generate an up to date API specification from the test results
 - 👩‍🚀 Generate an up to date postman collection
 - 🕐 Instant result
@@ -49,6 +50,8 @@ Run one command and get everything that you need to enjoy maintaining your micro
 
 
 ## 📦 Install
+
+Once you get nodeJs on your local machine run the command
 
 ```
 npm install -D @restqa/restqa
@@ -111,6 +114,7 @@ More example available on the [restqa-example](https://github.com/restqa/restqa-
 - [ ] Mock Postgres database
 - [ ] Mock MySQL database
 - [ ] Mock S3 database
+- [ ] Mock Redis store
 
 ##### 🚦 Integration Test
 
