@@ -2,17 +2,17 @@
   <h2>How Many Microservices depend on this Microservice?</h2>
 
   The microservice architecture brings a complexity that we tend to forget:
-  Mocks management. Can you count how many times do you need to mock the
-  microservice response to test a feature in another microservice?
-
+  Mocks management.
   <br />
   <br />
-  RestQA help you to solve this challenge by simply generating the mock fixture
-  that you could reuse for your test in any microservice.
-
+  RestQA would like to support you on that annoying task.<br />
+  What if you could simply get up to date mock of the current microservice that you can use directly while you are testing another microservice?
   <br />
   <br />
-  Currently {{ mocks.data.files.length }} has been generated in the folder
+  This is exactly what RestQA did for you!
+  <br />
+  <br />
+  See below the list of mocks that has been generated in the folder 
   <i>{{ mocks.data.outputFolder }}</i
   >:
   <ul>
