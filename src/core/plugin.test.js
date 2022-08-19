@@ -3,9 +3,9 @@ const {ChildProcess} = require("child_process");
 const Config = require("../config");
 const express = require("express");
 const Global = require("./global");
-const path = require('path')
-const fs = require('fs')
-const YAML = require('yaml')
+const path = require("path");
+const fs = require("fs");
+const YAML = require("yaml");
 const Request = require("@restqa/restqapi/src/restqapi/lib/api/request");
 const Response = require("@restqa/restqapi/src/restqapi/lib/api/response");
 
@@ -275,8 +275,10 @@ describe("#core - plugin", () => {
   describe("performance", () => {
     test("init with performance config", async () => {
       const config = new Config();
-      config.getPerformanceTest().setOutputFolder(path.resolve(jestqa.getTmpFolder(), "perf"));
-      config.getPerformanceTest().setTool('artillery');
+      config
+        .getPerformanceTest()
+        .setOutputFolder(path.resolve(jestqa.getTmpFolder(), "perf"));
+      config.getPerformanceTest().setTool("artillery");
       config.getPerformanceTest().setOnlySuccess(true);
 
       const $this = {
@@ -316,9 +318,11 @@ describe("#core - plugin", () => {
               line: 4
             }
           ],
-          tags: [{
-            name: '@performance'
-          }],
+          tags: [
+            {
+              name: "@performance"
+            }
+          ],
           name: "Successfull creation (no data variable)",
           steps: [
             {
@@ -346,7 +350,7 @@ describe("#core - plugin", () => {
         }
       };
 
-      const Hooks = []
+      const Hooks = [];
 
       const processor = {
         Before: jest.fn(function () {
@@ -372,15 +376,15 @@ describe("#core - plugin", () => {
       const options = {
         config,
         report: true,
-        env: 'uat'
+        env: "uat"
       };
       Plugin(options, processor);
 
-      const [AfterAll] = Hooks
+      const [AfterAll] = Hooks;
 
       const $$this = {
         restqa: {}
-      }
+      };
       await AfterAll.call($$this);
 
       const expectedFile = {
@@ -418,28 +422,30 @@ describe("#core - plugin", () => {
         ]
       };
 
-      const tmpFiles = path.resolve(config.getPerformanceTest().getOutputFolder(), 'account.api.yml')
+      const tmpFiles = path.resolve(
+        config.getPerformanceTest().getOutputFolder(),
+        "account.api.yml"
+      );
       expect(fs.existsSync(tmpFiles)).toBe(true);
       const generatedFile = fs.readFileSync(tmpFiles).toString("utf-8");
       expect(YAML.parse(generatedFile)).toEqual(expectedFile);
-      expect($$this.restqa.performance).toEqual([ tmpFiles ])
-
+      expect($$this.restqa.performance).toEqual([tmpFiles]);
     });
   });
 
   describe("specification", () => {
     test("init with specification config", async () => {
       const config = new Config();
-      config.setName('My fixture 1')
-      config.setDescription('My description 1')
-      config.getSpecification().setTool('swagger');
+      config.setName("My fixture 1");
+      config.setDescription("My description 1");
+      config.getSpecification().setTool("swagger");
 
       const $this = {
         api: {
-          toJSON: () => require('./specification/tests/fixture-1/api-list.json')[0]
+          toJSON: () =>
+            require("./specification/tests/fixture-1/api-list.json")[0]
         }
       };
-
 
       const scenario = {
         pickle: {
@@ -464,10 +470,10 @@ describe("#core - plugin", () => {
               text: "I have the api gateway"
             }
           ]
-        },
+        }
       };
 
-      const Hooks = []
+      const Hooks = [];
 
       const processor = {
         Before: jest.fn(function () {
@@ -493,19 +499,19 @@ describe("#core - plugin", () => {
       const options = {
         config,
         report: true,
-        env: 'uat'
+        env: "uat"
       };
       Plugin(options, processor);
 
-      const [AfterAll] = Hooks
+      const [AfterAll] = Hooks;
 
       const $$this = {
         restqa: {}
-      }
+      };
       await AfterAll.call($$this);
 
-      const specification = require('./specification/tests/fixture-1/expect.swagger.json')
-      expect($$this.restqa.specification).toEqual(specification)
+      const specification = require("./specification/tests/fixture-1/expect.swagger.json");
+      expect($$this.restqa.specification).toEqual(specification);
     });
   });
 });

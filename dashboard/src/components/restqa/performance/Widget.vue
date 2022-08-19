@@ -1,8 +1,20 @@
 <template>
-  <card title="Performance testing" emoji="🏎" class="card" v-if="performance.enabled">
-    <img :src="require(`@/assets/images/logos/${config.tests.performance.tool}.png`)" class="option-img" />
+  <card
+    title="Performance testing"
+    emoji="🏎"
+    class="card"
+    v-if="performance.enabled"
+  >
+    <img
+      :src="
+        require(`@/assets/images/logos/${config.tests.performance.tool}.png`)
+      "
+      class="option-img"
+    />
     <br /><br />
-    <el-link type="primary" v-on:click.stop.prevent="goTo()">Access to your Performance tests</el-link>
+    <el-link type="primary" v-on:click.stop.prevent="goTo()"
+      >Access to your Performance tests</el-link
+    >
   </card>
 </template>
 
@@ -16,7 +28,7 @@ export default {
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
-    const config = this.$store.getters.projectConfiguration
+    const config = this.$store.getters.projectConfiguration;
     return {
       performance,
       config
@@ -24,16 +36,16 @@ export default {
   },
   methods: {
     goTo() {
-      this.$router.push({name: 'performance' })
+      this.$router.push({name: "performance"});
     }
   }
-}
+};
 </script>
 <style scoped>
-  .card {
-    text-align: center;
-  }
-  img {
-    width: 100%;
-  }
+.card {
+  text-align: center;
+}
+img {
+  width: 100%;
+}
 </style>
