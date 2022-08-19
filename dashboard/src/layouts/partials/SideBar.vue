@@ -127,7 +127,7 @@ export default {
         icon: "el-icon-ship",
         mode: "test-result",
         enabled: false
-      },
+      }
     ];
     return {
       isCollapse: false,

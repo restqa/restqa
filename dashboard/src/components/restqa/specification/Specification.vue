@@ -12,7 +12,7 @@ export default {
     const specification = this.$store.getters.projectStatus.specification;
     return {
       specification
-    }
+    };
   },
   mounted() {
     SwaggerUI({

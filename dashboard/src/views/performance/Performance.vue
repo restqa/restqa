@@ -7,10 +7,10 @@
   <el-row :gutter="20">
     <el-col :span="24" v-if="performance.enabled === false">
       <editor></editor>
-   </el-col>
+    </el-col>
     <el-col :span="24" v-else>
       <performance></performance>
-   </el-col>
+    </el-col>
   </el-row>
 </template>
 
@@ -28,8 +28,7 @@ export default {
     const performance = this.$store.getters.projectStatus.performance;
     return {
       performance
-    }
+    };
   }
 };
 </script>
-

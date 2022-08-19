@@ -1,8 +1,14 @@
 <template>
-  <card v-if="performance.data.length" title="Performance test has been successfully generated">
+  <card
+    v-if="performance.data.length"
+    title="Performance test has been successfully generated"
+  >
     <el-row :gutter="20">
       <el-col :span="2">
-         <img :src="require(`@/assets/images/logos/${config.tool}.png`)" class="option-img" />
+        <img
+          :src="require(`@/assets/images/logos/${config.tool}.png`)"
+          class="option-img"
+        />
       </el-col>
       <el-col :span="22">
         <el-tree :data="files" />
@@ -10,28 +16,30 @@
     </el-row>
   </card>
   <card v-else title="Any performance test has been generated.">
-    Do not forget if you want to generate test scenario you need to add the tag <strong>@performance</strong> on you test scenario.
+    Do not forget if you want to generate test scenario you need to add the tag
+    <strong>@performance</strong> on you test scenario.
     <br />
     <br />
     Example:
     <prism-editor
-        :readonly="true"
-        v-model="scenario"
-        class="ide"
-        :highlight="highlighterGherkin"
-      ></prism-editor>
+      :readonly="true"
+      v-model="scenario"
+      class="ide"
+      :highlight="highlighterGherkin"
+    ></prism-editor>
   </card>
   <card v-if="performance.data.length" title="Run your performance test">
     In order to run your test you will just need to run the command:
     <br /><br />
     <prism-editor
-        :readonly="true"
-        class="ide"
-        v-model="bashCommand"
-        :highlight="highlighterBash"
-      ></prism-editor>
+      :readonly="true"
+      class="ide"
+      v-model="bashCommand"
+      :highlight="highlighterBash"
+    ></prism-editor>
     <br /><br />
-    More information are available on the <a href="" target="_blank">Documentation</a>
+    More information are available on the
+    <a href="" target="_blank">Documentation</a>
   </card>
 </template>
 
@@ -52,7 +60,7 @@ export default {
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
-    const config = this.$store.getters.projectConfiguration.tests.performance
+    const config = this.$store.getters.projectConfiguration.tests.performance;
     return {
       performance,
       config,
@@ -76,15 +84,18 @@ Examples:
 | default  | Le produit n'existe pas.   |
 
       `.trim(),
-      files: [{
-        label: 'List of performance tests (' + performance.data.length + ' files)',
-        children: performance.data.map(file => {
-          return {
-            label: file
-          }
-        })
-      }]
-    }
+      files: [
+        {
+          label:
+            "List of performance tests (" + performance.data.length + " files)",
+          children: performance.data.map((file) => {
+            return {
+              label: file
+            };
+          })
+        }
+      ]
+    };
   },
   methods: {
     highlighterBash(code) {
@@ -92,26 +103,25 @@ Examples:
     },
     highlighterGherkin(code) {
       return highlight(code, languages.gherkin);
-    },
+    }
   },
   computed: {
-    bashCommand () {
-      const { tool, outputFolder } = this.config
-      console.log(tool)
-      let cmd = ''
+    bashCommand() {
+      const {tool, outputFolder} = this.config;
+      console.log(tool);
+      let cmd = "";
       switch (tool) {
-        case 'artillery':
-          cmd = `artillery -c <your-config-file>  ${outputFolder}`
+        case "artillery":
+          cmd = `artillery -c <your-config-file>  ${outputFolder}`;
           break;
       }
-      return  cmd
+      return cmd;
     }
   }
-}
+};
 </script>
 
 <style scoped>
-
 .ide {
   /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
   background: #2d2d2d;
@@ -132,5 +142,4 @@ Examples:
 img {
   height: 80px;
 }
-
 </style>

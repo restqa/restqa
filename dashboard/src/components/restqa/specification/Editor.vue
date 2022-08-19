@@ -1,37 +1,54 @@
 <template>
-<card title="Only 1 step is required to setup your API specification">
-  <el-select v-model="value" @change="selectTool()" class="m-2 select" placeholder="Select your favorite api specification tool" size="large">
-    <el-option
-      v-for="item in tools"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-      :disabled="item.disabled"
+  <card title="Only 1 step is required to setup your API specification">
+    <el-select
+      v-model="value"
+      @change="selectTool()"
+      class="m-2 select"
+      placeholder="Select your favorite api specification tool"
       size="large"
     >
-     <img :src="require(`@/assets/images/logos/${item.value}.png`)" class="option-img" />
-     <span>{{ item.label }}</span>
-    </el-option>
-  </el-select>
+      <el-option
+        v-for="item in tools"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+        :disabled="item.disabled"
+        size="large"
+      >
+        <img
+          :src="require(`@/assets/images/logos/${item.value}.png`)"
+          class="option-img"
+        />
+        <span>{{ item.label }}</span>
+      </el-option>
+    </el-select>
 
-  <div v-if="code">
-    <h4>Here is the new version of your .restqa.yml</h4>
-    <prism-editor
+    <div v-if="code">
+      <h4>Here is the new version of your .restqa.yml</h4>
+      <prism-editor
         :readonly="true"
         class="ide"
         v-model="code"
         :highlight="highlighter"
         line-numbers
       ></prism-editor>
-    <el-row :gutter="20">
-      <el-col :span="12" :offset="6">
-        <el-button  type="primary" icon="el-icon-copy-document" @click="copyConfig()" class="btn-copy" plain>Copy</el-button>
-      </el-col>
-    </el-row>
-    <h4>About {{ tool.label }}</h4>
-    Find more information about {{ tool.label }} <a :href="tool.link" target="_blank">here</a>.
-  </div>
-</card>
+      <el-row :gutter="20">
+        <el-col :span="12" :offset="6">
+          <el-button
+            type="primary"
+            icon="el-icon-copy-document"
+            @click="copyConfig()"
+            class="btn-copy"
+            plain
+            >Copy</el-button
+          >
+        </el-col>
+      </el-row>
+      <h4>About {{ tool.label }}</h4>
+      Find more information about {{ tool.label }}
+      <a :href="tool.link" target="_blank">here</a>.
+    </div>
+  </card>
 </template>
 <script>
 import Card from "@/components/UI/card/Card";
@@ -40,7 +57,7 @@ import "vue-prism-editor/dist/prismeditor.min.css";
 import {highlight, languages} from "prismjs/components/prism-core";
 import "prismjs/components/prism-yaml";
 import "prismjs/themes/prism-tomorrow.css";
-import { stringify } from 'yaml'
+import {stringify} from "yaml";
 import {copyText} from "vue3-clipboard";
 
 export default {
@@ -51,28 +68,33 @@ export default {
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
-    const config = JSON.parse(JSON.stringify(this.$store.getters.projectConfiguration))
+    const config = JSON.parse(
+      JSON.stringify(this.$store.getters.projectConfiguration)
+    );
     return {
       config,
       performance,
       value: null,
       code: "",
-      tools: [{
-        value: 'swagger',
-        label: 'Swagger (OAS)',
-        disabled: false,
-        link: 'https://swagger.io/'
-      },{
-        value: 'raml',
-        label: 'Raml (coming soon)',
-        disabled: true,
-        link: 'https://raml.org'
-      }]
-    }
+      tools: [
+        {
+          value: "swagger",
+          label: "Swagger (OAS)",
+          disabled: false,
+          link: "https://swagger.io/"
+        },
+        {
+          value: "raml",
+          label: "Raml (coming soon)",
+          disabled: true,
+          link: "https://raml.org"
+        }
+      ]
+    };
   },
   computed: {
-    tool () {
-      return this.tools.find(_ => _.value === this.value)
+    tool() {
+      return this.tools.find((_) => _.value === this.value);
     }
   },
   methods: {
@@ -82,9 +104,9 @@ export default {
     selectTool() {
       const tmpl = {
         tool: this.value
-      }
-      this.config.specification = tmpl
-      this.code = '---\n' + stringify(this.config)
+      };
+      this.config.specification = tmpl;
+      this.code = "---\n" + stringify(this.config);
     },
     copyConfig() {
       copyText(this.code, undefined, (error) => {
@@ -119,7 +141,6 @@ export default {
   outline: none;
 }
 
-
 .el-select-dropdown__item {
   height: 60px;
   .option-img {
@@ -139,8 +160,6 @@ export default {
 
 .btn-copy {
   width: 100%;
-  margin:  20px auto;
+  margin: 20px auto;
 }
-
 </style>
-

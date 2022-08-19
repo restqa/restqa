@@ -62,7 +62,7 @@
                 v-for="(item, index) in scenario.tags"
                 :key="index"
               >
-              {{ item.name }}
+                {{ item.name }}
               </el-tag>
             </template>
             <step
