@@ -316,6 +316,9 @@ describe("#core - plugin", () => {
               line: 4
             }
           ],
+          tags: [{
+            name: '@performance'
+          }],
           name: "Successfull creation (no data variable)",
           steps: [
             {
@@ -420,6 +423,7 @@ describe("#core - plugin", () => {
       const generatedFile = fs.readFileSync(tmpFiles).toString("utf-8");
       expect(YAML.parse(generatedFile)).toEqual(expectedFile);
       expect($$this.restqa.performance).toEqual([ tmpFiles ])
+
     });
   });
 
