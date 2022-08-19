@@ -1,9 +1,9 @@
 const Executor = require("./executor");
 const GitStat = require("./git-stat");
-const Performance = require('./performance')
-const Specification = require('./specification')
-const HttpMock = require('./http-mock')
-const path = require('path')
+const Performance = require("./performance");
+const Specification = require("./specification");
+const HttpMock = require("./http-mock");
+const path = require("path");
 
 module.exports = function ({env, report, config}, processor = {}) {
   global.result = {};
@@ -46,47 +46,52 @@ module.exports = function ({env, report, config}, processor = {}) {
   }
 
   if (report) {
-
-    const outputFolder = path.resolve(process.cwd(), "tests", "mocks")
+    const outputFolder = path.resolve(process.cwd(), "tests", "mocks");
 
     let performanceInstance = null;
-        let specificationInstance = null;
-        const httpMockInstance = new HttpMock({ outputFolder })
-
+    let specificationInstance = null;
+    const httpMockInstance = new HttpMock({outputFolder});
 
     if (!config.getSpecification().isEmpty()) {
       specificationInstance = new Specification(config.toJSON());
-      processor.After(function(scenario) {
-        const exportApi  = this.api.toJSON()
+      processor.After(function (scenario) {
+        const exportApi = this.api.toJSON();
         exportApi.scenario = {
           pickle: {
             name: scenario.pickle.name,
             tags: scenario.pickle.tags
           }
-        }
-        specificationInstance.add(exportApi)
-      })
+        };
+        specificationInstance.add(exportApi);
+      });
     }
 
     if (!config.getPerformanceTest().isEmpty()) {
-      processor.Before('@performance', function(scenario) {
-        const performance = config.getPerformanceTest().toJSON()
-        performance.outputFolder = performance.outputFolder || path.resolve(process.cwd(), "tests", "performance");
-        performance.onlySuccess = performance.onlySuccess === undefined ? true : Boolean(performance.onlySuccess);
+      processor.Before("@performance", function (scenario) {
+        const performance = config.getPerformanceTest().toJSON();
+        performance.outputFolder =
+          performance.outputFolder ||
+          path.resolve(process.cwd(), "tests", "performance");
+        performance.onlySuccess =
+          performance.onlySuccess === undefined
+            ? true
+            : Boolean(performance.onlySuccess);
         performanceInstance = new Performance(performance);
-      })
-
+      });
     }
 
-    processor.After(function(scenario) {
-      if (this.skipped) return
-        const { tags = [] } = scenario.pickle
-        if (tags.find(({ name }) => name === '@performance') && performanceInstance) {
-          performanceInstance.add(this.apis, scenario)
-        }
+    processor.After(function (scenario) {
+      if (this.skipped) return;
+      const {tags = []} = scenario.pickle;
+      if (
+        tags.find(({name}) => name === "@performance") &&
+        performanceInstance
+      ) {
+        performanceInstance.add(this.apis, scenario);
+      }
 
-        httpMockInstance.add(this.apis, scenario)
-    })
+      httpMockInstance.add(this.apis, scenario);
+    });
 
     processor.AfterAll(async function () {
       this.restqa.contributors = await GitStat();
@@ -95,13 +100,12 @@ module.exports = function ({env, report, config}, processor = {}) {
       }
 
       if (specificationInstance) {
-        this.restqa.specification = specificationInstance.format()
+        this.restqa.specification = specificationInstance.format();
       }
 
       if (httpMockInstance) {
-        this.restqa.httpMock = httpMockInstance.generate()
+        this.restqa.httpMock = httpMockInstance.generate();
       }
     });
   }
-
 };

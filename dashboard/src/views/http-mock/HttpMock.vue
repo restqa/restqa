@@ -7,7 +7,7 @@
   <el-row :gutter="20">
     <el-col :span="24">
       <http-mock></http-mock>
-   </el-col>
+    </el-col>
   </el-row>
 </template>
 
@@ -18,7 +18,6 @@ export default {
   name: "HttpMockPage",
   components: {
     HttpMock
-  },
+  }
 };
 </script>
-

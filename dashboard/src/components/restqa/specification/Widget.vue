@@ -1,8 +1,18 @@
 <template>
-  <card title="API specification" emoji="📚" class="card" v-if="specification.enabled">
-    <img :src="require(`@/assets/images/logos/${config.specification.tool}.png`)" class="option-img" />
+  <card
+    title="API specification"
+    emoji="📚"
+    class="card"
+    v-if="specification.enabled"
+  >
+    <img
+      :src="require(`@/assets/images/logos/${config.specification.tool}.png`)"
+      class="option-img"
+    />
     <br /><br />
-    <el-link type="primary" v-on:click.stop.prevent="goTo()">Access to your API specification</el-link>
+    <el-link type="primary" v-on:click.stop.prevent="goTo()"
+      >Access to your API specification</el-link
+    >
   </card>
 </template>
 
@@ -16,7 +26,7 @@ export default {
   },
   data() {
     const specification = this.$store.getters.projectStatus.specification;
-    const config = this.$store.getters.projectConfiguration
+    const config = this.$store.getters.projectConfiguration;
     return {
       specification,
       config
@@ -24,17 +34,16 @@ export default {
   },
   methods: {
     goTo() {
-      this.$router.push({name: 'specification' })
+      this.$router.push({name: "specification"});
     }
   }
-}
+};
 </script>
 <style scoped>
-  .card {
-    text-align: center;
-  }
-  img {
-    width: 100%;
-  }
+.card {
+  text-align: center;
+}
+img {
+  width: 100%;
+}
 </style>
-

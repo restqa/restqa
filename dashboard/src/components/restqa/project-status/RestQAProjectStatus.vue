@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     configure(name) {
-      this.$router.push({ name })
+      this.$router.push({name});
     }
   }
 };
