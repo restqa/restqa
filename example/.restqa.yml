@@ -13,4 +13,6 @@ tests:
     tool: artillery
     outputFolder: tests/performances
     onlySuccess: false
+specification:
+  tool: swagger
 

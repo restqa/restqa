@@ -6,13 +6,14 @@
   <br />
   <br />
   RestQA would like to support you on that annoying task.<br />
-  What if you could simply get up to date mock of the current microservice that you can use directly while you are testing another microservice?
+  What if you could simply get up to date mock of the current microservice that
+  you can use directly while you are testing another microservice?
   <br />
   <br />
   This is exactly what RestQA did for you!
   <br />
   <br />
-  See below the list of mocks that has been generated in the folder 
+  See below the list of mocks that has been generated in the folder
   <i>{{ mocks.data.outputFolder }}</i
   >:
   <ul>

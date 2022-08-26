@@ -344,10 +344,12 @@ OUTPUT.RESTQA_RESULT = {
   ]
 }
 
-//OUTPUT.RESTQA_SPECIFICATION = 'test'
-//OUTPUT.RESTQA_PERFORMANCE = 'test'
-//OUTPUT.RESTQA_POSTMAN = 'test'
 //OUTPUT.RESTQA_INTEGRATION = 'test'
+OUTPUT.RESTQA_COLLECTION = {
+  "postman": "/Users/olivierodo/WORKS/restqa/restqa/example/tests/collections/example-restqa.postman_collection.json",
+  "insomnia": null,
+  "hoppscotch": null
+}
 
 const contributors = [
  {
