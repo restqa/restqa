@@ -99,11 +99,11 @@ const router = createRouter({
           }
         },
         {
-          path: "/postam-collection",
-          name: "postman-collection",
-          component: () => import("./views/postman/Postman.vue"),
+          path: "/collection",
+          name: "collection",
+          component: () => import("./views/collection/Collection.vue"),
           meta: {
-            title: "Postman Collection"
+            title: "Collection"
           }
         },
         {

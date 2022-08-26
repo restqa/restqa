@@ -108,11 +108,11 @@ export default {
         enabled: status.specification.enabled
       },
       {
-        route: "postman-collection",
-        label: "Postman Collection",
+        route: "collection",
+        label: "API Collection",
         icon: "el-icon-moon",
         mode: "test-result",
-        enabled: status.postman.enabled
+        enabled: status.collection.enabled
       },
       {
         route: "http-mock",

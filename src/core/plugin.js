@@ -3,6 +3,7 @@ const GitStat = require("./git-stat");
 const Performance = require("./performance");
 const Specification = require("./specification");
 const HttpMock = require("./http-mock");
+const Collection = require("./collection");
 const path = require("path");
 
 module.exports = function ({env, report, config}, processor = {}) {
@@ -46,11 +47,18 @@ module.exports = function ({env, report, config}, processor = {}) {
   }
 
   if (report) {
-    const outputFolder = path.resolve(process.cwd(), "tests", "mocks");
-
     let performanceInstance = null;
     let specificationInstance = null;
-    const httpMockInstance = new HttpMock({outputFolder});
+
+    const optionsMock = {
+      outputFolder: path.resolve(process.cwd(), "tests", "mocks")
+    };
+    const httpMockInstance = new HttpMock(optionsMock);
+
+    const collectionInstance = new Collection(
+      config.code,
+      config.getCollection()
+    );
 
     if (!config.getSpecification().isEmpty()) {
       specificationInstance = new Specification(config.toJSON());
@@ -81,7 +89,6 @@ module.exports = function ({env, report, config}, processor = {}) {
     }
 
     processor.After(function (scenario) {
-      if (this.skipped) return;
       const {tags = []} = scenario.pickle;
       if (
         tags.find(({name}) => name === "@performance") &&
@@ -91,6 +98,7 @@ module.exports = function ({env, report, config}, processor = {}) {
       }
 
       httpMockInstance.add(this.apis, scenario);
+      collectionInstance.add(this.apis, scenario);
     });
 
     processor.AfterAll(async function () {
@@ -103,9 +111,8 @@ module.exports = function ({env, report, config}, processor = {}) {
         this.restqa.specification = specificationInstance.format();
       }
 
-      if (httpMockInstance) {
-        this.restqa.httpMock = httpMockInstance.generate();
-      }
+      this.restqa.httpMock = httpMockInstance.generate();
+      this.restqa.collection = collectionInstance.generate();
     });
   }
 };

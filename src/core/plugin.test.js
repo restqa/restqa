@@ -275,6 +275,7 @@ describe("#core - plugin", () => {
   describe("performance", () => {
     test("init with performance config", async () => {
       const config = new Config();
+      config.setName("test-unit");
       config
         .getPerformanceTest()
         .setOutputFolder(path.resolve(jestqa.getTmpFolder(), "perf"));
@@ -309,6 +310,11 @@ describe("#core - plugin", () => {
       $this.apis[0].request.addFormField("lastName", "doe");
 
       const scenario = {
+        gherkinDocument: {
+          feature: {
+            name: "GET /"
+          }
+        },
         pickle: {
           uri: "example/features/account.api.feature",
           language: "en",
