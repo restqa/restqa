@@ -144,7 +144,7 @@ More example available on the [restqa-example](https://github.com/restqa/restqa-
 
 #### 👩‍🚀 API Collection
 
-- [ ] Postman
+- [X] Postman
 - [ ] Insomnia
 - [ ] hoppscotch
 

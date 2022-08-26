@@ -237,7 +237,6 @@ describe("http-mock", () => {
       jestqa.getTmpFolder(),
       "mocks/users.api.feature1.mock.yml"
     );
-    jestqa.getCurrent().files.push(filename);
     const fileContent = fs.readFileSync(filename).toString();
     expect(fileContent).toEqual(expectedContent);
     expect(result).toEqual({

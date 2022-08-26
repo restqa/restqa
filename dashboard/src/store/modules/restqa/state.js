@@ -35,11 +35,11 @@ const state = {
       hidden: false,
       data: OUTPUT.RESTQA_SPECIFICATION
     },
-    postman: {
-      label: "Postman collection",
-      enabled: Boolean(OUTPUT.RESTQA_POSTMAN),
+    collection: {
+      label: "API collection",
+      enabled: Boolean(OUTPUT.RESTQA_COLLECTION),
       hidden: false,
-      data: OUTPUT.RESTQA_POSTMAN
+      data: OUTPUT.RESTQA_COLLECTION
     },
     contributors: {
       label: "Contributors",

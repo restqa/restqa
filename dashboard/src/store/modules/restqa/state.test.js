@@ -11,8 +11,8 @@ describe("state", () => {
       features: [],
       selectedFile: null,
       preferences: {},
-      projectConfiguration: undefined,
       testReport: undefined,
+      projectConfiguration: undefined,
       projectStatus: {
         unit: {
           label: "Unit Test",
@@ -38,8 +38,8 @@ describe("state", () => {
           hidden: false,
           data: undefined
         },
-        postman: {
-          label: "Postman collection",
+        collection: {
+          label: "API collection",
           enabled: false,
           hidden: false,
           data: undefined
