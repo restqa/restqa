@@ -53,27 +53,6 @@ program
   .usage("-c ./.restqa.yml -e local -t @success customer.feature")
   .action(Cli("run"));
 
-/*
-program
-  .command("dashboard")
-  .alias("d")
-  .option("--no-config", 'Run the dashboad on "no config" mode')
-  .option(
-    "-c, --config <config>",
-    "Use a specific .restqa.yml file",
-    DEFAULT_CONFIG
-  )
-  .option("-p, --port <port>", "Define the running port (default: 8081)")
-  .option(
-    "-r, --read-only",
-    "Restrict the access of the feature files to read only",
-    process.env.RESTQA_DASHBOARD_READONLY === "true"
-  )
-  .description("Launch the RestQA Dashboard web server")
-  .usage("[options]")
-  .action(Cli("dashboard"));
- */
-
 program
   .command("telemetry")
   .addArgument(
