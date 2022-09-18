@@ -12,20 +12,23 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
+    defaults:
+      run:
+        working-directory: ui
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install --prefix restqa-ui
+    - run: npm install
       env:
         CI: true
-    - run: npm run lint --prefix restqa-ui
-    - run: npm test --prefix restqa-ui
+    - run: npm run lint
+    - run: npm test
       env:
         CI: true
-    - run: npm run build --prefix restqa-ui
+    - run: npm run build
 
   build-unix:
     runs-on: ubuntu-latest
@@ -38,15 +41,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install --prefix restqa-ui
-    - run: npm run build --prefix restqa-ui
-    - run: npm install --prefix restqa-core
+    - run: npm install --prefix ui
+    - run: npm run build --prefix ui
+    - run: npm install --prefix cli
       env:
         CI: true
-    - run: npm run build --prefix restqa-core
-    - run: npm run lint --prefix restqa-core
-    - run: npm test --prefix restqa-core
-    - run: npm run test:functional --prefix restqa-core
+    - run: npm run build --prefix cli
+    - run: npm run lint --prefix cli
+    - run: npm test --prefix cli
+    - run: npm run test:functional --prefix cli
 
   build-windows:
     runs-on: windows-latest
@@ -59,12 +62,18 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install --prefix restqa-ui
-    - run: del .\restqa-ui\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
-    - run: npm run build --prefix restqa-ui
-    - run: npm install --prefix restqa-core
+    - run: npm install
+      working-directory: ui
+    - run: del .\ui\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
+    - run: npm run build
+      working-directory: ui
+    - run: npm install
+      working-directory: cli
       env:
         CI: true
-    - run: npm run build --prefix restqa-core
-    - run: npm run lint --prefix restqa-core
-    - run: npm test --prefix restqa-core
+    - run: npm run build
+      working-directory: cli
+    - run: npm run lint
+      working-directory: cli
+    - run: npm test
+      working-directory: cli

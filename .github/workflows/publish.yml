@@ -13,11 +13,11 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm install --prefix restqa-ui
-      - run: npm run build --prefix restqa-ui
-      - run: npm install --prefix restqa-core
-      - run: npm run build --prefix restqa-core
-      - run: npm publish --access public --prefix restqa-core
+      - run: npm install --prefix ui
+      - run: npm run build --prefix ui
+      - run: npm install --prefix cli
+      - run: npm run build --prefix cli
+      - run: npm publish --access public --prefix cli
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
   docker-publish:
