@@ -1,0 +1,11 @@
+scenarios:
+  - name: Successfull hello world
+    flow:
+      - get:
+          url: /
+          headers:
+            x-correlation-id: test-e2e-get-433-1663462807606
+            user-agent: restqa (https://github.com/restqa/restqa)
+          expect:
+            - statusCode: 200
+            - contentType: json

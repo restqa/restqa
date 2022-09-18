@@ -1,0 +1,16 @@
+{
+  "name": "example-restqa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "node ../restqa-core/dist/bin/restqa.js run",
+    "happy": "node ../restqa-core/dist/bin/restqa.js run --report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}

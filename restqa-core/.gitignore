@@ -1,0 +1,12 @@
+.env
+.restqa.log
+my-report.json
+restqa-result.json
+**/report
+dist
+.clinic
+tests/
+!bin/tests
+example/restqa
+*.swn
+*.swm
