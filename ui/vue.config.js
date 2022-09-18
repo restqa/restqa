@@ -1,7 +1,7 @@
 const path = require('path')
 module.exports = {
   publicPath: '',
-  outputDir: path.resolve(__dirname, '..','restqa-core','dist','ui'),
+  outputDir: path.resolve(__dirname, '..','cli','dist','ui'),
   transpileDependencies: [
     'vue-echarts',
     'resize-detector'
