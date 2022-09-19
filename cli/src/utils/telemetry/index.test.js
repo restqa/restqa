@@ -59,13 +59,15 @@ describe("# utils - telemetry - index", () => {
 
       expect(fs.existsSync(filename)).toBe(true);
       expect(JSON.parse(fs.readFileSync(filename).toString("utf-8"))).toEqual({
-        telemetry: true
+        telemetry: true,
+        projects: {}
       });
 
       telemetry.toggle(false);
 
       expect(JSON.parse(fs.readFileSync(filename).toString("utf-8"))).toEqual({
-        telemetry: false
+        telemetry: false,
+        projects: {}
       });
     });
   });
@@ -177,6 +179,14 @@ describe("# utils - telemetry - index", () => {
         };
       });
 
+      const mockHomedir = () => jestqa.getTmpFolder();
+
+      jest.mock("os", () => {
+        return {
+          homedir: mockHomedir
+        };
+      });
+
       const mockProvider = require("./provider");
 
       jest.mock("child_process", () => {
@@ -189,8 +199,6 @@ describe("# utils - telemetry - index", () => {
         };
       });
 
-      const filename = path.resolve(os.homedir(), ".config", "restqa.pref");
-      jestqa.getCurrent().files.push(filename);
       process.version = "12.6";
 
       const options = {
@@ -202,7 +210,7 @@ describe("# utils - telemetry - index", () => {
       const Telemetry = require("./index");
       const telemetry = new Telemetry(options);
 
-      telemetry.toggle(false);
+      telemetry.toggle(true);
 
       telemetry.track(
         "eventCategory",

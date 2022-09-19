@@ -1,21 +1,15 @@
 const path = require("path");
-const os = require("os");
-const fs = require("fs");
 const childProcess = require("child_process");
+const Preference = require("../../config/preference");
 
 class Telemetry {
   constructor(options) {
-    this._preferenceFile = path.resolve(os.homedir(), ".config", "restqa.pref");
+    this._preference = new Preference();
     this._options = options;
   }
 
   toggle(val) {
-    const content = JSON.stringify({telemetry: val});
-    const dirpath = path.dirname(this._preferenceFile);
-    fs.mkdirSync(dirpath, {recursive: true, mode: parseInt("0700", 8)});
-    fs.writeFileSync(this._preferenceFile, content, {
-      mode: parseInt("0600", 8)
-    });
+    this._preference.telemetry = val;
   }
 
   track(category, action, label) {
@@ -23,7 +17,7 @@ class Telemetry {
       silent: true
     });
     cp.send({
-      preferenceFile: this._preferenceFile,
+      consent: this._preference.telemetry,
       category,
       action,
       label,
