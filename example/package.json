@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
-    "test": "../bin/restqa run",
-    "happy": "../bin/restqa run --report"
+    "test": "node ../cli/dist/bin/restqa run",
+    "happy": "node ../cli/dist/bin/restqa run --report"
   },
   "keywords": [],
   "author": "",

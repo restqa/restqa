@@ -7,24 +7,28 @@ on:
     types: [assigned, opened, synchronize, reopened]
 
 jobs:
-  build-Dashboard:
+  build-ui:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [14.x]
+    defaults:
+      run:
+        working-directory: ui
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run dashboard:install
+    - run: npm install
       env:
         CI: true
-    - run: npm run dashboard:lint
-    - run: npm run dashboard:test
+    - run: npm run lint
+    - run: npm test
       env:
         CI: true
+    - run: npm run build
 
   build-unix:
     runs-on: ubuntu-latest
@@ -37,14 +41,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run dashboard:install
-    - run: npm install
+    - run: npm install --prefix ui
+    - run: npm run build --prefix ui
+    - run: npm install --prefix cli
       env:
         CI: true
-    - run: npm run build
-    - run: npm run lint
-    - run: npm test
-    - run: npm run test:functional
+    - run: npm run build --prefix cli
+    - run: npm run lint --prefix cli
+    - run: npm test --prefix cli
+    - run: npm run test:functional --prefix cli
 
   build-windows:
     runs-on: windows-latest
@@ -57,10 +62,18 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm run dashboard:install
     - run: npm install
+      working-directory: ui
+    - run: del .\ui\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
+    - run: npm run build
+      working-directory: ui
+    - run: npm install
+      working-directory: cli
       env:
         CI: true
-    - run: del .\dashboard\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
     - run: npm run build
+      working-directory: cli
+    - run: npm run lint
+      working-directory: cli
     - run: npm test
+      working-directory: cli
