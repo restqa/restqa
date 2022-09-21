@@ -1,0 +1,19 @@
+{
+  "name": "restqa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "example"
+  },
+  "workspaces": [
+    "./cli",
+    "./docs",
+    "./ui"
+  ],
+  "dependencies": {
+    "@restqa/docs": "file:docs",
+    "@restqa/ui": "file:ui"
+  }
+}

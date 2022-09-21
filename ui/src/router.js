@@ -113,7 +113,23 @@ const router = createRouter({
           meta: {
             title: "HTTP Mock"
           }
-        }
+        },
+        {
+          path: "/documentation/",
+          name: "documentation",
+          component: () => import("./views/documentation/Main.vue"),
+          meta: {
+            title: "Documentation"
+          }
+        },
+        {
+          path: "/documentation/:id",
+          name: "documentationPage",
+          component: () => import("./views/documentation/Page.vue"),
+          meta: {
+            title: "Documentation"
+          }
+        },
       ]
     }
   ]
