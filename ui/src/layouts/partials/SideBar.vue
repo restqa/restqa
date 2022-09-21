@@ -15,7 +15,7 @@
       v-for="(item, index) in menu"
       :key="index"
       :index="String(index)"
-      :route="{name: item.route}"
+      :route="{name: item.route, params: item.params || {}}"
       :disabled="!item.enabled"
     >
       <i :class="item.icon"></i>
@@ -36,15 +36,15 @@
 <script>
 const staticMenu = [
   {
-    link: "https://docs.restqa.io",
-    label: "Documentation",
-    icon: "el-icon-reading"
-  },
-  {
     link: "https://restqa.io/chat",
     label: "Discord",
     icon: "el-icon-chat-dot-round"
-  }
+  },
+  {
+    link: "https://docs.restqa.io",
+    label: "Share your feedback",
+    icon: "el-icon-message"
+  },
 ];
 
 export default {
@@ -127,7 +127,17 @@ export default {
         icon: "el-icon-ship",
         mode: "test-result",
         enabled: false
-      }
+      },
+      {
+        route: "documentationPage",
+        label: "Documentation",
+        icon: "el-icon-reading",
+        mode: "test-result",
+        enabled: true,
+        params: {
+          id: 'introduction'
+        }
+      },
     ];
     return {
       isCollapse: false,
