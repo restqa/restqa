@@ -1,0 +1,17 @@
+{
+  "name": "@restqa/docs",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch"
+  },
+  "main": "dist/index.js",
+  "devDependencies": {
+    "glob": "^8.0.3",
+    "vite": "^3.1.0",
+    "vite-plugin-markdown": "^2.1.0"
+  }
+}

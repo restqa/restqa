@@ -6,6 +6,9 @@ module.exports = {
     'vue-echarts',
     'resize-detector'
   ],
+  chainWebpack: config => {
+    config.module.rules.delete('eslint');
+  },
   configureWebpack: {
     optimization: {
       splitChunks: {
@@ -21,4 +24,3 @@ module.exports = {
   //   }
   }
 }
-
