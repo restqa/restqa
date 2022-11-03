@@ -42,8 +42,9 @@ export default {
 <style scoped>
 .card {
   text-align: center;
+  height: 250px;
 }
 img {
-  width: 100%;
+  height: 100px;
 }
 </style>

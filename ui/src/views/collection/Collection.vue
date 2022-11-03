@@ -15,6 +15,7 @@
     </el-col>
   </el-row>
 
+<!--
   <h4>Tutorial</h4>
 
   <iframe
@@ -26,6 +27,7 @@
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
   ></iframe>
+-->
 </template>
 <script>
 import Detail from "@/components/restqa/collection/Detail.vue";

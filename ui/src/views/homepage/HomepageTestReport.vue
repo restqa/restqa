@@ -37,16 +37,16 @@
       </el-col>
       -->
       <el-col :span="6">
-        <performance-widget></performance-widget>
+        <performance-widget class="widget"></performance-widget>
       </el-col>
       <el-col :span="6">
-        <specification-widget></specification-widget>
+        <specification-widget class="widget"></specification-widget>
       </el-col>
       <el-col :span="6">
-        <collection-widget></collection-widget>
+        <collection-widget class="widget"></collection-widget>
       </el-col>
       <el-col :span="6">
-        <documentation-widget></documentation-widget>
+        <documentation-widget class="widget"></documentation-widget>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -90,11 +90,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.ccard {
+.widget {
   text-align: center;
-  height: 329px;
   img {
-    height: 200px;
+    height: 20px;
   }
 }
 </style>
