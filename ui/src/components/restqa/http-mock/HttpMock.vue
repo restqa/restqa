@@ -18,12 +18,13 @@
   >:
   <ul>
     <li v-for="(item, index) in mocks.data.files" :key="index">
-      <el-link href="{{ item }}" target="_blank">{{
+      <el-link :href="'file://' + item" target="_blank">{{
         item.replace(mocks.data.outputFolder, "")
       }}</el-link>
     </li>
   </ul>
 
+<!--
   <h3>Learn how to use this feature (todo)</h3>
 
   <iframe
@@ -35,6 +36,7 @@
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
   ></iframe>
+-->
 </template>
 <script>
 export default {

@@ -3,7 +3,7 @@
     <img :src="require(`@/assets/images/logos/${name}.png`)" />
     <br />
     <br />
-    <el-link v-if="location" href="{{ location }}" target="_blank"
+    <el-link v-if="location" :href="location" target="_blank"
       >Download the {{ name }} collection</el-link
     >
   </Card>
