@@ -6,8 +6,6 @@ order: 1
 
 ---
 
-### Pre requisite
-
 In order to run you will to have :
 
 * NodeJs installed
@@ -15,19 +13,19 @@ In order to run you will to have :
 
 ## Install with npm
 
-To install RestQA globally, run the command:
+We are recommending you to install RestQA within a project through the command:
 
 ```bash
-npm install @restqa/restqa -g
+npm install @restqa/restqa
 ```
 
 Then you can chek your install:
 
 ```bash
-restqa --version
+${npm bin}/restqa --version
 ```
 
-## Give RestQA a spin without install
+## Give RestQA a spin without install it
 
 ### Using NPX
 
@@ -36,7 +34,6 @@ To spin up RestQA without installing it, you can run:
 ```bash
 npx @restqa/restqa --version
 ```
-
 
 
 ### Using DOCKER

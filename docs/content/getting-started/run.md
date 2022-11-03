@@ -6,7 +6,7 @@ order: 3
 
 ---
 
-In order to run your test scenario you will need to ensure your project contains a valid RestQA configuration file `.restqa.yml`
+In order to run your test scenario you will need to ensure your project contains a valid [RestQA configuration](#/documentation/configuration) file `.restqa.yml`
 
 Then from there you can run the command:
 
@@ -15,6 +15,12 @@ restqa run
 ```
 
 The command above will search for `*.feature` files recursively from the root folder and execute them.
+
+### Show the Report
+
+```bash
+restqa run --report
+```
 
 ### Specify the configuration file
 
@@ -30,8 +36,10 @@ Or through the environment variable `RESTQA_CONFIG`
 RESTQA_CONFIG=my-config.yml restqa run
 ```
 
+> More detail about the configuration file [here](#/documentation/configuration)
 
-### Specify the target environemt
+
+### Specify the target environemt (Integration testing)
 
 You can also specify the environment to use with the `--env` CLI option:
 
@@ -45,6 +53,7 @@ Or through the environment variable `RESTQA_ENV`
 RESTQA_ENV=uat restqa run
 ```
 
+> More detail about RestQA integration testing [here](#/documentation/integration-testing)
 
 ### Specify the feature file
 

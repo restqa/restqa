@@ -1,6 +1,6 @@
 ---
 id: environment-variable
-title: Use Environment variable
+title: Environment variable
 parent: getting-started
 order: 4
 ---
