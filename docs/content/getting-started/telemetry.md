@@ -10,7 +10,7 @@ Getting feedback about the actual behavior is important for us in order to impro
 
 Then RestQA is collecting a few anonymous usage data. 
 
-While the user initiates the project for the first time using the command `restqa init`, user will be ask if he allows RestQA to collect anonymous data.
+While the user initiates the project for the first time using the command, user will be ask if he allows RestQA to collect anonymous data.
 Only if the user answer Yes, then data will be collected.
 
 ## How to update your consent on RestQA?
@@ -36,9 +36,8 @@ The information that we track are the following:
 * RestQA version
 * Node version
 * Operating system
-* Dashboard UI actions
 
-No personal information is track.
+Any personal information is track.
 
 [Check on the source Code](https://github.com/restqa/restqa/blob/master/bin/restqa)
 

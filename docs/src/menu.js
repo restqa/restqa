@@ -7,6 +7,7 @@ export default function (content) {
         name: item.attributes.sidebar_label || item.attributes.title,
         parent: item.attributes.parent || 'root',
         order: item.attributes.order || 0,
+        disabled: Boolean(item.attributes.disabled),
         items: []
       }
     })
@@ -19,7 +20,9 @@ export default function (content) {
   ]
 
   function parseChild(element) {
-    element.items = contents.filter(_ => _.parent === element.id)
+    element.items = contents
+      .filter(_ => _.parent === element.id)
+      .filter(_ =>  false === _.disabled)
     if (element.items.length) {
       element.items.forEach(parseChild)
     }

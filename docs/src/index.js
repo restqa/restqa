@@ -1,7 +1,10 @@
-import Content from './contents.generated.js'
+import Content from './generated/contents.js'
 import menu from './menu.js'
 
 export default {
+  exists: function(id) {
+    return Boolean(this.getElement(id))
+  },
   menu: menu(Content),
   getElement: function(id) {
     return Object.values(Content)
@@ -14,5 +17,10 @@ export default {
   },
   getHtml: function(id) {
     return this.getElement(id).html
+  },
+  getElements: function() {
+    return Content
+
   }
+
 }
