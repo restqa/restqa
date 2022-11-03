@@ -1,4 +1,6 @@
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
   publicPath: '',
   outputDir: path.resolve(__dirname, '..','cli','dist','ui'),
@@ -14,7 +16,16 @@ module.exports = {
       splitChunks: {
         chunks: 'all'
       }
-    }
+    },
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: [{
+          from:'@restqa/docs/content/images',
+          to:'images/documentation',
+          context: 'node_modules'
+        }]
+      }), 
+    ],
   },
   devServer: {
     port: 3000
