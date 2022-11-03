@@ -5,11 +5,14 @@ import markdownPreload from './src/vite-plugins/preload-markdown.js'
 import path from 'path'
 
 const CONTENT_PATH = resolve(__dirname, 'content')
+const GENERATED_PATH = resolve(__dirname, 'src', 'generated')
+const PWD_RESTQA= resolve(__dirname, '..','..')
 
 export default defineConfig({
   resolve: {
     alias: {
       "@": CONTENT_PATH,
+      "__": GENERATED_PATH,
     },
   },
   build: {
@@ -18,18 +21,9 @@ export default defineConfig({
       name: 'index',
       fileName: 'index'
     },
-    /*
-    watch: {
-      include: 'content/**',
-      exclude: [
-        'src/contents.generated.js',
-        'dist/**'
-      ]
-    }
-    */
   },
   plugins: [
-    markdownPreload(CONTENT_PATH),
+    markdownPreload(CONTENT_PATH, PWD_RESTQA),
     markdownPlugin.plugin({
       mode: 'html'
     })
