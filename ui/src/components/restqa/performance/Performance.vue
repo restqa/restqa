@@ -39,7 +39,7 @@
     ></prism-editor>
     <br /><br />
     More information are available on the
-    <a href="" target="_blank">Documentation</a>
+    <a href="/#/documentation/performance-testing">Documentation</a>
   </card>
 </template>
 
