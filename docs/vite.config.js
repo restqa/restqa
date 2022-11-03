@@ -6,7 +6,7 @@ import path from 'path'
 
 const CONTENT_PATH = resolve(__dirname, 'content')
 const GENERATED_PATH = resolve(__dirname, 'src', 'generated')
-const PWD_RESTQA= resolve(__dirname, '..','..')
+const PWD_RESTQA = resolve(__dirname, '..','plugins')
 
 export default defineConfig({
   resolve: {
