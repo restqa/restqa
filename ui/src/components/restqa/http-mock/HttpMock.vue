@@ -24,7 +24,7 @@
     </li>
   </ul>
 
-<!--
+  <!--
   <h3>Learn how to use this feature (todo)</h3>
 
   <iframe
@@ -36,15 +36,14 @@
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
   ></iframe>
--->
-</template>
+--></template>
 <script>
 export default {
   data() {
     const mocks = this.$store.getters.projectStatus.httpMocks;
     return {
-      mocks
+      mocks,
     };
-  }
+  },
 };
 </script>

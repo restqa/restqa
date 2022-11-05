@@ -4,10 +4,10 @@
 
 <script>
 export default {
-  name: "Button",
+  name: "UiButton",
   props: {
-    msg: String
-  }
+    msg: String,
+  },
 };
 </script>
 

@@ -15,7 +15,7 @@
   </card>
 </template>
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 import VueHighcharts from "vue3-highcharts";
 
 export default {
@@ -23,12 +23,12 @@ export default {
   props: {
     accessLink: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     Card,
-    VueHighcharts
+    VueHighcharts,
   },
   methods: {
     getFeatureData() {
@@ -36,23 +36,23 @@ export default {
       return [
         {
           label: "Passed",
-          data: data.passed
+          data: data.passed,
         },
         {
           label: "Skipped",
-          data: data.skipped
+          data: data.skipped,
         },
         {
           label: "Failed",
-          data: data.failed
-        }
+          data: data.failed,
+        },
       ];
     },
     goToDetail() {
       this.$router.push({
-        name: "features"
+        name: "features",
       });
-    }
+    },
   },
   computed: {
     nbFeatures() {
@@ -70,28 +70,28 @@ export default {
         danger: "#FD5F00",
         inverse: "#0D2B47",
         textColor: "#495057",
-        gray: "#D7DFE6"
+        gray: "#D7DFE6",
       };
-      let {success, danger, info} = colors;
+      let { success, danger, info } = colors;
       let series = [
         {
           name: "Features",
           data: this.getFeatureData().map((s) => {
             return {
               name: s.label,
-              y: s.data
+              y: s.data,
             };
-          })
-        }
+          }),
+        },
       ];
 
       return {
         chart: {
           type: "pie",
-          height: 300
+          height: 300,
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: false,
         plotOptions: {
@@ -99,7 +99,7 @@ export default {
             dataLabels: {
               enabled: true,
               format:
-                "<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>value: {point.y}"
+                "<b>{point.name}</b>:<br>{point.percentage:.1f} %<br>value: {point.y}",
             },
             borderColor: null,
             showInLegend: true,
@@ -108,11 +108,11 @@ export default {
             states: {
               hover: {
                 halo: {
-                  size: 1
-                }
-              }
-            }
-          }
+                  size: 1,
+                },
+              },
+            },
+          },
         },
         colors: [success, info, danger],
         legend: {
@@ -122,17 +122,17 @@ export default {
           itemStyle: {
             color: "#495057",
             fontWeight: 100,
-            fontFamily: "Montserrat"
+            fontFamily: "Montserrat",
           },
           itemMarginBottom: 5,
-          symbolRadius: 0
+          symbolRadius: 0,
         },
         exporting: {
-          enabled: false
+          enabled: false,
         },
-        series
+        series,
       };
-    }
-  }
+    },
+  },
 };
 </script>

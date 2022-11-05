@@ -3,22 +3,21 @@
 </template>
 
 <script>
-import SwaggerUI from "swagger-ui";
-import "swagger-ui/dist/swagger-ui.css";
+import { SwaggerUIBundle } from "swagger-ui-dist";
 
 export default {
-  name: "Specification",
+  name: "SpecificationView",
   data() {
     const specification = this.$store.getters.projectStatus.specification;
     return {
-      specification
+      specification,
     };
   },
   mounted() {
-    SwaggerUI({
+    SwaggerUIBundle({
       spec: this.specification.data,
-      dom_id: "#swagger"
+      dom_id: "#swagger",
     });
-  }
+  },
 };
 </script>

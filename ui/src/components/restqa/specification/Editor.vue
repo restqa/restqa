@@ -15,10 +15,7 @@
         :disabled="item.disabled"
         size="large"
       >
-        <img
-          :src="require(`@/assets/images/logos/${item.value}.png`)"
-          class="option-img"
-        />
+        <img :src="`images/logos/${item.value}.png`" class="option-img" />
         <span>{{ item.label }}</span>
       </el-option>
     </el-select>
@@ -51,20 +48,17 @@
   </card>
 </template>
 <script>
-import Card from "@/components/UI/card/Card";
-import {PrismEditor} from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
-import {highlight, languages} from "prismjs/components/prism-core";
-import "prismjs/components/prism-yaml";
-import "prismjs/themes/prism-tomorrow.css";
-import {stringify} from "yaml";
-import {copyText} from "vue3-clipboard";
+import Card from "@/components/UI/card/Card.vue";
+import { PrismEditor } from "vue-prism-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import { stringify } from "yaml";
+import { copyText } from "vue3-clipboard";
 
 export default {
-  name: "Editor",
+  name: "SpecificationEditor",
   components: {
     Card,
-    PrismEditor
+    PrismEditor,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
@@ -81,21 +75,21 @@ export default {
           value: "swagger",
           label: "Swagger (OAS)",
           disabled: false,
-          link: "https://swagger.io/"
+          link: "https://swagger.io/",
         },
         {
           value: "raml",
           label: "Raml (coming soon)",
           disabled: true,
-          link: "https://raml.org"
-        }
-      ]
+          link: "https://raml.org",
+        },
+      ],
     };
   },
   computed: {
     tool() {
       return this.tools.find((_) => _.value === this.value);
-    }
+    },
   },
   methods: {
     highlighter(code) {
@@ -103,7 +97,7 @@ export default {
     },
     selectTool() {
       const tmpl = {
-        tool: this.value
+        tool: this.value,
       };
       this.config.specification = tmpl;
       this.code = "---\n" + stringify(this.config);
@@ -116,11 +110,11 @@ export default {
           : "New configuration copied into your clipboard";
         this.$notify({
           message,
-          type
+          type,
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

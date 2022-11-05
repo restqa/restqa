@@ -3,17 +3,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "directories": {
-    "doc": "docs",
-    "example": "example"
+  "scripts": {
+    "build": "npm run build -ws --if-present",
+    "example:install": "npm i -w example",
+    "example": "npm run happy -w example",
+    "test": "npm test -w docs -w cli -w ui --if-present"
   },
   "workspaces": [
-    "./cli",
-    "./docs",
-    "./ui"
+    "docs",
+    "ui",
+    "cli",
+    "example"
   ],
   "dependencies": {
     "@restqa/docs": "file:docs",
-    "@restqa/ui": "file:ui"
+    "@restqa/ui": "file:ui",
+    "@restqa/restqa": "file:restqa"
   }
 }

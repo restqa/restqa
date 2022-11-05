@@ -4,16 +4,16 @@
 
 <script>
 export default {
-  name: "Avatar",
+  name: "UiAvatar",
   props: {
     src: {
-      type: String
+      type: String,
     },
     size: {
       type: String,
-      default: "large"
-    }
-  }
+      default: "large",
+    },
+  },
 };
 </script>
 

@@ -15,7 +15,7 @@
       v-for="(item, index) in menu"
       :key="index"
       :index="String(index)"
-      :route="{name: item.route, params: item.params || {}}"
+      :route="{ name: item.route, params: item.params || {} }"
       :disabled="!item.enabled"
     >
       <i :class="item.icon"></i>
@@ -38,16 +38,17 @@ const staticMenu = [
   {
     link: "https://restqa.io/chat",
     label: "Discord",
-    icon: "el-icon-chat-dot-round"
+    icon: "el-icon-chat-dot-round",
   },
   {
     link: "https://docs.restqa.io",
     label: "Share your feedback",
-    icon: "el-icon-message"
+    icon: "el-icon-message",
   },
 ];
 
 export default {
+  name: "SidebarPartial",
   data() {
     const status = this.$store.getters.projectStatus;
     const menu = [
@@ -56,77 +57,56 @@ export default {
         label: "Dashboard",
         icon: "el-icon-house",
         mode: "any",
-        enabled: true
-      },
-      {
-        route: "editor",
-        label: "Editor",
-        icon: "el-icon-document",
-        mode: "dashboard",
-        enabled: true
-      },
-      {
-        route: "steps",
-        label: "Step definition",
-        icon: "el-icon-collection",
-        mode: "dashboard",
-        enabled: true
-      },
-      {
-        route: "sandbox",
-        label: "Sandbox",
-        icon: "el-icon-ice-drink",
-        mode: "dashboard",
-        enabled: true
+        enabled: true,
       },
       {
         route: "features",
         label: "Test Report",
         icon: "el-icon-wind-power",
         mode: "test-result",
-        enabled: true
+        enabled: true,
       },
       {
         route: "integration",
         label: "Integration testing",
         icon: "el-icon-guide",
         mode: "test-result",
-        enabled: status.integration.enabled
+        enabled: status.integration.enabled,
       },
       {
         route: "performance",
         label: "Performance testing",
         icon: "el-icon-odometer",
         mode: "test-result",
-        enabled: status.performance.enabled
+        enabled: status.performance.enabled,
       },
       {
         route: "specification",
         label: "API Specification",
         icon: "el-icon-collection",
         mode: "test-result",
-        enabled: status.specification.enabled
+        enabled: status.specification.enabled,
       },
       {
         route: "collection",
         label: "API Collection",
         icon: "el-icon-moon",
         mode: "test-result",
-        enabled: status.collection.enabled
+        enabled: status.collection.enabled,
       },
       {
         route: "http-mock",
         label: "HTTP mocks",
         icon: "el-icon-basketball",
         mode: "test-result",
-        enabled: status.httpMocks.enabled
+        enabled: status.httpMocks.enabled,
       },
       {
         route: "continuous-integration",
         label: "Continuous Integration",
         icon: "el-icon-ship",
         mode: "test-result",
-        enabled: false
+        enabled: false,
       },
       {
         route: "documentationPage",
@@ -135,14 +115,14 @@ export default {
         mode: "test-result",
         enabled: true,
         params: {
-          id: 'introduction'
-        }
+          id: "introduction",
+        },
       },
     ];
     return {
       isCollapse: false,
       menu: menu.filter((_) => this.isShowed(_.mode)),
-      staticMenu
+      staticMenu,
     };
   },
   computed: {
@@ -160,7 +140,7 @@ export default {
         );
       });
       return String(index) || "0";
-    }
+    },
   },
   methods: {
     goTo(link) {
@@ -174,8 +154,8 @@ export default {
         allowed.push("dashboard");
       }
       return allowed.includes(mode);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

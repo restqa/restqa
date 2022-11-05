@@ -4,37 +4,34 @@
 </template>
 <script>
 import docs from "@restqa/docs";
-import hljs from 'highlight.js';
 
 export default {
-  name: "Render",
+  name: "DocumentationRender",
   props: {
     page: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    title () {
-      return docs.getTitle(this.page)
+    title() {
+      return docs.getTitle(this.page);
     },
-    content () {
-      const result = docs.getHtml(this.page)
-      return result
-    }
+    content() {
+      const result = docs.getHtml(this.page);
+      return result;
+    },
   },
   watch: {
     content: {
       immediate: true,
       handler() {
-        this.$nextTick(()=>{
-          document.querySelectorAll('pre code').forEach((el) => {
-            hljs.highlightElement(el);
-          });
+        this.$nextTick(() => {
+          Prism.highlightAll();
         });
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 </script>
 <style lang="scss" src="./Documentation.scss" scoped></style>

@@ -4,7 +4,7 @@ scenarios:
       - get:
           url: /
           headers:
-            x-correlation-id: test-e2e-get-433-1663462807606
+            x-correlation-id: test-e2e-get-978-1667662962237
             user-agent: restqa (https://github.com/restqa/restqa)
           expect:
             - statusCode: 200

@@ -37,12 +37,12 @@
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "RestQAProjectStatus",
   components: {
-    Card
+    Card,
   },
   data() {
     const status = this.$store.getters.projectStatus;
@@ -53,7 +53,7 @@ export default {
           ...el,
           key,
           content: el.label,
-          type: el.enabled ? "success" : "danger"
+          type: el.enabled ? "success" : "danger",
         };
       })
       .filter((el) => {
@@ -63,18 +63,18 @@ export default {
       activities: data,
       status: data.reduce((state, el) => {
         return state && (el.enabled || false);
-      }, true)
+      }, true),
     };
   },
   computed: {
     name() {
       return this.testReport.name;
-    }
+    },
   },
   methods: {
     configure(name) {
-      this.$router.push({name});
-    }
-  }
+      this.$router.push({ name });
+    },
+  },
 };
 </script>
