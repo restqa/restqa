@@ -8,10 +8,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:functional": "bats bin/tests",
-    "lint:fix": "eslint --fix src/ bin/restqa.js",
-    "lint": "eslint src/ bin/restqa.js",
-    "format": "prettier --check src",
-    "format:fix": "prettier --write src",
+    "lint": "eslint --fix src/ bin/restqa.js",
+    "format": "prettier --write --check src",
     "build": "node build.js",
     "watch": "nodemon --exec \"npm run build\" -e json,js,yml --ignore dist/ src/"
   },

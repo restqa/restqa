@@ -9,14 +9,14 @@
  * After: 1.281 sec
  */
 
-const Steps = require('./steps')
-const Generate = require('./generate')
-const Run = require('./run')
-const Telemetry = require('./telemetry')
+const Steps = require("./steps");
+const Generate = require("./generate");
+const Run = require("./run");
+const Telemetry = require("./telemetry");
 
 module.exports = {
   Steps,
   Generate,
   Run,
   Telemetry
-}
+};

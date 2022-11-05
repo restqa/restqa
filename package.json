@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build -ws --if-present",
+    "lint": "npm run lint -ws --if-present",
+    "format": "npm run format -ws --if-present",
     "example:install": "npm i -w example",
     "example": "npm run happy -w example",
     "test": "npm test -w docs -w cli -w ui --if-present"
@@ -19,5 +21,9 @@
     "@restqa/docs": "file:docs",
     "@restqa/ui": "file:ui",
     "@restqa/restqa": "file:restqa"
+  },
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": "^14.18.0 || >=16.0.0"
   }
 }
