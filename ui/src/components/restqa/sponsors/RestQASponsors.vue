@@ -29,14 +29,14 @@ import Card from "@/components/UI/card/Card";
 export default {
   name: "RestQASponsors",
   components: {
-    Card
+    Card,
   },
   computed: {
     sponsors() {
-      const {sponsors} = this.$store.getters.info || {sponsors: null};
+      const { sponsors } = this.$store.getters.info || { sponsors: null };
       return sponsors;
-    }
-  }
+    },
+  },
 };
 </script>
 <style src="./RestQASponsors.scss" lang="scss" scoped />

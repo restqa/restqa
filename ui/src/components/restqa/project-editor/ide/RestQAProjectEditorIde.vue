@@ -23,34 +23,34 @@
 </template>
 
 <script>
-import {PrismEditor} from "vue-prism-editor";
+import { PrismEditor } from "vue-prism-editor";
 import "vue-prism-editor/dist/prismeditor.min.css";
-import {highlight, languages} from "prismjs/components/prism-core";
+import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-gherkin";
 import "prismjs/themes/prism-tomorrow.css";
-import {saveFeatureFile, getFeatureFile} from "@/services/restqa/project";
+import { saveFeatureFile, getFeatureFile } from "@/services/restqa/project";
 
 export default {
   emits: ["unsave"],
   components: {
-    PrismEditor
+    PrismEditor,
   },
   props: {
     file: {
       type: String,
-      default: ""
+      default: "",
     },
     readOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       code: "",
       originalCode: "",
       error: "",
-      saveProgress: false
+      saveProgress: false,
     };
   },
   methods: {
@@ -66,12 +66,12 @@ export default {
         .finally(() => {
           this.saveProgress = false;
         });
-    }
+    },
   },
   computed: {
     showBtn() {
       return this.code !== this.originalCode;
-    }
+    },
   },
   mounted() {
     if (!this.file) {
@@ -90,8 +90,8 @@ export default {
   watch: {
     showBtn(state) {
       this.$emit("unsave", this.file, state);
-    }
-  }
+    },
+  },
 };
 </script>
 

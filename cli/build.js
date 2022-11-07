@@ -1,11 +1,14 @@
 const path = require('path')
 const fs = require('fs')
+const fsE = require('fs-extra')
 const EsBuild = require('esbuild')
 const chalk = require('chalk')
 
 const OUTPUT_FOLDER = path.resolve('.', 'dist')
+const UI_FOLDER = path.resolve('..', 'ui', 'dist')
 
-if (false === fs.existsSync(path.resolve(OUTPUT_FOLDER, 'ui'))) {
+
+if (false === fs.existsSync(UI_FOLDER)) {
   console.log(chalk.red.bold('Building failure: The RestQA UI hasn\'t been build yet 😛.'))
   console.log('👉 You can build it following the 3 steps:')
   console.log('      1. Go in the folder "restqa-ui"')
@@ -50,6 +53,9 @@ EsBuild
   .then(result => {
     fs.renameSync(path.resolve(OUTPUT_FOLDER, 'bin', 'restqa.js'), path.resolve(OUTPUT_FOLDER, 'bin', 'restqa'))
     console.log('> Renamed dist/bin/restqa.js to dist/bin/restqa')
+  })
+  .then(result => {
+    return fsE.copy(UI_FOLDER, path.resolve(OUTPUT_FOLDER, 'ui'))
   })
   .then(result => {
     console.log('> Successfull Build')

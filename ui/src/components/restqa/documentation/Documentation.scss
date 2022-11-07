@@ -6,7 +6,7 @@ h1 {
   text-transform: capitalize;
 }
 
-.content::v-deep {
+.content ::v-deep(){
  h1 {
   font-size: 30px;
  }
@@ -24,7 +24,8 @@ h1 {
  }
 
  img {
-   width: 100%;
+   margin: auto 10%;
+   width: 80%;
  }
 
  blockquote {

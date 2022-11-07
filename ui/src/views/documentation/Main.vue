@@ -14,24 +14,21 @@ export default {
   data() {
     return {
       defaultProps: {
-        children: 'items',
-        label: 'name',
+        children: "items",
+        label: "name",
       },
-      data: docs.menu.items
-    }
+      data: docs.menu.items,
+    };
   },
   methods: {
-    goTo ({ id }) {
+    goTo({ id }) {
       this.$router.push({
-        name: 'documentationPage',
+        name: "documentationPage",
         params: {
-          id
-        }
-      })
-    }
-  }
-}
-
+          id,
+        },
+      });
+    },
+  },
+};
 </script>
-
-

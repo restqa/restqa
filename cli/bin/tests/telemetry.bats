@@ -29,7 +29,7 @@ load 'common.sh'
     | grep telemetry \
     | head -1 \
     | awk -F: '{ print $2 }' \
-    | sed 's/[}]//g')
+    | sed 's/[,].*//g')
   assert_success
   assert_output --partial "The telemetry has been enabled"
   assert_equal "$TELEMETRY_STATUS"  "true"
@@ -43,7 +43,7 @@ load 'common.sh'
     | grep telemetry \
     | head -1 \
     | awk -F: '{ print $2 }' \
-    | sed 's/[}]//g')
+    | sed 's/[,].*//g')
   assert_success
   assert_output --partial "The telemetry has been disabled"
   [ $TELEMETRY_STATUS = "false" ]

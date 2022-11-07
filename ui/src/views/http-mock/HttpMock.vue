@@ -1,6 +1,8 @@
 <template>
   <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{name: 'homepage'}">Dashboard</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ name: 'homepage' }"
+      >Dashboard</el-breadcrumb-item
+    >
     <el-breadcrumb-item>HTTP Mocks</el-breadcrumb-item>
   </el-breadcrumb>
   <h2><i class="el-icon-basketball" /> HTTP Mocks</h2>
@@ -17,7 +19,7 @@ import HttpMock from "@/components/restqa/http-mock/HttpMock.vue";
 export default {
   name: "HttpMockPage",
   components: {
-    HttpMock
-  }
+    HttpMock,
+  },
 };
 </script>

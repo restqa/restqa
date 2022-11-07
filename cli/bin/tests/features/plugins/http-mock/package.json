@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Test server for restqa",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },
@@ -10,8 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@restqa/http-mock-plugin": "0.0.1",
-    "fastify": "^3.22.0",
-    "got": "^11.8.2"
+    "@restqa/http-mock-plugin": "^0.0.5",
+    "axios": "^1.1.3",
+    "fastify": "^3.22.0"
   }
 }

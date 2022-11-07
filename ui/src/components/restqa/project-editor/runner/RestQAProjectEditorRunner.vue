@@ -81,32 +81,31 @@
   </card>
 </template>
 <script>
-import Card from "@/components/UI/card/Card";
-import {testFeature} from "@/services/restqa/project";
-import Step from "./step/RestQAProjectEditorRunnerStep";
+import Card from "@/components/UI/card/Card.vue";
+import Step from "./step/RestQAProjectEditorRunnerStep.vue";
 
 export default {
   name: "RestQAProjectEditorRunner",
   components: {
     Card,
-    Step
+    Step,
   },
   props: {
     file: {
       type: String,
       default: "",
-      required: false
+      required: false,
     },
     data: {
       type: Object,
       default: null,
-      required: false
+      required: false,
     },
     readOnly: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     let result = {
@@ -114,8 +113,8 @@ export default {
         failed: 0,
         passed: 0,
         skipped: 0,
-        undefined: 0
-      }
+        undefined: 0,
+      },
     };
     if (this.data) {
       result.scenarios.failed = this.data.failed;
@@ -127,7 +126,7 @@ export default {
     return {
       loading: false,
       result,
-      activeSection: []
+      activeSection: [],
     };
   },
   computed: {
@@ -145,27 +144,11 @@ export default {
     },
     hasResult() {
       return true;
-    }
+    },
   },
   methods: {
-    async run() {
-      this.loading = true;
-      try {
-        this.result = (await testFeature(this.file)).data;
-        this.activeSection = this.result.features[0].elements
-          .filter((feat) => feat.status === "failed")
-          .map((feat) => feat.id);
-        this.$emit("status", {
-          success: this.result.success,
-          file: this.file
-        });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        this.loading = false;
-      }
-    }
-  }
+    async run() {},
+  },
 };
 </script>
 <style src="./RestQAProjectEditorRunner.scss" lang="scss" scoped />
