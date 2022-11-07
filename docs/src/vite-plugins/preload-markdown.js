@@ -1,4 +1,4 @@
-import { resolve, join, basename } from 'path'
+import { resolve, join, posix } from 'path'
 import fs from 'fs'
 import glob from 'glob'
 import got from 'got'
@@ -93,7 +93,7 @@ function fetchRemote ({contents, CONTENT_PATH, dir}) {
     .map(_ => new Promise(async (resolve, reject) => {
       const content = fs.readFileSync(join(CONTENT_PATH, _.filename)).toString()
       const { body } = await got.get(_.fromUrl)
-      const file = join(dir, basename(_.filename))
+      const file = join(dir, posix.basename(_.filename))
       fs.writeFileSync(
         file,
         content + body,
@@ -117,7 +117,7 @@ function stepDefinition ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
     .map(doc => {
       const remoteBody = fs.readFileSync(join(PWD_RESTQA, doc.fromUrl)).toString()
       const content = fs.readFileSync(join(CONTENT_PATH, doc.filename)).toString()
-      const file = join(dir, basename(doc.filename))
+      const file = join(dir, posix.basename(doc.filename))
       const categories = parse(remoteBody)
         .filter( step => {
           return step.tags.filter(tag => tag.tag === 'example').length
