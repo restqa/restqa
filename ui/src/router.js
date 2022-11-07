@@ -1,128 +1,96 @@
-import {createRouter, createWebHashHistory} from "vue-router";
-import Store from "./store/store";
-import {trackRouter} from "vue-gtag-next";
-
-const isBeta = Boolean(
-  new Date("07/01/2021 00:00:00").getTime() - new Date().getTime() > 0
-);
+import { createRouter, createWebHashHistory } from "vue-router";
+import { trackRouter } from "vue-gtag-next";
+import Dashboard from "./layouts/Dashboard.vue";
+import Homepage from "./views/homepage/HomepageTestReport.vue";
+import Features from "./views/testReport/Features.vue";
+import Feature from "./views/testReport/Feature.vue";
+import Specification from "./views/openapi/Openapi.vue";
+import Performance from "./views/performance/Performance.vue";
+import Collection from "./views/collection/Collection.vue";
+import HttpMock from "./views/http-mock/HttpMock.vue";
+import Documentation from "./views/documentation/Page.vue";
 
 const router = createRouter({
-  history: createWebHashHistory(process.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   scrollBehavior() {
     return {
       left: 0,
-      top: 0
+      top: 0,
     };
   },
   routes: [
     {
-      path: isBeta ? "/" : "/coming-soon",
-      component: () => import("./layouts/FullPage.vue"),
-      children: [
-        {
-          path: "",
-          name: "page-coming-soon",
-          component: () => import("./views/pages/ComingSoon.vue"),
-          meta: {
-            title: "Coming soon!"
-          }
-        }
-      ]
-    },
-    {
-      path: isBeta ? "/beta" : "/",
-      component: () => import("./layouts/Dashboard.vue"),
+      path: "/",
+      component: Dashboard,
       children: [
         {
           path: "",
           name: "homepage",
-          component: () => import("./views/homepage/Homepage.vue"),
+          component: Homepage,
           meta: {
-            title: "Dashboard"
-          }
-        },
-        {
-          path: "/steps",
-          name: "steps",
-          component: () => import("./views/Steps/Steps.vue"),
-          meta: {
-            title: "Step definition"
-          }
-        },
-        {
-          path: "/editor",
-          name: "editor",
-          component: () => import("./views/editor/Editor.vue"),
-          meta: {
-            title: "Editor"
-          }
-        },
-        {
-          path: "/sandbox",
-          name: "sandbox",
-          component: () => import("./views/sandbox/Sandbox.vue"),
-          meta: {
-            title: "Sandbox"
-          }
+            title: "Dashboard",
+          },
         },
         {
           path: "/features",
           name: "features",
-          component: () => import("./views/testReport/Features.vue"),
+          component: Features,
           meta: {
-            title: "Feature"
-          }
+            title: "Feature",
+          },
         },
         {
           path: "/features/:id",
           name: "feature",
-          component: () => import("./views/testReport/Feature.vue"),
+          component: Feature,
           meta: {
             title: "Feature",
-            parentRoute: "features"
-          }
+            parentRoute: "features",
+          },
         },
         {
           path: "/specification",
           name: "specification",
-          component: () => import("./views/openapi/Openapi.vue"),
+          component: Specification,
           meta: {
-            title: "API Specification"
-          }
+            title: "API Specification",
+          },
         },
         {
           path: "/performance",
           name: "performance",
-          component: () => import("./views/performance/Performance.vue"),
+          component: Performance,
           meta: {
-            title: "Performance testing"
-          }
+            title: "Performance testing",
+          },
         },
         {
           path: "/collection",
           name: "collection",
-          component: () => import("./views/collection/Collection.vue"),
+          component: Collection,
           meta: {
-            title: "Collection"
-          }
+            title: "Collection",
+          },
         },
         {
           path: "/http-mock",
           name: "http-mock",
-          component: () => import("./views/http-mock/HttpMock.vue"),
+          component: HttpMock,
           meta: {
-            title: "HTTP Mock"
-          }
-        }
-      ]
-    }
-  ]
-});
-
-router.beforeEach((to) => {
-  if (to.name !== "homepage" && null === Store.getters.config) {
-    //return {'name': 'homepage'}
-  }
+            title: "HTTP Mock",
+          },
+        },
+        {
+          path: "/documentation/:id",
+          name: "documentationPage",
+          component: Documentation,
+          meta: {
+            title: "Documentation",
+          },
+        },
+      ],
+    },
+  ],
 });
 
 router.afterEach((to) => {

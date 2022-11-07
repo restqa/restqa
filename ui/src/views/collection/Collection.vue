@@ -1,6 +1,8 @@
 <template>
   <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{name: 'homepage'}">Dashboard</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ name: 'homepage' }"
+      >Dashboard</el-breadcrumb-item
+    >
     <el-breadcrumb-item>API Collection</el-breadcrumb-item>
   </el-breadcrumb>
 
@@ -15,6 +17,7 @@
     </el-col>
   </el-row>
 
+  <!--
   <h4>Tutorial</h4>
 
   <iframe
@@ -26,28 +29,28 @@
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
   ></iframe>
-</template>
+--></template>
 <script>
 import Detail from "@/components/restqa/collection/Detail.vue";
 import Tool from "@/components/restqa/collection/Tool.vue";
 
 export default {
-  name: "Collection",
+  name: "CollectionPage",
   components: {
     Detail,
-    Tool
+    Tool,
   },
   data() {
     const collection = this.$store.getters.projectStatus.collection.data;
     const tools = Object.entries(collection).map(([name, location]) => {
       return {
         name,
-        location
+        location,
       };
     });
     return {
-      tools
+      tools,
     };
-  }
+  },
 };
 </script>

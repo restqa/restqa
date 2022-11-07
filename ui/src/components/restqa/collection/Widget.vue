@@ -5,44 +5,47 @@
     class="card"
     v-if="collection.enabled"
   >
-    <el-carousel :interval="4000">
+    <el-carousel arrow="never" :interval="4000">
       <el-carousel-item v-for="item in tools" :key="item">
-        <img :src="require(`@/assets/images/logos/${item}.png`)" />
+        <img :src="`images/logos/${item}.png`" />
+        <br />
+        <br />
+        <el-link type="primary" v-on:click.stop.prevent="goTo()"
+          >Access to your API collections</el-link
+        >
       </el-carousel-item>
     </el-carousel>
-    <el-link type="primary" v-on:click.stop.prevent="goTo()"
-      >Access to your API collections</el-link
-    >
   </card>
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "CollectionWidget",
   components: {
-    Card
+    Card,
   },
   data() {
     const collection = this.$store.getters.projectStatus.collection;
     return {
       collection,
-      tools: Object.keys(collection.data)
+      tools: Object.keys(collection.data),
     };
   },
   methods: {
     goTo() {
-      this.$router.push({name: "collection"});
-    }
-  }
+      this.$router.push({ name: "collection" });
+    },
+  },
 };
 </script>
 <style scoped>
 .card {
   text-align: center;
+  height: 250px;
 }
 img {
-  width: 100%;
+  height: 100px;
 }
 </style>

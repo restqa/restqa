@@ -15,10 +15,7 @@
         :disabled="item.disabled"
         size="large"
       >
-        <img
-          :src="require(`@/assets/images/logos/${item.value}.png`)"
-          class="option-img"
-        />
+        <img :src="`images/logos/${item.value}.png`" class="option-img" />
         <span>{{ item.label }}</span>
       </el-option>
     </el-select>
@@ -51,20 +48,17 @@
   </card>
 </template>
 <script>
-import Card from "@/components/UI/card/Card";
-import {PrismEditor} from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
-import {highlight, languages} from "prismjs/components/prism-core";
-import "prismjs/components/prism-yaml";
-import "prismjs/themes/prism-tomorrow.css";
-import {stringify} from "yaml";
-import {copyText} from "vue3-clipboard";
+import Card from "@/components/UI/card/Card.vue";
+import { PrismEditor } from "vue-prism-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import { stringify } from "yaml";
+import { copyText } from "vue3-clipboard";
 
 export default {
-  name: "Editor",
+  name: "PerformanceEditor",
   components: {
     Card,
-    PrismEditor
+    PrismEditor,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
@@ -81,33 +75,33 @@ export default {
           value: "artillery",
           label: "Artillery",
           disabled: false,
-          link: "https://www.artillery.io/"
+          link: "https://www.artillery.io/",
         },
         {
           value: "k6",
           label: "K6 (coming soon)",
           disabled: true,
-          link: "https://k6.io/"
+          link: "https://k6.io/",
         },
         {
           value: "jmeter",
           label: "Jmeter (coming soon)",
           disabled: true,
-          link: "https://jmeter.apache.org/"
+          link: "https://jmeter.apache.org/",
         },
         {
           value: "vegeta",
           label: "Vegeta (coming soon)",
           disabled: true,
-          link: "https://github.com/tsenart/vegeta"
-        }
-      ]
+          link: "https://github.com/tsenart/vegeta",
+        },
+      ],
     };
   },
   computed: {
     tool() {
       return this.tools.find((_) => _.value === this.value);
-    }
+    },
   },
   methods: {
     highlighter(code) {
@@ -117,7 +111,7 @@ export default {
       const tmpl = {
         tool: this.value,
         outputFolder: "tests/performances",
-        onlySuccess: false
+        onlySuccess: false,
       };
       this.config.tests.performance = tmpl;
       this.code = "---\n" + stringify(this.config);
@@ -130,11 +124,11 @@ export default {
           : "New configuration copied into your clipboard";
         this.$notify({
           message,
-          type
+          type,
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

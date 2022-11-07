@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "RestQA",
   components: {
-    Card
+    Card,
   },
   data() {
     const contributors = Object.assign(
@@ -33,9 +33,9 @@ export default {
       {}
     );
     return {
-      contributors
+      contributors,
     };
-  }
+  },
 };
 </script>
 

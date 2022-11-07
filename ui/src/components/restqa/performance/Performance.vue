@@ -5,10 +5,7 @@
   >
     <el-row :gutter="20">
       <el-col :span="2">
-        <img
-          :src="require(`@/assets/images/logos/${config.tool}.png`)"
-          class="option-img"
-        />
+        <img :src="`images/logos/${config.tool}.png`" class="option-img" />
       </el-col>
       <el-col :span="22">
         <el-tree :data="files" />
@@ -39,24 +36,22 @@
     ></prism-editor>
     <br /><br />
     More information are available on the
-    <a href="" target="_blank">Documentation</a>
+    <a href="#/documentation/performance-testing">Documentation</a>
   </card>
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
-import {PrismEditor} from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
-import {highlight, languages} from "prismjs/components/prism-core";
+import Card from "@/components/UI/card/Card.vue";
+import { PrismEditor } from "vue-prism-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-gherkin";
-import "prismjs/themes/prism-tomorrow.css";
 
 export default {
-  name: "Performance",
+  name: "PerformanceView",
   components: {
     Card,
-    PrismEditor
+    PrismEditor,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
@@ -90,11 +85,11 @@ Examples:
             "List of performance tests (" + performance.data.length + " files)",
           children: performance.data.map((file) => {
             return {
-              label: file
+              label: file,
             };
-          })
-        }
-      ]
+          }),
+        },
+      ],
     };
   },
   methods: {
@@ -103,12 +98,11 @@ Examples:
     },
     highlighterGherkin(code) {
       return highlight(code, languages.gherkin);
-    }
+    },
   },
   computed: {
     bashCommand() {
-      const {tool, outputFolder} = this.config;
-      console.log(tool);
+      const { tool, outputFolder } = this.config;
       let cmd = "";
       switch (tool) {
         case "artillery":
@@ -116,8 +110,8 @@ Examples:
           break;
       }
       return cmd;
-    }
-  }
+    },
+  },
 };
 </script>
 

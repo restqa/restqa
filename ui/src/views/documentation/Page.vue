@@ -1,0 +1,100 @@
+<template>
+  <el-breadcrumb separator=">">
+    <el-breadcrumb-item :to="{ name: 'homepage' }"
+      >Dashboard</el-breadcrumb-item
+    >
+    <el-breadcrumb-item>Documentation</el-breadcrumb-item>
+  </el-breadcrumb>
+  <el-container>
+    <el-main class="main">
+      <render-page :page="id" />
+    </el-main>
+    <el-aside class="menu" width="250px">
+      <h4>Table of Content</h4>
+      <el-tree
+        ref="menu"
+        :highlight-current="true"
+        :data="data"
+        :props="defaultProps"
+        :expand-on-click-node="false"
+        @node-click="goTo"
+        node-key="id"
+      />
+      <h4>Search</h4>
+      <search-page @render="goTo"></search-page>
+    </el-aside>
+  </el-container>
+</template>
+<script>
+import docs from "@restqa/docs";
+import renderPage from "@/components/restqa/documentation/Render.vue";
+import searchPage from "@/components/restqa/documentation/Search.vue";
+
+export default {
+  name: "DocumentationPage",
+  components: {
+    renderPage,
+    searchPage,
+  },
+  data() {
+    return {
+      defaultProps: {
+        children: "items",
+        label: "name",
+      },
+      data: docs.menu.items,
+    };
+  },
+  methods: {
+    goTo({ id }) {
+      this.$router.push({
+        name: "documentationPage",
+        params: {
+          id,
+        },
+      });
+    },
+  },
+  computed: {
+    id() {
+      let id = this.$route.params.id;
+      if (!docs.exists(id)) {
+        id = "not-found";
+      }
+      return id;
+    },
+  },
+  updated() {
+    this.$refs.menu.setCurrentKey(this.id);
+  },
+  mounted() {
+    this.$refs.menu.setCurrentKey(this.id);
+  },
+};
+</script>
+<style>
+.el-tree-node__label {
+  font-weight: bold;
+  color: #606770;
+}
+
+.el-tree--highlight-current
+  .el-tree-node.is-current
+  > .el-tree-node__content
+  .el-tree-node__label {
+  color: #7f00ff;
+}
+
+.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
+  background: #fff;
+}
+
+.main {
+  padding-left: 0px;
+}
+
+.menu {
+  border-left: 1px solid #dadde1;
+  padding-left: 10px;
+}
+</style>

@@ -6,7 +6,7 @@
     v-if="specification.enabled"
   >
     <img
-      :src="require(`@/assets/images/logos/${config.specification.tool}.png`)"
+      :src="`images/logos/${config.specification.tool}.png`"
       class="option-img"
     />
     <br /><br />
@@ -17,33 +17,34 @@
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "SpecificationWidget",
   components: {
-    Card
+    Card,
   },
   data() {
     const specification = this.$store.getters.projectStatus.specification;
     const config = this.$store.getters.projectConfiguration;
     return {
       specification,
-      config
+      config,
     };
   },
   methods: {
     goTo() {
-      this.$router.push({name: "specification"});
-    }
-  }
+      this.$router.push({ name: "specification" });
+    },
+  },
 };
 </script>
 <style scoped>
 .card {
   text-align: center;
+  height: 250px;
 }
 img {
-  width: 100%;
+  height: 100px;
 }
 </style>

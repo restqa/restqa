@@ -3,12 +3,12 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{name: 'homepage'}"
+          <el-breadcrumb-item :to="{ name: 'homepage' }"
             >Dashboard</el-breadcrumb-item
           >
           <el-breadcrumb-item>Test Report</el-breadcrumb-item>
         </el-breadcrumb>
-        <h2 :class="{success: ok, error: !ok}">
+        <h2 :class="{ success: ok, error: !ok }">
           <i v-if="ok" class="el-icon-success success" />
           <i v-else class="el-icon-error danger" />
           {{ name }}
@@ -42,11 +42,11 @@ export default {
   components: {
     RestqaTestResultList,
     RestqaTestResultChartFeatures,
-    RestqaTestResultChartScenarios
+    RestqaTestResultChartScenarios,
   },
   data() {
     return {
-      testReport: this.$store.getters.testReport
+      testReport: this.$store.getters.testReport,
     };
   },
   computed: {
@@ -55,8 +55,8 @@ export default {
     },
     ok() {
       return Boolean(this.testReport.success);
-    }
-  }
+    },
+  },
 };
 </script>
 

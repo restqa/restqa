@@ -40,22 +40,22 @@
   </div>
 </template>
 <script>
-import {copyText} from "vue3-clipboard";
+import { copyText } from "vue3-clipboard";
 
 export default {
   name: "RestQAProjectEditorRunnerStep",
   props: {
     data: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       show: {
         error: false,
-        info: false
-      }
+        info: false,
+      },
     };
   },
   computed: {
@@ -67,7 +67,7 @@ export default {
         (this.data.embeddings && this.data.embeddings.length) ||
         true !== this.data.hidden
       );
-    }
+    },
   },
   methods: {
     showError() {
@@ -103,11 +103,11 @@ export default {
           : "Curl command copied into your clipboard";
         this.$notify({
           message,
-          type
+          type,
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style src="./RestQAProjectEditorRunnerStep.scss" lang="scss" scoped />
