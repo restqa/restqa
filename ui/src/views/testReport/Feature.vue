@@ -3,15 +3,15 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{name: 'homepage'}"
+          <el-breadcrumb-item :to="{ name: 'homepage' }"
             >Dashboard</el-breadcrumb-item
           >
-          <el-breadcrumb-item :to="{name: 'features'}"
+          <el-breadcrumb-item :to="{ name: 'features' }"
             >Test Report</el-breadcrumb-item
           >
           <el-breadcrumb-item>{{ name }}</el-breadcrumb-item>
         </el-breadcrumb>
-        <h2 :class="{success: ok, error: !ok}">
+        <h2 :class="{ success: ok, error: !ok }">
           <i v-if="ok" class="el-icon-success success" />
           <i v-else class="el-icon-error danger" />
           {{ name }}
@@ -70,20 +70,20 @@
 
 <script>
 import RestqaTestResultChartScenarios from "@/components/restqa/test-result-charts/RestQATestResultChartScenarios.vue";
-import Runner from "@/components/restqa/project-editor/runner/RestQAProjectEditorRunner";
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
+import Runner from "@/components/restqa/project-editor/runner/RestQAProjectEditorRunner.vue";
 
 export default {
   name: "RestQATestReportFeature",
   components: {
     RestqaTestResultChartScenarios,
     Runner,
-    Card
+    Card,
   },
   data() {
     return {
       id: this.$route.params.id,
-      testReport: this.$store.getters.testReport
+      testReport: this.$store.getters.testReport,
     };
   },
   computed: {
@@ -97,13 +97,13 @@ export default {
     },
     ok() {
       return Boolean(this.feature.result);
-    }
+    },
   },
   watch: {
     $route(to) {
       this.id = to.params.id;
-    }
-  }
+    },
+  },
 };
 </script>
 

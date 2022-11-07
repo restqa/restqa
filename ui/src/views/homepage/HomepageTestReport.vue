@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <el-col :span="24">
       <el-breadcrumb separator=">">
-        <el-breadcrumb-item :to="{name: 'homepage'}"
+        <el-breadcrumb-item :to="{ name: 'homepage' }"
           >Dashboard</el-breadcrumb-item
         >
       </el-breadcrumb>
@@ -75,18 +75,18 @@ export default {
     PerformanceWidget,
     SpecificationWidget,
     CollectionWidget,
-    DocumentationWidget
+    DocumentationWidget,
   },
   data() {
     return {
-      testReport: this.$store.getters.testReport
+      testReport: this.$store.getters.testReport,
     };
   },
   computed: {
     name() {
       return this.testReport.name;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

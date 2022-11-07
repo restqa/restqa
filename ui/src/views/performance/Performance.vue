@@ -1,6 +1,8 @@
 <template>
   <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{name: 'homepage'}">Dashboard</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ name: 'homepage' }"
+      >Dashboard</el-breadcrumb-item
+    >
     <el-breadcrumb-item>Performance Testing</el-breadcrumb-item>
   </el-breadcrumb>
   <h2><i class="el-icon-odometer" /> Performance Testing</h2>
@@ -22,13 +24,13 @@ export default {
   name: "PerformancePage",
   components: {
     Editor,
-    Performance
+    Performance,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
     return {
-      performance
+      performance,
     };
-  }
+  },
 };
 </script>

@@ -11,6 +11,12 @@
     >
   </div>
 </template>
+<script>
+export default {
+  name: "FooterPartial",
+  components: {},
+};
+</script>
 <style scoped>
 div {
   border-top: 1px solid rgb(230, 230, 230);

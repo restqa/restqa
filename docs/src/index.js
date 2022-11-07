@@ -2,6 +2,7 @@ import Content from './generated/contents.js'
 import menu from './menu.js'
 
 export default {
+  assetUrl: () => __dirname + '../content/images',
   exists: function(id) {
     return Boolean(this.getElement(id))
   },

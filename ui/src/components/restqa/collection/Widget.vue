@@ -7,7 +7,7 @@
   >
     <el-carousel arrow="never" :interval="4000">
       <el-carousel-item v-for="item in tools" :key="item">
-        <img :src="require(`@/assets/images/logos/${item}.png`)" />
+        <img :src="`images/logos/${item}.png`" />
         <br />
         <br />
         <el-link type="primary" v-on:click.stop.prevent="goTo()"
@@ -19,25 +19,25 @@
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "CollectionWidget",
   components: {
-    Card
+    Card,
   },
   data() {
     const collection = this.$store.getters.projectStatus.collection;
     return {
       collection,
-      tools: Object.keys(collection.data)
+      tools: Object.keys(collection.data),
     };
   },
   methods: {
     goTo() {
-      this.$router.push({name: "collection"});
-    }
-  }
+      this.$router.push({ name: "collection" });
+    },
+  },
 };
 </script>
 <style scoped>

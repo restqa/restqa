@@ -1,12 +1,12 @@
 <template>
   <div>
-    <img src="@/assets/images/mascot.png" />
+    <img src="images/mascot.png" />
     <h3>Test Driven Happiness</h3>
   </div>
 </template>
 <script>
 export default {
-  name: "HomepageMascot"
+  name: "HomepageMascot",
 };
 </script>
 

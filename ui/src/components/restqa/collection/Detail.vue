@@ -21,6 +21,6 @@
 </template>
 <script>
 export default {
-  name: "Detail"
+  name: "CollectionDetail",
 };
 </script>

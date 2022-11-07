@@ -41,14 +41,14 @@ export default {
   components: {
     Card,
     Ide,
-    Runner
+    Runner,
   },
   data() {
     return {
       loading: false,
       currentTab: null,
       tabs: [],
-      success: false
+      success: false,
     };
   },
   computed: {
@@ -57,7 +57,7 @@ export default {
     },
     readOnly() {
       return this.$store.getters.readOnly;
-    }
+    },
   },
   methods: {
     updateStatus(val) {
@@ -87,7 +87,7 @@ export default {
         if (-1 === tabIndex) {
           this.tabs.push({
             title: title.split("/").pop().split(".").shift(),
-            name: title
+            name: title,
           });
         }
         this.currentTab = title;
@@ -100,13 +100,13 @@ export default {
             : null;
         this.tabs = this.tabs.filter((t) => t.name !== title);
       }
-    }
+    },
   },
   watch: {
     file(name) {
       this.manageTabs(name, "add");
-    }
-  }
+    },
+  },
 };
 </script>
 <style src="./RestQAProjectEditor.scss" lang="scss" scoped />
