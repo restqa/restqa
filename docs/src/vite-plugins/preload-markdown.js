@@ -1,4 +1,4 @@
-import { resolve, join, posix } from 'path'
+import { resolve, join, posix, sep } from 'path'
 import fs from 'fs'
 import glob from 'glob'
 import got from 'got'
@@ -52,12 +52,12 @@ export default function markdownPreload(CONTENT_PATH, PWD_RESTQA) {
 
       const resultRemote = await fetchRemote(opt)
       resultRemote.forEach(item => {
-        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + '/','')}'`
+        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + sep,'')}'`
       })
 
       const resultFile = stepDefinition(opt)
       resultFile.forEach(item => {
-        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + '/','')}'`
+        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + sep,'')}'`
       })
 
 
