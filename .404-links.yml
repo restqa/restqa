@@ -5,6 +5,7 @@ ignore:
   - https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
   - https://twitter.com/restqa
   - https://cucumber.io/*
+  - https://github.com/restqa/restqa/tree/master/*
 
 delay:
   'https://github.com': 500
