@@ -58,6 +58,7 @@ module.exports = async function (opt, program = {}) {
   if (!fs.existsSync(config)) {
     if (!skipInit) {
       await Initialize();
+      report = true;
     } else {
       return Promise.reject(
         new TypeError(`The configuration file "${config}" doesn't exist.`)
