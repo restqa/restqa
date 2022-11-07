@@ -6,9 +6,7 @@
     v-if="performance.enabled"
   >
     <img
-      :src="
-        require(`@/assets/images/logos/${config.tests.performance.tool}.png`)
-      "
+      :src="`images/logos/${config.tests.performance.tool}.png`"
       class="option-img"
     />
     <br /><br />
@@ -19,26 +17,26 @@
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "PerformanceWidget",
   components: {
-    Card
+    Card,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
     const config = this.$store.getters.projectConfiguration;
     return {
       performance,
-      config
+      config,
     };
   },
   methods: {
     goTo() {
-      this.$router.push({name: "performance"});
-    }
-  }
+      this.$router.push({ name: "performance" });
+    },
+  },
 };
 </script>
 <style scoped>

@@ -63,12 +63,7 @@ if (restqa.exportStream) {
 options.customExporters = {
   html: async function (config, result) {
     // Overriding the buildin html-report from @restqa/cucumber
-    const HTML_TEMPLATE_FOLDER = path.resolve(
-      __dirname,
-      '..',
-      '..',
-      'ui'
-    );
+    const HTML_TEMPLATE_FOLDER = path.resolve(__dirname, "..", "..", "ui");
 
     config = config || {};
     if (undefined === config.browserOpening) {

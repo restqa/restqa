@@ -79,34 +79,34 @@
 </template>
 
 <script>
-import Card from "@/components/UI/card/Card";
+import Card from "@/components/UI/card/Card.vue";
 
 export default {
   name: "RestqaTestResultList",
   components: {
-    Card
+    Card,
   },
   data() {
     return {
-      tableData: this.$store.getters.testReport.features
+      tableData: this.$store.getters.testReport.features,
     };
   },
   methods: {
     selectFile(val) {
       this.$store.dispatch("selectedFile", val);
     },
-    successClassName({row}) {
+    successClassName({ row }) {
       return row.result ? "" : "danger-row";
     },
     goToFeature(id) {
       this.$router.push({
         name: "feature",
         params: {
-          id
-        }
+          id,
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,4 +1,4 @@
-import { resolve, join, basename } from 'path'
+import { resolve, join, posix, sep } from 'path'
 import fs from 'fs'
 import glob from 'glob'
 import got from 'got'
@@ -28,14 +28,12 @@ export default function markdownPreload(CONTENT_PATH, PWD_RESTQA) {
       const files = glob.sync('**/*.md', {cwd: CONTENT_PATH})
       const contents = files.map(filename => {
         const content = fs.readFileSync(resolve(CONTENT_PATH, filename)).toString()
-        const match = content.match(/^id:(.*)\n/m)
-        if (match === null) {
+        const id = getAttributes('id', content)
+        if (id === null) {
           throw new Error(`The id is missing on the file: ${filename}`)
         }
-        const id = match[1].trim()
 
-        const matchUrl = content.match(/^content_from:(.*)\n/m)
-        const fromUrl = matchUrl && matchUrl[1].trim()
+        const fromUrl = getAttributes('content_from', content)
 
         return {
           id,
@@ -54,12 +52,12 @@ export default function markdownPreload(CONTENT_PATH, PWD_RESTQA) {
 
       const resultRemote = await fetchRemote(opt)
       resultRemote.forEach(item => {
-        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + '/','')}'`
+        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + sep,'')}'`
       })
 
       const resultFile = stepDefinition(opt)
       resultFile.forEach(item => {
-        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + '/','')}'`
+        contents[item.index].import = `import * as ${toUpperCamelCase(item.id)} from '__/${item.file.replace(dir + sep,'')}'`
       })
 
 
@@ -95,7 +93,7 @@ function fetchRemote ({contents, CONTENT_PATH, dir}) {
     .map(_ => new Promise(async (resolve, reject) => {
       const content = fs.readFileSync(join(CONTENT_PATH, _.filename)).toString()
       const { body } = await got.get(_.fromUrl)
-      const file = join(dir, basename(_.filename))
+      const file = join(dir, posix.basename(_.filename))
       fs.writeFileSync(
         file,
         content + body,
@@ -119,14 +117,13 @@ function stepDefinition ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
     .map(doc => {
       const remoteBody = fs.readFileSync(join(PWD_RESTQA, doc.fromUrl)).toString()
       const content = fs.readFileSync(join(CONTENT_PATH, doc.filename)).toString()
-      const file = join(dir, basename(doc.filename))
+      const file = join(dir, posix.basename(doc.filename))
       const categories = parse(remoteBody)
         .filter( step => {
           return step.tags.filter(tag => tag.tag === 'example').length
         })
         .reduce((result, step) => {
-          const matchCategory = content.match(/^category:(.*)\n/m)
-          const docCategory = matchCategory && matchCategory[1].trim()
+          const docCategory = getAttributes('category', content)
 
           let category = ((step.tags.find(tag => tag.tag === 'category') || {}).source )|| 'Undefined'
           category = category[0].source.replace('* @category', '').trim()
@@ -183,3 +180,19 @@ function formatStepDefintion(step) {
   return content.join('\n\n')
 }
 
+
+function getAttributes (attr, content) {
+  const match = content.split('---')
+  const attributes = match[1]
+    .split('\n')
+    .filter(line => line.trim())
+    .reduce((result, line) => {
+      const elements = line.split(':')
+      const key = elements.splice(0,1).pop().trim()
+      const values = elements.join(':').trim()
+      result[key] = values
+      return result
+    }, {})
+
+  return attributes[attr]
+}

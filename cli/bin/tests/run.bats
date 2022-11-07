@@ -161,8 +161,6 @@ teardown() {
   assert_success
   assert_output --partial 'The selected environment is: "local"'
   assert_output --partial 'Target url: http://localhost:9999'
-  assert_output --partial '> Spin up the http-mock-server 👻 <'
-  assert_output --partial 'Loaded: GET /github/status'
   assert_output --partial 'Server is running (command: npm start)'
   assert_output --partial 'Waiting for the server to be up...'
   assert_output --partial 'PASSED - Hello > Scenario using mock'

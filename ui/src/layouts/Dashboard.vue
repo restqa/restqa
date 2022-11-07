@@ -11,7 +11,7 @@
         </el-header>
         -->
         <el-main>
-          <router-view v-slot="{Component}">
+          <router-view v-slot="{ Component }">
             <transition>
               <keep-alive>
                 <component :is="Component" />
@@ -28,17 +28,17 @@
 </template>
 
 <script>
-import PartialHeader from "./partials/Header";
-import PartialSideBar from "./partials/SideBar";
-import PartialFooter from "./partials/Footer";
+import PartialHeader from "./partials/Header.vue";
+import PartialSideBar from "./partials/SideBar.vue";
+import PartialFooter from "./partials/Footer.vue";
 
 export default {
-  name: "Dashboard",
+  name: "DashboardLayout",
   components: {
     PartialHeader,
     PartialSideBar,
-    PartialFooter
-  }
+    PartialFooter,
+  },
 };
 </script>
 

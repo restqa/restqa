@@ -75,11 +75,11 @@ describe("# git-stat", () => {
       };
     });
 
-    jest.mock('fs', () => {
+    jest.mock("fs", () => {
       return {
         existsSync: () => true
-      }
-    })
+      };
+    });
 
     const gitStat = require("./git-stat");
     const result = await gitStat();

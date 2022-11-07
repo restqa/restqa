@@ -1,9 +1,9 @@
-import {createStore} from "vuex";
+import { createStore } from "vuex";
 import restqa from "./modules/restqa";
 
 export default createStore({
   modules: {
-    restqa
+    restqa,
   },
-  strict: process.env.NODE_ENV !== "production"
+  strict: import.meta.env.DEV,
 });

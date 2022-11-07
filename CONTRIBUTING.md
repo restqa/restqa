@@ -8,51 +8,36 @@ This document aims to onboard you onto RestQA contributing.
 
 Feel free to hit us on [discord](https://restqa.io/chat) if you face a issue.
 
-## Dashboard
-
-The RestQA dashboard is a built with the VueJs technology.
-
 ### Getting started
+
+This repository is a monorepo an relies on [NPM Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
 #### Install the dependencies:
 
 ```
-npm run dashboard:install
+npm i
 ```
 
-#### Dashboard sample
+#### Build all the packages
 
 ```
-npm run dashboard:example
+npm run build
 ```
 
 
-#### Run the dashboard on dev mode without the backend apis
+#### Try your installation
 
 ```
-npm run dashboard:serve
+npm run example:install
+npm run example
 ```
 
-#### Run the dashboard on dev mode with the backend apis
-
-
-```
-npm run dashboard:dev
-```
-
-Or using the no-config mode
+ou
 
 ```
-npm run dashboard:dev:no-config
+cd example
+npm run happy
 ```
-
-#### Build the Dashboard
-
-```
-npm run dashboard:build
-```
-
-> For the dos users you might face issue during the build of the dashboard related to this: `ERROR  BrowserslistError: D:\restqa\restqa\dashboard contains both browserslist and package.json with browsers`. Refer to this to fix the issue: ERROR  BrowserslistError: D:\restqa\restqa\dashboard contains both browserslist and package.json with browsers
 
 ## Tests
 
@@ -63,9 +48,8 @@ What do you need to know about the unit tests ?
 * Technology: [jest](https://jestjs.io)
 * Style: [chicago school](https://dev.to/hiboabd/a-beginners-explanation-of-the-chicago-london-approaches-4o5f)
 * Command: `npm test`
-* Watch Command: `npm test:watch` *(Recommended during development session.)*
-* Coverage command: `npm run test:coverage`
-* Test the Dashboard (VueJs): `npm run dashboard:test`
+* Watch Command: `npm test:watch -w cli` *(Recommended during development session.)*
+* Coverage command: `npm run test:coverage -w cli`
 
 
 ### Functional Tests
@@ -75,7 +59,7 @@ Why ?
 Because the RestQA command line is connected by multiple libraries and some breaking change can't be detected by the unit test.
 
 * Technology: [bats](https://bats-core.readthedocs.io)
-* Command: `npm run test:functional`
+* Command: `npm run test:functional -w cli`
 
 ### Run tests in CI
 
@@ -94,7 +78,7 @@ Where:
 For example, if you want to run functional tests in Node.JS 12.x:
 
 ```bash
-$ docker run --rm -it -v $PWD:$PWD --workdir $PWD node:12 npm run test:functional
+$ docker run --rm -it -v $PWD:$PWD --workdir $PWD node:18 npm run test:functional -w cli
 ```
 
 ## Debugging

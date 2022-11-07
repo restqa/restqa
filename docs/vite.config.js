@@ -16,6 +16,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: 'node16',
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
       name: 'index',

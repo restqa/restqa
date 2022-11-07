@@ -13,6 +13,9 @@ tests:
 plugins:
   - name: "@restqa/http-mock-plugin"
     config:
+      debug: false
       folder: ./stubs
       envs:
         GITHUB_API: github
+settings:
+  timeout: 3000

@@ -17,28 +17,28 @@ function tagTypeValidator(value) {
 }
 
 export default {
-  name: "card",
+  name: "UiCard",
   components: {},
   props: {
     title: {
-      type: String
+      type: String,
     },
     emoji: {
-      type: String
+      type: String,
     },
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     tagLabel: {
-      type: String
+      type: String,
     },
     tagType: {
       type: String,
       default: "warning",
-      validator: tagTypeValidator
-    }
-  }
+      validator: tagTypeValidator,
+    },
+  },
 };
 </script>
 

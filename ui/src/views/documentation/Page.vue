@@ -1,6 +1,8 @@
 <template>
   <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{name: 'homepage'}">Dashboard</el-breadcrumb-item>
+    <el-breadcrumb-item :to="{ name: 'homepage' }"
+      >Dashboard</el-breadcrumb-item
+    >
     <el-breadcrumb-item>Documentation</el-breadcrumb-item>
   </el-breadcrumb>
   <el-container>
@@ -19,7 +21,7 @@
         node-key="id"
       />
       <h4>Search</h4>
-      <search-page @render="goTo" ></search-page>
+      <search-page @render="goTo"></search-page>
     </el-aside>
   </el-container>
 </template>
@@ -37,39 +39,38 @@ export default {
   data() {
     return {
       defaultProps: {
-        children: 'items',
-        label: 'name',
+        children: "items",
+        label: "name",
       },
       data: docs.menu.items,
-    }
+    };
   },
   methods: {
-    goTo ({ id }) {
+    goTo({ id }) {
       this.$router.push({
-        name: 'documentationPage',
+        name: "documentationPage",
         params: {
-          id
-        }
-      })
-    }
-  },
-  computed: {
-    id () {
-      let id = this.$route.params.id
-      if (!docs.exists(id)) {
-        id = 'not-found'
-      }
-      return id
+          id,
+        },
+      });
     },
   },
-  updated () {
-    this.$refs.menu.setCurrentKey(this.id)
+  computed: {
+    id() {
+      let id = this.$route.params.id;
+      if (!docs.exists(id)) {
+        id = "not-found";
+      }
+      return id;
+    },
   },
-  mounted () {
-    this.$refs.menu.setCurrentKey(this.id)
-  }
-}
-
+  updated() {
+    this.$refs.menu.setCurrentKey(this.id);
+  },
+  mounted() {
+    this.$refs.menu.setCurrentKey(this.id);
+  },
+};
 </script>
 <style>
 .el-tree-node__label {
@@ -77,12 +78,14 @@ export default {
   color: #606770;
 }
 
-.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content .el-tree-node__label {
+.el-tree--highlight-current
+  .el-tree-node.is-current
+  > .el-tree-node__content
+  .el-tree-node__label {
   color: #7f00ff;
-
 }
 
-.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {
   background: #fff;
 }
 
@@ -94,5 +97,4 @@ export default {
   border-left: 1px solid #dadde1;
   padding-left: 10px;
 }
-
 </style>
