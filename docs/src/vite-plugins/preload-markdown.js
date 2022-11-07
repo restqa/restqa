@@ -28,14 +28,12 @@ export default function markdownPreload(CONTENT_PATH, PWD_RESTQA) {
       const files = glob.sync('**/*.md', {cwd: CONTENT_PATH})
       const contents = files.map(filename => {
         const content = fs.readFileSync(resolve(CONTENT_PATH, filename)).toString()
-        const match = content.match(/^id:(.*)\n/m)
-        if (match === null) {
+        const id = getAttributes('id', content)
+        if (id === null) {
           throw new Error(`The id is missing on the file: ${filename}`)
         }
-        const id = match[1].trim()
 
-        const matchUrl = content.match(/^content_from:(.*)\n/m)
-        const fromUrl = matchUrl && matchUrl[1].trim()
+        const fromUrl = getAttributes('content_from', content)
 
         return {
           id,
@@ -125,8 +123,7 @@ function stepDefinition ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
           return step.tags.filter(tag => tag.tag === 'example').length
         })
         .reduce((result, step) => {
-          const matchCategory = content.match(/^category:(.*)\n/m)
-          const docCategory = matchCategory && matchCategory[1].trim()
+          const docCategory = getAttributes('category', content)
 
           let category = ((step.tags.find(tag => tag.tag === 'category') || {}).source )|| 'Undefined'
           category = category[0].source.replace('* @category', '').trim()
@@ -183,3 +180,19 @@ function formatStepDefintion(step) {
   return content.join('\n\n')
 }
 
+
+function getAttributes (attr, content) {
+  const match = content.split('---')
+  const attributes = match[1]
+    .split('\n')
+    .filter(line => line.trim())
+    .reduce((result, line) => {
+      const elements = line.split(':')
+      const key = elements.splice(0,1).pop().trim()
+      const values = elements.join(':').trim()
+      result[key] = values
+      return result
+    }, {})
+
+  return attributes[attr]
+}
