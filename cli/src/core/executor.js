@@ -104,7 +104,7 @@ class Executor {
   }
 
   log(str) {
-    global.restqa.outputStream.addDebugLog(str);
+    global.restqa && global.restqa.outputStream.addDebugLog(str);
   }
 
   async checkServer() {
