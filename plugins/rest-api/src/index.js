@@ -1,19 +1,19 @@
 const RestQAPlugin = require("@restqa/plugin");
-const RestQAPI = require("./restqapi");
+const RestAPI = require("./rest-api");
 
-const plugin = new RestQAPlugin(RestQAPI.name);
+const plugin = new RestQAPlugin(RestAPI.name);
 
 // Setup Steps
 
-RestQAPI.steps.given.reduce(
+RestAPI.steps.given.reduce(
   (instance, step) => instance.addGivenStep(...step),
   plugin
 );
-RestQAPI.steps.when.reduce(
+RestAPI.steps.when.reduce(
   (instance, step) => instance.addWhenStep(...step),
   plugin
 );
-RestQAPI.steps.then.reduce(
+RestAPI.steps.then.reduce(
   (instance, step) => instance.addThenStep(...step),
   plugin
 );
@@ -25,10 +25,10 @@ plugin
       process.stdout.write("> 🏹 Target url: " + plugin._config.url + "\n");
     }
   })
-  .addBeforeHook(RestQAPI.hooks.before)
-  .addAfterHook(RestQAPI.hooks.after);
+  .addBeforeHook(RestAPI.hooks.before)
+  .addAfterHook(RestAPI.hooks.after);
 
 // Add generator
-plugin.Generator = RestQAPI.generator;
+plugin.Generator = RestAPI.generator;
 
 module.exports = plugin;

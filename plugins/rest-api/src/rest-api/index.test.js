@@ -1,18 +1,18 @@
-const RestQAPI = require("./index");
+const RestAPI = require("./index");
 
 afterEach(() => {
   jest.resetModules();
 });
 
-describe("#restqapi - index", () => {
+describe("#rest-api - index", () => {
   test("name", () => {
-    expect(RestQAPI.name).toEqual("restqapi");
+    expect(RestAPI.name).toEqual("rest-api");
   });
 
   test("steps", () => {
-    expect(RestQAPI.steps.given).not.toHaveLength(0);
-    expect(RestQAPI.steps.when).not.toHaveLength(0);
-    expect(RestQAPI.steps.then).not.toHaveLength(0);
+    expect(RestAPI.steps.given).not.toHaveLength(0);
+    expect(RestAPI.steps.when).not.toHaveLength(0);
+    expect(RestAPI.steps.then).not.toHaveLength(0);
   });
 
   describe("hooks", () => {
@@ -29,7 +29,7 @@ describe("#restqapi - index", () => {
         })
       };
 
-      RestQAPI.hooks.before.call($this, scenario);
+      RestAPI.hooks.before.call($this, scenario);
       expect($this.apis).toHaveLength(0);
       expect($this.createApi).not.toBeUndefined();
       $this.createApi();
@@ -58,7 +58,7 @@ describe("#restqapi - index", () => {
         })
       };
 
-      RestQAPI.hooks.before.call($this, scenario);
+      RestAPI.hooks.before.call($this, scenario);
       expect($this.apis).toHaveLength(0);
       expect($this.insecure).toBe(true);
       expect($this.createApi).not.toBeUndefined();
@@ -96,7 +96,7 @@ describe("#restqapi - index", () => {
         ]
       };
 
-      RestQAPI.hooks.after.call($this, scenario);
+      RestAPI.hooks.after.call($this, scenario);
       expect($this.log.mock.calls).toHaveLength(4);
       expect($this.log.mock.calls[0][0]).toBe(
         "\n======================== [ DEBUG : The scenario name ] ========================"

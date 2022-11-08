@@ -2,29 +2,29 @@ afterEach(() => {
   jest.resetModules();
 });
 
-describe("# restqapi.Generator", () => {
+describe("# rest-api.Generator", () => {
   test("throw an error if the parameter is empty", () => {
-    const Restqapi = require("./index");
-    return expect(Restqapi.Generator()).rejects.toThrow(
+    const RestAPI = require("./index");
+    return expect(RestAPI.Generator()).rejects.toThrow(
       new ReferenceError("Please provide an object containing your request")
     );
   });
 
   test("throw an error if the object doesn't contains the url", () => {
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const query = {};
-    return expect(Restqapi.Generator(query)).rejects.toThrow(
+    return expect(RestAPI.Generator(query)).rejects.toThrow(
       new ReferenceError("Please specify your url")
     );
   });
 
   test("throw an error if the method is not valid", () => {
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const query = {
       url: "http://www.example.com",
       method: "PUUT"
     };
-    return expect(Restqapi.Generator(query)).rejects.toThrow(
+    return expect(RestAPI.Generator(query)).rejects.toThrow(
       new TypeError(
         'The method "PUUT" is not valid, please use : GET, POST, PUT, PATCH, DELETE, OPTIONS or HEAD'
       )
@@ -57,7 +57,7 @@ describe("# restqapi.Generator", () => {
       }
     });
     jest.mock("got");
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const query = {
       url: "http://www.example.com?q=restqa",
       body: {
@@ -65,7 +65,7 @@ describe("# restqapi.Generator", () => {
         bonjour: "le monde"
       }
     };
-    const result = await Restqapi.Generator(query);
+    const result = await RestAPI.Generator(query);
     const expectedResult = `
 Given I have the api gateway hosted on "http://www.example.com"
   And I have the path "/"
@@ -138,7 +138,7 @@ Then I should receive a response with the status 200
       }
     });
     jest.mock("got");
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const query = {
       url: "http://www.example.com?q=restqa",
       headers: {
@@ -149,7 +149,7 @@ Then I should receive a response with the status 200
         bonjour: "le monde"
       }
     };
-    const result = await Restqapi.Generator(query);
+    const result = await RestAPI.Generator(query);
     const expectedResult = `
 Given I have the api gateway hosted on "http://www.example.com"
   And I have the path "/"
@@ -214,7 +214,7 @@ Then I should receive a response with the status 200
       }
     });
     jest.mock("got");
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const query = {
       url: "http://www.example.com/logout",
       method: "DELETE",
@@ -223,7 +223,7 @@ Then I should receive a response with the status 200
         "x-foo": "bar"
       }
     };
-    const result = await Restqapi.Generator(query);
+    const result = await RestAPI.Generator(query);
     const expectedResult = `
 Given I have the api gateway hosted on "http://www.example.com"
   And I have the path "/logout"
@@ -267,7 +267,7 @@ Then I should receive a response with the status 204
       }
     });
     jest.mock("got");
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const query = {
       url: "http://www.example.com/logout",
       method: "DELETE",
@@ -280,7 +280,7 @@ Then I should receive a response with the status 204
       },
       ignoreSsl: true
     };
-    const result = await Restqapi.Generator(query);
+    const result = await RestAPI.Generator(query);
     const expectedResult = `
 Given I have the api gateway hosted on "http://www.example.com"
   And I want to ignore the ssl certificate
@@ -314,7 +314,7 @@ Then I should receive a response with the status 204
   });
 
   test("Get a form request body with json response passed", async () => {
-    const Restqapi = require("./index");
+    const RestAPI = require("./index");
     const options = {
       request: {
         path: "/test",
@@ -345,7 +345,7 @@ Then I should receive a response with the status 204
       }
     };
 
-    const result = await Restqapi.Generator(options);
+    const result = await RestAPI.Generator(options);
     const expectedResult = `
 Given I have the api gateway
   And I have the path "/test"

@@ -4,7 +4,7 @@ title: Request Headers
 sidebar_label: Request Headers
 parent: given
 category: Headers
-content_from: restqapi/src/restqapi/steps/1-given/index.js
+content_from: rest-api/src/rest-api/steps/1-given/index.js
 order: 2
 ---
 
