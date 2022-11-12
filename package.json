@@ -14,9 +14,9 @@
   "workspaces": [
     "docs",
     "ui",
+    "plugins/rest-api",
     "cli",
-    "example",
-    "plugins/rest-api"
+    "example"
   ],
   "dependencies": {
     "@restqa/docs": "file:docs",
