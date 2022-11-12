@@ -1,10 +1,10 @@
 scenarios:
-  - name: Successfull hello world
+  - name: Initial scenario
     flow:
       - get:
           url: /
           headers:
-            x-correlation-id: test-e2e-get-978-1667662962237
+            x-correlation-id: test-e2e-get-27-1668248153220
             user-agent: restqa (https://github.com/restqa/restqa)
           expect:
             - statusCode: 200
