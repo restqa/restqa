@@ -67,10 +67,9 @@ describe("# rest-api.Generator", () => {
     };
     const result = await RestAPI.Generator(query);
     const expectedResult = `
-Given I have the api gateway hosted on "http://www.example.com"
-  And I have the path "/"
-  And I have the method "GET"
-  And the query parameter contains "q" as "restqa"
+Given a request hosted on "http://www.example.com"
+  And the query strings:
+    | q | restqa |
   And the payload:
   """
 {
@@ -78,9 +77,9 @@ Given I have the api gateway hosted on "http://www.example.com"
   "bonjour": "le monde"
 }
   """
-When I run the API
-Then I should receive a response with the status 200
-  And the response body should be equal to:
+When GET "/"
+Then status = 200
+  And the body:
   """
 {
   "foo": "bar",
@@ -141,6 +140,7 @@ Then I should receive a response with the status 200
     const RestAPI = require("./index");
     const query = {
       url: "http://www.example.com?q=restqa",
+      method: "GET",
       headers: {
         "content-type": "multipart/form-data"
       },
@@ -151,16 +151,17 @@ Then I should receive a response with the status 200
     };
     const result = await RestAPI.Generator(query);
     const expectedResult = `
-Given I have the api gateway hosted on "http://www.example.com"
-  And I have the path "/"
-  And I have the method "GET"
-  And the header contains "content-type" as "multipart/form-data"
-  And the query parameter contains "q" as "restqa"
-  And I add the form value "hello" as "world"
-  And I add the form value "bonjour" as "le monde"
-When I run the API
-Then I should receive a response with the status 200
-  And the response body should be equal to:
+Given a request hosted on "http://www.example.com"
+  And the headers:
+    | content-type | multipart/form-data |
+  And the query strings:
+    | q | restqa |
+  And the body (form):
+    | hello | world |
+    | bonjour | le monde |
+When GET "/"
+Then status = 200
+  And the body:
   """
 {
   "foo": "bar",
@@ -225,13 +226,12 @@ Then I should receive a response with the status 200
     };
     const result = await RestAPI.Generator(query);
     const expectedResult = `
-Given I have the api gateway hosted on "http://www.example.com"
-  And I have the path "/logout"
-  And I have the method "DELETE"
-  And the header contains "x-api-key" as "xxx-yyy-zzz"
-  And the header contains "x-foo" as "bar"
-When I run the API
-Then I should receive a response with the status 204
+Given a request hosted on "http://www.example.com"
+  And the headers:
+    | x-api-key | xxx-yyy-zzz |
+    | x-foo | bar |
+When DELETE "/logout"
+Then status = 204
 `;
     expect(result).toEqual(expectedResult.trim());
 
@@ -282,14 +282,13 @@ Then I should receive a response with the status 204
     };
     const result = await RestAPI.Generator(query);
     const expectedResult = `
-Given I have the api gateway hosted on "http://www.example.com"
-  And I want to ignore the ssl certificate
-  And I have the path "/logout"
-  And I have the method "DELETE"
-  And the header contains "x-api-key" as "xxx-yyy-zzz"
-  And I have the basic auth user "john" pass "doe"
-When I run the API
-Then I should receive a response with the status 204
+Given a request hosted on "http://www.example.com"
+  And ignore ssl
+  And the headers:
+    | x-api-key | xxx-yyy-zzz |
+  And the basic auth "john" / "doe"
+When DELETE "/logout"
+Then status = 204
 `;
     expect(result).toEqual(expectedResult.trim());
 
@@ -347,11 +346,11 @@ Then I should receive a response with the status 204
 
     const result = await RestAPI.Generator(options);
     const expectedResult = `
-Given I have the api gateway
-  And I have the path "/test"
-  And I have the method "POST"
-  And the header contains "content-type" as "application/json"
-  And the query parameter contains "q" as "restqa"
+Given a request
+  And the headers:
+    | content-type | application/json |
+  And the query strings:
+    | q | restqa |
   And the payload:
   """
 {
@@ -359,9 +358,9 @@ Given I have the api gateway
   "bonjour": "le monde"
 }
   """
-When I run the API
-Then I should receive a response with the status 200
-  And the response body should be equal to:
+When POST "/test"
+Then status = 200
+  And the body:
   """
 {
   "foo": "bar",

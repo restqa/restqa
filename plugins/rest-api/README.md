@@ -1,11 +1,11 @@
-# RestQAPI 🦏
+# RestQA Rest-API Step definitions
 
-> An Awesome Cucumber library providing ready to use steps to test REST APIs
+> An Awesome RestQA library providing ready to use steps to test REST APIs
 
-## What is RestqAPI ?
+## What is Rest-API Step definition ?
 
-RestQAPI is a part of the [RestQA](https://restqa.io) ecosystem.
-In order to test RESTful API through automation, RestQAPI is providing an awesome bootstrap for you to kick in within a few minute.
+Rest0API is a part of the [RestQA](https://restqa.io) ecosystem.
+In order to test RESTful API through automation, Rest-API is providing an awesome bootstrap for you to kick in within a few minute.
 Based on [cucumber-js](https://github.com/cucumber/cucumber-js), the library expand the number of defined step on one of your current automation project based on cucumber-js.
 
 
@@ -13,32 +13,29 @@ Based on [cucumber-js](https://github.com/cucumber/cucumber-js), the library exp
 
 ## Requirements
 
-* Node.js >= 12
+* Node.js >= 16
 * Cucumber >= 7.0.0
 
-## Installation
 
-Using npm:
 
-```
-npm install @restqa/restqapi @cucumber/cucumber
-```
+## Contributing
 
-Using yarn:
+Simply install the dependencies.
 
 ```
-yarn add @restqa/restqapi @cucumber/cucumber
+npm i
 ```
 
-Then take a look at the implementation in the folder [example](./example)
-
-
-## Example
-
-This repository comes with few examples, in order to run them, invoke the following script:
+Run the unit tests
 
 ```
-npm run start:example
+npm test
+```
+
+Run an integration example
+
+```
+npm run example
 ```
 
 Enjoy!

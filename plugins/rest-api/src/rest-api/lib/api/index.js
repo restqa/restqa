@@ -8,7 +8,6 @@ module.exports = function (options) {
   const run = async function () {
     try {
       const options = this.request.getOptions();
-      console.log(options)
       const result = await got(options);
       this.response = new Response(result.restqa);
     } catch (e) {
@@ -35,8 +34,16 @@ module.exports = function (options) {
       };
     },
     getCurl: function () {
-      let {protocol, hostname, pathname, method, searchParams, headers, json, port } =
-        this.request.getOptions();
+      let {
+        protocol,
+        hostname,
+        pathname,
+        method,
+        searchParams,
+        headers,
+        json,
+        port
+      } = this.request.getOptions();
 
       const {bodyBackup} = this.request;
       const curlCommand = [];
@@ -89,13 +96,20 @@ module.exports = function (options) {
             protocol +
             "//" +
             hostname +
-            (port ?  `:${port}`: '' )+
+            (port ? `:${port}` : "") +
             pathname +
             "?" +
             params.join("&")
         );
       } else {
-        curlCommand.push("--url " + protocol + "//" + hostname + (port ?  `:${port}`: '' ) + pathname)
+        curlCommand.push(
+          "--url " +
+            protocol +
+            "//" +
+            hostname +
+            (port ? `:${port}` : "") +
+            pathname
+        );
       }
 
       return curlCommand.join(" ");

@@ -18,7 +18,7 @@ describe("#StepDefinition - then - functions", () => {
   test("Configuration", () => {
     const Then = require("./functions");
     const fns = Object.keys(Then);
-    expect(fns).toHaveLength(40);
+    expect(fns).toHaveLength(37);
     const expectedFunctions = [
       "httpCode",
       "httpTiming",
@@ -56,10 +56,7 @@ describe("#StepDefinition - then - functions", () => {
       "shouldMatchJsonSchema",
       "addHeaderPropertyToDataset",
       "addBodyPropertyToDataset",
-      "cookieJar",
-      "printRequest",
-      "printResponse",
-      "printValue"
+      "cookieJar"
     ];
     expect(fns).toEqual(expectedFunctions);
   });
@@ -2364,79 +2361,6 @@ bar', but received : 'foo\\nbar'`
       expect($this.data.set.mock.calls).toHaveLength(1);
       expect($this.data.set.mock.calls[0][0]).toBe("__cookie_jar__");
       expect($this.data.set.mock.calls[0][1]).toBe("my cookie");
-    });
-  });
-
-  describe("API Debug", () => {
-    test("printRequest", () => {
-      const $this = {
-        debug: [],
-        api: {
-          request: {
-            getOptions: () => {
-              return "request";
-            }
-          }
-        }
-      };
-
-      expect($this.debug).toHaveLength(0);
-
-      const Then = require("./functions");
-      Then.printRequest.call($this);
-
-      expect($this.debug).toHaveLength(2);
-      expect($this.debug[0]).toBe("----> Request");
-      expect($this.debug[1]).toBe("request");
-    });
-
-    test("printResponse", () => {
-      const $this = {
-        debug: [],
-        api: {
-          response: {
-            getOptions: () => {
-              return "response";
-            }
-          }
-        }
-      };
-
-      expect($this.debug).toHaveLength(0);
-
-      const Then = require("./functions");
-      Then.printResponse.call($this);
-
-      expect($this.debug).toHaveLength(2);
-      expect($this.debug[0]).toBe("----> Response");
-      expect($this.debug[1]).toBe("response");
-    });
-
-    test("printValue", () => {
-      const $this = {
-        data: {
-          get: jest.fn().mockReturnValue("my return value from the dataset")
-        },
-        debug: [],
-        api: {
-          response: {
-            getOptions: () => {
-              return "response";
-            }
-          }
-        }
-      };
-
-      expect($this.debug).toHaveLength(0);
-
-      const Then = require("./functions");
-      Then.printValue.call($this, "my value");
-
-      expect($this.data.get.mock.calls).toHaveLength(1);
-      expect($this.data.get.mock.calls[0][0]).toBe("my value");
-      expect($this.debug).toHaveLength(2);
-      expect($this.debug[0]).toBe("----> Value");
-      expect($this.debug[1]).toBe("my return value from the dataset");
     });
   });
 });

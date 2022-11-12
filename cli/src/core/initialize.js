@@ -136,14 +136,14 @@ initialize.generate = async function (options) {
 
     const response = await Generate({print: false}, {args: curl});
 
-    const output = "tests/integration/welcome-restqa.feature";
+    const output = "tests/local/get.feature";
 
     createRecursiveFolder(output, folder);
 
     const content = [
       "Feature: Welcome to the RestQA community",
       "",
-      "Scenario: Get the list of useful RestQA resources",
+      "Scenario: Initial scenario",
       response
     ];
 

@@ -12,46 +12,31 @@
       </el-col>
     </el-row>
   </card>
+  <card v-if="performance.data.length" title="Run your performance test">
+    In order to run your test you will just need to run the command:
+    <br /><br />
+    <pre><code class="language-bash">{{ bashCommand }}</code></pre>
+    <br /><br />
+    More information are available on the
+    <a href="#/documentation/performance-testing">Documentation</a>
+  </card>
   <card v-else title="Any performance test has been generated.">
     Do not forget if you want to generate test scenario you need to add the tag
     <strong>@performance</strong> on you test scenario.
     <br />
     <br />
     Example:
-    <prism-editor
-      :readonly="true"
-      v-model="scenario"
-      class="ide"
-      :highlight="highlighterGherkin"
-    ></prism-editor>
-  </card>
-  <card v-if="performance.data.length" title="Run your performance test">
-    In order to run your test you will just need to run the command:
-    <br /><br />
-    <prism-editor
-      :readonly="true"
-      class="ide"
-      v-model="bashCommand"
-      :highlight="highlighterBash"
-    ></prism-editor>
-    <br /><br />
-    More information are available on the
-    <a href="#/documentation/performance-testing">Documentation</a>
+    <pre><code class="language-gherkin">{{ scenario }}</code></pre>
   </card>
 </template>
 
 <script>
 import Card from "@/components/UI/card/Card.vue";
-import { PrismEditor } from "vue-prism-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
-import "prismjs/components/prism-bash";
-import "prismjs/components/prism-gherkin";
 
 export default {
   name: "PerformanceView",
   components: {
     Card,
-    PrismEditor,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
@@ -61,23 +46,14 @@ export default {
       config,
       scenario: `
 @performance
-Scenario Outline: The product doesn't exist into the database
-Given I have the api gateway
-  And I have the path "/api/products/111112222233333"
-  And I have the method "GET"
-  And the header contains "accept-language" as "<language>"
-  And the header contains "content-type" as "application/json"
-When I run the API
-Then I should receive a response with the status 404
-  And the response body at "message" should equal "<message>"
-  And the response time is under 1000 ms
-Examples:
-| language | message                    |
-| en       | The product doesn't exist. |
-| fr       | Le produit n'existe pas.   |
-| it       | Le produit n'existe pas.   |
-| default  | Le produit n'existe pas.   |
-
+Scenario: The product doesn't exist into the database
+Given a request
+  And the headers:
+  | accept-language | en               |
+  | content-type    | application/json |
+When GET "/api/products/111112222233333"
+Then status = 404
+  And "message" = "Product doesn't exists"
       `.trim(),
       files: [
         {
@@ -92,14 +68,6 @@ Examples:
       ],
     };
   },
-  methods: {
-    highlighterBash(code) {
-      return highlight(code, languages.bash);
-    },
-    highlighterGherkin(code) {
-      return highlight(code, languages.gherkin);
-    },
-  },
   computed: {
     bashCommand() {
       const { tool, outputFolder } = this.config;
@@ -111,6 +79,11 @@ Examples:
       }
       return cmd;
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      Prism.highlightAll();
+    });
   },
 };
 </script>

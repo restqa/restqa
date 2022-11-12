@@ -1,13 +1,9 @@
 const cucumber = require('@cucumber/cucumber')
-const RestQAPI = require('../')
+const RestQAPI = require('../dist')
 
 const config = {
   name: 'local',
   url: 'https://jsonplaceholder.typicode.com',
-  url: 'https://test.com',
-  performance: {
-    tool: 'artillery'
-  }
 }
 
 class World {

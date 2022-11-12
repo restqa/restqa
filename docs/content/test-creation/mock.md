@@ -3,7 +3,7 @@ id: mock
 title: Mock external dependencies (local testing)
 sidebar_label: Mocking
 parent: test-creation
-order: 4
+order: 5
 ---
 
 Mock is a key part of local testing, however it's also very cumbersome to write mock within your code.

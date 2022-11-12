@@ -17,13 +17,13 @@ Only if the user answer Yes, then data will be collected.
 
 If you change your mind and do not want RestQA to collect anonymous data, you can run the command:
 
-```
+```bash
 restqa telemetry off
 ```
 
 Or you can use the environment variable `RESTQA_TELEMETRY` such as:
 
-```
+```bash
 RESTQA_TELEMETRY=off restqa run
 ```
 
@@ -39,7 +39,7 @@ The information that we track are the following:
 
 Any personal information is track.
 
-[Check on the source Code](https://github.com/restqa/restqa/blob/master/bin/restqa)
+[Check on the source Code](https://github.com/restqa/restqa/blob/master/cli/src/utils/telemetry/index.js)
 
 ## Where does RestQA stored the collected data?
 

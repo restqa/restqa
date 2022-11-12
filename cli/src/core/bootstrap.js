@@ -96,7 +96,7 @@ function getPluginModule(options, processor) {
     const name = plugin.getName();
 
     let instance;
-    if (name === "@restqa/restqapi") {
+    if (name === "@restqa/rest-api") {
       instance = require(name);
     } else {
       instance = Module.createRequire(

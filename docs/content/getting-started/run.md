@@ -59,19 +59,19 @@ RESTQA_ENV=uat restqa run
 
 #### Glob patterm
 
-```
+```bash
 restqa run tests/integration/**/*.feature
 ```
 
 #### Feature directory
 
-```
+```bash
 restqa run tests/integration/
 ```
 
 #### Specify a feature file
 
-```
+```bash
 restqa run tests/integration/welcome.feature
 ```
 
@@ -79,7 +79,7 @@ restqa run tests/integration/welcome.feature
 
 If your feature or your scenario has a tag:
 
-``` {1,2}
+```gherkin
 @success
 Feature: Customer detail feature
 
@@ -88,7 +88,7 @@ Scenario: Retrieve all the customer information
 ```
 
 You can run the following command
-```
+```bash
 restqa run -t @success
 ```
 

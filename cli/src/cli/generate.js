@@ -1,5 +1,5 @@
 const {Command} = require("commander");
-const {Generator} = require("@restqa/restqapi");
+const {Generator} = require("@restqa/rest-api");
 const fs = require("fs");
 const path = require("path");
 const logger = require("../utils/logger");

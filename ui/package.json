@@ -12,6 +12,7 @@
     "@restqa/docs": "^0.0.1",
     "element-plus": "^2.2.19",
     "highcharts": "^10.3.1",
+    "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0",
     "swagger-ui-dist": "^4.15.2",
     "vue": "^3.2.41",

@@ -36,7 +36,7 @@ If you are running a NodeJS project simply add the following in your `package.js
 
 Then you can now initate you RestQA project by running the command:
 
-```
+```bash
 npm run happy
 ```
 

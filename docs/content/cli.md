@@ -91,12 +91,10 @@ restqa generate curl https://jsonplaceholder.typicode.com/todos/1
 Output (console):
 
 ```gherkin
-Given I have the api gateway hosted on "https://jsonplaceholder.typicode.com"
-  And I have the path "/todos/1"
-  And I have the method "GET"
-When I run the API
-Then I should receive a response with the status 200
-  And the response body should be equal to:
+Given a request
+When GET "/todos/1"
+Then status = 200
+  And the body:
   """
 {
   "userId": 1,

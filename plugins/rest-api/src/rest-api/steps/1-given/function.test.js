@@ -18,14 +18,11 @@ describe("#StepDefinition - given - functions", () => {
 
   test("Configuration", () => {
     const fns = Object.keys(Given);
-    expect(fns).toHaveLength(23);
+    expect(fns).toHaveLength(16);
     const expectedFunctions = [
       "gateway",
       "gatewayHost",
       "ssl",
-      "path",
-      "method",
-      "methodPath",
       "header",
       "headers",
       "bearer",
@@ -33,10 +30,6 @@ describe("#StepDefinition - given - functions", () => {
       "queryString",
       "qs",
       "payload",
-      "payloadNull",
-      "payloadTrue",
-      "payloadFalse",
-      "payloadEmptyArray",
       "payloads",
       "jsonPayload",
       "jsonFilePayload",
@@ -226,76 +219,6 @@ describe("#StepDefinition - given - functions", () => {
       expect($this.api.request.ignoreSsl.mock.calls).toHaveLength(1);
       expect($this.api.request.ignoreSsl.mock.calls[0][0]).toBeUndefined();
     });
-
-    test("path", () => {
-      const $this = {
-        api: {
-          request: {
-            setPath: jest.fn()
-          }
-        },
-        data: {
-          get: jest.fn().mockReturnValue("/foo-bar")
-        }
-      };
-      Given.path.call($this, "/foo");
-      expect($this.data.get.mock.calls).toHaveLength(1);
-      expect($this.data.get.mock.calls[0][0]).toBe("/foo");
-      expect($this.api.request.setPath.mock.calls).toHaveLength(1);
-      expect($this.api.request.setPath.mock.calls[0][0]).toBe("/foo-bar");
-    });
-
-    test("method", () => {
-      const $this = {
-        api: {
-          request: {
-            setMethod: jest.fn()
-          }
-        }
-      };
-      Given.method.call($this, "POST");
-      expect($this.api.request.setMethod.mock.calls).toHaveLength(1);
-      expect($this.api.request.setMethod.mock.calls[0][0]).toBe("post");
-    });
-
-    test("method is not a valid http method", () => {
-      const $this = {
-        api: {
-          request: {
-            setMethod: jest.fn()
-          }
-        }
-      };
-      expect(() => {
-        Given.method.call($this, "POOST");
-      }).toThrow(
-        new Error(
-          '"POOST" is not a valid http method. Accepted : https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods'
-        )
-      );
-      expect($this.api.request.setMethod.mock.calls).toHaveLength(0);
-    });
-
-    test("methodPath", () => {
-      const $this = {
-        api: {
-          request: {
-            setMethod: jest.fn(),
-            setPath: jest.fn()
-          }
-        },
-        data: {
-          get: jest.fn().mockReturnValue("/bar-001")
-        }
-      };
-      Given.methodPath.call($this, "PUT", "/bar");
-      expect($this.api.request.setMethod.mock.calls).toHaveLength(1);
-      expect($this.api.request.setMethod.mock.calls[0][0]).toBe("put");
-      expect($this.data.get.mock.calls).toHaveLength(1);
-      expect($this.data.get.mock.calls[0][0]).toBe("/bar");
-      expect($this.api.request.setPath.mock.calls).toHaveLength(1);
-      expect($this.api.request.setPath.mock.calls[0][0]).toBe("/bar-001");
-    });
   });
 
   describe("Request header Functions", () => {
@@ -475,62 +398,6 @@ describe("#StepDefinition - given - functions", () => {
       expect($this.data.get.mock.calls[0][0]).toBe("bar");
     });
 
-    test("payloadNull", () => {
-      const $this = {
-        api: {
-          request: {
-            addPayload: jest.fn()
-          }
-        }
-      };
-      Given.payloadNull.call($this, "param1");
-      expect($this.api.request.addPayload.mock.calls).toHaveLength(1);
-      expect($this.api.request.addPayload.mock.calls[0][0]).toBe("param1");
-      expect($this.api.request.addPayload.mock.calls[0][1]).toBeNull();
-    });
-
-    test("payloadTrue", () => {
-      const $this = {
-        api: {
-          request: {
-            addPayload: jest.fn()
-          }
-        }
-      };
-      Given.payloadTrue.call($this, "param1");
-      expect($this.api.request.addPayload.mock.calls).toHaveLength(1);
-      expect($this.api.request.addPayload.mock.calls[0][0]).toBe("param1");
-      expect($this.api.request.addPayload.mock.calls[0][1]).toBe(true);
-    });
-
-    test("payloadFalse", () => {
-      const $this = {
-        api: {
-          request: {
-            addPayload: jest.fn()
-          }
-        }
-      };
-      Given.payloadFalse.call($this, "param1");
-      expect($this.api.request.addPayload.mock.calls).toHaveLength(1);
-      expect($this.api.request.addPayload.mock.calls[0][0]).toBe("param1");
-      expect($this.api.request.addPayload.mock.calls[0][1]).toBe(false);
-    });
-
-    test("payloadEmptyArray", () => {
-      const $this = {
-        api: {
-          request: {
-            addPayload: jest.fn()
-          }
-        }
-      };
-      Given.payloadEmptyArray.call($this, "param1");
-      expect($this.api.request.addPayload.mock.calls).toHaveLength(1);
-      expect($this.api.request.addPayload.mock.calls[0][0]).toBe("param1");
-      expect($this.api.request.addPayload.mock.calls[0][1]).toStrictEqual([]);
-    });
-
     test("payloads", () => {
       const $this = {
         api: {
@@ -698,7 +565,7 @@ describe("#StepDefinition - given - functions", () => {
           getFile: jest.fn().mockReturnValue("/usr/src/app/bar.png")
         }
       };
-      Given.formUpload.call($this, "file", "bar.png");
+      Given.formUpload.call($this, "bar.png", "file");
       expect($this.api.request.addFormField.mock.calls).toHaveLength(1);
       expect($this.api.request.addFormField.mock.calls[0][0]).toBe("file");
       expect($this.api.request.addFormField.mock.calls[0][1]).toBe(

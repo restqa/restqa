@@ -418,20 +418,4 @@ Then.cookieJar = function () {
   this.data.set("__cookie_jar__", val);
 };
 
-Then.printRequest = function () {
-  this.debug.push("----> Request");
-  this.debug.push(this.api.request.getOptions());
-};
-
-Then.printResponse = function () {
-  this.debug.push("----> Response");
-  this.debug.push(this.api.response.getOptions());
-};
-
-Then.printValue = function (value) {
-  value = this.data.get(value);
-  this.debug.push("----> Value");
-  this.debug.push(value);
-};
-
 module.exports = Then;

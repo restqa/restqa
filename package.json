@@ -22,7 +22,7 @@
     "@restqa/docs": "file:docs",
     "@restqa/ui": "file:ui",
     "@restqa/restqa": "file:restqa",
-    "@restqa/rest-a": "file:plugins/rest-api"
+    "@restqa/rest-api": "file:plugins/rest-api"
   },
   "engines": {
     "npm": ">=8.0.0",

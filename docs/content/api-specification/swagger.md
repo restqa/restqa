@@ -8,7 +8,7 @@ order: 1
 
 In order to generate an Open API specification nothing is more simple that add a few lines in your `.restqa.yml`.
 
-```
+```yml
 specification:
   tool: swagger
 ```
@@ -25,7 +25,7 @@ Check below what is happening behind the scene.
 ### Full Example
 
 
-```
+```yml
 ---
 version: 0.0.1
 metadata:

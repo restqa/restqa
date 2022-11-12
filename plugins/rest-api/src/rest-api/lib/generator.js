@@ -54,55 +54,45 @@ module.exports = async function (transaction) {
       mapping.request.ssl = definition;
     }
 
-    if (tags.includes("path")) {
-      mapping.request.path = definition.replace(
-        "{string}",
-        `"${options.pathname}"`
-      );
-    }
-
-    if (tags.includes("method")) {
-      mapping.request.method = definition.replace(
-        "{string}",
-        `"${options.method}"`
-      );
-    }
-
     if (tags.includes("basic auth") && transaction.user) {
       const _def = definition
         .replace("{string}", `"${transaction.user.username}"`)
-        .replace("{string}", `"${transaction.user.password}"`);
+        .replace("{string}", `"${transaction.user.password}"`)
+        .replace('\\', '');
       mapping.request.headers.push(_def);
     }
 
     if (tags.includes("form") && bodyBackup) {
+      const table = [definition]
       Object.entries(bodyBackup).forEach(([key, value]) => {
-        const _def = definition
-          .replace("{string}", `"${key}"`)
-          .replace("{string}", `"${value}"`);
-        mapping.request.form.push(_def);
+        const row = `    | ${key} | ${value} |` 
+        table.push(row);
       });
+      if (table.length === 1) return 
+      mapping.request.form.push(table.join('\n'))
     }
 
     if (tags.includes("qs")) {
+      const table = [definition]
       Object.entries(options.searchParams || {}).forEach(([key, value]) => {
-        const _def = definition
-          .replace("{string}", `"${key}"`)
-          .replace("{string}", `"${value}"`);
-        mapping.request.query.push(_def);
+        const row = `    | ${key} | ${value} |` 
+        table.push(row);
       });
+      if (table.length === 1) return 
+      mapping.request.query.push(table.join('\n'))
     }
 
     if (tags.includes("headers") && options.headers) {
       const excludeHeaders = ["x-correlation-id", "user-agent"];
-      Object.entries(options.headers).forEach(([key, value]) => {
+      const table = [definition]
+      Object.entries(options.headers || {}).forEach(([key, value]) => {
         if (excludeHeaders.includes(key)) return;
         if (value.startsWith("Basic") && transaction.user) return;
-        const _definition = definition
-          .replace("{string}", `"${key}"`)
-          .replace("{string}", `"${value}"`);
-        mapping.request.headers.push(_definition);
+        const row = `    | ${key} | ${value} |` 
+        table.push(row);
       });
+      if (table.length === 1) return 
+      mapping.request.headers.push(table.join('\n'))
     }
 
     if (tags.includes("jsonbody") && options.json) {
@@ -118,9 +108,9 @@ ${JSON.stringify(options.json, null, 2)}
 
   const When = (definition, fn, description, tags) => {
     if (!tags.includes("generator")) return;
-
-    if (tags.includes("call")) {
-      mapping.action = definition;
+    const { method, pathname} = options
+    if (definition.includes(method.toUpperCase()) && tags.includes("call")) {
+      mapping.action = definition.replace("{string}", `"${pathname}"`)
     }
   };
 
@@ -151,8 +141,6 @@ ${JSON.stringify(api.response.body, null, 2)}
   if (mapping.request.ssl) {
     result.push(`  And ${mapping.request.ssl}`);
   }
-  result.push(`  And ${mapping.request.path}`);
-  result.push(`  And ${mapping.request.method}`);
   mapping.request.headers.forEach((step) => {
     result.push(`  And ${step}`);
   });

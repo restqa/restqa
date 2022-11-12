@@ -6,7 +6,7 @@ describe("#StepDefinition - then", () => {
   test("Configuration", () => {
     const then = require("./index");
     expect(Array.isArray(then)).toBeTruthy();
-    expect(then).toHaveLength(51);
+    expect(then).toHaveLength(48);
   });
 
   test("Each steps should contains the expected value", () => {

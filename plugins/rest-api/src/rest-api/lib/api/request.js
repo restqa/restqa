@@ -13,10 +13,10 @@ const Request = function (baseUrl, insecure, id) {
     protocol: url.protocol,
     pathname: url.pathname,
     timeout: {
-      request:  2000
+      request: 2000
     },
     retry: {
-        limit: 0,
+      limit: 0
     },
     hooks: {
       afterResponse: [

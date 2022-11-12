@@ -1,7 +1,7 @@
 const {Api} = require("./lib");
 
 module.exports = {
-  name: "restqapi",
+  name: "rest-api",
   steps: {
     given: require("./steps/1-given"),
     when: require("./steps/2-when"),
@@ -12,7 +12,7 @@ module.exports = {
       this.apis = [];
       this.createApi = (url) => {
         const options = {
-          config: this.getConfig("restqapi")
+          config: this.getConfig("rest-api")
         };
 
         if (url) {
