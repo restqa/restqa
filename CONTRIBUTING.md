@@ -35,7 +35,7 @@ npm run example
 ou
 
 ```
-cd example
+cd examples/nodejs
 npm run happy
 ```
 
