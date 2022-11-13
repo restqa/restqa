@@ -24,14 +24,11 @@ export default {
       require: true,
     },
   },
-  data() {
-    const match = (this.url || "").match(/v=(.+)$/);
-    const id = match && match[1];
-    return {
-      id,
-    };
-  },
   computed: {
+    id () {
+      const match = (this.url || "").match(/v=(.+)$/);
+      return match && match[1];
+    },
     isVisible() {
       return this.url && navigator.onLine;
     },
