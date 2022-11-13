@@ -14,7 +14,7 @@ afterEach(jestqa.afterEach);
 
 jestqa.hooks.beforeEach = function () {
   mockGenerator = jest.fn();
-  jest.mock("@restqa/restqapi", () => ({
+  jest.mock("@restqa/rest-api", () => ({
     Generator: mockGenerator
   }));
 
@@ -126,8 +126,8 @@ describe("#Cli - Initialize", () => {
         const filenameWelcome = path.resolve(
           os.tmpdir(),
           "tests",
-          "integration",
-          "welcome-restqa.feature"
+          "local",
+          "get.feature"
         );
         jestqa.getCurrent().files.push(filenameWelcome);
         expect(fs.existsSync(filenameWelcome)).toBe(false);
@@ -198,8 +198,8 @@ describe("#Cli - Initialize", () => {
         const filenameWelcome = path.resolve(
           os.tmpdir(),
           "tests",
-          "integration",
-          "welcome-restqa.feature"
+          "local",
+          "get.feature"
         );
         jestqa.getCurrent().files.push(filenameWelcome);
         const contentWelcome = fs
@@ -208,7 +208,7 @@ describe("#Cli - Initialize", () => {
         const expectedWelcomeFeature = `
 Feature: Welcome to the RestQA community
 
-Scenario: Get the list of useful RestQA resources
+Scenario: Initial scenario
 Given I have an example`;
 
         expect(contentWelcome.trim()).toEqual(expectedWelcomeFeature.trim());
@@ -278,8 +278,8 @@ Given I have an example`;
         const filenameWelcome = path.resolve(
           jestqa.getTmpFolder(),
           "tests",
-          "integration",
-          "welcome-restqa.feature"
+          "local",
+          "get.feature"
         );
         jestqa.getCurrent().files.push(filenameWelcome);
         const contentWelcome = fs
@@ -288,7 +288,7 @@ Given I have an example`;
         const expectedWelcomeFeature = `
 Feature: Welcome to the RestQA community
 
-Scenario: Get the list of useful RestQA resources
+Scenario: Initial scenario
 Given I have an example`;
 
         expect(contentWelcome.trim()).toEqual(expectedWelcomeFeature.trim());

@@ -43,6 +43,11 @@ export default function markdownPreload(CONTENT_PATH, PWD_RESTQA) {
         }
       })
 
+      fs.writeFileSync(
+        resolve(dir, 'filepath.json'),
+        JSON.stringify(contents),
+        {encoding: 'utf-8'})
+
       const opt = {
         contents,
         CONTENT_PATH,
@@ -134,6 +139,17 @@ function stepDefinition ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
           return result
         }, {})
 
+
+      const tableOfContent = Object.keys(categories)
+        .map(category => {
+          return categories[category]
+            .map(_ => {
+              const title =  _.source[1].source.replace('###', '')
+              return  title
+            })
+            .join('\n')
+        })
+
       const body = Object.keys(categories)
         .map(category => {
           return categories[category]
@@ -144,7 +160,14 @@ function stepDefinition ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
 
       fs.writeFileSync(
         file,
-        content + body,
+        content
+          + 'In this page you can find how to:'
+          + '\n'
+          + tableOfContent
+          + '\n\n'
+          + '---'
+          + '\n\n'
+          + body,
         {encoding: 'utf-8'})
 
       const index = contents.findIndex(el => el.id === doc.id)

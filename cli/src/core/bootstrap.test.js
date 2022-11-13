@@ -66,7 +66,7 @@ describe("#bootstrap", () => {
     }).toThrow(new Error("The configuration is not loaded"));
   });
 
-  test("Load plugin @restqa/restqapi then run setup the processor", () => {
+  test("Load plugin @restqa/rest-api then run setup the processor", () => {
     const content = `
 ---
 version: 0.0.1
@@ -90,10 +90,10 @@ tests:
 `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const mockPlugin = new Plugin("restqapi");
+    const mockPlugin = new Plugin("rest-api");
     mockPlugin.addGivenStep("my step", () => {}, "my description", "example");
     mockPlugin.addState("host", "https://example.com");
-    jest.mock("@restqa/restqapi", () => mockPlugin);
+    jest.mock("@restqa/rest-api", () => mockPlugin);
 
     const processor = {
       After: jest.fn(),
@@ -128,7 +128,7 @@ tests:
       "my step",
       expect.any(Function),
       "my description",
-      ["restqapi", "example"]
+      ["rest-api", "example"]
     );
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
@@ -138,7 +138,7 @@ tests:
     const world = new World({});
     expect(world.state.host).toBe("https://example.com");
     expect(world.data.get("{{ hello }}")).toBe("world");
-    expect(world.getConfig("restqapi")).toEqual({
+    expect(world.getConfig("rest-api")).toEqual({
       url: "http://localhost:8088"
     });
 
@@ -154,7 +154,7 @@ tests:
     );
   });
 
-  test("Load plugin @restqa/restqapi then run setup the processor (integration tests)", () => {
+  test("Load plugin @restqa/rest-api then run setup the processor (integration tests)", () => {
     const content = `
 ---
 version: 0.0.1
@@ -178,9 +178,9 @@ tests:
 `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const mockPlugin = new Plugin("restqapi");
+    const mockPlugin = new Plugin("rest-api");
     mockPlugin.addGivenStep("my step", () => {}, "my description", "example");
-    jest.mock("@restqa/restqapi", () => mockPlugin);
+    jest.mock("@restqa/rest-api", () => mockPlugin);
 
     const processor = {
       After: jest.fn(),
@@ -216,7 +216,7 @@ tests:
       "my step",
       expect.any(Function),
       "my description",
-      ["restqapi", "example"]
+      ["rest-api", "example"]
     );
 
     expect(processor.defineParameterType).toHaveBeenCalledTimes(1);
@@ -225,7 +225,7 @@ tests:
     const World = processor.setWorldConstructor.mock.calls[0][0];
     const world = new World({});
     expect(world.data.get("{{ hello }}")).toBe("world");
-    expect(world.getConfig("restqapi")).toEqual({
+    expect(world.getConfig("rest-api")).toEqual({
       url: "https://uat.example.com"
     });
 
@@ -241,7 +241,7 @@ tests:
     );
   });
 
-  test("Load plugin restqapi and restqkube then run setup the processor (+ setup the timeout)", () => {
+  test("Load plugin rest-api and restqkube then run setup the processor (+ setup the timeout)", () => {
     const content = `
 ---
 version: 0.0.1
@@ -272,7 +272,7 @@ settings:
     const filename = jestqa.createTmpFile(content, ".restqa-example.yml");
 
     const mockPlugins = [
-      new Plugin("restqapi")
+      new Plugin("rest-api")
         .addGivenStep("my given step", () => {})
         .addState("host", "https://example.com"),
       new Plugin("restqkube")
@@ -280,7 +280,7 @@ settings:
         .addState("cluster", "example.cluster.local")
     ];
 
-    jest.mock("@restqa/restqapi", () => mockPlugins[0]);
+    jest.mock("@restqa/rest-api", () => mockPlugins[0]);
 
     jest.mock("module", () => {
       return {
@@ -334,7 +334,7 @@ settings:
       "my given step",
       expect.any(Function),
       undefined,
-      ["restqapi"]
+      ["rest-api"]
     );
 
     expect(mockPlugins[1]._getConfig()).toEqual({

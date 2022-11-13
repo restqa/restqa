@@ -56,11 +56,9 @@ module.exports = plugin; // `export default` plugin in ESM
 
 ```yml
 plugins:
-  - name: test
-    plugins:
-      - name: "../path/embedded-plugin.js"
-        config:
-          foo: bar 
+  - name: "../path/embedded-plugin.js"
+    config:
+      foo: bar 
 ```
 
 ### 🍹 Enjoy your new step definition

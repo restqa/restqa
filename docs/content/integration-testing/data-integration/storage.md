@@ -44,7 +44,7 @@ Then we can imagine that we create the file:
 Finally we are able to reuse from some step definition that requires access to the file system such as:
 
 ```gherkin {2-2}
-Given I have the api gateway
-  And the payload from a file stored at "my-body.json"
-When I run the API
+Given a request
+  And the payload from a file "my-body.json"
+When POST '/'
 ```

@@ -13,8 +13,8 @@ It will be bonus for you if you have exposed to the BDD/ATDD practice, it will h
 
 ## 🗽 Description
 
-This example is a set of test automation scenario that are testing the famous: https://jsonplaceholder.typicode.com
-In this exampple we are just sharing the test automation for the `todos` resources. (GET, DELETE, POST, PUT, PATCH)
+This example is a set of test automation scenario that are testing a simple local http server running in nodejs
+In this exampple we are just sharing the test automation for the `/` resources. (GET)
 
 ## 📚 File Structure
 
@@ -22,7 +22,7 @@ This folder is containing a few files:
 
 * `index.js`: The actual microservice code that required to be tested.
 * `.restqa.yml`: The RestQA configuration file.
-* `tests/unit/get.feature`: Test scenario of the endpoint GET /
+* `tests/local/get.feature`: Test scenario of the endpoint GET /
 
 ## 🎯 Run the example
 
@@ -45,13 +45,13 @@ Example of the report:
 ![report](./assets/restqa-screenshot.png)
 
 
-### 2. Unit test only
+### 2. Local test only
 
 ```
 npm test
 ```
 
-![unit-test](./assets/restqa-unit-test.png)
+![local-test](./assets/restqa-unit-test.png)
 
 This command will just run the unit test without creating the report, it become handful for dev mode.
 
@@ -61,7 +61,6 @@ That it! This is short but this is what RestQA is about, An easy Test Automation
 
 More information:
 
-* Docs: https://docs.restqa.io
 * Website: https://restqa.io
 * Twitter: https://twitter.com/restqa
 * Linkedin: https://linkedin.com/company/restqa

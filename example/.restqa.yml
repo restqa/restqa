@@ -2,17 +2,15 @@
 version: 0.0.1
 metadata:
   code: EXAMPLE-RESTQA
-  name: Example Restqa
-  description: Delicious Microservice example maintained with RestQA
+  name: example-restqa
+  description: Delicious Microservice maintained with RestQA
 tests:
   local:
-    port: 8887
+    port: 8000
     command: npm run dev
-    data: {}
   performance:
     tool: artillery
     outputFolder: tests/performances
     onlySuccess: false
 specification:
   tool: swagger
-

@@ -22,13 +22,7 @@
 
     <div v-if="code">
       <h4>Here is the new version of your .restqa.yml</h4>
-      <prism-editor
-        :readonly="true"
-        class="ide"
-        v-model="code"
-        :highlight="highlighter"
-        line-numbers
-      ></prism-editor>
+      <pre><code class="language-yml">{{ code }}</code></pre>
       <el-row :gutter="20">
         <el-col :span="12" :offset="6">
           <el-button
@@ -49,8 +43,6 @@
 </template>
 <script>
 import Card from "@/components/UI/card/Card.vue";
-import { PrismEditor } from "vue-prism-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
 import { stringify } from "yaml";
 import { copyText } from "vue3-clipboard";
 
@@ -58,7 +50,6 @@ export default {
   name: "PerformanceEditor",
   components: {
     Card,
-    PrismEditor,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
@@ -104,9 +95,6 @@ export default {
     },
   },
   methods: {
-    highlighter(code) {
-      return highlight(code, languages.yaml);
-    },
     selectTool() {
       const tmpl = {
         tool: this.value,
@@ -115,6 +103,9 @@ export default {
       };
       this.config.tests.performance = tmpl;
       this.code = "---\n" + stringify(this.config);
+      this.$nextTick(() => {
+        Prism.highlightAll();
+      });
     },
     copyConfig() {
       copyText(this.code, undefined, (error) => {
@@ -132,23 +123,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.ide {
-  /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-  background: #2d2d2d;
-  color: #ccc;
-
-  /* you must provide font-family font-size line-height. Example: */
-  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 5px;
-}
-
-/* optional class for removing the outline */
-.prism-editor__textarea:focus {
-  outline: none;
-}
-
 .el-select-dropdown__item {
   height: 60px;
   .option-img {

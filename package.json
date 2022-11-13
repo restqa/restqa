@@ -9,18 +9,21 @@
     "format": "npm run format -ws --if-present",
     "example:install": "npm i -w example",
     "example": "npm run happy -w example",
-    "test": "npm test -w docs -w cli -w ui --if-present"
+    "test": "npm test -w docs -w cli -w ui --if-present",
+    "clean-install": "rm -rf package-lock.json node_modules docs/node_modules ui/node_modules plugins/rest-api/node_modules cli/node_modules example/node_modules"
   },
   "workspaces": [
     "docs",
     "ui",
+    "plugins/rest-api",
     "cli",
     "example"
   ],
   "dependencies": {
     "@restqa/docs": "file:docs",
     "@restqa/ui": "file:ui",
-    "@restqa/restqa": "file:restqa"
+    "@restqa/restqa": "file:restqa",
+    "@restqa/rest-api": "file:plugins/rest-api"
   },
   "engines": {
     "npm": ">=8.0.0",

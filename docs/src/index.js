@@ -1,4 +1,5 @@
 import Content from './generated/contents.js'
+import FilePath from './generated/filepath.json'
 import menu from './menu.js'
 
 export default {
@@ -22,6 +23,9 @@ export default {
   getElements: function() {
     return Content
 
+  },
+  getFilePath: function(id) {
+    return FilePath.find(item => item.id === id).filename
   }
 
 }

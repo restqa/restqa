@@ -4,7 +4,7 @@ title: Response Latency
 sidebar_label: Latency
 parent: then
 category: Latency
-content_from: restqapi/src/restqapi/steps/3-then/index.js
+content_from: rest-api/src/rest-api/steps/3-then/index.js
 order: 2
 ---
 

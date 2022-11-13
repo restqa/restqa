@@ -20,22 +20,14 @@ Example:
 ```gherkin title="tests/integration/get-product.feature" {1-1}
 @performance
 Scenario Outline: The product doesn't exist into the database
-Given I have the api gateway
-  And I have the path "/api/products/111112222233333"
-  And I have the method "GET"
-  And the header contains "accept-language" as "<language>"
-  And the header contains "content-type" as "application/json"
-When I run the API
-Then I should receive a response with the status 404
-  And the response body at "message" should equal "<message>"
-  And the response time is under 1000 ms
-Examples:
-| language | message                    |
-| en       | The product doesn't exist. |
-| fr       | Le produit n'existe pas.   |
-| it       | Le produit n'existe pas.   |
-| default  | Le produit n'existe pas.   |
-
+Given a request
+  And the headers:
+    | accept-language | en |
+    | content-type    | application/json |
+When GET "/api/products/111111"
+Then status = 200
+  And the response time < 100 ms
+  And  "message" = "hello world"
 ```
 
 When we wiil run the test RestQA will detect the tag and translate the current scenario into your load testing scenario format.
