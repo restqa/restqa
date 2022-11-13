@@ -58,41 +58,41 @@ module.exports = async function (transaction) {
       const _def = definition
         .replace("{string}", `"${transaction.user.username}"`)
         .replace("{string}", `"${transaction.user.password}"`)
-        .replace('\\', '');
+        .replace("\\", "");
       mapping.request.headers.push(_def);
     }
 
     if (tags.includes("form") && bodyBackup) {
-      const table = [definition]
+      const table = [definition];
       Object.entries(bodyBackup).forEach(([key, value]) => {
-        const row = `    | ${key} | ${value} |` 
+        const row = `    | ${key} | ${value} |`;
         table.push(row);
       });
-      if (table.length === 1) return 
-      mapping.request.form.push(table.join('\n'))
+      if (table.length === 1) return;
+      mapping.request.form.push(table.join("\n"));
     }
 
     if (tags.includes("qs")) {
-      const table = [definition]
+      const table = [definition];
       Object.entries(options.searchParams || {}).forEach(([key, value]) => {
-        const row = `    | ${key} | ${value} |` 
+        const row = `    | ${key} | ${value} |`;
         table.push(row);
       });
-      if (table.length === 1) return 
-      mapping.request.query.push(table.join('\n'))
+      if (table.length === 1) return;
+      mapping.request.query.push(table.join("\n"));
     }
 
     if (tags.includes("headers") && options.headers) {
       const excludeHeaders = ["x-correlation-id", "user-agent"];
-      const table = [definition]
+      const table = [definition];
       Object.entries(options.headers || {}).forEach(([key, value]) => {
         if (excludeHeaders.includes(key)) return;
         if (value.startsWith("Basic") && transaction.user) return;
-        const row = `    | ${key} | ${value} |` 
+        const row = `    | ${key} | ${value} |`;
         table.push(row);
       });
-      if (table.length === 1) return 
-      mapping.request.headers.push(table.join('\n'))
+      if (table.length === 1) return;
+      mapping.request.headers.push(table.join("\n"));
     }
 
     if (tags.includes("jsonbody") && options.json) {
@@ -108,9 +108,9 @@ ${JSON.stringify(options.json, null, 2)}
 
   const When = (definition, fn, description, tags) => {
     if (!tags.includes("generator")) return;
-    const { method, pathname} = options
+    const {method, pathname} = options;
     if (definition.includes(method.toUpperCase()) && tags.includes("call")) {
-      mapping.action = definition.replace("{string}", `"${pathname}"`)
+      mapping.action = definition.replace("{string}", `"${pathname}"`);
     }
   };
 

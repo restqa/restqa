@@ -204,4 +204,4 @@ module.exports = [
     "Trigger the api request using the HEAD method",
     "api, call"
   ]
-]
+];

@@ -1,11 +1,12 @@
 <template>
   <card v-if="isVisible" title="Screencast" emoji="🍿" class="card">
-      <iframe
-        class="video"
-        :src="`https://www.youtube.com/embed/` + id"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
+    <iframe
+      class="video"
+      :src="`https://www.youtube.com/embed/` + id"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </card>
 </template>
 
@@ -13,7 +14,7 @@
 import Card from "@/components/UI/card/Card.vue";
 
 export default {
-  name: 'DocumentationVideo',
+  name: "DocumentationVideo",
   components: {
     Card,
   },
@@ -21,23 +22,21 @@ export default {
     url: {
       type: String,
       require: true,
-    }
+    },
   },
-  data () {
-    const match = (this.url || '').match(/v=(.+)$/)
-    const id = match && match[1] 
+  data() {
+    const match = (this.url || "").match(/v=(.+)$/);
+    const id = match && match[1];
     return {
-      id
-    }
+      id,
+    };
   },
   computed: {
-    isVisible () {
-      return this.url && navigator.onLine
-    }
-
-  }
-}
-
+    isVisible() {
+      return this.url && navigator.onLine;
+    },
+  },
+};
 </script>
 <style scoped>
 .video {

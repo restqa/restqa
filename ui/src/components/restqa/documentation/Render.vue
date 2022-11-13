@@ -5,12 +5,12 @@
 </template>
 <script>
 import docs from "@restqa/docs";
-import YoutubeVideo from "./video.vue"
+import YoutubeVideo from "./Video.vue";
 
 export default {
   name: "DocumentationRender",
   components: {
-    YoutubeVideo
+    YoutubeVideo,
   },
   props: {
     page: {
@@ -27,8 +27,8 @@ export default {
       return result;
     },
     video() {
-      return docs.getElement(this.page).attributes.video
-    }
+      return docs.getElement(this.page).attributes.video;
+    },
   },
   watch: {
     content: {
