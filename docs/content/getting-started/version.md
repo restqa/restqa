@@ -10,7 +10,7 @@ However from a consumer perspective, this can be difficult to keep track on the 
 
 In order to stay up to date, run the command: 
 
-```
+```bash
 npm i -g @restqa/restqa@latest
 ```
 

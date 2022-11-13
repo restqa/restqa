@@ -74,12 +74,10 @@ Thanks to the embed RestQA HTTP plugin, writing scenarios is really easy.
 ```gherkin
 Feature: Hello
   Scenario: Scenario all good
-    Given I have the api gateway
-      And I have the path "/hello"
-      And I have the method "GET"
-    When I run the API
-    Then I should receive a response with the status 200
-      And the response body at "value" should equal "world"
+    Given a request
+    When GET "/hello"
+    Then status = 200
+      And "value" = "world"
 ```
 
 ### Run your test:

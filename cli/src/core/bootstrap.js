@@ -67,7 +67,7 @@ module.exports = function (processor, options = {}) {
 
   // Plugin settings
   const RestQAPI = {
-    getName: () => "@restqa/restqapi",
+    getName: () => "@restqa/rest-api",
     getConfig: () => ({
       url: environment.url
     })
@@ -96,7 +96,7 @@ function getPluginModule(options, processor) {
     const name = plugin.getName();
 
     let instance;
-    if (name === "@restqa/restqapi") {
+    if (name === "@restqa/rest-api") {
       instance = require(name);
     } else {
       instance = Module.createRequire(

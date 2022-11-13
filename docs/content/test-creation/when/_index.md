@@ -13,8 +13,8 @@ Then keyword **When** is defined to describe event that need be triggered during
 
 Example:
 
-```
-When I run the API
+```gherkin
+When GET "/product"
 ```
 
 ## API Trigger

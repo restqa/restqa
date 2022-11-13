@@ -29,17 +29,17 @@ Response body:
 In order to translate it using the RestQA Gherkin **Then** statement, we would have:
 
 ```gherkin
-Then I should receive a response with the status 200
-Then the header "content-Type" should be "application/json; charset=utf-8"
-Then the response body at "foo" should equal "bar"
+Then status = 200
+Then header "Content-Type" = "application/json; charset=utf-8"
+Then "foo" = "bar"
 ```
 
 or using the **And** statement (recommended):
 
 ```gherkin
-Then I should receive a response with the status 200
-  And  the header "content-Type" should be "application/json; charset=utf-8"
-  And  the response body at "foo" should equal "bar"
+Then status = 200
+  And header "Content-Type" = "application/json; charset=utf-8"
+  And "foo" = "bar"
 ```
 
 > As you can see the keyword **And** allows you to chain multiple **Then** Statement.

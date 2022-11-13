@@ -30,7 +30,7 @@ module.exports = function ({env, report, config}, processor = {}) {
   if (!env) {
     processor.BeforeAll(async function () {
       this.restqa = this.restqa || {};
-      const  { envs } = (this.restqa.mock || {});
+      const {envs} = this.restqa.mock || {};
       const options = {
         port: config.getLocalTest().getPort(),
         command: config.getLocalTest().getCommand(),

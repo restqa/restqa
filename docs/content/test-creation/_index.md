@@ -10,6 +10,162 @@ The key benefit of using Gherkin is that you will be able to re-use your test re
 
 In order to undertand better the best way to write scenario, you should first be comfortable with cucumber, take a look at the [cucumber documentation](https://cucumber.io/docs/gherkin/reference/) to fully understand the diifferent definition on the current page.
 
+## Example:
+
+### GET method
+
+```gherkin
+Scenario: Get details of the users
+Given a request
+  And the headers:
+    | accept-language | en |
+    | content-type    | application/json |
+When GET "/api/users/12345"
+Then status = 200
+  And body:
+  """
+  {
+    "lastName": "John",
+    "firstName": "Doe"
+  }
+  """
+```
+
+### POST method
+
+```gherkin
+Scenario: Create a user
+Given a request
+  And the headers:
+    | content-type    | application/json |
+  And the payload:
+  """
+  {
+    "firstname": "john",
+    "lastname": "doe"
+  }
+  """
+When POST "/api/users"
+Then status = 201
+  And the response time < 100 ms
+  And "message" = "hello world"
+  And body:
+  """
+  {
+    "id": 101,
+    "lastName": "John",
+    "firstName": "Doe"
+  }
+  """
+```
+
+### PUT method
+
+```gherkin
+Scenario: Update a user
+Given a request
+  And the headers:
+    | content-type    | application/json |
+  And the payload:
+  """
+  {
+    "firstname": "johnny",
+    "lastname": "doe"
+  }
+  """
+When POST "/api/users/101"
+Then status = 201
+  And the response time < 100 ms
+  And body:
+  """
+  {
+    "id": 101,
+    "lastName": "johnny",
+    "firstName": "doe"
+  }
+  """
+```
+
+### PATCH method
+
+```gherkin
+Scenario: Partially update a user
+Given a request
+  And the headers:
+    | content-type    | application/json |
+  And the payload:
+  """
+  {
+    "lastname": "doe"
+  }
+  """
+When POST "/api/users/101"
+Then status = 201
+  And the response time < 100 ms
+  And body:
+  """
+  {
+    "id": 101,
+    "lastName": "johnny",
+    "firstName": "doe"
+  }
+  """
+```
+
+### DELETE method
+
+```gherkin
+Scenario: Delete a user
+Given a request
+When DELETE "/api/users/101"
+Then status = 204
+```
+
+
+### Chaining 🚀
+
+```gherkin
+Scenario: Create, get then a delete user
+Given a request
+  And the headers:
+    | content-type    | application/json |
+  And the payload:
+  """
+  {
+    "firstname": "john",
+    "lastname": "doe"
+  }
+  """
+When POST "/api/users"
+Then status = 201
+  And the response time < 100 ms
+  And "message" = "hello world"
+  And body:
+  """
+  {
+    "id": 101,
+    "lastName": "John",
+    "firstName": "Doe"
+  }
+  """
+Given a request
+  And the headers:
+    | accept-language | en |
+    | content-type    | application/json |
+When GET "/api/users/12345"
+Then status = 200
+  And body:
+  """
+  {
+    "lastName": "John",
+    "firstName": "Doe"
+  }
+  """
+Given a request
+When DELETE "/api/users/101"
+Then status = 204
+```
+
 ## Tags
 
 ### @skip
@@ -22,7 +178,7 @@ At the Scenario level:
 
 @skip
 Scenario: This Scenario will be skipped
-Given I have the api gateway
+Given a request
 ...
 ```
 
@@ -34,12 +190,12 @@ At the Feature level:
 Feature: All the scenario in this feature will be skipped
 
 Scenario: I will be skipped
-Given I have the api gateway
+Given a request
 ...
 
 
 Scenario: I will be skipped as well
-Given I have the api gateway
+Given a request
 ...
 ```
 
@@ -53,7 +209,7 @@ At the Scenario level:
 
 @wip
 Scenario: This Scenario will be skipped 
-Given I have the api gateway
+Given a request
 ...
 ```
 
@@ -65,12 +221,12 @@ At the Feature level:
 Feature: All the scenario in this feature will be skipped
 
 Scenario: I will be skipped
-Given I have the api gateway
+Given a request
 ...
 
 
 Scenario: I will be skipped as well
-Given I have the api gateway
+Given a request
 ...
 ```
 
@@ -84,7 +240,7 @@ At the Scenario level:
 
 @insecure
 Scenario: This scenario will ignore the ssl certificate
-Given I have the api gateway
+Given a request
 ...
 ```
 
@@ -96,13 +252,11 @@ At the Feature level:
 Feature: All the scenario in this feature will ignore the ssl certificate
 
 Scenario: I will ignore the ssl certificate
-Given I have the api gateway
+Given a request
 ...
 
 
 Scenario: I will ignore the ssl certificate  as well
-Given I have the api gateway
+Given a request
 ...
 ```
-
-

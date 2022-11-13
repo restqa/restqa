@@ -22,13 +22,7 @@
 
     <div v-if="code">
       <h4>Here is the new version of your .restqa.yml</h4>
-      <prism-editor
-        :readonly="true"
-        class="ide"
-        v-model="code"
-        :highlight="highlighter"
-        line-numbers
-      ></prism-editor>
+      <pre><code class="language-yaml">{{ code }}</code></pre>
       <el-row :gutter="20">
         <el-col :span="12" :offset="6">
           <el-button
@@ -49,8 +43,7 @@
 </template>
 <script>
 import Card from "@/components/UI/card/Card.vue";
-import { PrismEditor } from "vue-prism-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-core";
 import { stringify } from "yaml";
 import { copyText } from "vue3-clipboard";
 
@@ -58,7 +51,6 @@ export default {
   name: "SpecificationEditor",
   components: {
     Card,
-    PrismEditor,
   },
   data() {
     const performance = this.$store.getters.projectStatus.performance;
@@ -92,15 +84,15 @@ export default {
     },
   },
   methods: {
-    highlighter(code) {
-      return highlight(code, languages.yaml);
-    },
     selectTool() {
       const tmpl = {
         tool: this.value,
       };
       this.config.specification = tmpl;
       this.code = "---\n" + stringify(this.config);
+      this.$nextTick(() => {
+        Prism.highlightAll();
+      });
     },
     copyConfig() {
       copyText(this.code, undefined, (error) => {

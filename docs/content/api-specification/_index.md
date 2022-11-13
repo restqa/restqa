@@ -74,7 +74,7 @@ Setting up your API specification, by following the instruction: [here](/#/speci
 
 #### Example
 
-```
+```yaml
 specification:
   tool: swagger
   title: Users Product

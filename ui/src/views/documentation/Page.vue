@@ -8,6 +8,25 @@
   <el-container>
     <el-main class="main">
       <render-page :page="id" />
+      <div v-if="isStepDefinitionPage">
+        <hr />
+        <h3>😀 Missing step definition?</h3>
+        <p>
+          Don't you can create your own step defintion in a few seconds!
+          <a href="#/documentation/custom-step">Check out the documentation</a>
+        </p>
+      </div>
+      <br />
+      <el-divider />
+      <br />
+      <div class="support">
+        <small
+          >An issue in the page? Support us by
+          <el-link type="primary" :href="filename" target="_blank"
+            >contributing to this this page</el-link
+          ></small
+        >
+      </div>
     </el-main>
     <el-aside class="menu" width="250px">
       <h4>Table of Content</h4>
@@ -63,9 +82,21 @@ export default {
       }
       return id;
     },
+    filename() {
+      return (
+        `https://github.com/restqa/restqa/blob/master/docs/content/` +
+        docs.getFilePath(this.id)
+      );
+    },
+    isStepDefinitionPage() {
+      return /^(given|then|when)-.+/.test(this.id);
+    },
   },
   updated() {
     this.$refs.menu.setCurrentKey(this.id);
+  },
+  notFound() {
+    return this.id === "not-found";
   },
   mounted() {
     this.$refs.menu.setCurrentKey(this.id);
@@ -96,5 +127,9 @@ export default {
 .menu {
   border-left: 1px solid #dadde1;
   padding-left: 10px;
+}
+
+div.support {
+  text-align: right;
 }
 </style>
