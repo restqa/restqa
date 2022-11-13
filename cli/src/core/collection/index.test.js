@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
-const Request = require("@restqa/restqapi/src/restqapi/lib/api/request");
-const Response = require("@restqa/restqapi/src/restqapi/lib/api/response");
+const Request = require("@restqa/rest-api/src/rest-api/lib/api/request");
+const Response = require("@restqa/rest-api/src/rest-api/lib/api/response");
 const Collection = require("./index");
 const Config = require("../../config");
 

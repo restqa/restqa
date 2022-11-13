@@ -1,8 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const Request = require("@restqa/restqapi/src/restqapi/lib/api/request");
-const Response = require("@restqa/restqapi/src/restqapi/lib/api/response");
+const Request = require("@restqa/rest-api/src/rest-api/lib/api/request");
+const Response = require("@restqa/rest-api/src/rest-api/lib/api/response");
 const YAML = require("yaml");
 
 let tmpFiles = [];
