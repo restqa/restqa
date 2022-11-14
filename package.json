@@ -7,8 +7,8 @@
     "build": "npm run build -ws --if-present",
     "lint": "npm run lint -ws --if-present",
     "format": "npm run format -ws --if-present",
-    "example:install": "npm i -w example",
-    "example": "npm run happy -w example",
+    "example:install": "npm i -w examples/nodejs",
+    "example": "npm run happy -w examples/nodejs",
     "test": "npm test -w docs -w cli -w ui --if-present",
     "clean-install": "rm -rf package-lock.json node_modules docs/node_modules ui/node_modules plugins/rest-api/node_modules cli/node_modules example/node_modules"
   },
@@ -17,7 +17,7 @@
     "ui",
     "plugins/rest-api",
     "cli",
-    "example"
+    "examples/nodejs"
   ],
   "dependencies": {
     "@restqa/docs": "file:docs",
