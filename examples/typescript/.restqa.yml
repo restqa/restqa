@@ -1,0 +1,9 @@
+version: 0.0.1
+metadata:
+  code: TYPESCRIPT
+  name: typescript
+  description: Delicious Microservice maintained with RestQA
+tests:
+  local:
+    port: "8088"
+    command: npm start
