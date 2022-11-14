@@ -2,7 +2,7 @@ const Express = require('express')
 
 const PORT = process.env.PORT || 8887
 
-Express()
+const server = Express()
   .get('/', (req, res) => {
     res.json({
       hello: 'world'
@@ -10,4 +10,14 @@ Express()
   })
   .listen(PORT, () => {
     console.log('server is running on the port', PORT)
+    setTimeout(() => {
+      process.kill(process.pid, 'SIGTERM')
+    }, 3000)
   })
+
+process.on('SIGTERM', () => {
+  server.close(() => {
+    console.log('server is closing')
+  })
+})
+
