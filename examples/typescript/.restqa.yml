@@ -6,4 +6,4 @@ metadata:
 tests:
   local:
     port: "8088"
-    command: npm start
+    command: npm run dev
