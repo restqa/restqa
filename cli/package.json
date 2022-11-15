@@ -34,6 +34,7 @@
     "@restqa/cucumber-export": "^0.1.15",
     "@restqa/rest-api": "^0.1.5",
     "@restqa/restqdata": "^0.1.1",
+    "c8": "^7.12.0",
     "chalk": "^4.0.0",
     "commander": "^8.0.0",
     "console-table-printer": "^2.9.0",
@@ -43,7 +44,7 @@
     "glob": "^7.1.7",
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
-    "treekill": "^1.0.0",
+    "tree-kill": "^1.2.2",
     "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
   },

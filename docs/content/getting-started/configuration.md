@@ -22,6 +22,7 @@ tests:
   local:
     port: 8887
     command: npm run dev
+    coverage: ./coverage/index.html
   integrations:
     - name: 'uat'
       url: http://uat.example.com

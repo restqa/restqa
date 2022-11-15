@@ -1,7 +1,7 @@
 ---
 id: nodejs
 title: testing your nodejs microservice
-sidebar_label: Nodejs
+sidebar_label: Nodejs Microservice
 parent: local-testing
 order: 1
 ---

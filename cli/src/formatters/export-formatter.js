@@ -106,6 +106,7 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_PERFORMANCE,
     RESTQA_COLLECTION,
     RESTQA_HTTP_MOCKS,
+    RESTQA_COVERAGE,
     RESTQA_CONTRIBUTORS;
 
   if (global.restqa && global.restqa.specification) {
@@ -128,6 +129,10 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_COLLECTION = global.restqa.collection;
   }
 
+  if (global.restqa && global.restqa.coverage) {
+    RESTQA_COVERAGE = global.restqa.coverage.filename;
+  }
+
   return {
     RESTQA_RESULT,
     RESTQA_INTEGRATION,
@@ -136,7 +141,8 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_COLLECTION,
     RESTQA_CONTRIBUTORS,
     RESTQA_CONFIG: config,
-    RESTQA_HTTP_MOCKS
+    RESTQA_HTTP_MOCKS,
+    RESTQA_COVERAGE
   };
 }
 

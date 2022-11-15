@@ -67,6 +67,13 @@ export default {
         enabled: true,
       },
       {
+        route: "coverage",
+        label: "Code Coverage",
+        icon: "el-icon-aim",
+        mode: "test-result",
+        enabled: true,
+      },
+      {
         route: "integration",
         label: "Integration testing",
         icon: "el-icon-guide",

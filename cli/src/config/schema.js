@@ -35,6 +35,7 @@ function validate(config) {
       local: {
         port: Joi.number().port().required(),
         command: Joi.string().required(),
+        coverage: Joi.string(),
         data
       },
       integrations: Joi.array().items(integration),

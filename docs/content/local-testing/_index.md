@@ -31,3 +31,28 @@ Depending on the technology that you use, you can refer to our documentation:
 
 * [NodeJS](#/documentation/nodejs)
 * [Typescript](#/documentation/typescript)
+
+#### Options
+
+
+| *Property*              | type           | *Description*                                                                | *Required* | *Default*                      |
+|:------------------------|:---------------| -----------------------------------------------------------------------------|------------|:-------------------------------|
+| `tests.local.port`      | number         | The port exposing the microservice server                                    | Yes        |                                |
+| `tests.local.command`   | string         | The command used to run the microservice                                     | Yes        |                                |
+| `tests.local.coverage`  | string         | The path of the test generated coverage page (for custom coverage reporter ) | No         | ./restqa/coverage/index.html   |
+
+#### Example
+
+```yaml
+#.restqa.yml
+---
+version: 0.0.1
+metadata:
+  code: EXAMPLE-RESTQA
+  name: Example Restqa
+  description: Delicious Microservice example maintained with RestQA
+tests:
+  local:
+    port: 8887
+    command: npm run dev
+```
