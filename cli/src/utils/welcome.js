@@ -20,9 +20,7 @@ Welcome.prototype.MESSAGES = [
     "https://github.com/restqa/restqa"
   )}`,
   `You can use ${chalk.green("fake data")} using the RestQA Faker plugin`,
-  `You can generate performance load test scenario compatible with Artillery.io: ${chalk.yellow(
-    "https://docs.restqa.io/performance/artillery"
-  )}`,
+  `You can generate performance load test scenario compatible with Artillery.io`,
   `${chalk.red("RestQA")} is totally ${chalk.green("free!")}`,
   `Check our ${chalk.red("video")} 🎥 online: ${chalk.yellow(
     "https://restqa.io/youtube"
@@ -49,19 +47,17 @@ Welcome.prototype.MESSAGES = [
     "restqa steps"
   )}" then gives you all the Then step definition available`,
   `Use the tag ${chalk.blue("@skip")} to ignore a feature or a scenario`,
+  /*
   `Get your data from an excel file : ${chalk.yellow(
     "https://docs.restqa.io/data/excel"
   )}`,
+  */
   `🍺 Help us to grow by sharing your love about ${chalk.red(
     "RestQA"
   )} on the social media.`,
   `Support us on Linkedin: ${chalk.yellow(
     "https://linkedin.com/company/restqa"
   )}`,
-  `👀 Have you tried to run the command: ${chalk.green("restqa install")}`,
-  `🎁 Something is happening… Try : ${chalk.green("restqa dashboard")}`,
-  `💌 Join our newsletter: ${chalk.yellow("https://restqa.io/#/subscribe")}`,
-  `${chalk.red("Jenkins")} is now supported. 🤓 Try the command: restqa init`,
   `📆 ${chalk.green(
     "Book a session"
   )} to pair to do a feature with the maintainer: ${chalk.yellow(
@@ -72,15 +68,12 @@ Welcome.prototype.MESSAGES = [
   )} files 🧹: ${chalk.yellow(
     "https://github.com/restqa/gherkin-linter-action"
   )}`,
-  `How do you like our ${chalk.red("new trailer")} 🎬 ? ${chalk.yellow(
-    "https://www.youtube.com/watch?v=EberYFGPZPo"
-  )}`,
   `Feel free to ${chalk.green("contact us")} through ${chalk.red(
     "twitter"
   )} 🐣: ${chalk.yellow("https://twitter.com/restqa")}`,
   `💡 Create your own ${chalk.red("RestQA")} report by using the ${chalk.green(
     "webhooks"
-  )}: restqa install webhook`,
+  )}`,
   `🏄 Configure ${chalk.red(
     "multiple environments"
   )} simply by updating the ${chalk.green(".restqa.yml file")}`,
