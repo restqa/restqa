@@ -1,4 +1,4 @@
-const treekill = require("treekill");
+const kill = require("tree-kill");
 const {ChildProcess} = require("child_process");
 const spawn = require("cross-spawn");
 const logger = require("../utils/logger");
@@ -47,10 +47,19 @@ class Executor {
     return this._isRunning;
   }
 
+  set coveragePath(value) {
+    this._coveragePath = value;
+  }
+
+  get coveragePath() {
+    return this._coveragePath;
+  }
+
   execute() {
     const command = this.command;
     const envs = this.envs || {};
     envs.PORT = this.port;
+    envs.NODE_V8_COVERAGE = this.coveragePath;
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
@@ -147,9 +156,16 @@ class Executor {
   }
 
   terminate() {
-    if (this.server instanceof ChildProcess) {
-      treekill(this.server.pid);
-    }
+    return new Promise((resolve, reject) => {
+      if (this.server instanceof ChildProcess) {
+        kill(this.server.pid, "SIGTERM", (err) => {
+          if (err) return reject(err);
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
   }
 }
 

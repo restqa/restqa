@@ -9,6 +9,12 @@ const state = {
       hidden: false,
       data: OUTPUT.RESTQA_RESULT,
     },
+    coverage: {
+      label: "Code coverage",
+      enabled: true,
+      hidden: false,
+      data: OUTPUT.RESTQA_COVERAGE,
+    },
     integration: {
       label: "Integration Tests",
       enabled: Boolean(OUTPUT.RESTQA_INTEGRATION),

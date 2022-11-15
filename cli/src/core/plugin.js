@@ -5,6 +5,7 @@ const Specification = require("./specification");
 const HttpMock = require("./http-mock");
 const Collection = require("./collection");
 const path = require("path");
+const Coverage = require("./coverage");
 
 module.exports = function ({env, report, config}, processor = {}) {
   global.result = {};
@@ -36,13 +37,28 @@ module.exports = function ({env, report, config}, processor = {}) {
         command: config.getLocalTest().getCommand(),
         envs
       };
+
       const microservice = new Executor(options);
+
+      if (report) {
+        const CoverageOptions = {
+          "restqa-report": path.resolve(process.cwd(), "restqa"),
+          filename: config.getLocalTest().getCoverage()
+        };
+        this.restqa.coverage = new Coverage(CoverageOptions);
+        microservice.coveragePath = this.restqa.coverage.tmp;
+      }
+
       await microservice.execute();
       this.restqa.microservice = microservice;
     });
 
     processor.AfterAll(async function () {
-      this.restqa.microservice && this.restqa.microservice.terminate();
+      if (!this.restqa.microservice) return;
+      await this.restqa.microservice.terminate();
+
+      if (!this.restqa.coverage) return;
+      await this.restqa.coverage.generate();
     });
   }
 

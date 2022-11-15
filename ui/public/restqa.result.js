@@ -512,4 +512,7 @@ OUTPUT.RESTQA_HTTP_MOCKS = {
   ],
 };
 
+OUTPUT.RESTQA_COVERAGE =
+  "https://gotwarlost.github.io/istanbul/public/coverage/lcov-report/index.html";
+
 window.OUTPUT = OUTPUT;
