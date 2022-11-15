@@ -3,5 +3,4 @@ dist/*.swp
 *.swn
 *.swm
 .restqa.log
-coverage
 node_modules

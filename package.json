@@ -17,7 +17,8 @@
     "ui",
     "plugins/rest-api",
     "cli",
-    "examples/nodejs"
+    "examples/nodejs",
+    "examples/typescript"
   ],
   "dependencies": {
     "@restqa/docs": "file:docs",

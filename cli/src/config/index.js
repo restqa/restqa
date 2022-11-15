@@ -240,6 +240,14 @@ class LocalTest {
     this._config.command = command;
   }
 
+  getCoverage() {
+    return this._config.coverage;
+  }
+
+  setCoverage(value) {
+    this._config.coverage = value;
+  }
+
   getData() {
     if (!this._config.data) {
       this._config.data = new Data();

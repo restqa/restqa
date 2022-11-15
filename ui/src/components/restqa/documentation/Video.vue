@@ -25,7 +25,7 @@ export default {
     },
   },
   computed: {
-    id () {
+    id() {
       const match = (this.url || "").match(/v=(.+)$/);
       return match && match[1];
     },

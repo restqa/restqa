@@ -7,6 +7,7 @@ import Feature from "./views/testReport/Feature.vue";
 import Specification from "./views/openapi/Openapi.vue";
 import Performance from "./views/performance/Performance.vue";
 import Collection from "./views/collection/Collection.vue";
+import Coverage from "./views/coverage/Coverage.vue";
 import HttpMock from "./views/http-mock/HttpMock.vue";
 import Documentation from "./views/documentation/Page.vue";
 
@@ -46,6 +47,14 @@ const router = createRouter({
           meta: {
             title: "Feature",
             parentRoute: "features",
+          },
+        },
+        {
+          path: "/coverage",
+          name: "coverage",
+          component: Coverage,
+          meta: {
+            title: "Code Coverage",
           },
         },
         {

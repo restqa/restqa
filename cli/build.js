@@ -41,6 +41,7 @@ EsBuild
       'esprima',
       'jsonpath',
       '@cucumber/cucumber',
+      'c8'
     ],
     color: true,
   })

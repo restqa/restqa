@@ -1,7 +1,7 @@
 ---
 id: typescript
 title: Testing your typescript microservice
-sidebar_label: typescript
+sidebar_label: Typescript microservice
 parent: local-testing
 order: 2
 ---
