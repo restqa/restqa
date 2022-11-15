@@ -22,7 +22,7 @@
     "form-data": "^3.0.0",
     "got": "^10.6.0",
     "jsonpath": "^1.1.1",
-    "moment": "^2.18.1",
+    "moment": "^2.29.4",
     "uuid": "^3.4.0"
   },
   "main": "dist/index.js",
