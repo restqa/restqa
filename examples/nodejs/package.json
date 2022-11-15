@@ -14,6 +14,6 @@
     "express": "^4.18.0"
   },
   "devDependencies": {
-    "@restqa/restqa": "^0.0.39"
+    "@restqa/restqa": "^1.0.0"
   }
 }
