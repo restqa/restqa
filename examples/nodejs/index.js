@@ -10,9 +10,6 @@ const server = Express()
   })
   .listen(PORT, () => {
     console.log('server is running on the port', PORT)
-    setTimeout(() => {
-      process.kill(process.pid, 'SIGTERM')
-    }, 3000)
   })
 
 process.on('SIGTERM', () => {
