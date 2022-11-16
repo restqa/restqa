@@ -40,6 +40,13 @@ This short video below will help you understand how you can contribute to the Re
 
 https://user-images.githubusercontent.com/4768226/202215697-9a7c048f-f577-4ebc-a7b9-3ec718cb8371.mp4
 
+#### Contribute to the CLI 
+
+This short video below will help you understand how you can contribute to the RestQA CLI.
+
+https://user-images.githubusercontent.com/4768226/202217108-249d22cd-5ea1-4af3-ae8f-39b6b583f7c2.mp4
+
+
 
 ## Tests
 
