@@ -30,7 +30,15 @@ npm run example
 
 #### Contribute to the documentation
 
+This short video below will help you understand how you can contribute to the RestQA Documentation.
+
 https://user-images.githubusercontent.com/4768226/202208731-31ca25d6-7b73-415b-b0c4-39803301702a.mp4
+
+#### Contribute to the UI report
+
+This short video below will help you understand how you can contribute to the RestQA UI report.
+
+https://user-images.githubusercontent.com/4768226/202215238-b71ff8de-ab46-4fe9-b640-c0a7cf48cc26.mp4
 
 
 ## Tests
