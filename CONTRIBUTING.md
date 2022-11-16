@@ -28,6 +28,10 @@ npm run example:install
 npm run example
 ```
 
+#### Contribute to the documentation
+
+https://user-images.githubusercontent.com/4768226/202208731-31ca25d6-7b73-415b-b0c4-39803301702a.mp4
+
 
 ## Tests
 
