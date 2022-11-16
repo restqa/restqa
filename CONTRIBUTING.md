@@ -38,7 +38,7 @@ https://user-images.githubusercontent.com/4768226/202208731-31ca25d6-7b73-415b-b
 
 This short video below will help you understand how you can contribute to the RestQA UI report.
 
-https://user-images.githubusercontent.com/4768226/202215238-b71ff8de-ab46-4fe9-b640-c0a7cf48cc26.mp4
+https://user-images.githubusercontent.com/4768226/202215697-9a7c048f-f577-4ebc-a7b9-3ec718cb8371.mp4
 
 
 ## Tests
