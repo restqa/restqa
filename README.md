@@ -41,6 +41,7 @@ Run one command and get everything that you need to enjoy maintaining your micro
 - 🌈 Local API test as Single source of truth
 - 💬 Write local API test using ordinary language
 - 🚦 Reuse your local API test to run the integration test
+- 🎯 Get code coverage from your local tests
 - 🏎  Generate Performace Test scenario compatible with your favorite Performance testing tool
 - 📚  Generate an up to date API specification from the test results
 - 👩‍🚀 Generate an up to date postman collection
@@ -79,12 +80,10 @@ Write a Unit Test Using ordinary language:
 Feature: GET /api/infos
 
 Scenario: Get the list of informations
-Given I have the api gateway
-  And I have the path "/api/info"
-  And I have the method "GET"
-When I run the API
-Then I should receive a response with the status 200
-  And the response body should be equal to:
+Given a request
+When GET "/api/info"
+Then status = 200
+  And body:
   """
 {
   "message": "Hello World!"
@@ -97,7 +96,6 @@ Then simply run the command:
 ```
 npm run happy
 ```
-
 
 ## 🌈 Example
 
