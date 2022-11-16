@@ -6,6 +6,9 @@ parent: given
 category: Headers
 content_from: rest-api/src/rest-api/steps/1-given/index.js
 video: https://www.youtube.com/watch?v=DOsGfBb10gQ
+pre-requisit:
+  - given
+  - given-host
 order: 2
 ---
 

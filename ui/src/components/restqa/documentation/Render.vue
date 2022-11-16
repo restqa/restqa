@@ -1,5 +1,23 @@
 <template>
   <h1>{{ title }}</h1>
+  <div v-if="hasPreRequisit">
+    <h2></h2>
+    <el-collapse>
+      <el-collapse-item name="1">
+      <template #title>
+        ℹ️ Click here to access the prerequisites document you must read.
+        <el-icon class="header-icon">
+        <info-filled />
+        </el-icon>
+      </template>
+        <ul>
+          <li :key="index" v-for="(id, index) in preRequisit">
+            <el-link @click="goTo(id)" type="primary">{{ getTitle(id) }}</el-link>
+          </li>
+        </ul>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
   <youtube-video :url="video" />
   <div class="content" v-html="content"></div>
 </template>
@@ -29,6 +47,25 @@ export default {
     video() {
       return docs.getElement(this.page).attributes.video;
     },
+    hasPreRequisit() {
+      return docs.getElement(this.page).attributes['pre-requisit'] !== undefined;
+    },
+    preRequisit() {
+      return docs.getElement(this.page).attributes['pre-requisit'];
+    }
+  },
+  methods: {
+    getTitle(id) {
+      return docs.getTitle(id);
+    },
+    goTo(id) {
+      this.$router.push({
+        name: "documentationPage",
+        params: {
+          id,
+        },
+      });
+    }
   },
   watch: {
     content: {
