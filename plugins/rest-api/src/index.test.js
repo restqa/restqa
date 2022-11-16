@@ -31,6 +31,86 @@ describe("# rest-api.Generator", () => {
     );
   });
 
+  test("Use method get if it's not specified (not include host)", async () => {
+    const got = require("got");
+    got.mockResolvedValue({
+      restqa: {
+        statusCode: 200,
+        req: {
+          path: "/"
+        },
+        timings: {
+          phases: {
+            total: 1000
+          }
+        },
+        headers: {
+          "content-type": "application/json"
+        },
+        body: {
+          foo: "bar",
+          number: 12,
+          booTrue: true,
+          booFalse: false,
+          null: null
+        }
+      }
+    });
+    jest.mock("got");
+    const RestAPI = require("./index");
+    const query = {
+      url: "http://www.example.com?q=restqa",
+      body: {
+        hello: "world",
+        bonjour: "le monde"
+      }
+    };
+    const result = await RestAPI.Generator(query, false);
+    const expectedResult = `
+Given a request
+  And the query strings:
+    | q | restqa |
+  And the payload:
+  """
+{
+  "hello": "world",
+  "bonjour": "le monde"
+}
+  """
+When GET "/"
+Then status = 200
+  And the body:
+  """
+{
+  "foo": "bar",
+  "number": 12,
+  "booTrue": true,
+  "booFalse": false,
+  "null": null
+}
+  """
+`;
+    expect(result).toEqual(expectedResult.trim());
+
+    const expectedOptions = {
+      pathname: "/",
+      method: "GET",
+      protocol: "http:",
+      hostname: "www.example.com",
+      searchParams: {
+        q: "restqa"
+      },
+      json: {
+        hello: "world",
+        bonjour: "le monde"
+      }
+    };
+    expect(got.mock.calls).toHaveLength(1);
+    expect(got.mock.calls[0][0]).toEqual(
+      expect.objectContaining(expectedOptions)
+    );
+  });
+
   test("Use method get if it's not specified", async () => {
     const got = require("got");
     got.mockResolvedValue({
