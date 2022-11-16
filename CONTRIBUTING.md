@@ -12,32 +12,41 @@ Feel free to hit us on [discord](https://restqa.io/chat) if you face a issue.
 
 This repository is a monorepo an relies on [NPM Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
-#### Install the dependencies:
+#### Simply run the command
 
 ```
-npm i
+npm run contribute
 ```
 
-#### Build all the packages
+or
+
 
 ```
+npm install
 npm run build
-```
-
-
-#### Try your installation
-
-```
 npm run example:install
 npm run example
 ```
 
-ou
+#### Contribute to the documentation
 
-```
-cd examples/nodejs
-npm run happy
-```
+This short video below will help you understand how you can contribute to the RestQA Documentation.
+
+https://user-images.githubusercontent.com/4768226/202208731-31ca25d6-7b73-415b-b0c4-39803301702a.mp4
+
+#### Contribute to the UI report
+
+This short video below will help you understand how you can contribute to the RestQA UI report.
+
+https://user-images.githubusercontent.com/4768226/202215697-9a7c048f-f577-4ebc-a7b9-3ec718cb8371.mp4
+
+#### Contribute to the CLI 
+
+This short video below will help you understand how you can contribute to the RestQA CLI.
+
+https://user-images.githubusercontent.com/4768226/202217108-249d22cd-5ea1-4af3-ae8f-39b6b583f7c2.mp4
+
+
 
 ## Tests
 
