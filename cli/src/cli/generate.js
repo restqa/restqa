@@ -159,7 +159,7 @@ module.exports = async function (pOptions, program) {
       options.headers["user-agent"] = opt.userAgent;
     }
 
-    const result = await Generator(options);
+    const result = await Generator(options, false);
 
     if (opt.output) {
       const filename = path.resolve(process.cwd(), opt.output);

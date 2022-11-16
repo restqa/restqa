@@ -3,7 +3,7 @@ const API = require("./api");
 const Response = require("./api/response");
 const Steps = require("../steps");
 
-module.exports = async function (transaction) {
+module.exports = async function (transaction, includeHost) {
   let api;
   if (transaction && transaction.response) {
     api = getFromFull(transaction);
@@ -37,16 +37,16 @@ module.exports = async function (transaction) {
     tags = tags.split(",").map((_) => _.trim());
     if (!tags.includes("generator")) return;
 
-    if (api.type === "PARTIAL") {
+    if (api.type === "FULL" || includeHost === false) {
+      if (tags.includes("gateway")) {
+        mapping.request.host = definition;
+      }
+    } else if (api.type === "PARTIAL") {
       if (tags.includes("host")) {
         mapping.request.host = definition.replace(
           "{string}",
           `"${api.URL.origin}"`
         );
-      }
-    } else if (api.type === "FULL") {
-      if (tags.includes("gateway")) {
-        mapping.request.host = definition;
       }
     }
 
