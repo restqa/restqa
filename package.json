@@ -10,7 +10,8 @@
     "example:install": "npm i -w examples/nodejs",
     "example": "npm run happy -w examples/nodejs",
     "test": "npm test -w docs -w cli -w ui --if-present",
-    "clean-install": "rm -rf package-lock.json node_modules docs/node_modules ui/node_modules plugins/rest-api/node_modules cli/node_modules example/node_modules"
+    "clean-install": "rm -rf package-lock.json node_modules docs/node_modules ui/node_modules plugins/rest-api/node_modules cli/node_modules example/node_modules",
+    "contribute": "npm install && npm run build && npm run example:install && npm run example"
   },
   "workspaces": [
     "docs",

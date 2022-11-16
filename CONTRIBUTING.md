@@ -12,32 +12,22 @@ Feel free to hit us on [discord](https://restqa.io/chat) if you face a issue.
 
 This repository is a monorepo an relies on [NPM Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
-#### Install the dependencies:
+#### Simply run the command
 
 ```
-npm i
+npm run contribute
 ```
 
-#### Build all the packages
+or
+
 
 ```
+npm install
 npm run build
-```
-
-
-#### Try your installation
-
-```
 npm run example:install
 npm run example
 ```
 
-ou
-
-```
-cd examples/nodejs
-npm run happy
-```
 
 ## Tests
 
