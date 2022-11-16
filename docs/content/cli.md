@@ -3,6 +3,8 @@ id: cli
 title: "Cli: Available commands"
 sidebar_label: 🖥 Command line
 order: 4
+pre-requisit:
+  - installation
 
 ---
 

@@ -2,6 +2,8 @@
 id: local-testing
 title: Microservice local testing
 sidebar_label: ⚙️ Local Testing
+pre-requisit:
+  - configuration
 order: 6
 ---
 
