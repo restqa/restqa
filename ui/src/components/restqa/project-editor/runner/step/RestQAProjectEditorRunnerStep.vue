@@ -26,6 +26,9 @@
       v-if="hasAttachement && data.keyword.trim() !== 'When'"
       >Show info</el-link
     >
+
+    <step-format class="arguments" :data="data.arguments" />
+
     <pre class="debug debug-error" v-if="show.error">{{
       data.result.error_message
     }}</pre>
@@ -41,9 +44,13 @@
 </template>
 <script>
 import { copyText } from "vue3-clipboard";
+import StepFormat from "./StepFormat.vue";
 
 export default {
   name: "RestQAProjectEditorRunnerStep",
+  components: {
+    StepFormat,
+  },
   props: {
     data: {
       type: Object,
@@ -67,6 +74,9 @@ export default {
         (this.data.embeddings && this.data.embeddings.length) ||
         true !== this.data.hidden
       );
+    },
+    hasArguments() {
+      return (this.data.arguments || []).length;
     },
   },
   methods: {
