@@ -148,6 +148,8 @@ class Output extends Writable {
     if (skipped) summary.push(chalk.yellow(`${skipped} skipped`));
     if (passed) summary.push(chalk.green(`${passed} passed`));
     if (total) summary.push(`${total} total`);
+    if (total === 0)
+      summary.push(chalk.magenta(`}> NO TEST SCENARIO FOUND 😔 <{`));
 
     return `
 ---

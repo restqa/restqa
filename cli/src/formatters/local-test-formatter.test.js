@@ -491,4 +491,65 @@ ${chalk.red("1 failed")}, ${chalk.yellow("1 skipped")}, ${chalk.green(
       opt.eventBroadcaster.emit("envelope", envelopeTestRunFinished);
     });
   });
+
+  test("[SILENT MODE] No test scenario found", () => {
+    return new Promise((resolve, reject) => {
+      let result = "";
+      const stdout = new Writable({
+        write: (chunk, encoding, cb) => {
+          result += chunk.toString();
+          cb();
+        }
+      });
+
+      const silent = true;
+      const options = {
+        outputStream: new Global.Output({stdout, silent})
+      };
+      options.outputStream.on("close", () => {
+        const expected = `
+---
+${chalk.magenta("}> NO TEST SCENARIO FOUND 😔 <{")}
+---
+`;
+        expect(result).toEqual(expected.trimStart());
+        resolve();
+      });
+
+      global.restqa = new Global(options);
+
+      jest.mock("@cucumber/cucumber", () => {
+        const originalModule = jest.requireActual("@cucumber/cucumber");
+        return {
+          ...originalModule,
+          formatterHelpers: {
+            parseTestCaseAttempt: ({testCaseAttempt}) => {
+              const testSteps = [];
+              if (testCaseAttempt.pickle.name === "Reset Password") {
+                testSteps.push(mockGetErrorStep());
+              }
+              return {
+                testSteps
+              };
+            }
+          }
+        };
+      });
+
+      const LocalTestFormatter = require("./local-test-formatter");
+      const opt = {
+        eventBroadcaster: new EventEmitter(),
+        eventDataCollector: {
+          getTestCaseAttempt: jest.fn()
+        }
+      };
+
+      const formatter = new LocalTestFormatter(opt); // eslint-disable-line
+
+      const envelopeTestRunFinished = new Message.Envelope();
+      envelopeTestRunFinished.testRunFinished = new Message.TestRunFinished();
+      envelopeTestRunFinished.testRunFinished.success = false;
+      opt.eventBroadcaster.emit("envelope", envelopeTestRunFinished);
+    });
+  });
 });
