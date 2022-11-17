@@ -150,6 +150,16 @@ teardown() {
   assert_output --partial '1 scenario (1 passed)'
 }
 
+@test "[RUN]> NO TEST > Show no scenario message" {
+  cp -r ./bin/tests/features/no-test/* "$WORKDIR/"
+  cp ./bin/tests/features/no-test/.restqa.yml "$WORKDIR/"
+  cd $WORKDIR
+  npm i
+  run restqa run
+  assert_success
+  assert_output --partial 'NO TEST SCENARIO FOUND 😔'
+}
+
 # Plugins: http-mock
 
 @test "[RUN]> EXEC > Execute unit test with stubs" {
