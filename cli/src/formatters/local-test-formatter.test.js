@@ -72,6 +72,28 @@ describe("local-test-formatter", () => {
     };
   }
 
+  function mockGetUndefinedStep() {
+    return {
+      attachments: [],
+      keyword: "Given ",
+      snippet: "The step in undefined...",
+      result: {
+        duration: {seconds: 0, nanos: 1000000},
+        status: "UNDEFINED",
+        willBeRetried: false
+      },
+      actionLocation: {
+        uri: "../node_modules/@restqa/restqapi/node_modules/@restqa/plugin/index.js",
+        line: 189
+      },
+      sourceLocation: {
+        uri: "./tests/init-test/tests/integration/welcome-restqa.feature",
+        line: 21
+      },
+      text: "a reques"
+    };
+  }
+
   test("Printing a passing test scenario into the stdout", () => {
     return new Promise((resolve, reject) => {
       let result = "";
@@ -545,6 +567,79 @@ ${chalk.magenta("}> NO TEST SCENARIO FOUND 😔 <{")}
       };
 
       const formatter = new LocalTestFormatter(opt); // eslint-disable-line
+
+      const envelopeTestRunFinished = new Message.Envelope();
+      envelopeTestRunFinished.testRunFinished = new Message.TestRunFinished();
+      envelopeTestRunFinished.testRunFinished.success = false;
+      opt.eventBroadcaster.emit("envelope", envelopeTestRunFinished);
+    });
+  });
+
+  test("[SILENT MODE] Undefined test step defintion", () => {
+    return new Promise((resolve, reject) => {
+      let result = "";
+      const stdout = new Writable({
+        write: (chunk, encoding, cb) => {
+          result += chunk.toString();
+          cb();
+        }
+      });
+
+      const silent = true;
+      const options = {
+        outputStream: new Global.Output({stdout, silent})
+      };
+      options.outputStream.on("close", () => {
+        const expected = `
+⁉️ ${chalk.white.bold("UNDEFINED")} - As a User I want to login > Wrong Password
+The step in undefined...
+---
+${chalk.white("1 undefined")}, 1 total
+---
+`;
+        expect(result).toEqual(expected.trimStart());
+        resolve();
+      });
+
+      global.restqa = new Global(options);
+
+      const uuid1 = Message.IdGenerator.uuid()();
+
+      jest.mock("@cucumber/cucumber", () => {
+        const originalModule = jest.requireActual("@cucumber/cucumber");
+        return {
+          ...originalModule,
+          formatterHelpers: {
+            parseTestCaseAttempt: ({testCaseAttempt}) => {
+              const testSteps = [];
+              testSteps.push(mockGetUndefinedStep());
+              return {
+                testSteps
+              };
+            }
+          }
+        };
+      });
+
+      const LocalTestFormatter = require("./local-test-formatter");
+      const opt = {
+        eventBroadcaster: new EventEmitter(),
+        eventDataCollector: {
+          getTestCaseAttempt: jest
+            .fn()
+            .mockReturnValue(
+              getTestCaseAttemptMock(
+                "As a User I want to login",
+                "Wrong Password",
+                "UNDEFINED"
+              )
+            )
+        }
+      };
+
+      const formatter = new LocalTestFormatter(opt); // eslint-disable-line
+      const logs1 = ["Server up", '{\n  "foo": "bar"\n}'];
+      triggerEvent(opt.eventBroadcaster, uuid1, logs1);
 
       const envelopeTestRunFinished = new Message.Envelope();
       envelopeTestRunFinished.testRunFinished = new Message.TestRunFinished();

@@ -58,6 +58,12 @@ class LocalTestFormatter extends Formatter {
       error = chalk.red(error.join("\n"));
     }
     this.outputStream.updateStatus(uuid, status, error);
+
+    parsed.testSteps.forEach((testStep) => {
+      if (testStep.result.status === Status.UNDEFINED) {
+        this.outputStream.write(testStep.snippet + "\n");
+      }
+    });
   }
 
   onTestRunFinished({success}) {
@@ -101,14 +107,17 @@ class LocalTestOutput {
   get emoji() {
     let result = "";
     switch (this.status) {
-      case "PASSED":
+      case Status.PASSED:
         result = "✅";
         break;
-      case "SKIPPED":
+      case Status.SKIPPED:
         result = "🚧";
         break;
-      case "FAILED":
+      case Status.FAILED:
         result = "❌";
+        break;
+      case Status.UNDEFINED:
+        result = "⁉️";
         break;
     }
     return result;
@@ -125,6 +134,9 @@ class LocalTestOutput {
         break;
       case "FAILED":
         result = chalk.red;
+        break;
+      case "UNDEFINED":
+        result = chalk.white;
         break;
     }
     return result;

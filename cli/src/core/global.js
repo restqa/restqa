@@ -141,12 +141,14 @@ class Output extends Writable {
     const passed = this.findByStatus("PASSED").length;
     const skipped = this.findByStatus("SKIPPED").length;
     const failed = this.findByStatus("FAILED").length;
+    const $undefined = this.findByStatus("UNDEFINED").length;
     const total = Object.keys(this.getStack()).length;
 
     const summary = [];
     if (failed) summary.push(chalk.red(`${failed} failed`));
     if (skipped) summary.push(chalk.yellow(`${skipped} skipped`));
     if (passed) summary.push(chalk.green(`${passed} passed`));
+    if ($undefined) summary.push(chalk.white(`${$undefined} undefined`));
     if (total) summary.push(`${total} total`);
     if (total === 0)
       summary.push(chalk.magenta(`}> NO TEST SCENARIO FOUND 😔 <{`));
