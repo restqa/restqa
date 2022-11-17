@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+      // Hack used by Vite: https://github.com/vitejs/vite/blob/8ea71b44530af4a23d2c635e6e380d97a84c8919/packages/vite/src/client/client.ts#L589
+      // see RestQA Issue: https://github.com/restqa/restqa/issues/243
+      if (location.hash === "") location.hash = "#/" 
+    </script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
