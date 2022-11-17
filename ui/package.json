@@ -14,7 +14,6 @@
     "highcharts": "^10.3.1",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.29.0",
-    "swagger-ui-dist": "^4.15.2",
     "vue": "^3.2.41",
     "vue-gtag-next": "^1.14.0",
     "vue-prism-editor": "^2.0.0-alpha.2",
