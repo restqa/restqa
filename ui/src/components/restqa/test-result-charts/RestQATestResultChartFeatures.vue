@@ -1,6 +1,6 @@
 <template>
   <card title="Features" emoji="🏆">
-    <vue-highcharts :options="featuresForChart"></vue-highcharts>
+    <highcharts :options="featuresForChart"></highcharts>
     <el-row :gutter="20">
       <el-col :span="16"> {{ nbFeatures }} Features </el-col>
       <el-col :span="8" style="text-align: right">
@@ -16,7 +16,7 @@
 </template>
 <script>
 import Card from "@/components/UI/card/Card.vue";
-import VueHighcharts from "vue3-highcharts";
+import Highcharts from "@/components/UI/highcharts/Highcharts.vue";
 
 export default {
   name: "RestqaTestChartFeatures",
@@ -28,7 +28,7 @@ export default {
   },
   components: {
     Card,
-    VueHighcharts,
+    Highcharts
   },
   methods: {
     getFeatureData() {

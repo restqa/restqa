@@ -1,18 +1,18 @@
 <template>
   <card title="Scenarios">
-    <vue-highcharts :options="scenariosForChart"></vue-highcharts>
+    <highcharts :options="scenariosForChart"></highcharts>
     <br />
   </card>
 </template>
 <script>
 import Card from "@/components/UI/card/Card.vue";
-import VueHighcharts from "vue3-highcharts";
+import Highcharts from "@/components/UI/highcharts/Highcharts.vue";
 
 export default {
   name: "RestqaTestChartFeatures",
   components: {
     Card,
-    VueHighcharts,
+    Highcharts,
   },
   methods: {
     getScenarioData() {
