@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import { trackRouter } from "vue-gtag-next";
 import Dashboard from "./layouts/Dashboard.vue";
 import Homepage from "./views/homepage/HomepageTestReport.vue";
 import Features from "./views/testReport/Features.vue";
@@ -110,7 +109,5 @@ router.afterEach((to) => {
     appLoading.style.display = "none";
   }
 });
-
-trackRouter(router);
 
 export default router;
