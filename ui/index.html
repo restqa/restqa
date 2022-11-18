@@ -14,14 +14,13 @@
     <link rel="stylesheet" href="./vendors/swagger-ui.css" />
     <title><%= title %></title>
     <script src="./restqa.result.js"></script>
-    <script src="./vendors/swagger-ui-bundle.js"></script>
-    <script src="./vendors/swagger-ui-standalone-preset.js"></script>
-    <script src="./vendors/highcharts.js"></script>
   </head>
   <body>
     <div id="loading-bg">
       <div class="loading-logo">
-        <img src="logo.png" alt="Logo">
+        <img src="./images/mascot/loader.png" alt="Logo">
+        <br />
+        Wait a moment I'm cooking the report...
       </div>
       <div class="loading">
         <div class="effect-1 effects"></div>
@@ -32,5 +31,9 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script type="module" src="src/main.js"></script>
+
+    <script src="./vendors/swagger-ui-bundle.js"></script>
+    <script src="./vendors/swagger-ui-standalone-preset.js"></script>
+    <script src="./vendors/highcharts.js"></script>
   </body>
 </html>

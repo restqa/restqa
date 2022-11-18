@@ -4,14 +4,21 @@
   background: #FFF;
   display: block;
   position: absolute;
+  text-align: center;
 }
+
 .loading-logo{
   position: absolute;
   left: calc(50% - 45px);
   top: 35%;
+  left: calc(50% - 140px);
+  top: 25%;
+  font-family: Montserrat,Helvetica,Arial,sans-serif;
 }
+
 .loading-logo img{
   width: 80px;
+  width: 200px;
 }
 
 .loading {
