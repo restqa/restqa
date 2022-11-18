@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { SwaggerUIBundle } from "swagger-ui-dist";
-
 export default {
   name: "SpecificationView",
   data() {

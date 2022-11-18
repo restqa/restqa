@@ -8,7 +8,7 @@
   >
     <div class="logo">
       <a href="https://restqa.io" target="_blank">
-        <img src="@/assets/images/mascot.png" />
+        <img :src="imageUrl" />
       </a>
     </div>
     <el-menu-item
@@ -130,6 +130,7 @@ export default {
       isCollapse: false,
       menu: menu.filter((_) => this.isShowed(_.mode)),
       staticMenu,
+      imageUrl: "./images/mascot.png",
     };
   },
   computed: {
