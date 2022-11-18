@@ -130,7 +130,7 @@ export default {
       isCollapse: false,
       menu: menu.filter((_) => this.isShowed(_.mode)),
       staticMenu,
-      imageUrl: './images/mascot.png'
+      imageUrl: "./images/mascot.png",
     };
   },
   computed: {

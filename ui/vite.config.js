@@ -29,7 +29,7 @@ export default defineConfig({
       ],
     }),
     viteSingleFile(),
-    visualizer()
+    visualizer(),
   ],
   resolve: {
     alias: {

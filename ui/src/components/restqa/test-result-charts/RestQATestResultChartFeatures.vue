@@ -28,7 +28,7 @@ export default {
   },
   components: {
     Card,
-    Highcharts
+    Highcharts,
   },
   methods: {
     getFeatureData() {

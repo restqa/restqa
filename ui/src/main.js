@@ -16,7 +16,4 @@ import "prism-themes/themes/prism-dracula.css";
 
 import App from "./App.vue";
 
-createApp(App)
-  .use(router)
-  .use(store)
-  .mount("#app");
+createApp(App).use(router).use(store).mount("#app");

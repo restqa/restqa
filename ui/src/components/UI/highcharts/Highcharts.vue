@@ -3,16 +3,16 @@
 </template>
 
 <script>
-
 export default {
-  props:{
+  name: "UiHighcharts",
+  props: {
     options: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   mounted() {
     Highcharts.chart(this.$refs.container, this.options);
-  }
-}
+  },
+};
 </script>
