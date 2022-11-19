@@ -27,10 +27,10 @@ export default {
     Card,
   },
   data() {
-    const collection = this.$store.getters.projectStatus.collection;
+    const collection = this.$store.getters.projectStatus.collection || {};
     return {
       collection,
-      tools: Object.keys(collection.data),
+      tools: Object.keys(collection.data || {}),
     };
   },
   methods: {
