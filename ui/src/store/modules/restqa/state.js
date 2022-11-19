@@ -42,7 +42,7 @@ const state = {
     contributors: {
       label: "Contributors",
       hidden: true,
-      data: OUTPUT.RESTQA_CONTRIBUTORS,
+      data: percentContributor(OUTPUT.RESTQA_CONTRIBUTORS),
     },
     httpMocks: {
       label: "HTTP Mocks",
@@ -54,3 +54,15 @@ const state = {
   projectConfiguration: OUTPUT.RESTQA_CONFIG,
 };
 export default state;
+
+function percentContributor(result) {
+  if (Array.isArray(result) === false) return;
+  const total = result.reduce(
+    (result, item) => result + Number(item.commits),
+    0
+  );
+  return result.map((item) => {
+    item.percent = Math.floor((item.commits / total) * 100);
+    return item;
+  });
+}

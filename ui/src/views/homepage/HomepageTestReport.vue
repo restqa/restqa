@@ -1,28 +1,28 @@
 <template>
-<div>
-  <el-row :gutter="20">
-    <el-col :span="24">
-      <el-breadcrumb separator=">">
-        <el-breadcrumb-item :to="{ name: 'homepage' }"
-          >Dashboard</el-breadcrumb-item
-        >
-      </el-breadcrumb>
-    </el-col>
-  </el-row>
-  <br />
-  <el-space class="w100" direction="vertical">
+  <div>
     <el-row :gutter="20">
-      <el-col :span="16">
-        <restqa-test-result-chart-features
-          :access-link="true"
-        ></restqa-test-result-chart-features>
-      </el-col>
-      <el-col :span="8">
-        <restqa-project-status></restqa-project-status>
+      <el-col :span="24">
+        <el-breadcrumb separator=">">
+          <el-breadcrumb-item :to="{ name: 'homepage' }"
+            >Dashboard</el-breadcrumb-item
+          >
+        </el-breadcrumb>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
-      <!--
+    <br />
+    <el-space class="w100" direction="vertical">
+      <el-row :gutter="20">
+        <el-col :span="16">
+          <restqa-test-result-chart-features
+            :access-link="true"
+          ></restqa-test-result-chart-features>
+        </el-col>
+        <el-col :span="8">
+          <restqa-project-status></restqa-project-status>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <!--
       <el-col :span="12">
         <card title="Integration Tests" class="ccard">
           <el-descriptions :column="1" :border="true">
@@ -37,25 +37,25 @@
         </card>
       </el-col>
       -->
-      <el-col :span="6">
-        <performance-widget class="widget"></performance-widget>
-      </el-col>
-      <el-col :span="6">
-        <specification-widget class="widget"></specification-widget>
-      </el-col>
-      <el-col :span="6">
-        <collection-widget class="widget"></collection-widget>
-      </el-col>
-      <el-col :span="6">
-        <documentation-widget class="widget"></documentation-widget>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="24">
-        <restqa-contributors></restqa-contributors>
-      </el-col>
-    </el-row>
-  </el-space>
+        <el-col :span="6">
+          <performance-widget class="widget"></performance-widget>
+        </el-col>
+        <el-col :span="6">
+          <specification-widget class="widget"></specification-widget>
+        </el-col>
+        <el-col :span="6">
+          <collection-widget class="widget"></collection-widget>
+        </el-col>
+        <el-col :span="6">
+          <documentation-widget class="widget"></documentation-widget>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <restqa-contributors></restqa-contributors>
+        </el-col>
+      </el-row>
+    </el-space>
   </div>
 </template>
 
