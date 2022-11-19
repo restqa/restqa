@@ -1,4 +1,5 @@
 <template>
+<div class="layout">
   <el-breadcrumb separator=">">
     <el-breadcrumb-item :to="{ name: 'homepage' }"
       >Dashboard</el-breadcrumb-item
@@ -11,6 +12,7 @@
   <a href="#/documentation/coverage"
     >Check our recommendation in our documentation.</a
   >
+</div>
 </template>
 <script>
 export default {
@@ -25,7 +27,10 @@ export default {
   mounted() {},
 };
 </script>
-<style>
+<style scoped>
+div.layout{
+  height: 100%;
+}
 iframe {
   border: 0px;
   height: 100%;
