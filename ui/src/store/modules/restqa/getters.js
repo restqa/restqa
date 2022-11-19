@@ -19,6 +19,9 @@ const getters = {
   projectConfiguration(state) {
     return state.projectConfiguration;
   },
+  version(state) {
+    return state.version;
+  },
 };
 
 export default getters;

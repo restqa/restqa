@@ -1,5 +1,7 @@
 const OUTPUT = {};
 
+OUTPUT.RESTQA_VERSION = "2.0.0";
+
 OUTPUT.RESTQA_RESULT = {
   id: "efb6d4a9-e91e-4d13-8672-2250c0e18b43",
   startTime: "2021-12-30T07:50:26-05:00",

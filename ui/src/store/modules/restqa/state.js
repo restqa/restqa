@@ -1,6 +1,7 @@
 const OUTPUT = window.OUTPUT || {};
 
 const state = {
+  version: OUTPUT.RESTQA_VERSION || "eeee",
   testReport: OUTPUT.RESTQA_RESULT,
   projectStatus: {
     unit: {

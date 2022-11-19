@@ -4,6 +4,7 @@ const URL = require("url");
 const open = require("open");
 const {getFormatter} = require("@restqa/cucumber-export");
 const Welcome = require("../utils/welcome");
+const Pkg = require("../../package.json");
 
 const {restqa} = global;
 const {config, env, report, exportStream} = restqa;
@@ -142,7 +143,8 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_CONTRIBUTORS,
     RESTQA_CONFIG: config,
     RESTQA_HTTP_MOCKS,
-    RESTQA_COVERAGE
+    RESTQA_COVERAGE,
+    RESTQA_VERSION: Pkg.version
   };
 }
 
