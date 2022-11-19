@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Dashboard from "./layouts/Dashboard.vue";
-import Homepage from "./views/homepage/HomepageTestReport.vue";
+import Homepage from "./views/Homepage.vue";
 import Features from "./views/testReport/Features.vue";
 import Feature from "./views/testReport/Feature.vue";
 import Specification from "./views/openapi/Openapi.vue";

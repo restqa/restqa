@@ -1,6 +1,9 @@
 <template>
   <card title="Contributors" emoji="💪" v-if="contributors.length">
-    <div class="label">Find below, the key person you need to contact for more support on this service:</div>
+    <div class="label">
+      Find below, the key person you need to contact for more support on this
+      service:
+    </div>
     <div
       class="contrib"
       v-for="(contributor, index) in contributors"
@@ -26,7 +29,10 @@
     >
       <template #title> Hey something grabbed my attention... </template>
       It's sounds like you have an important
-      <el-link href="https://en.wikipedia.org/wiki/Bus_factor" type="primary" target="_blank"
+      <el-link
+        href="https://en.wikipedia.org/wiki/Bus_factor"
+        type="primary"
+        target="_blank"
         >Bus Factor</el-link
       >
       on <strong>{{ busFactor.username }}</strong> he owns more that
@@ -91,8 +97,8 @@ export default {
   }
 }
 .label {
- margin-bottom: 20px;
- margin-top: -10px;
- width: 100%;
+  margin-bottom: 20px;
+  margin-top: -10px;
+  width: 100%;
 }
 </style>

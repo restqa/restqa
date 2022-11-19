@@ -37,13 +37,13 @@
         </card>
       </el-col>
       -->
-        <el-col :span="6">
+        <el-col :span="6" v-if="microservice.performance.data">
           <performance-widget class="widget"></performance-widget>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="microservice.specification.data">
           <specification-widget class="widget"></specification-widget>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" v-if="microservice.collection.data">
           <collection-widget class="widget"></collection-widget>
         </el-col>
         <el-col :span="6">
@@ -81,13 +81,8 @@ export default {
   },
   data() {
     return {
-      testReport: this.$store.getters.testReport,
+      microservice: this.$store.getters.projectStatus,
     };
-  },
-  computed: {
-    name() {
-      return this.testReport.name;
-    },
   },
 };
 </script>
