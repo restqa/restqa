@@ -24,22 +24,25 @@
     </el-menu-item>
 
     <el-sub-menu index="100">
-     <template #title>
-       <i class="el-icon-ice-cream-square"></i> Delicious Outputs
-     </template>
-     <el-menu-item
-       v-for="(item, index) in isOutput"
-       :key="index"
-       :index="String(item.index)"
-       :route="{ name: item.route, params: item.params || {} }"
-       :disabled="!item.enabled"
-     >
-       <i :class="item.icon"></i>
-       {{ item.label }}
-     </el-menu-item>
+      <template #title>
+        <i class="el-icon-ice-cream-square"></i> Delicious Outputs
+      </template>
+      <el-menu-item
+        v-for="(item, index) in isOutput"
+        :key="index"
+        :index="String(item.index)"
+        :route="{ name: item.route, params: item.params || {} }"
+        :disabled="!item.enabled"
+      >
+        <i :class="item.icon"></i>
+        {{ item.label }}
+      </el-menu-item>
     </el-sub-menu>
 
-    <el-menu-item index="200" :route="{ name: 'documentationPage', params: { id: 'introduction'} }">
+    <el-menu-item
+      index="200"
+      :route="{ name: 'documentationPage', params: { id: 'introduction' } }"
+    >
       <i class="el-icon-reading"></i>
       Documentation
     </el-menu-item>
@@ -77,7 +80,7 @@ export default {
     const status = this.$store.getters.projectStatus;
     const menu = [
       {
-        index:1,
+        index: 1,
         route: "homepage",
         label: "Dashboard",
         icon: "el-icon-house",
@@ -85,7 +88,7 @@ export default {
         isOutput: false,
       },
       {
-        index:2,
+        index: 2,
         route: "features",
         label: "Test Report",
         icon: "el-icon-wind-power",
@@ -93,7 +96,7 @@ export default {
         isOutput: false,
       },
       {
-        index:3,
+        index: 3,
         route: "coverage",
         label: "Code Coverage",
         icon: "el-icon-aim",
@@ -101,7 +104,7 @@ export default {
         isOutput: false,
       },
       {
-        index:4,
+        index: 4,
         route: "specification",
         label: "API Specification",
         icon: "el-icon-collection",
@@ -109,7 +112,7 @@ export default {
         isOutput: false,
       },
       {
-        index:5,
+        index: 5,
         route: "integration-testing",
         label: "Integration testing",
         icon: "el-icon-guide",
@@ -117,7 +120,7 @@ export default {
         isOutput: true,
       },
       {
-        index:6,
+        index: 6,
         route: "performance",
         label: "Performance testing",
         icon: "el-icon-odometer",
@@ -125,7 +128,7 @@ export default {
         isOutput: true,
       },
       {
-        index:7,
+        index: 7,
         route: "collection",
         label: "API Collection",
         icon: "el-icon-moon",
@@ -133,7 +136,7 @@ export default {
         isOutput: true,
       },
       {
-        index:8,
+        index: 8,
         route: "http-mock",
         label: "HTTP mocks",
         icon: "el-icon-basketball",
@@ -141,7 +144,7 @@ export default {
         isOutput: true,
       },
       {
-        index:9,
+        index: 9,
         route: "continuous-integration",
         label: "Continuous Integration",
         icon: "el-icon-ship",
@@ -164,22 +167,23 @@ export default {
       return Boolean(this.$store.getters.config);
     },
     currentIndex() {
-      if ('documentationPage' === this.$router.currentRoute.value.name) return String(200)
+      if ("documentationPage" === this.$router.currentRoute.value.name)
+        return String(200);
       const item = this.menu.find((item) => {
         return (
           item.route === this.$router.currentRoute.value.name ||
           item.route === this.$router.currentRoute.value.meta.parentRoute
         );
       });
-      return item.index && String(item.index) || "0";
+      return (item.index && String(item.index)) || "0";
     },
-    isOutput () {
-      return this.menu.filter(item => item.isOutput === true)
+    isOutput() {
+      return this.menu.filter((item) => item.isOutput === true);
     },
-    isNotOutput () {
-      return this.menu.filter(item => item.isOutput === false)
-    }
-  }
+    isNotOutput() {
+      return this.menu.filter((item) => item.isOutput === false);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -200,14 +204,14 @@ export default {
 }
 
 @keyframes float {
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(-20px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
 }
 </style>

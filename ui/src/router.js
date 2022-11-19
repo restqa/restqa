@@ -101,12 +101,12 @@ const router = createRouter({
           name: "goTo",
           component: Documentation,
           meta: {
-            title: "External link"
+            title: "External link",
           },
-          beforeEnter(to, from, next) {
+          beforeEnter(to) {
             window.open(to.params.link, "_blank");
-          }
-        }
+          },
+        },
       ],
     },
   ],

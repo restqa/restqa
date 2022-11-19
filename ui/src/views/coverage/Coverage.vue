@@ -1,18 +1,18 @@
 <template>
-<div class="layout">
-  <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{ name: 'homepage' }"
-      >Dashboard</el-breadcrumb-item
+  <div class="layout">
+    <el-breadcrumb separator=">">
+      <el-breadcrumb-item :to="{ name: 'homepage' }"
+        >Dashboard</el-breadcrumb-item
+      >
+      <el-breadcrumb-item>Code Coverage</el-breadcrumb-item>
+    </el-breadcrumb>
+    <iframe :src="url" width="100%" />
+    <el-divider />
+    Issues with the coverage report?
+    <a href="#/documentation/coverage"
+      >Check our recommendation in our documentation.</a
     >
-    <el-breadcrumb-item>Code Coverage</el-breadcrumb-item>
-  </el-breadcrumb>
-  <iframe :src="url" width="100%" />
-  <el-divider />
-  Issues with the coverage report?
-  <a href="#/documentation/coverage"
-    >Check our recommendation in our documentation.</a
-  >
-</div>
+  </div>
 </template>
 <script>
 export default {
@@ -28,7 +28,7 @@ export default {
 };
 </script>
 <style scoped>
-div.layout{
+div.layout {
   height: 100%;
 }
 iframe {
