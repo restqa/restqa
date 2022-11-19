@@ -57,6 +57,20 @@
       <i :class="item.icon"></i>
       {{ item.label }}
     </el-menu-item>
+
+    <el-divider />
+    <div class="sponsor">
+      <h5>Sponsors</h5>
+
+      <a
+        :href="sponsor.url"
+        target="_blank"
+        v-for="(sponsor, index) in sponsors"
+        :key="index"
+      >
+        <img :src="sponsor.img" :alt="sponsor.name" />
+      </a>
+    </div>
   </el-menu>
 </template>
 
@@ -157,6 +171,13 @@ export default {
       menu: menu,
       staticMenu,
       imageUrl: "./images/mascot.png",
+      sponsors: [
+        {
+          name: "ATALENT Consulting",
+          img: "./images/sponsors/atalent.png",
+          url: "https://atalent-consulting.com/",
+        },
+      ],
     };
   },
   computed: {
@@ -212,6 +233,18 @@ export default {
   }
   100% {
     transform: translatey(0px);
+  }
+}
+
+.sponsor {
+  margin: 20px;
+  a {
+    display: block;
+    float: left;
+    margin: 5px;
+    img {
+      width: 50px;
+    }
   }
 }
 </style>
