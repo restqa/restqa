@@ -9,14 +9,14 @@ let TAGS;
 let OPTIONS;
 module.exports = function (config) {
   CONFIG = config;
-  const options = config.specification;
+  const options = config.specification || {};
 
+  options.tool = options.tool || "swagger";
   if (["swagger"].includes(options.tool) === false) {
     throw new Error(
       'The specification property "tool" should be specify. (available: swagger)'
     );
   }
-
   TAGS = options.tags || {};
   URL = new SwaggerUrl(options.matches);
   options.excludes = options.excludes || {};

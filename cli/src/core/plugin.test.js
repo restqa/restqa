@@ -300,7 +300,13 @@ describe("#core - plugin", () => {
               headers: {
                 "content-type": "text/html"
               }
-            })
+            }),
+            toJSON: function () {
+              return {
+                response: this.response,
+                request: this.request
+              };
+            }
           }
         ]
       };
@@ -308,6 +314,7 @@ describe("#core - plugin", () => {
       $this.apis[0].request.addFormField("type", "user");
       $this.apis[0].request.addFormField("firstName", "john");
       $this.apis[0].request.addFormField("lastName", "doe");
+      $this.api = $this.apis[1];
 
       const scenario = {
         gherkinDocument: {

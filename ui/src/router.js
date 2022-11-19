@@ -3,7 +3,7 @@ import Dashboard from "./layouts/Dashboard.vue";
 import Homepage from "./views/Homepage.vue";
 import Features from "./views/testReport/Features.vue";
 import Feature from "./views/testReport/Feature.vue";
-import Specification from "./views/openapi/Openapi.vue";
+import Specification from "./views/specification/Specification.vue";
 import Performance from "./views/performance/Performance.vue";
 import Collection from "./views/collection/Collection.vue";
 import Coverage from "./views/coverage/Coverage.vue";
