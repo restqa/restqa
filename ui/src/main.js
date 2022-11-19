@@ -2,8 +2,6 @@ import { createApp } from "vue";
 import router from "./router";
 import store from "./store/store";
 
-import "@element-plus/theme-chalk/dist/index.css";
-import "./assets/theme/restqa/index.css";
 import "./assets/scss/element-variables.scss";
 
 import "prismjs";
