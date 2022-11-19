@@ -11,21 +11,45 @@
         <img :src="imageUrl" />
       </a>
     </div>
+
     <el-menu-item
-      v-for="(item, index) in menu"
+      v-for="(item, index) in isNotOutput"
       :key="index"
-      :index="String(index)"
+      :index="String(item.index)"
       :route="{ name: item.route, params: item.params || {} }"
       :disabled="!item.enabled"
     >
       <i :class="item.icon"></i>
       {{ item.label }}
     </el-menu-item>
+
+    <el-sub-menu index="100">
+     <template #title>
+       <i class="el-icon-ice-cream-square"></i> Delicious Outputs
+     </template>
+     <el-menu-item
+       v-for="(item, index) in isOutput"
+       :key="index"
+       :index="String(item.index)"
+       :route="{ name: item.route, params: item.params || {} }"
+       :disabled="!item.enabled"
+     >
+       <i :class="item.icon"></i>
+       {{ item.label }}
+     </el-menu-item>
+    </el-sub-menu>
+
+    <el-menu-item index="200" :route="{ name: 'documentationPage', params: { id: 'introduction'} }">
+      <i class="el-icon-reading"></i>
+      Documentation
+    </el-menu-item>
+
     <el-divider />
+
     <el-menu-item
-      @click="goTo(item.link)"
       v-for="(item, index) in staticMenu"
       :key="index"
+      :route="{ name: 'goTo', params: { link: item.link } }"
     >
       <i :class="item.icon"></i>
       {{ item.label }}
@@ -53,82 +77,81 @@ export default {
     const status = this.$store.getters.projectStatus;
     const menu = [
       {
+        index:1,
         route: "homepage",
         label: "Dashboard",
         icon: "el-icon-house",
-        mode: "any",
         enabled: true,
+        isOutput: false,
       },
       {
+        index:2,
         route: "features",
         label: "Test Report",
         icon: "el-icon-wind-power",
-        mode: "test-result",
         enabled: true,
+        isOutput: false,
       },
       {
+        index:3,
         route: "coverage",
         label: "Code Coverage",
         icon: "el-icon-aim",
-        mode: "test-result",
         enabled: true,
+        isOutput: false,
       },
       {
-        route: "integration",
-        label: "Integration testing",
-        icon: "el-icon-guide",
-        mode: "test-result",
-        enabled: status.integration.enabled,
-      },
-      {
-        route: "performance",
-        label: "Performance testing",
-        icon: "el-icon-odometer",
-        mode: "test-result",
-        enabled: status.performance.enabled,
-      },
-      {
+        index:4,
         route: "specification",
         label: "API Specification",
         icon: "el-icon-collection",
-        mode: "test-result",
         enabled: status.specification.enabled,
+        isOutput: false,
       },
       {
+        index:5,
+        route: "integration-testing",
+        label: "Integration testing",
+        icon: "el-icon-guide",
+        enabled: status.integration.enabled,
+        isOutput: true,
+      },
+      {
+        index:6,
+        route: "performance",
+        label: "Performance testing",
+        icon: "el-icon-odometer",
+        enabled: status.performance.enabled,
+        isOutput: true,
+      },
+      {
+        index:7,
         route: "collection",
         label: "API Collection",
         icon: "el-icon-moon",
-        mode: "test-result",
         enabled: status.collection.enabled,
+        isOutput: true,
       },
       {
+        index:8,
         route: "http-mock",
         label: "HTTP mocks",
         icon: "el-icon-basketball",
-        mode: "test-result",
         enabled: status.httpMocks.enabled,
+        isOutput: true,
       },
       {
+        index:9,
         route: "continuous-integration",
         label: "Continuous Integration",
         icon: "el-icon-ship",
-        mode: "test-result",
         enabled: false,
-      },
-      {
-        route: "documentationPage",
-        label: "Documentation",
-        icon: "el-icon-reading",
-        mode: "test-result",
-        enabled: true,
-        params: {
-          id: "introduction",
-        },
+        isOutput: true,
       },
     ];
     return {
       isCollapse: false,
-      menu: menu.filter((_) => this.isShowed(_.mode)),
+      menu: menu,
       staticMenu,
       imageUrl: "./images/mascot.png",
     };
@@ -141,29 +164,22 @@ export default {
       return Boolean(this.$store.getters.config);
     },
     currentIndex() {
-      const index = this.menu.findIndex((item) => {
+      if ('documentationPage' === this.$router.currentRoute.value.name) return String(200)
+      const item = this.menu.find((item) => {
         return (
           item.route === this.$router.currentRoute.value.name ||
           item.route === this.$router.currentRoute.value.meta.parentRoute
         );
       });
-      return String(index) || "0";
+      return item.index && String(item.index) || "0";
     },
-  },
-  methods: {
-    goTo(link) {
-      window.open(link, "_blank");
+    isOutput () {
+      return this.menu.filter(item => item.isOutput === true)
     },
-    isShowed(mode) {
-      const allowed = ["any"];
-      if (this.$store.getters.testReport) {
-        allowed.push("test-result");
-      } else {
-        allowed.push("dashboard");
-      }
-      return allowed.includes(mode);
-    },
-  },
+    isNotOutput () {
+      return this.menu.filter(item => item.isOutput === false)
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -174,7 +190,24 @@ export default {
     img {
       width: 180px;
       border: 1px;
+      animation: float 6s ease-in-out infinite;
     }
   }
+}
+.el-icon-ice-cream-square {
+  margin-right: 8px;
+  margin-left: 5px;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
 }
 </style>

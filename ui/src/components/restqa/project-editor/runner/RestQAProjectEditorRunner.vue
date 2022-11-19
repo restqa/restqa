@@ -58,7 +58,7 @@
                 Scenario: {{ scenario.name }}
               </span>
               <el-tag
-                size="medium"
+                size="default"
                 v-for="(item, index) in scenario.tags"
                 :key="index"
               >

@@ -96,6 +96,17 @@ const router = createRouter({
             title: "Documentation",
           },
         },
+        {
+          path: "/goto/:link",
+          name: "goTo",
+          component: Documentation,
+          meta: {
+            title: "External link"
+          },
+          beforeEnter(to, from, next) {
+            window.open(to.params.link, "_blank");
+          }
+        }
       ],
     },
   ],

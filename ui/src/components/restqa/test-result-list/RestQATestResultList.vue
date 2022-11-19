@@ -19,7 +19,7 @@
       <el-table-column label="Tags">
         <template #default="scope">
           <el-tag
-            size="medium"
+            size="default"
             v-for="(item, index) in scope.row.tags"
             :key="index"
           >
@@ -36,7 +36,7 @@
       >
         <template #default="scope">
           <el-tag
-            size="medium"
+            size="default"
             effect="dark"
             :type="true === scope.row.result ? 'success' : 'danger'"
           >
