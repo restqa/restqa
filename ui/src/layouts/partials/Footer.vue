@@ -9,12 +9,21 @@
     <el-link type="info" href="https://element.eleme.io" target="_blank"
       >element</el-link
     >
+    <br />
+    -
+    <br />
+    v{{ version }}
   </div>
 </template>
 <script>
 export default {
   name: "FooterPartial",
-  components: {},
+  data() {
+    console.log(this.$store.getters);
+    return {
+      version: this.$store.getters.version,
+    };
+  },
 };
 </script>
 <style scoped>
