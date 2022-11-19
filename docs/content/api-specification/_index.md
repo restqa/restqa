@@ -58,7 +58,7 @@ Setting up your API specification, by following the instruction: [here](/#/speci
 
 | *Property*                       | type           | *Description*                                                    | *Required* | *Default*                      |
 |:---------------------------------|:---------------| -----------------------------------------------------------------|------------|:-------------------------------|
-| `specification.tool`             | string         | The tool that you plan to use to render the api specification    | Yes        |                                |
+| `specification.tool`             | string         | The tool that you plan to use to render the api specification    | No         | swagger                        |
 | `specification.title`            | string         | Override the default title on the API specification              | No         | Title from `.restqa.yml`       |
 | `specification.description`      | string         | Override the defaul description on the API specification         | No         | Description from `.restqa.yml` |
 | `specification.matches`          | object         | List of matchers                                                 | No         |                                |

@@ -64,7 +64,7 @@ module.exports = function ({env, report, config}, processor = {}) {
 
   if (report) {
     let performanceInstance = null;
-    let specificationInstance = null;
+    const specificationInstance = new Specification(config.toJSON());
 
     const optionsMock = {
       outputFolder: path.resolve(process.cwd(), "tests", "mocks")
@@ -76,19 +76,16 @@ module.exports = function ({env, report, config}, processor = {}) {
       config.getCollection()
     );
 
-    if (!config.getSpecification().isEmpty()) {
-      specificationInstance = new Specification(config.toJSON());
-      processor.After(function (scenario) {
-        const exportApi = this.api.toJSON();
-        exportApi.scenario = {
-          pickle: {
-            name: scenario.pickle.name,
-            tags: scenario.pickle.tags
-          }
-        };
-        specificationInstance.add(exportApi);
-      });
-    }
+    processor.After(function (scenario) {
+      const exportApi = this.api.toJSON();
+      exportApi.scenario = {
+        pickle: {
+          name: scenario.pickle.name,
+          tags: scenario.pickle.tags
+        }
+      };
+      specificationInstance.add(exportApi);
+    });
 
     if (!config.getPerformanceTest().isEmpty()) {
       processor.Before("@performance", function (scenario) {

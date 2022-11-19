@@ -37,13 +37,13 @@
         </card>
       </el-col>
       -->
-        <el-col :span="6" v-if="microservice.performance.data">
+        <el-col :span="6" v-if="microservice.performance.enabled">
           <performance-widget class="widget"></performance-widget>
         </el-col>
-        <el-col :span="6" v-if="microservice.specification.data">
+        <el-col :span="6" v-if="microservice.specification.enabled">
           <specification-widget class="widget"></specification-widget>
         </el-col>
-        <el-col :span="6" v-if="microservice.collection.data">
+        <el-col :span="6" v-if="microservice.collection.enabled">
           <collection-widget class="widget"></collection-widget>
         </el-col>
         <el-col :span="6">

@@ -1,14 +1,6 @@
 <template>
-  <card
-    title="API specification"
-    emoji="📚"
-    class="card"
-    v-if="specification.enabled"
-  >
-    <img
-      :src="`images/logos/${config.specification.tool}.png`"
-      class="option-img"
-    />
+  <card title="API specification" emoji="📚" class="card">
+    <img :src="`images/logos/swagger.png`" class="option-img" />
     <br /><br />
     <el-link type="primary" v-on:click.stop.prevent="goTo()"
       >Access to your API specification</el-link
@@ -23,14 +15,6 @@ export default {
   name: "SpecificationWidget",
   components: {
     Card,
-  },
-  data() {
-    const specification = this.$store.getters.projectStatus.specification;
-    const config = this.$store.getters.projectConfiguration;
-    return {
-      specification,
-      config,
-    };
   },
   methods: {
     goTo() {
