@@ -19,7 +19,6 @@
 export default {
   name: "FooterPartial",
   data() {
-    console.log(this.$store.getters);
     return {
       version: this.$store.getters.version,
     };
