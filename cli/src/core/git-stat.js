@@ -63,6 +63,15 @@ module.exports = function (options = {}) {
         });
       });
 
+      const total = result.reduce(
+        (result, item) => result + Number(item.commits),
+        0
+      );
+      result.map((item) => {
+        item.percent = Math.floor((item.commits / total) * 100);
+        return item;
+      });
+
       return resolve(result);
     });
   });

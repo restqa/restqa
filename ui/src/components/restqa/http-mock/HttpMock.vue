@@ -14,12 +14,12 @@
   <br />
   <br />
   See below the list of mocks that has been generated in the folder
-  <i>{{ mocks.data.outputFolder }}</i
+  <i>{{ data.outputFolder }}</i
   >:
   <ul>
-    <li v-for="(item, index) in mocks.data.files" :key="index">
+    <li v-for="(item, index) in data.files" :key="index">
       <el-link :href="'file://' + item" target="_blank">{{
-        item.replace(mocks.data.outputFolder, "")
+        item.replace(data.outputFolder, "")
       }}</el-link>
     </li>
   </ul>
@@ -39,11 +39,11 @@
 --></template>
 <script>
 export default {
-  data() {
-    const mocks = this.$store.getters.projectStatus.httpMocks;
-    return {
-      mocks,
-    };
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
   },
 };
 </script>

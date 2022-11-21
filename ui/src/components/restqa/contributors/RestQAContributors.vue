@@ -1,14 +1,10 @@
 <template>
-  <card title="Contributors" emoji="💪" v-if="contributors.length">
+  <card title="Contributors" emoji="💪" v-if="data.length">
     <div class="label">
       Find below, the key person you need to contact for more support on this
       service:
     </div>
-    <div
-      class="contrib"
-      v-for="(contributor, index) in contributors"
-      :key="index"
-    >
+    <div class="contrib" v-for="(contributor, index) in data" :key="index">
       <el-avatar
         :size="70"
         :src="
@@ -50,14 +46,11 @@ export default {
   components: {
     Card,
   },
-  data() {
-    const contributors = Object.assign(
-      this.$store.getters.projectStatus.contributors,
-      {}
-    ).data;
-    return {
-      contributors,
-    };
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     gotcha() {
@@ -66,10 +59,9 @@ export default {
   },
   computed: {
     busFactor() {
-      const result = this.contributors.filter((item) => {
+      const result = this.data.filter((item) => {
         return item.percent > 50;
       });
-
       const knowns = localStorage.getItem("contribution.busFactor") || "";
       if (result.length === 1 && knowns !== result[0].username) {
         return result[0];

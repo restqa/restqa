@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    data: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     Card,
@@ -32,19 +36,18 @@ export default {
   },
   methods: {
     getFeatureData() {
-      const data = this.$store.getters.testReport;
       return [
         {
           label: "Passed",
-          data: data.passed,
+          data: this.data.passed,
         },
         {
           label: "Skipped",
-          data: data.skipped,
+          data: this.data.skipped,
         },
         {
           label: "Failed",
-          data: data.failed,
+          data: this.data.failed,
         },
       ];
     },
@@ -56,7 +59,7 @@ export default {
   },
   computed: {
     nbFeatures() {
-      return this.$store.getters.testReport.features.length;
+      return this.data.features.length;
     },
     featuresForChart() {
       const colors = {

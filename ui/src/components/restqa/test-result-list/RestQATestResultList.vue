@@ -86,18 +86,18 @@ export default {
   components: {
     Card,
   },
-  data() {
-    return {
-      tableData: this.$store.getters.testReport.features,
-    };
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    tableData() {
+      return this.data.features;
+    },
   },
   methods: {
-    selectFile(val) {
-      this.$store.dispatch("selectedFile", val);
-    },
-    successClassName({ row }) {
-      return row.result ? "" : "danger-row";
-    },
     goToFeature(id) {
       this.$router.push({
         name: "feature",

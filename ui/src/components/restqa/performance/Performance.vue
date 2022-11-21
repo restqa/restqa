@@ -1,18 +1,18 @@
 <template>
   <card
-    v-if="performance.data.length"
+    v-if="data.length"
     title="Performance test has been successfully generated"
   >
     <el-row :gutter="20">
       <el-col :span="2">
-        <img :src="`images/logos/${config.tool}.png`" class="option-img" />
+        <img :src="`images/logos/${configPerf.tool}.png`" class="option-img" />
       </el-col>
       <el-col :span="22">
         <el-tree :data="files" />
       </el-col>
     </el-row>
   </card>
-  <card v-if="performance.data.length" title="Run your performance test">
+  <card v-if="data.length" title="Run your performance test">
     In order to run your test you will just need to run the command:
     <br /><br />
     <pre><code class="language-bash">{{ bashCommand }}</code></pre>
@@ -26,7 +26,15 @@
     <br />
     <br />
     Example:
-    <pre><code class="language-gherkin">{{ scenario }}</code></pre>
+    <pre><code class="language-gherkin">@performance
+Scenario: The product doesn't exist into the database
+Given a request
+  And the headers:
+  | accept-language | en               |
+  | content-type    | application/json |
+When GET "/api/products/111112222233333"
+Then status = 404
+  And "message" = "Product doesn't exists"</code></pre>
   </card>
 </template>
 
@@ -38,39 +46,19 @@ export default {
   components: {
     Card,
   },
-  data() {
-    const performance = this.$store.getters.projectStatus.performance;
-    const config = this.$store.getters.projectConfiguration.tests.performance;
-    return {
-      performance,
-      config,
-      scenario: `
-@performance
-Scenario: The product doesn't exist into the database
-Given a request
-  And the headers:
-  | accept-language | en               |
-  | content-type    | application/json |
-When GET "/api/products/111112222233333"
-Then status = 404
-  And "message" = "Product doesn't exists"
-      `.trim(),
-      files: [
-        {
-          label:
-            "List of performance tests (" + performance.data.length + " files)",
-          children: performance.data.map((file) => {
-            return {
-              label: file,
-            };
-          }),
-        },
-      ],
-    };
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+    config: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     bashCommand() {
-      const { tool, outputFolder } = this.config;
+      const { tool, outputFolder } = this.configPerf;
       let cmd = "";
       switch (tool) {
         case "artillery":
@@ -78,6 +66,21 @@ Then status = 404
           break;
       }
       return cmd;
+    },
+    configPerf() {
+      return this.config.tests.performance;
+    },
+    files() {
+      return [
+        {
+          label: "List of performance tests (" + this.data.length + " files)",
+          children: this.data.map((file) => {
+            return {
+              label: file,
+            };
+          }),
+        },
+      ];
     },
   },
   mounted() {

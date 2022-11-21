@@ -5,17 +5,29 @@
 <script>
 export default {
   name: "SpecificationView",
-  data() {
-    const specification = this.$store.getters.projectStatus.specification;
-    return {
-      specification,
-    };
+  props: {
+    data: {
+      type: Object,
+      require: true,
+    },
+  },
+  methods: {
+    loadSwagger(spec) {
+      SwaggerUIBundle({
+        spec,
+        dom_id: "#swagger",
+      });
+    },
+  },
+  watch: {
+    content: {
+      handler(to) {
+        this.loadSwagger(to);
+      },
+    },
   },
   mounted() {
-    SwaggerUIBundle({
-      spec: this.specification.data,
-      dom_id: "#swagger",
-    });
+    this.loadSwagger(this.data);
   },
 };
 </script>

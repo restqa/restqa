@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import router from "./router";
 import store from "./store/store";
+import App from "./App.vue";
 
 import "./assets/scss/element-variables.scss";
 
@@ -12,7 +13,5 @@ import "prismjs/components/prism-json";
 import "prismjs/components/prism-gherkin";
 import "prismjs/components/prism-bash";
 import "prism-themes/themes/prism-dracula.css";
-
-import App from "./App.vue";
 
 createApp(App).use(router).use(store).mount("#app");

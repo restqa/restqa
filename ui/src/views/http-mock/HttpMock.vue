@@ -1,16 +1,12 @@
 <template>
-  <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{ name: 'homepage' }"
-      >Dashboard</el-breadcrumb-item
-    >
-    <el-breadcrumb-item>HTTP Mocks</el-breadcrumb-item>
-  </el-breadcrumb>
-  <h2><i class="el-icon-basketball" /> HTTP Mocks</h2>
-  <el-row :gutter="20">
-    <el-col :span="24">
-      <http-mock></http-mock>
-    </el-col>
-  </el-row>
+  <div>
+    <h2><i class="el-icon-basketball" /> HTTP Mocks</h2>
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <http-mock :data="result"></http-mock>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -20,6 +16,11 @@ export default {
   name: "HttpMockPage",
   components: {
     HttpMock,
+  },
+  computed: {
+    result() {
+      return this.$store.getters.result.httpMocks;
+    },
   },
 };
 </script>

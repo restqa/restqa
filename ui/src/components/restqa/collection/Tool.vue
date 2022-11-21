@@ -1,10 +1,10 @@
 <template>
   <Card class="card" :title="title">
-    <img :src="`images/logos/${name}.png`" />
+    <img :src="`images/logos/${data.name}.png`" />
     <br />
     <br />
-    <el-link v-if="location" :href="location" target="_blank"
-      >Download the {{ name }} collection</el-link
+    <el-link v-if="data.location" :href="data.location" target="_blank"
+      >Download the {{ data.name }} collection</el-link
     >
   </Card>
 </template>
@@ -14,23 +14,19 @@ import Card from "@/components/UI/card/Card.vue";
 export default {
   name: "CollectionTool",
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    location: {
-      type: String,
+    data: {
+      type: Object,
       required: true,
     },
   },
   components: {
     Card,
   },
-  method: {},
   computed: {
     title() {
-      const name = this.name.charAt(0).toUpperCase() + this.name.slice(1);
-      return name + (this.location ? "" : " (coming soon)");
+      const name =
+        this.data.name.charAt(0).toUpperCase() + this.data.name.slice(1);
+      return name + (this.data.location ? "" : " (coming soon)");
     },
   },
 };

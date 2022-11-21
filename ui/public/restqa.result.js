@@ -1,9 +1,9 @@
 const OUTPUT = {};
 
-OUTPUT.RESTQA_VERSION = "2.0.0";
+OUTPUT.RESTQA_VERSION = "3.0.0";
 
 OUTPUT.RESTQA_RESULT = {
-  id: "efb6d4a9-e91e-4d13-8672-2250c0e18b43",
+  id: "esefb6dsd4a9-e91e-d4d13-8672-2250c0e18b43",
   startTime: "2021-12-30T07:50:26-05:00",
   name: "init-test",
   key: "INIT-TEST",
@@ -374,72 +374,84 @@ const contributors = [
     username: "Olivier",
     email: "hi@olivierodo.me",
     avatar: "https://www.gravatar.com/avatar/6b262c3874c116f42b3a7abf26b9dc5b",
+    percent: "60",
   },
   {
     commits: "175",
     username: "tony-go",
     email: "gorez.tony@gmail.com",
     avatar: "https://www.gravatar.com/avatar/a7723d411779f7a8db4d4ada86a92daa",
+    percent: "45",
   },
   {
     commits: "84",
     username: "Olivier",
     email: "rodomond.o@gmail.com",
     avatar: "https://www.gravatar.com/avatar/390faeebd65126f39946137853336bd6",
+    percent: "3",
   },
   {
     commits: "36",
     username: "OliverOdo",
     email: "hi@olivierodo.me",
     avatar: "https://www.gravatar.com/avatar/6b262c3874c116f42b3a7abf26b9dc5b",
+    percent: "3",
   },
   {
     commits: "23",
     username: "dependabot[bot]",
     email: "49699333+dependabot[bot]@users.noreply.github.com",
     avatar: "https://www.gravatar.com/avatar/48ea49be76d0c68403a7f3df87e3487d",
+    percent: "1",
   },
   {
     commits: "2",
     username: "Olivier Rodomond",
     email: "olivierodo@Oliviers-Air.lan",
     avatar: "https://www.gravatar.com/avatar/5f87a025a6aa06262889547f7995c991",
+    percent: "1",
   },
   {
     commits: "2",
     username: "Mason Woodford",
     email: "mwoodfor@ucsc.edu",
     avatar: "https://www.gravatar.com/avatar/48c53c7f87a7243c1df2418a0391c475",
+    percent: "1",
   },
   {
     commits: "2",
     username: "KaTLaz",
     email: "65902811+KaTLaz@users.noreply.github.com",
     avatar: "https://www.gravatar.com/avatar/9b96229f443b3b44397d6ae23ec8dda5",
+    percent: "1",
   },
   {
     commits: "2",
     username: "pimpannt",
     email: "pimpannt@gmail.com",
     avatar: "https://www.gravatar.com/avatar/a540af6d867afaba29f28b5a7bfbc375",
+    percent: "1",
   },
   {
     commits: "2",
     username: "restqa-bot",
     email: "null",
     avatar: "https://www.gravatar.com/avatar/37a6259cc0c1dae299a7866489dff0bd",
+    percent: "1",
   },
   {
     commits: "1",
     username: "Tony Gorez",
     email: "gorez.tony@gmail.com",
     avatar: "https://www.gravatar.com/avatar/a7723d411779f7a8db4d4ada86a92daa",
+    percent: "1",
   },
   {
     commits: "1",
     username: "OliverOdo",
     email: "rodomond.o@gmail.com",
     avatar: "https://www.gravatar.com/avatar/390faeebd65126f39946137853336bd6",
+    percent: "1",
   },
 ];
 
