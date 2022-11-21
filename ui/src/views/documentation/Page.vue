@@ -1,10 +1,4 @@
 <template>
-  <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{ name: 'homepage' }"
-      >Dashboard</el-breadcrumb-item
-    >
-    <el-breadcrumb-item>Documentation</el-breadcrumb-item>
-  </el-breadcrumb>
   <el-container>
     <el-main class="main">
       <render-page :page="id" />

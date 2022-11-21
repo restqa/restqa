@@ -1,19 +1,18 @@
 <template>
-  <el-breadcrumb separator=">">
-    <el-breadcrumb-item :to="{ name: 'homepage' }"
-      >Dashboard</el-breadcrumb-item
-    >
-    <el-breadcrumb-item>Performance Testing</el-breadcrumb-item>
-  </el-breadcrumb>
-  <h2><i class="el-icon-odometer" /> Performance Testing</h2>
-  <el-row :gutter="20">
-    <el-col :span="24" v-if="performance.enabled === false">
-      <editor></editor>
-    </el-col>
-    <el-col :span="24" v-else>
-      <performance></performance>
-    </el-col>
-  </el-row>
+  <div>
+    <h2><i class="el-icon-odometer" /> Performance Testing</h2>
+    <el-row :gutter="20">
+      <el-col :span="24" v-if="enabled === false">
+        <editor :config="result.config"></editor>
+      </el-col>
+      <el-col :span="24" v-else>
+        <performance
+          :data="result.performance"
+          :config="result.config"
+        ></performance>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -27,10 +26,17 @@ export default {
     Performance,
   },
   data() {
-    const performance = this.$store.getters.projectStatus.performance;
     return {
       performance,
     };
+  },
+  computed: {
+    result() {
+      return this.$store.getters.result;
+    },
+    enabled() {
+      return this.result.performance.length !== 0;
+    },
   },
 };
 </script>

@@ -1,24 +1,6 @@
 <template>
   <div id="dashboard-analytics">
     <el-row :gutter="20">
-      <el-col :span="24">
-        <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ name: 'homepage' }"
-            >Dashboard</el-breadcrumb-item
-          >
-          <el-breadcrumb-item :to="{ name: 'features' }"
-            >Test Report</el-breadcrumb-item
-          >
-          <el-breadcrumb-item>{{ name }}</el-breadcrumb-item>
-        </el-breadcrumb>
-        <h2 :class="{ success: ok, error: !ok }">
-          <i v-if="ok" class="el-icon-success success" />
-          <i v-else class="el-icon-error danger" />
-          {{ name }}
-        </h2>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
       <el-col :span="12">
         <card title="Feature Detail" class="ccard">
           <el-descriptions :column="1" :border="true">
@@ -56,7 +38,9 @@
         </card>
       </el-col>
       <el-col :span="12">
-        <restqa-test-result-chart-scenarios></restqa-test-result-chart-scenarios>
+        <restqa-test-result-chart-scenarios
+          :data="this.feature"
+        ></restqa-test-result-chart-scenarios>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -83,12 +67,11 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      testReport: this.$store.getters.testReport,
     };
   },
   computed: {
     feature() {
-      return this.$store.getters.testReport.features.find(
+      return this.$store.getters.result.local.features.find(
         (_) => _.id === this.id
       );
     },

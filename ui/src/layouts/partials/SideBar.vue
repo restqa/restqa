@@ -3,21 +3,19 @@
     :router="true"
     :default-active="currentIndex"
     :collapse-transition="false"
-    :collapse="isCollapse"
     class="menu"
   >
     <div class="logo">
       <a href="https://restqa.io" target="_blank">
-        <img :src="imageUrl" />
+        <img :src="`./images/mascot.png`" />
       </a>
     </div>
 
     <el-menu-item
-      v-for="(item, index) in isNotOutput"
+      v-for="(item, index) in menu"
       :key="index"
-      :index="String(item.index)"
+      :index="item.index"
       :route="{ name: item.route, params: item.params || {} }"
-      :disabled="!item.enabled"
     >
       <i :class="item.icon"></i>
       {{ item.label }}
@@ -28,9 +26,9 @@
         <i class="el-icon-ice-cream-square"></i> Delicious Outputs
       </template>
       <el-menu-item
-        v-for="(item, index) in isOutput"
+        v-for="(item, index) in subMenu"
         :key="index"
-        :index="String(item.index)"
+        :index="item.index"
         :route="{ name: item.route, params: item.params || {} }"
         :disabled="!item.enabled"
       >
@@ -39,170 +37,137 @@
       </el-menu-item>
     </el-sub-menu>
 
-    <el-menu-item
-      index="200"
-      :route="{ name: 'documentationPage', params: { id: 'introduction' } }"
-    >
-      <i class="el-icon-reading"></i>
-      Documentation
-    </el-menu-item>
-
     <el-divider />
 
+    <!-- Static Menu -->
     <el-menu-item
       v-for="(item, index) in staticMenu"
+      :index="String(200 + index)"
       :key="index"
-      :route="{ name: 'goTo', params: { link: item.link } }"
+      :route="item.route"
     >
       <i :class="item.icon"></i>
       {{ item.label }}
     </el-menu-item>
 
     <el-divider />
-    <div class="sponsor">
-      <h5>Sponsors</h5>
-
-      <a
-        :href="sponsor.url"
-        target="_blank"
-        v-for="(sponsor, index) in sponsors"
-        :key="index"
-      >
-        <img :src="sponsor.img" :alt="sponsor.name" />
-      </a>
-    </div>
+    <sponsors></sponsors>
   </el-menu>
 </template>
 
 <script>
+import Sponsors from "@/components/restqa/sponsors/RestQASponsors.vue";
 const staticMenu = [
   {
     link: "https://restqa.io/chat",
-    label: "Discord",
-    icon: "el-icon-chat-dot-round",
+    label: "Documentation",
+    icon: "el-icon-reading",
+    route: {
+      name: "documentationPage",
+      params: {
+        id: "introduction",
+      },
+    },
   },
   {
-    link: "https://docs.restqa.io",
+    label: "Discord",
+    icon: "el-icon-chat-dot-round",
+    route: {
+      name: "goTo",
+      params: {
+        link: "https://restqa.io/chat",
+      },
+    },
+  },
+  {
     label: "Share your feedback",
     icon: "el-icon-message",
+    route: {
+      name: "goTo",
+      params: {
+        link: "https://restqa.io/feedback",
+      },
+    },
+  },
+];
+
+const menu = [
+  {
+    index: "1",
+    route: "homepage",
+    label: "Dashboard",
+    icon: "el-icon-house",
+  },
+  {
+    index: "2",
+    route: "features",
+    label: "Test Report",
+    icon: "el-icon-wind-power",
+  },
+  {
+    index: "3",
+    route: "coverage",
+    label: "Code Coverage",
+    icon: "el-icon-aim",
+  },
+  {
+    index: "4",
+    route: "specification",
+    label: "API Specification",
+    icon: "el-icon-collection",
   },
 ];
 
 export default {
   name: "SidebarPartial",
+  components: {
+    Sponsors,
+  },
   data() {
-    const status = this.$store.getters.projectStatus;
-    const menu = [
-      {
-        index: 1,
-        route: "homepage",
-        label: "Dashboard",
-        icon: "el-icon-house",
-        enabled: true,
-        isOutput: false,
-      },
-      {
-        index: 2,
-        route: "features",
-        label: "Test Report",
-        icon: "el-icon-wind-power",
-        enabled: true,
-        isOutput: false,
-      },
-      {
-        index: 3,
-        route: "coverage",
-        label: "Code Coverage",
-        icon: "el-icon-aim",
-        enabled: true,
-        isOutput: false,
-      },
-      {
-        index: 4,
-        route: "specification",
-        label: "API Specification",
-        icon: "el-icon-collection",
-        enabled: status.specification.enabled,
-        isOutput: false,
-      },
-      {
-        index: 5,
-        route: "integration-testing",
-        label: "Integration testing",
-        icon: "el-icon-guide",
-        enabled: status.integration.enabled,
-        isOutput: true,
-      },
-      {
-        index: 6,
-        route: "performance",
-        label: "Performance testing",
-        icon: "el-icon-odometer",
-        enabled: status.performance.enabled,
-        isOutput: true,
-      },
-      {
-        index: 7,
-        route: "collection",
-        label: "API Collection",
-        icon: "el-icon-moon",
-        enabled: status.collection.enabled,
-        isOutput: true,
-      },
-      {
-        index: 8,
-        route: "http-mock",
-        label: "HTTP mocks",
-        icon: "el-icon-basketball",
-        enabled: status.httpMocks.enabled,
-        isOutput: true,
-      },
-      {
-        index: 9,
-        route: "continuous-integration",
-        label: "Continuous Integration",
-        icon: "el-icon-ship",
-        enabled: false,
-        isOutput: true,
-      },
-    ];
     return {
-      isCollapse: false,
-      menu: menu,
+      menu,
       staticMenu,
-      imageUrl: "./images/mascot.png",
-      sponsors: [
-        {
-          name: "ATALENT Consulting",
-          img: "./images/sponsors/atalent.png",
-          url: "https://atalent-consulting.com/",
-        },
-      ],
     };
   },
   computed: {
-    enabled() {
-      if (this.$store.getters.testReport) {
-        return true;
-      }
-      return Boolean(this.$store.getters.config);
+    subMenu() {
+      const result = this.$store.getters.result;
+      return [
+        {
+          index: "5",
+          route: "performance",
+          label: "Performance testing",
+          icon: "el-icon-odometer",
+          enabled: Boolean(result.performance.length),
+        },
+        {
+          index: "6",
+          route: "collection",
+          label: "API Collection",
+          icon: "el-icon-moon",
+          enabled: result.collection,
+        },
+        {
+          index: "7",
+          route: "http-mock",
+          label: "HTTP mocks",
+          icon: "el-icon-basketball",
+          enabled: result.httpMocks,
+        },
+      ];
     },
     currentIndex() {
-      if ("documentationPage" === this.$router.currentRoute.value.name)
+      if ("documentationPage" === this.$router.currentRoute.value.name) {
         return String(200);
-      const item = this.menu.find((item) => {
-        return (
-          item.route === this.$router.currentRoute.value.name ||
-          item.route === this.$router.currentRoute.value.meta.parentRoute
-        );
+      }
+
+      const route = this.$router.currentRoute.value.name;
+      const parentRoute = this.$router.currentRoute.value.meta.parentRoute;
+
+      const item = this.menu.concat(this.subMenu).find((item) => {
+        return item.route === route || item.route === parentRoute;
       });
       return (item.index && String(item.index)) || "0";
-    },
-    isOutput() {
-      return this.menu.filter((item) => item.isOutput === true);
-    },
-    isNotOutput() {
-      return this.menu.filter((item) => item.isOutput === false);
     },
   },
 };
@@ -233,18 +198,6 @@ export default {
   }
   100% {
     transform: translatey(0px);
-  }
-}
-
-.sponsor {
-  margin: 20px;
-  a {
-    display: block;
-    float: left;
-    margin: 5px;
-    img {
-      width: 50px;
-    }
   }
 }
 </style>

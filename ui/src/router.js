@@ -36,7 +36,7 @@ const router = createRouter({
           name: "features",
           component: Features,
           meta: {
-            title: "Feature",
+            title: "Test Report",
           },
         },
         {

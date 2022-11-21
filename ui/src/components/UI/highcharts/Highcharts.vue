@@ -11,8 +11,20 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      chart: null,
+    };
+  },
   mounted() {
-    Highcharts.chart(this.$refs.container, this.options);
+    this.chart = Highcharts.chart(this.$refs.container, this.options);
+  },
+  watch: {
+    options: {
+      handler(to) {
+        this.chart.update(to);
+      },
+    },
   },
 };
 </script>

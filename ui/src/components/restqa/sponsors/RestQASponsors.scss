@@ -1,28 +1,11 @@
-.sponsors {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-
-  a.sponsor {
-    margin-right: 20px;
-    display: block;
-    width: 70px;
-    height: 70px;
-
-    img {
-      width: 70px;
-      height: 70px;
-      border: 1px solid #f0f0f0;
-    }
-  }
-}
-
-div.join {
-  margin-top: 10px;
-  text-align: center;
-
+.sponsor {
+  margin: 20px;
   a {
-    text-decoration: underline;
+    display: block;
+    float: left;
+    margin: 5px;
+    img {
+      width: 50px;
+    }
   }
 }

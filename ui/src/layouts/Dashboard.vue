@@ -5,11 +5,9 @@
         <partial-side-bar></partial-side-bar>
       </el-aside>
       <el-container>
-        <!--
         <el-header height="inherit">
           <partial-header></partial-header>
         </el-header>
-        -->
         <el-main>
           <router-view v-slot="{ Component }">
             <transition>

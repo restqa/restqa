@@ -27,7 +27,11 @@
       >Show info</el-link
     >
 
-    <step-format class="arguments" :data="data.arguments" />
+    <step-format
+      class="arguments"
+      v-if="data.arguments"
+      :data="data.arguments"
+    />
 
     <pre class="debug debug-error" v-if="show.error">{{
       data.result.error_message

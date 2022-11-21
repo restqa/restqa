@@ -51,14 +51,14 @@ export default {
   components: {
     Card,
   },
+  props: {
+    config: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
-    const performance = this.$store.getters.projectStatus.performance;
-    const config = JSON.parse(
-      JSON.stringify(this.$store.getters.projectConfiguration)
-    );
     return {
-      config,
-      performance,
       value: null,
       code: "",
       tools: [
@@ -101,8 +101,9 @@ export default {
         outputFolder: "tests/performances",
         onlySuccess: false,
       };
-      this.config.tests.performance = tmpl;
-      this.code = "---\n" + stringify(this.config);
+      const config = JSON.parse(JSON.stringify(this.config));
+      config.tests.performance = tmpl;
+      this.code = "---\n" + stringify(config);
       this.$nextTick(() => {
         Prism.highlightAll();
       });

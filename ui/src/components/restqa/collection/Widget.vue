@@ -1,10 +1,5 @@
 <template>
-  <card
-    title="API collection"
-    emoji="🌒"
-    class="card"
-    v-if="collection.enabled"
-  >
+  <card title="API collection" emoji="🌒" class="card">
     <el-carousel arrow="never" :interval="4000">
       <el-carousel-item v-for="item in tools" :key="item">
         <img :src="`images/logos/${item}.png`" />
@@ -26,12 +21,16 @@ export default {
   components: {
     Card,
   },
-  data() {
-    const collection = this.$store.getters.projectStatus.collection || {};
-    return {
-      collection,
-      tools: Object.keys(collection.data || {}),
-    };
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    tools() {
+      return Object.keys(this.data || {});
+    },
   },
   methods: {
     goTo() {

@@ -14,25 +14,34 @@ export default {
     Card,
     Highcharts,
   },
+  props: {
+    accessLink: {
+      type: Boolean,
+      default: false,
+    },
+    data: {
+      type: Object,
+      required: true,
+    },
+  },
   methods: {
     getScenarioData() {
-      const data = this.$store.getters.testReport.scenarios;
       return [
         {
           label: "Passed",
-          data: data.passed,
+          data: this.data.passed,
         },
         {
           label: "Failed",
-          data: data.failed,
+          data: this.data.failed,
         },
         {
           label: "skipped",
-          data: data.skipped,
+          data: this.data.skipped,
         },
         {
           label: "undefined",
-          data: data.undefined,
+          data: this.data.undefined,
         },
       ];
     },

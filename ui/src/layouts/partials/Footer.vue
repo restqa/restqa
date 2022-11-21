@@ -18,10 +18,10 @@
 <script>
 export default {
   name: "FooterPartial",
-  data() {
-    return {
-      version: this.$store.getters.version,
-    };
+  computed: {
+    version() {
+      return this.$store.getters.result.version;
+    },
   },
 };
 </script>

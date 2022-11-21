@@ -1,10 +1,5 @@
 <template>
-  <card
-    title="Performance testing"
-    emoji="🏎"
-    class="card"
-    v-if="performance.enabled"
-  >
+  <card title="Performance testing" emoji="🏎" class="card">
     <img
       :src="`images/logos/${config.tests.performance.tool}.png`"
       class="option-img"
@@ -24,13 +19,15 @@ export default {
   components: {
     Card,
   },
-  data() {
-    const performance = this.$store.getters.projectStatus.performance;
-    const config = this.$store.getters.projectConfiguration;
-    return {
-      performance,
-      config,
-    };
+  props: {
+    data: {
+      type: Object,
+      required: true,
+    },
+    config: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     goTo() {

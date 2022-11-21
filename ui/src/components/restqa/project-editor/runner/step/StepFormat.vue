@@ -18,7 +18,7 @@
 </template>
 <script>
 export default {
-  name: "StepTable",
+  name: "StepFormat",
   props: {
     data: {
       type: Object,

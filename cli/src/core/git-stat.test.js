@@ -90,7 +90,8 @@ describe("# git-stat", () => {
         email: "hi@olivierodo.me",
         avatar:
           "https://www.gravatar.com/avatar/6b262c3874c116f42b3a7abf26b9dc5b",
-        matches: ["OliverOdo", "Olivier Rodomond", "OliverOdo"]
+        matches: ["OliverOdo", "Olivier Rodomond", "OliverOdo"],
+        percent: 73
       },
       {
         commits: 176,
@@ -98,7 +99,8 @@ describe("# git-stat", () => {
         email: "gorez.tony@gmail.com",
         avatar:
           "https://www.gravatar.com/avatar/a7723d411779f7a8db4d4ada86a92daa",
-        matches: ["Tony Gorez"]
+        matches: ["Tony Gorez"],
+        percent: 22
       },
       {
         commits: 23,
@@ -106,7 +108,8 @@ describe("# git-stat", () => {
         email: "49699333+dependabot[bot]@users.noreply.github.com",
         avatar:
           "https://www.gravatar.com/avatar/48ea49be76d0c68403a7f3df87e3487d",
-        matches: []
+        matches: [],
+        percent: 2
       },
       {
         commits: 2,
@@ -114,7 +117,8 @@ describe("# git-stat", () => {
         email: "mwoodfor@ucsc.edu",
         avatar:
           "https://www.gravatar.com/avatar/48c53c7f87a7243c1df2418a0391c475",
-        matches: []
+        matches: [],
+        percent: 0
       },
       {
         commits: 2,
@@ -122,7 +126,8 @@ describe("# git-stat", () => {
         email: "65902811+KaTLaz@users.noreply.github.com",
         avatar:
           "https://www.gravatar.com/avatar/9b96229f443b3b44397d6ae23ec8dda5",
-        matches: []
+        matches: [],
+        percent: 0
       },
       {
         commits: 2,
@@ -130,7 +135,8 @@ describe("# git-stat", () => {
         email: "pimpannt@gmail.com",
         avatar:
           "https://www.gravatar.com/avatar/a540af6d867afaba29f28b5a7bfbc375",
-        matches: []
+        matches: [],
+        percent: 0
       }
     ];
     expect(result).toEqual(expectedResult);
@@ -164,7 +170,8 @@ describe("# git-stat", () => {
         email: "hi@olivierodo.me",
         avatar:
           "https://www.gravatar.com/avatar/6b262c3874c116f42b3a7abf26b9dc5b",
-        matches: []
+        matches: [],
+        percent: 71
       },
       {
         commits: 175,
@@ -172,7 +179,8 @@ describe("# git-stat", () => {
         email: "gorez.tony@gmail.com",
         avatar:
           "https://www.gravatar.com/avatar/a7723d411779f7a8db4d4ada86a92daa",
-        matches: []
+        matches: [],
+        percent: 27
       },
       {
         commits: 2,
@@ -180,7 +188,8 @@ describe("# git-stat", () => {
         email: "mwoodfor@ucsc.edu",
         avatar:
           "https://www.gravatar.com/avatar/48c53c7f87a7243c1df2418a0391c475",
-        matches: []
+        matches: [],
+        percent: 0
       },
       {
         commits: 2,
@@ -188,7 +197,8 @@ describe("# git-stat", () => {
         email: "65902811+KaTLaz@users.noreply.github.com",
         avatar:
           "https://www.gravatar.com/avatar/9b96229f443b3b44397d6ae23ec8dda5",
-        matches: []
+        matches: [],
+        percent: 0
       },
       {
         commits: 2,
@@ -196,7 +206,8 @@ describe("# git-stat", () => {
         email: "pimpannt@gmail.com",
         avatar:
           "https://www.gravatar.com/avatar/a540af6d867afaba29f28b5a7bfbc375",
-        matches: []
+        matches: [],
+        percent: 0
       }
     ];
     expect(result).toEqual(expectedResult);
