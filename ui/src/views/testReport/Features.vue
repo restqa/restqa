@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import RestqaTestResultList from "@/components/restqa/test-result-list/RestQATestResultList.vue";
-import RestqaTestResultChartFeatures from "@/components/restqa/test-result-charts/RestQATestResultChartFeatures.vue";
-import RestqaTestResultChartScenarios from "@/components/restqa/test-result-charts/RestQATestResultChartScenarios.vue";
+import RestqaTestResultList from "@/components/restqa/test-report/FeatureList.vue";
+import RestqaTestResultChartFeatures from "@/components/restqa/test-report/charts/Features.vue";
+import RestqaTestResultChartScenarios from "@/components/restqa/test-report/charts/Scenarios.vue";
 
 export default {
   name: "RestQATestReportFeatures",

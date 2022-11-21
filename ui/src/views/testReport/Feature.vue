@@ -7,7 +7,7 @@
             <el-descriptions-item label="Tag">
               <el-tag
                 size="medium"
-                v-for="(item, index) in this.feature.tags"
+                v-for="(item, index) in this.feature.tags || []"
                 :key="index"
               >
                 {{ item.name }}
@@ -46,22 +46,22 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <br />
-        <runner :data="feature" :read-only="true" />
+        <feature-scenarios :data="feature" :read-only="true" />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import RestqaTestResultChartScenarios from "@/components/restqa/test-result-charts/RestQATestResultChartScenarios.vue";
+import RestqaTestResultChartScenarios from "@/components/restqa/test-report/charts/Scenarios.vue";
+import FeatureScenarios from "@/components/restqa/test-report/FeatureScenarios.vue";
 import Card from "@/components/UI/card/Card.vue";
-import Runner from "@/components/restqa/project-editor/runner/RestQAProjectEditorRunner.vue";
 
 export default {
   name: "RestQATestReportFeature",
   components: {
     RestqaTestResultChartScenarios,
-    Runner,
+    FeatureScenarios,
     Card,
   },
   data() {
@@ -71,8 +71,10 @@ export default {
   },
   computed: {
     feature() {
-      return this.$store.getters.result.local.features.find(
-        (_) => _.id === this.id
+      return (
+        this.$store.getters.result.local.features.find(
+          (_) => _.id === this.id
+        ) || {}
       );
     },
     name() {

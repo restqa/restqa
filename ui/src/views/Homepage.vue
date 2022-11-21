@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import RestqaTestResultChartFeatures from "@/components/restqa/test-result-charts/RestQATestResultChartFeatures.vue";
+import RestqaTestResultChartFeatures from "@/components/restqa/test-report/charts/Features.vue";
 import RestqaContributors from "@/components/restqa/contributors/RestQAContributors.vue";
 import PerformanceWidget from "@/components/restqa/performance/Widget.vue";
 import SpecificationWidget from "@/components/restqa/specification/Widget.vue";

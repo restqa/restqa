@@ -75,14 +75,11 @@
         </el-collapse>
       </div>
     </el-collapse-transition>
-    <el-button class="btn" v-if="!readOnly" @click="run()" type="primary" round
-      >Run the test on the {{ env }} environment</el-button
-    >
   </card>
 </template>
 <script>
 import Card from "@/components/UI/card/Card.vue";
-import Step from "./step/RestQAProjectEditorRunnerStep.vue";
+import Step from "./steps/Step.vue";
 
 export default {
   name: "RestQAProjectEditorRunner",
@@ -91,20 +88,10 @@ export default {
     Step,
   },
   props: {
-    file: {
-      type: String,
-      default: "",
-      required: false,
-    },
     data: {
       type: Object,
       default: null,
       required: false,
-    },
-    readOnly: {
-      type: Boolean,
-      required: false,
-      default: false,
     },
   },
   data() {
@@ -146,9 +133,6 @@ export default {
       return true;
     },
   },
-  methods: {
-    async run() {},
-  },
 };
 </script>
-<style src="./RestQAProjectEditorRunner.scss" lang="scss" scoped />
+<style src="./FeatureScenarios.scss" lang="scss" scoped />
