@@ -46,6 +46,24 @@ This short video below will help you understand how you can contribute to the Re
 
 https://user-images.githubusercontent.com/4768226/202217108-249d22cd-5ea1-4af3-ae8f-39b6b583f7c2.mp4
 
+## Internals
+
+### Project Structure
+
+```
+└── src
+    │
+    ├── cli          # executing RestQA from argv
+    │
+    ├── docs         # Documentation (markdowns)
+    │
+    ├── examples     # List of sample project leveraging RestQA
+    │
+    ├── plugins      # RestQA plugin
+    │
+    └── ui           # User interface of the test report
+```
+
 
 
 ## Tests
