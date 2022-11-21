@@ -34,7 +34,7 @@ Run one command and get everything that you need to enjoy maintaining your micro
 
 #### Screenshot
 
-![Screenshot](./example/assets/restqa-screenshot.png)
+![Screenshot](./examples/nodejs/assets/restqa-screenshot.png)
 
 ## ⭐️ Features
 
@@ -99,16 +99,15 @@ npm run happy
 
 ## 🌈 Example
 
-Take a look at the [example folder](./example) to see a basic setup.
-
-More example available on the [restqa-example](https://github.com/restqa/restqa-example) repository.
+Take a look at the [examples folder](./examples) to see a basic setup.
 
 ## 🚧 Roadmap
 
-##### 🚀 Unit Test
+##### 🚀 Local Test
 
-- [X] Mock external http depedencies
-- [ ] Mock MongoDB database
+- [X] Test coverage
+- [X] [Mock external http depedencies](https://github.com/restqa/http-mock-plugin)
+- [X] [Mock MongoDB database](https://github.com/restqa/mongodb-mock-plugin)
 - [ ] Mock Postgres database
 - [ ] Mock MySQL database
 - [ ] Mock S3 database

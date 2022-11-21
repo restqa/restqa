@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2022-11-24
+
+After 1 year of being idle, RestQA is back with a major version! 🚀🚀🚀
+RestQA is now focusing on providing the best automation testing experience for Microservice.
+Major breaking changes need to be addressed. There is no compatibility between the previous version and the new one.
+If you don't want to focus on the microservice testing you can stick to the version [0.0.38]
+
 
 ## [0.0.38] - 2021-12-10
 
@@ -328,7 +335,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Enable secret into the configuration file
 
-[unreleased]: https://github.com/restqa/restqa/compare/v0.0.35...HEAD
+[unreleased]: https://github.com/restqa/restqa/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/restqa/restqa/compare/v0.0.38...1.0.0
+[0.0.38]: https://github.com/restqa/restqa/compare/0.0.37...0.0.38
+[0.0.37]: https://github.com/restqa/restqa/compare/0.0.36...0.0.37
+[0.0.36]: https://github.com/restqa/restqa/compare/0.0.35...0.0.36
 [0.0.35]: https://github.com/restqa/restqa/compare/0.0.34...0.0.35
 [0.0.34]: https://github.com/restqa/restqa/compare/0.0.33...0.0.34
 [0.0.33]: https://github.com/restqa/restqa/compare/0.0.32...0.0.33
