@@ -6,9 +6,6 @@
       <el-collapse-item name="1">
         <template #title>
           ℹ️ Click here to access the prerequisites document you must read.
-          <el-icon class="header-icon">
-            <info-filled />
-          </el-icon>
         </template>
         <ul>
           <li :key="index" v-for="(id, index) in preRequisit">

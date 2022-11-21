@@ -124,4 +124,4 @@ export default {
   },
 };
 </script>
-<style src="./RestQAProjectEditorRunnerStep.scss" lang="scss" scoped />
+<style src="./Step.scss" lang="scss" scoped />
