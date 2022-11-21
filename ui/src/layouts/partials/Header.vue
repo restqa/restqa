@@ -1,5 +1,5 @@
 <template>
-  <el-breadcrumb class="bread" separator=">">
+  <el-breadcrumb v-if="!isHomepage" class="bread" separator=">">
     <el-breadcrumb-item :to="{ name: 'homepage' }"
       >Dashboard</el-breadcrumb-item
     >
@@ -36,9 +36,13 @@ export default {
       const date = new Date(this.$store.getters.result.local.timestamp);
       return date.toLocaleString("en-GB", { timeZone: "UTC" });
     },
+    isHomepage() {
+      return this.$router.currentRoute.value.name === "homepage";
+    },
     list() {
-      const { meta, name, params } = this.$router.currentRoute.value;
       const result = [];
+      const { meta, name, params } = this.$router.currentRoute.value;
+
       if (meta.parentRoute) {
         const parentRoute = this.$router
           .getRoutes()
