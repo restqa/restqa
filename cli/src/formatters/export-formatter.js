@@ -89,7 +89,10 @@ options.customExporters = {
         path.resolve(config.folder, "index.html")
       ).href;
 
-      config.browserOpening && (await open(url));
+      if (undefined === process.env.CI) {
+        config.browserOpening && (await open(url));
+      }
+
       return Promise.resolve(
         `[HAPPY REPORT][SUCCESS] - Your report has been generated at ${url}`
       );
