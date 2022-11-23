@@ -1,8 +1,16 @@
 <template>
-  <div class="swagger" id="swagger"></div>
+  <el-alert
+    title="An error occured while trying to load the swagger ui... Sorry about that"
+    type="error"
+    :closable="false"
+    v-if="hasError"
+  />
+  <div class="swagger" id="swagger" v-loading="true"></div>
 </template>
 
 <script>
+import { LoadScript, LoadStyle } from "@/services/utils/lazy-loader.js";
+
 export default {
   name: "SpecificationView",
   props: {
@@ -11,8 +19,15 @@ export default {
       require: true,
     },
   },
+  data() {
+    return {
+      loading: true,
+      hasError: false,
+    };
+  },
   methods: {
     loadSwagger(spec) {
+      this.loading = false;
       SwaggerUIBundle({
         spec,
         dom_id: "#swagger",
@@ -27,7 +42,17 @@ export default {
     },
   },
   mounted() {
-    this.loadSwagger(this.data);
+    Promise.all([
+      LoadStyle("./vendors/swagger-ui.css"),
+      LoadScript("./vendors/swagger-ui-bundle.js"),
+      LoadScript("./vendors/swagger-ui-standalone-preset.js"),
+    ])
+      .then(() => {
+        this.loadSwagger(this.data);
+      })
+      .catch(() => {
+        this.hasError = true;
+      });
   },
 };
 </script>

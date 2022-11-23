@@ -17,14 +17,13 @@
 }
 
 .loading-logo img{
-  width: 80px;
   width: 200px;
 }
 
 .loading {
   position: absolute;
-  left: calc(50% - 35px);
-  top: 50%;
+  left: 0;
+  top: 0;
   width: 55px;
   height: 55px;
   border-radius: 50%;
