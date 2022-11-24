@@ -29,7 +29,7 @@ jobs:
       env:
         DEBUG: testcontainers*
         CI: true
-    - run: npm run test:functional -w cli
+    - run: npm run test:functional
 
   build-windows:
     runs-on: windows-latest
@@ -44,7 +44,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
     - run: pnpm i
-    - run: del .\ui\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
     - run: npm run build
     - run: npm run lint
     - run: npm run format
