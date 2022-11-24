@@ -1,10 +1,7 @@
-const fs = require("fs-extra");
-const path = require("path");
-const URL = require("url");
-const open = require("open");
-const {getFormatter} = require("@restqa/cucumber-export");
 const Welcome = require("../utils/welcome");
 const Pkg = require("../../package.json");
+const {getFormatter} = require("@restqa/cucumber-export");
+const Report = require("@restqa/report-ui");
 
 const {restqa} = global;
 const {config, env, report, exportStream} = restqa;
@@ -63,35 +60,14 @@ if (restqa.exportStream) {
 
 options.customExporters = {
   html: async function (config, result) {
-    // Overriding the buildin html-report from @restqa/cucumber
-    const HTML_TEMPLATE_FOLDER = path.resolve(__dirname, "..", "..", "ui");
-
-    config = config || {};
-    if (undefined === config.browserOpening) {
-      config.browserOpening = true;
-    }
-    config.folder = config.folder || path.resolve(process.cwd(), "restqa");
-
     try {
-      fs.copySync(HTML_TEMPLATE_FOLDER, config.folder, {overwrite: true});
-
-      const dataOutput = getDataOutput(result);
-
-      const output = `window.OUTPUT = ${JSON.stringify(
-        dataOutput,
-        null,
-        2
-      )}\n\n`;
-
-      fs.writeFileSync(path.resolve(config.folder, "restqa.result.js"), output);
-
-      const url = URL.pathToFileURL(
-        path.resolve(config.folder, "index.html")
-      ).href;
-
-      if (undefined === process.env.CI) {
-        config.browserOpening && (await open(url));
+      const options = {
+        browserOpening: config.browserOpening,
+        dataOutput: getDataOutput(result),
+        folder: config.folder
       }
+
+      const url = await Report(options)
 
       return Promise.resolve(
         `[HAPPY REPORT][SUCCESS] - Your report has been generated at ${url}`

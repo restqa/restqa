@@ -11,7 +11,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
   },
-  ignorePatterns: ["**/vendors/*.js"],
+  ignorePatterns: [
+    "**/vendors/*.js",
+    "*.cjs"
+  ],
   globals: {
     Prism: "readonly",
     Highcharts: "readonly",

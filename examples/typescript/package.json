@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc --build",
     "start": "node dist/index.js",
     "dev": "ts-node -r tsconfig-paths/register src/index",
     "test": "restqa run",
