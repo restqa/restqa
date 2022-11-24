@@ -1,0 +1,124 @@
+{
+  "name": "@restqa/cucumber-export",
+  "version": "0.1.15",
+  "description": "A simple cucumber-js formatter exporting your result to different endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch --coverage",
+    "test:coverage": "jest --coverage",
+    "example": "cucumber-js --publish-quiet -f ./example/formatter.js:restqa.log example/features",
+    "example:success": "cucumber-js -f ./example/formatter.js:restqa.log -t @success example/features",
+    "html-report:install": "npm install --prefix ./html-report-template",
+    "html-report:build": "npm run build --prefix ./html-report-template",
+    "lint:fix": "eslint --fix src/",
+    "lint": "eslint src/",
+    "format": "prettier --check index.js src",
+    "format:fix": "prettier --write index.js src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/cucumber-export.git"
+  },
+  "keywords": [
+    "cucumber-reporter",
+    "restqa",
+    "reporter",
+    "gherkin",
+    "test automation"
+  ],
+  "author": "Olivier Rodomond <hi@olivierodo.me>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/restqa/cucumber-export/issues"
+  },
+  "homepage": "https://github.com/restqa/cucumber-export#readme",
+  "files": [
+    "index.js",
+    "src",
+    "html-report-template/dist",
+    "!**/**/*.test.js"
+  ],
+  "dependencies": {
+    "async": "^3.2.0",
+    "fs-extra": "^9.1.0",
+    "got": "^10.7.0",
+    "moment": "^2.24.0",
+    "open": "^8.2.1",
+    "uuid": "^7.0.2"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.0",
+    "@cucumber/messages": "^16.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "husky": "^4.3.0",
+    "jest": "^27.0.6",
+    "jest-runner-eslint": "^0.10.1",
+    "jest-runner-prettier": "^0.3.7",
+    "prettier": "^2.4.1",
+    "rimraf": "^3.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm test",
+      "pre-commit": "npm run lint:fix"
+    }
+  },
+  "jest": {
+    "watchPlugins": [
+      "jest-runner-eslint/watch-fix"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "projects": [
+      {
+        "displayName": {
+          "name": "test",
+          "color": "yellow"
+        }
+      },
+      {
+        "runner": "jest-runner-eslint",
+        "displayName": "eslint",
+        "testMatch": [
+          "<rootDir>/index.js",
+          "<rootDir>/src/**/*.js"
+        ]
+      },
+      {
+        "runner": "jest-runner-prettier",
+        "displayName": {
+          "name": "prettier",
+          "color": "blue"
+        },
+        "testMatch": [
+          "<rootDir>/index.js",
+          "<rootDir>/src/**/*.js"
+        ]
+      }
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 0
+      }
+    }
+  },
+  "jest-runner-eslint": {
+    "cliOptions": {
+      "fix": true
+    }
+  }
+}

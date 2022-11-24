@@ -8,9 +8,9 @@
     "lint": "pnpm -r run lint",
     "format": "pnpm -r run format",
     "example": "cd examples/nodejs && npm run happy",
-    "test": "pnpm -r test",
+    "test": "pnpm -r --filter '@restqa/*' test",
     "contribute": "pnpm i && npm run build && pnpm i && npm run example",
-    "cleanall": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/node_modules && rm -rf packages/*/dist"
+    "cleanup": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/node_modules && rm -rf packages/*/dist"
   },
   "packageManager": "pnpm@7.17.0",
   "engines": {

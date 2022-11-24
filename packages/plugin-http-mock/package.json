@@ -1,0 +1,47 @@
+{
+  "name": "@restqa/plugin-http-mock",
+  "version": "0.0.5",
+  "description": "RestQA plugin enabling mock of HTTP request",
+  "main": "src/index.js",
+  "dependencies": {
+    "@restqa/plugin": "0.0.4",
+    "debug": "^4.3.4",
+    "testcontainers": "^9.0.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.3.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "express": "^4.17.1",
+    "global-agent": "^3.0.0",
+    "got": "^11.8.2",
+    "prettier": "^2.4.1"
+  },
+  "scripts": {
+    "lint": "eslint src tests --fix",
+    "lint:fix": "eslint src tests --fix",
+    "format": "prettier --write src tests",
+    "test": "cucumber-js --require ./tests/setup.js --publish-quiet --fail-fast ./tests/features"
+  },
+  "keywords": [
+    "api",
+    "microservice",
+    "http-mock",
+    "mock",
+    "test",
+    "unit-test",
+    "cucumber",
+    "restqa"
+  ],
+  "files": [
+    "src",
+    "assets",
+    "README.md"
+  ],
+  "author": "Olivier Rodomond",
+  "license": "ISC"
+}

@@ -1,0 +1,50 @@
+{
+  "name": "@restqa/plugin-mongodb-mock",
+  "version": "0.0.1",
+  "description": "A RestQA plugin to mockup a mongo DB database to run your local test with class",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src tests",
+    "lint:fix": "eslint src tests --fix",
+    "format": "prettier --check src tests",
+    "format:fix": "prettier --write src tests",
+    "test": "cucumber-js --require ./tests/setup.js --publish-quiet --fail-fast ./tests/features"
+  },
+  "keywords": [
+    "mongodb",
+    "mongo-db",
+    "microservice",
+    "mongodb-mock",
+    "mock",
+    "test",
+    "unit-test",
+    "cucumber",
+    "restqa",
+    "microservice"
+  ],
+  "files": [
+    "src",
+    "assets",
+    "README.md"
+  ],
+  "author": "Olivier Rodomond",
+  "license": "ISC",
+  "dependencies": {
+    "@restqa/plugin": "0.0.4",
+    "debug": "^4.3.4",
+    "dot-object": "^2.1.4",
+    "mongodb": "^4.10.0",
+    "testcontainers": "^8.15.0"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.7.0",
+    "esbuild": "^0.15.11",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "prettier": "^2.7.1"
+  }
+}
