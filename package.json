@@ -3,7 +3,7 @@
   "version": "1.0.0-rc1",
   "description": "",
   "scripts": {
-    "build": "pnpm -r run build",
+    "build": "pnpm -r --workspace-concurrency=1  run build",
     "lint": "pnpm -r run lint",
     "format": "pnpm -r run format",
     "example": "cd examples/nodejs && npm run happy",

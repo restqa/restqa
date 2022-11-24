@@ -33,6 +33,7 @@
     "@cucumber/cucumber": "^7.3.0",
     "@restqa/cucumber-export": "^0.1.15",
     "@restqa/rest-api-plugin": "workspace:*",
+    "@restqa/report-ui": "workspace:*",
     "@restqa/restqdata": "^0.1.1",
     "c8": "^7.12.0",
     "chalk": "^4.0.0",
@@ -45,7 +46,6 @@
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
     "lodash": "^4.17.21",
-    "open": "^8.4.0",
     "tree-kill": "^1.2.2",
     "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "@restqa/plugin": "0.0.3",
-    "bats": "^2.3.0",
+    "bats": "^1.8.2",
     "bats-assert": "github:ztombol/bats-assert",
     "bats-file": "github:ztombol/bats-file",
     "bats-support": "github:ztombol/bats-support",

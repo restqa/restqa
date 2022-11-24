@@ -1,10 +1,10 @@
 {
-  "name": "@restqa/ui",
+  "name": "@restqa/report-ui",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.cjs",
   "files": [
     "dist",
-    "index.js"
+    "index.cjs"
   ],
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,11 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "axios": "*",
+    "open": "^8.4.0",
+    "fs-extra": "^10.1.0"
+  },
+  "type": "module",
+  "devDependencies": {
     "@element-plus/theme-chalk": "^2.2.16",
     "@restqa/docs": "workspace:*",
     "element-plus": "^2.2.19",
@@ -24,10 +28,7 @@
     "vue-router": "^4.1.5",
     "vue3-clipboard": "^1.0.0",
     "vuex": "^4.1.0",
-    "yaml": "^2.1.3"
-  },
-  "type": "module",
-  "devDependencies": {
+    "yaml": "^2.1.3",
     "@rushstack/eslint-patch": "^1.1.4",
     "@vitejs/plugin-vue": "^3.1.2",
     "@vue/eslint-config-prettier": "^7.0.0",
