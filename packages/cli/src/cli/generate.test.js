@@ -80,7 +80,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -140,7 +140,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -177,7 +177,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -232,7 +232,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -283,7 +283,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -328,7 +328,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -378,7 +378,7 @@ describe("# cli - generator", () => {
       `;
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
     const Generate = require("./generate");
@@ -430,7 +430,7 @@ describe("# cli - generator", () => {
       `.trim();
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
 
@@ -487,7 +487,7 @@ Given I have an example
       `.trim();
     const mockGenerator = jest.fn().mockReturnValue(resultScenario);
 
-    jest.mock("@restqa/rest-api-plugin", () => ({
+    jest.mock("@restqa/plugin-rest-api", () => ({
       Generator: mockGenerator
     }));
 

@@ -14,7 +14,7 @@ afterEach(jestqa.afterEach);
 
 jestqa.hooks.beforeEach = function () {
   mockGenerator = jest.fn();
-  jest.mock("@restqa/rest-api-plugin", () => ({
+  jest.mock("@restqa/plugin-rest-api", () => ({
     Generator: mockGenerator
   }));
 

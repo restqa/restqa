@@ -1,7 +1,7 @@
 const Data = require("./data");
 const logger = require("../utils/logger");
 const path = require("path");
-const RestQAData = require("@restqa/restqdata");
+const RestQAData = require("@restqa/data");
 const CorePlugin = require("./plugin");
 
 const Module = require("module");
@@ -67,7 +67,7 @@ module.exports = function (processor, options = {}) {
 
   // Plugin settings
   const RestQAPI = {
-    getName: () => "@restqa/rest-api-plugin",
+    getName: () => "@restqa/plugin-rest-api",
     getConfig: () => ({
       url: environment.url
     })
@@ -96,7 +96,7 @@ function getPluginModule(options, processor) {
     const name = plugin.getName();
 
     let instance;
-    if (name === "@restqa/rest-api-plugin") {
+    if (name === "@restqa/plugin-rest-api") {
       instance = require(name);
     } else {
       instance = Module.createRequire(

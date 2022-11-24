@@ -1,5 +1,5 @@
 {
-  "name": "@restqa/rest-api-plugin",
+  "name": "@restqa/plugin-rest-api",
   "version": "0.1.5",
   "description": "REST API Functional Test engine based on Gerkin - RestQA",
   "scripts": {
