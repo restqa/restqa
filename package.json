@@ -3,12 +3,13 @@
   "version": "1.0.0-rc1",
   "description": "",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --workspace-concurrency=1  run build",
     "lint": "pnpm -r run lint",
     "format": "pnpm -r run format",
     "example": "cd examples/nodejs && npm run happy",
     "test": "pnpm -r test",
-    "contribute": "pnpm install && npm run build && npm run example",
+    "contribute": "pnpm i && npm run build && pnpm i && npm run example",
     "cleanall": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/node_modules && rm -rf packages/*/dist"
   },
   "packageManager": "pnpm@7.17.0",
