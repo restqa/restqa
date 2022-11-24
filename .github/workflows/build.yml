@@ -26,6 +26,9 @@ jobs:
     - run: npm run lint
     - run: npm run format
     - run: npm test
+      env:
+        DEBUG: testcontainers*
+        CI: true
     - run: npm run test:functional -w cli
 
   build-windows:
@@ -46,3 +49,6 @@ jobs:
     - run: npm run lint
     - run: npm run format
     - run: npm test
+      env:
+        DEBUG: testcontainers*
+        CI: true
