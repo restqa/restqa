@@ -4,7 +4,7 @@ title: Form Request Body
 sidebar_label: Form Request Body
 parent: given
 category: Form Request body
-content_from: rest-api-plugin/src/rest-api/steps/1-given/index.js
+content_from: plugin-rest-api/src/rest-api/steps/1-given/index.js
 pre-requisit:
   - given
   - given-host

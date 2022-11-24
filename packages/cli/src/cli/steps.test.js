@@ -60,7 +60,7 @@ tests:
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const mockPlugin = new Plugin("rest-api-plugin");
+    const mockPlugin = new Plugin("plugin-rest-api");
     mockPlugin
       .addGivenStep("my definition {string}", () => {}, "my comment")
       .addGivenStep(
@@ -68,7 +68,7 @@ tests:
         () => {},
         "mon commentaire"
       );
-    jest.mock("@restqa/rest-api-plugin", () => mockPlugin);
+    jest.mock("@restqa/plugin-rest-api", () => mockPlugin);
 
     const mockAddRow = jest.fn();
     const mockPrintTable = jest.fn();
@@ -96,14 +96,14 @@ tests:
 
     expect(mockAddRow.mock.calls).toHaveLength(2);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "rest-api-plugin",
+      Plugin: "plugin-rest-api",
       Keyword: "given",
       Step: `my definition ${chalk.yellow("{string}")}`,
       Comment: "my comment"
     });
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
-      Plugin: "rest-api-plugin",
+      Plugin: "plugin-rest-api",
       Keyword: "given",
       Step: `ma definition ${chalk.yellow("{int}")} and ${chalk.yellow(
         "{string}"
@@ -113,13 +113,13 @@ tests:
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "rest-api-plugin",
+        Plugin: "plugin-rest-api",
         Keyword: "given",
         Step: `my definition ${chalk.yellow("{string}")}`,
         Comment: "my comment"
       },
       {
-        Plugin: "rest-api-plugin",
+        Plugin: "plugin-rest-api",
         Keyword: "given",
         Step: `ma definition ${chalk.yellow("{int}")} and ${chalk.yellow(
           "{string}"
@@ -147,11 +147,11 @@ plugins:
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const mockPluginAPI = new Plugin("rest-api-plugin");
+    const mockPluginAPI = new Plugin("plugin-rest-api");
     mockPluginAPI
       .addThenStep("my definition", () => {}, "my comment")
       .addThenStep("ma definition", () => {}, "mon commentaire");
-    jest.mock("@restqa/rest-api-plugin", () => mockPluginAPI);
+    jest.mock("@restqa/plugin-rest-api", () => mockPluginAPI);
 
     const mockPluginMocki = new Plugin("restqmocki");
     mockPluginMocki.addThenStep(
@@ -166,7 +166,7 @@ plugins:
 
       return {
         validate: originalModule.validate,
-        pluginList: ["rest-api-plugin", "restqmock"]
+        pluginList: ["plugin-rest-api", "restqmock"]
       };
     });
 
@@ -196,14 +196,14 @@ plugins:
 
     expect(mockAddRow.mock.calls).toHaveLength(3);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "rest-api-plugin",
+      Plugin: "plugin-rest-api",
       Keyword: "then",
       Step: "my definition",
       Comment: "my comment"
     });
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
-      Plugin: "rest-api-plugin",
+      Plugin: "plugin-rest-api",
       Keyword: "then",
       Step: "ma definition",
       Comment: "mon commentaire"
@@ -218,13 +218,13 @@ plugins:
     expect(mockPrintTable.mock.calls).toHaveLength(1);
     expect(result).toEqual([
       {
-        Plugin: "rest-api-plugin",
+        Plugin: "plugin-rest-api",
         Keyword: "then",
         Step: "my definition",
         Comment: "my comment"
       },
       {
-        Plugin: "rest-api-plugin",
+        Plugin: "plugin-rest-api",
         Keyword: "then",
         Step: "ma definition",
         Comment: "mon commentaire"
@@ -254,12 +254,12 @@ tests:
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const mockPluginAPI = new Plugin("rest-api-plugin");
+    const mockPluginAPI = new Plugin("plugin-rest-api");
     mockPluginAPI
       .addGivenStep("my definition", () => {}, "my comment", "header")
       .addGivenStep("my definitions", () => {}, "my comments", "headers")
       .addGivenStep("ma definition", () => {}, "mon commentaire", "api");
-    jest.mock("@restqa/rest-api-plugin", () => mockPluginAPI);
+    jest.mock("@restqa/plugin-rest-api", () => mockPluginAPI);
 
     const mockAddRow = jest.fn();
     const mockPrintTable = jest.fn();
@@ -291,14 +291,14 @@ tests:
 
     expect(mockAddRow.mock.calls).toHaveLength(2);
     expect(mockAddRow.mock.calls[0][0]).toEqual({
-      Plugin: "rest-api-plugin",
+      Plugin: "plugin-rest-api",
       Keyword: "given",
       Step: "my definition",
       Comment: "my comment"
     });
 
     expect(mockAddRow.mock.calls[1][0]).toEqual({
-      Plugin: "rest-api-plugin",
+      Plugin: "plugin-rest-api",
       Keyword: "given",
       Step: "my definitions",
       Comment: "my comments"
@@ -307,13 +307,13 @@ tests:
     expect(mockPrintTable.mock.calls).toHaveLength(0);
     expect(result).toEqual([
       {
-        Plugin: "rest-api-plugin",
+        Plugin: "plugin-rest-api",
         Keyword: "given",
         Step: "my definition",
         Comment: "my comment"
       },
       {
-        Plugin: "rest-api-plugin",
+        Plugin: "plugin-rest-api",
         Keyword: "given",
         Step: "my definitions",
         Comment: "my comments"
@@ -337,12 +337,12 @@ tests:
     `;
     const filename = jestqa.createTmpFile(content, ".restqa.yml");
 
-    const mockPluginAPI = new Plugin("rest-api-plugin");
+    const mockPluginAPI = new Plugin("plugin-rest-api");
     mockPluginAPI
       .addGivenStep("my definition", () => {}, "my comment", "header")
       .addGivenStep("my definitions", () => {}, "my comments", "headers")
       .addGivenStep("ma definition", () => {}, "mon commentaire", "api");
-    jest.mock("@restqa/rest-api-plugin", () => mockPluginAPI);
+    jest.mock("@restqa/plugin-rest-api", () => mockPluginAPI);
 
     const mockAddRow = jest.fn();
     const mockPrintTable = jest.fn();

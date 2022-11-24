@@ -31,8 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "@cucumber/cucumber": "^7.3.0",
-    "@restqa/cucumber-export": "^0.1.15",
-    "@restqa/rest-api-plugin": "workspace:*",
+    "@restqa/plugin-rest-api": "workspace:*",
     "@restqa/report-ui": "workspace:*",
     "@restqa/restqdata": "^0.1.1",
     "c8": "^7.12.0",

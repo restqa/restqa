@@ -1,8 +1,8 @@
 const YAML = require("yaml");
 const path = require("path");
 const fs = require("fs");
-const Request = require("@restqa/rest-api-plugin/src/rest-api/lib/api/request");
-const Response = require("@restqa/rest-api-plugin/src/rest-api/lib/api/response");
+const Request = require("@restqa/plugin-rest-api/src/rest-api/lib/api/request");
+const Response = require("@restqa/plugin-rest-api/src/rest-api/lib/api/response");
 const HttpMock = require("./index");
 
 const jestqa = new JestQA(__filename, true);
