@@ -1,0 +1,131 @@
+{
+  "name": "@restqa/cli",
+  "version": "1.0.0-rc1",
+  "description": "The delicious microservice automation testing tool",
+  "scripts": {
+    "prepublishOnly": "npm run build --prefix ../",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:functional": "bats bin/tests",
+    "lint": "eslint --fix src/ bin/restqa.js",
+    "format": "prettier --write --check src",
+    "build": "node build.js",
+    "watch": "nodemon --exec \"npm run build\" -e json,js,yml --ignore dist/ src/"
+  },
+  "keywords": [
+    "api",
+    "restapi",
+    "cucumber-export",
+    "test",
+    "cucumber",
+    "restqa"
+  ],
+  "files": [
+    "dist",
+    "!dist/**/*.swp",
+    "!dist/**/*.DS_Store",
+    "!dist/.restqa.log"
+  ],
+  "author": "Olivier Rodomond",
+  "license": "MIT",
+  "dependencies": {
+    "@cucumber/cucumber": "^7.3.0",
+    "@restqa/cucumber-export": "^0.1.15",
+    "@restqa/rest-api-plugin": "workspace:*",
+    "@restqa/restqdata": "^0.1.1",
+    "c8": "^7.12.0",
+    "chalk": "^4.0.0",
+    "commander": "^8.0.0",
+    "console-table-printer": "^2.9.0",
+    "cross-spawn": "^7.0.3",
+    "debug": "^4.3.1",
+    "fuzzy-string-matching": "^1.0.2",
+    "glob": "^7.1.7",
+    "inquirer": "^7.3.3",
+    "joi": "^17.4.0",
+    "lodash": "^4.17.21",
+    "open": "^8.4.0",
+    "tree-kill": "^1.2.2",
+    "update-notifier": "^5.1.0",
+    "yaml": "^1.9.2"
+  },
+  "bin": {
+    "restqa": "./dist/bin/restqa"
+  },
+  "engines": {
+    "node": ">=14.2.0"
+  },
+  "devDependencies": {
+    "@restqa/plugin": "0.0.3",
+    "bats": "^1.3.0",
+    "concurrently": "^6.1.0",
+    "esbuild": "^0.15.7",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "fastify": "^3.29.4",
+    "fs-extra": "^10.1.0",
+    "got": "^11.8.2",
+    "jest": "^26.6.3",
+    "jest-runner-eslint": "^0.10.0",
+    "nock": "^13.0.11",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 2017
+    }
+  },
+  "jest": {
+    "verbose": true,
+    "watchPlugins": [
+      "jest-runner-eslint/watch-fix"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "projects": [
+      {
+        "displayName": {
+          "name": "test",
+          "color": "yellow"
+        },
+        "setupFilesAfterEnv": [
+          "<rootDir>/jest.setup.js"
+        ],
+        "testMatch": [
+          "<rootDir>/src/**/*.test.js"
+        ]
+      },
+      {
+        "runner": "jest-runner-eslint",
+        "displayName": "lint",
+        "testMatch": [
+          "<rootDir>/bin/restqa",
+          "<rootDir>/src/**/*.js"
+        ]
+      }
+    ]
+  },
+  "jest-runner-eslint": {
+    "cliOptions": {
+      "fix": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://restqa.io",
+  "trackingCode": "UA-118770210-1"
+}
