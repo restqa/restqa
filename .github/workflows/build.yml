@@ -18,7 +18,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i
+    - run: npm i -g pnpm
+    - run: pnpm i
       env:
         CI: true
     - run: npm run build
@@ -38,7 +39,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i
+    - run: npm i -g pnpm
+    - run: pnpm i
     - run: del .\ui\browserslist* # small hack... https://github.com/angular/angular-cli/issues/3938#issuecomment-387399080
     - run: npm run build
     - run: npm run lint

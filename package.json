@@ -3,14 +3,13 @@
   "version": "1.0.0-rc1",
   "description": "",
   "scripts": {
-    "build": "npm run build -ws --if-present",
-    "lint": "npm run lint -ws --if-present",
-    "format": "npm run format -ws --if-present",
-    "example:install": "npm i -w examples/nodejs",
-    "example": "npm run happy -w examples/nodejs",
-    "test": "npm test -w docs -w cli -w ui --if-present",
-    "contribute": "npm install && npm run build && npm run example:install && npm run example",
-    "cleanall": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules"
+    "build": "pnpm -r run build",
+    "lint": "pnpm -r run lint",
+    "format": "pnpm -r run format",
+    "example": "cd examples/nodejs && npm run happy",
+    "test": "pnpm -r test",
+    "contribute": "pnpm install && npm run build && npm run example",
+    "cleanall": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/node_modules && rm -rf packages/*/dist"
   },
   "packageManager": "pnpm@7.17.0",
   "engines": {
