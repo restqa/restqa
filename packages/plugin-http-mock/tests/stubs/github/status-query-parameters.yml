@@ -1,0 +1,13 @@
+request:
+  url: /status
+  method: GET
+  query:
+    match: query
+response:
+  status: 201
+  headers:
+    content-type: application/json
+  body: >
+    {
+      "message": "Hello World with query parameters!"
+    }
