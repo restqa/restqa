@@ -15,6 +15,7 @@ This repository is a monorepo an relies on [NPM Workspace](https://docs.npmjs.co
 #### Simply run the command
 
 ```
+npm i -g pnpm
 npm run contribute
 ```
 
@@ -22,9 +23,10 @@ or
 
 
 ```
-npm install
+npm i -g pnpm
+pnpm install
 npm run build
-npm run example:install
+pnpm install
 npm run example
 ```
 
