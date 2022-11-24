@@ -1,6 +1,6 @@
 {
   "name": "typescript",
-  "version": "1.0.0",
+  "version": "1.0.0-rc1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@restqa/restqa": "^1.0.0",
+    "@restqa/cli": "workspace:*",
     "express": "^4.18.2"
   }
 }

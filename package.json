@@ -1,8 +1,7 @@
 {
-  "name": "restqa",
-  "version": "1.0.0",
+  "name": "@restqa/restqa",
+  "version": "1.0.0-rc1",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "npm run build -ws --if-present",
     "lint": "npm run lint -ws --if-present",
@@ -10,23 +9,10 @@
     "example:install": "npm i -w examples/nodejs",
     "example": "npm run happy -w examples/nodejs",
     "test": "npm test -w docs -w cli -w ui --if-present",
-    "clean-install": "rm -rf package-lock.json node_modules docs/node_modules ui/node_modules plugins/rest-api/node_modules cli/node_modules example/node_modules",
-    "contribute": "npm install && npm run build && npm run example:install && npm run example"
+    "contribute": "npm install && npm run build && npm run example:install && npm run example",
+    "cleanall": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules"
   },
-  "workspaces": [
-    "docs",
-    "ui",
-    "plugins/rest-api",
-    "cli",
-    "examples/nodejs",
-    "examples/typescript"
-  ],
-  "dependencies": {
-    "@restqa/docs": "file:docs",
-    "@restqa/ui": "file:ui",
-    "@restqa/restqa": "file:restqa",
-    "@restqa/rest-api": "file:plugins/rest-api"
-  },
+  "packageManager": "pnpm@7.17.0",
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=16.0.0"
