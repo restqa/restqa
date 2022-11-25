@@ -50,4 +50,5 @@ jobs:
     - run: npm test
       env:
         DEBUG: testcontainers*
+        BOOT_TIMEOUT: 60000
         CI: true
