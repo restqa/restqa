@@ -51,7 +51,7 @@ module.exports = function ({outputFolder}) {
     const files = Object.entries(items)
       .map(([file, list]) => {
         return list.map((content, index) => {
-          file = file.split("/").pop();
+          file = file.split(path.sep).pop();
           const filename = path.resolve(
             outputFolder,
             `${file + (index + 1)}.mock.yml`

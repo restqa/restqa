@@ -19,7 +19,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
-    - run: npm run contribute
+    - run: pnpm i
+    - run: npm run build
+    - run: pnpm i
       env:
         CI: true
     - run: npm run lint
@@ -30,6 +32,7 @@ jobs:
         DEBUG: testcontainers*
         CI: true
     - run: npm run test:functional
+    - run: npm run happy
 
   build-windows:
     runs-on: windows-latest
@@ -43,7 +46,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
-    - run: npm run contribute
+    - run: pnpm i
+    - run: npm run build
+    - run: pnpm i
+      env:
+        CI: true
     - run: npm run lint
     - run: npm run format
     - run: npm test
@@ -51,3 +58,4 @@ jobs:
         DEBUG: testcontainers*
         BOOT_TIMEOUT: 60000
         CI: true
+    - run: npm run happy
