@@ -8,7 +8,7 @@
     "lint": "pnpm -r run lint",
     "format": "pnpm -r run format",
     "example": "cd examples/nodejs && npm run happy",
-    "test": "pnpm --filter './packages/*' test",
+    "test": "pnpm -r test",
     "test:functional": "pnpm run --filter '@restqa/cli' test:functional",
     "contribute": "pnpm i && npm run build && pnpm i && npm run example",
     "cleanup": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/node_modules && rm -rf packages/*/dist"
