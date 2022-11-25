@@ -3,10 +3,13 @@ const RestQAMongoDbMock = require("./mongodb-mock");
 
 const instance = new RestQAPlugin(RestQAMongoDbMock.name);
 instance
-  .addBeforeAllHook({timeout: process.env.BOOT_TIMEOUT || 30000}, function () {
-    const config = instance._config;
-    return RestQAMongoDbMock.hooks.beforeAll.call(this, config);
-  })
+  .addBeforeAllHook(
+    {timeout: Number(process.env.BOOT_TIMEOUT) || 30000},
+    function () {
+      const config = instance._config;
+      return RestQAMongoDbMock.hooks.beforeAll.call(this, config);
+    }
+  )
   .addBeforeHook(RestQAMongoDbMock.hooks.before)
   .addAfterHook(RestQAMongoDbMock.hooks.after)
   .addAfterAllHook(RestQAMongoDbMock.hooks.afterAll)
