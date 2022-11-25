@@ -6,6 +6,7 @@ ignore:
   - https://twitter.com/restqa
   - https://cucumber.io/*
   - https://github.com/restqa/restqa/tree/master/*
+  - https://github.com/Marak/*
 
 delay:
   'https://github.com': 500
