@@ -19,14 +19,14 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
-    - run: pnpm i
+    - run: npm run contribute
       env:
         CI: true
-    - run: npm run build
     - run: npm run lint
     - run: npm run format
     - run: npm test
       env:
+        BOOT_TIMEOUT: 60000
         DEBUG: testcontainers*
         CI: true
     - run: npm run test:functional
@@ -43,8 +43,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i -g pnpm
-    - run: pnpm i
-    - run: npm run build
+    - run: npm run contribute
     - run: npm run lint
     - run: npm run format
     - run: npm test
