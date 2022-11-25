@@ -18,7 +18,7 @@ beforeEach(() => {
   }
 });
 
-describe("#Channel - html", () => {
+describe.skip("#Channel - html", () => {
   test("Copy files from html-report/dist and add the result files", async () => {
     const mockOpen = jest.fn();
     jest.mock("open", () => {

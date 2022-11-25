@@ -2,7 +2,7 @@ beforeEach(() => {
   jest.resetModules()
 })
 
-describe('#Services - data', () => {
+describe.skip('#Services - data', () => {
   test('Module type ', () => {
     const Storage = require('./index')
     expect(typeof Storage).toEqual('function')
