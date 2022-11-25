@@ -32,7 +32,7 @@ jobs:
         DEBUG: testcontainers*
         CI: true
     - run: npm run test:functional
-    - run: npm run happy
+    - run: npm run example
 
   build-windows:
     runs-on: windows-latest
@@ -58,4 +58,4 @@ jobs:
         DEBUG: testcontainers*
         BOOT_TIMEOUT: 60000
         CI: true
-    - run: npm run happy
+    - run: npm run example
