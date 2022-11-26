@@ -1,8 +1,8 @@
 {
   "name": "@restqa/plugin-faker",
   "main": "src/index.js",
-  "description": "Extension to extends RestQA capability in order Generate fake data for test scenarios",
-  "version": "0.2.0",
+  "description": "RestQA Plugin enabling the generation of fake data to be used in test scenario",
+  "version": "0.0.0-generated",
   "keywords": [
     "test automation",
     "restqa",
@@ -70,5 +70,13 @@
         }
       }
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
 }

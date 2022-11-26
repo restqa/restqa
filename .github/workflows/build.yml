@@ -21,9 +21,6 @@ jobs:
     - run: npm i -g pnpm
     - run: pnpm i
     - run: npm run build
-    - run: pnpm i
-      env:
-        CI: true
     - run: npm run lint
     - run: npm run format
     - run: npm test
@@ -32,6 +29,7 @@ jobs:
         DEBUG: testcontainers*
         CI: true
     - run: npm run test:functional
+    - run: pnpm i
     - run: npm run example
 
   build-windows:
@@ -48,9 +46,6 @@ jobs:
     - run: npm i -g pnpm
     - run: pnpm i
     - run: npm run build
-    - run: pnpm i
-      env:
-        CI: true
     - run: npm run lint
     - run: npm run format
     - run: npm test
@@ -58,4 +53,5 @@ jobs:
         DEBUG: testcontainers*
         BOOT_TIMEOUT: 60000
         CI: true
+    - run: pnpm i
     - run: npm run example

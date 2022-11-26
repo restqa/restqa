@@ -1,7 +1,8 @@
 {
-  "name": "@restqa/restqa",
-  "version": "1.0.0-rc1",
-  "description": "",
+  "name": "restqa",
+  "private": "true",
+  "version": "1.0.0-rc2",
+  "description": "RestQA  Monorepo",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --workspace-concurrency=1  run build",

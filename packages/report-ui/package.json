@@ -1,6 +1,8 @@
 {
   "name": "@restqa/report-ui",
-  "version": "1.0.0",
+  "private": true,
+  "version": "0.0.0-generated",
+  "description": "UI used by RestQA to display the test report",
   "main": "index.cjs",
   "files": [
     "dist",
@@ -42,5 +44,13 @@
     "vite": "^3.1.8",
     "vite-plugin-singlefile": "^0.12.3",
     "vite-plugin-static-copy": "^0.11.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
 }

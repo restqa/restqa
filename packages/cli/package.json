@@ -1,7 +1,7 @@
 {
-  "name": "@restqa/cli",
-  "version": "1.0.0-rc1",
-  "description": "The delicious microservice automation testing tool",
+  "name": "@restqa/restqa",
+  "version": "0.0.0-generated",
+  "description": "The ultimate microservice test automation sidekick",
   "scripts": {
     "prepublishOnly": "npm run build --prefix ../",
     "test": "jest",
@@ -19,7 +19,12 @@
     "cucumber-export",
     "test",
     "cucumber",
-    "restqa"
+    "restqa",
+    "rest-api",
+    "local=test",
+    "unittest",
+    "microservice",
+    "test-automation"
   ],
   "files": [
     "dist",

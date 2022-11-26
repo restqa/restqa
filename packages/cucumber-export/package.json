@@ -1,6 +1,6 @@
 {
   "name": "@restqa/cucumber-export",
-  "version": "0.1.15",
+  "version": "0.0.0-generated",
   "description": "A simple cucumber-js formatter exporting your result to different endpoints",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,6 @@
     "test:coverage": "jest --coverage",
     "example": "cucumber-js --publish-quiet -f ./example/formatter.js:restqa.log example/features",
     "example:success": "cucumber-js -f ./example/formatter.js:restqa.log -t @success example/features",
-    "html-report:install": "npm install --prefix ./html-report-template",
-    "html-report:build": "npm run build --prefix ./html-report-template",
     "lint:fix": "eslint --fix src/",
     "lint": "eslint src/",
     "format": "prettier --check index.js src",
@@ -18,8 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/restqa/cucumber-export.git"
+    "url": "git+https://github.com/restqa/restqa.git"
   },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme",
   "keywords": [
     "cucumber-reporter",
     "restqa",
@@ -29,10 +31,6 @@
   ],
   "author": "Olivier Rodomond <hi@olivierodo.me>",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/restqa/cucumber-export/issues"
-  },
-  "homepage": "https://github.com/restqa/cucumber-export#readme",
   "files": [
     "index.js",
     "src",

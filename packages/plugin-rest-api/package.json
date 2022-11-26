@@ -1,7 +1,7 @@
 {
   "name": "@restqa/plugin-rest-api",
-  "version": "0.1.5",
-  "description": "REST API Functional Test engine based on Gerkin - RestQA",
+  "version": "0.0.0-generated",
+  "description": "RestQA plugin enabling RESTFUL API test scenario",
   "scripts": {
     "preexample": "npm run build",
     "example": "cucumber-js --require ./example/setup.js --publish-quiet --fail-fast ./example/features",
@@ -76,10 +76,6 @@
       "fix": true
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/restqa/restqapi.git"
-  },
   "keywords": [
     "api",
     "rest",
@@ -90,8 +86,12 @@
   ],
   "author": "Olivier Rodomond",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/restqa/restqapi/issues"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
   },
-  "homepage": "https://github.com/restqa/restqapi#readme"
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
 }

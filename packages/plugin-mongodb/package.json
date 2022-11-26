@@ -1,6 +1,6 @@
 {
   "name": "@restqa/plugin-mongodb-mock",
-  "version": "0.0.1",
+  "version": "0.0.0-generated",
   "description": "A RestQA plugin to mockup a mongo DB database to run your local test with class",
   "main": "index.js",
   "scripts": {
@@ -46,5 +46,13 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "prettier": "^2.7.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
 }
