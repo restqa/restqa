@@ -7,16 +7,16 @@ importers:
 
   examples/nodejs:
     specifiers:
-      '@restqa/cli': workspace:*
+      '@restqa/restqa': workspace:*
       express: ^4.18.0
     dependencies:
       express: 4.18.2
     devDependencies:
-      '@restqa/cli': link:../../packages/cli
+      '@restqa/restqa': link:../../packages/cli
 
   examples/typescript:
     specifiers:
-      '@restqa/cli': workspace:*
+      '@restqa/restqa': workspace:*
       '@tsconfig/node16': ^1.0.3
       '@types/express': ^4.17.14
       '@types/node': ^18.11.9
@@ -25,10 +25,10 @@ importers:
       tsconfig-paths: ^4.1.0
       typescript: ^4.8.4
     dependencies:
-      '@restqa/cli': link:../../packages/cli
       '@tsconfig/node16': 1.0.3
       express: 4.18.2
     devDependencies:
+      '@restqa/restqa': link:../../packages/cli
       '@types/express': 4.17.14
       '@types/node': 18.11.9
       ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
@@ -286,7 +286,7 @@ importers:
       prettier: ^2.4.1
       testcontainers: ^9.0.0
     dependencies:
-      '@restqa/plugin': link:../plugin
+      '@restqa/plugin': 0.0.4
       debug: 4.3.4
       testcontainers: 9.0.0
     devDependencies:
@@ -319,13 +319,13 @@ importers:
       prettier: ^2.7.1
       testcontainers: ^8.15.0
     dependencies:
-      '@restqa/plugin': link:../plugin
+      '@restqa/plugin': 0.0.4
       debug: 4.3.4
       dot-object: 2.1.4
       mongodb: 4.12.1
       testcontainers: 8.16.0
     devDependencies:
-      '@cucumber/cucumber': 8.8.0
+      '@cucumber/cucumber': 8.9.0
       esbuild: 0.15.15
       eslint: 7.32.0
       eslint-config-prettier: 8.5.0_eslint@7.32.0
@@ -419,7 +419,7 @@ importers:
       '@rushstack/eslint-patch': 1.2.0
       '@vitejs/plugin-vue': 3.2.0_vite@3.2.4+vue@3.2.45
       '@vue/eslint-config-prettier': 7.0.0_5qrnzwqb344w6up62gv3safeoi
-      element-plus: 2.2.22_vue@3.2.45
+      element-plus: 2.2.25_vue@3.2.45
       eslint: 8.28.0
       eslint-plugin-vue: 9.8.0_eslint@8.28.0
       highcharts: 10.3.1
@@ -1677,8 +1677,8 @@ packages:
       util-arity: 1.1.0
       verror: 1.10.1
 
-  /@cucumber/cucumber/8.8.0:
-    resolution: {integrity: sha512-W70MuAF42hH0QgDHUgX1glSqDccJuF/kBbHquOf500gP1aOJczKtO9QgYtct1HvilCBYQLb9rou/hZA08jmMIQ==}
+  /@cucumber/cucumber/8.9.0:
+    resolution: {integrity: sha512-kU44RHVbS6fNLrEVQAzTtTMP6pDh0gMzB+QXULNymqGGhXDpnk+6PEH88+YG0TsjjPSYYNwOc3mhN/zvQ28yAg==}
     engines: {node: 12 || 14 || >=16}
     hasBin: true
     dependencies:
@@ -1719,6 +1719,7 @@ packages:
       tmp: 0.2.1
       util-arity: 1.1.0
       verror: 1.10.1
+      xmlbuilder: 15.1.1
       yup: 0.32.11
     dev: true
 
@@ -2457,6 +2458,10 @@ packages:
   /@restqa/plugin/0.0.3:
     resolution: {integrity: sha512-1Sjj+qEOsYxYzuWsoJdQwvp/WT1PjHzWrPhAFLfj51jjpTwq7eicDD2EnUGbr8MYmHBW/9I3Qq6zVUC1advfKg==}
     dev: true
+
+  /@restqa/plugin/0.0.4:
+    resolution: {integrity: sha512-0JTwG1QdvgN/F/WkFJJqGDNIbMc9MDrbFTRjdoe+WFDA1mcHnUJlmlfm9RF40xfNDzQt/Arf9EcgGzA998zj6Q==}
+    dev: false
 
   /@rollup/pluginutils/5.0.2:
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
@@ -4774,8 +4779,8 @@ packages:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: true
 
-  /element-plus/2.2.22_vue@3.2.45:
-    resolution: {integrity: sha512-gg2g2WOMNpWf0wGesymUvTV0VZDF/4khQKroSNeCV/vWJ/cqssPYdtqfGxTiFRt/f+JpyFkV7O1mo0yzMCzrBg==}
+  /element-plus/2.2.25_vue@3.2.45:
+    resolution: {integrity: sha512-HC8CWY31e6pPyBpgqI0QnWkBgs0vRzdYnEw3mpdM/NlKfp0PtNFX7NESQLomqoIulH5ftL09hjQmJNvZBQpthQ==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -8527,7 +8532,7 @@ packages:
       markdown-it-anchor: 8.6.5_2zb4u3vubltivolgu556vv4aom
       marked: 4.2.3
       mkdirp: 1.0.4
-      requizzle: 0.2.3
+      requizzle: 0.2.4
       strip-json-comments: 3.1.1
       taffydb: 2.6.2
       underscore: 1.13.6
@@ -9292,7 +9297,7 @@ packages:
       minimatch: 3.1.2
       pstree.remy: 1.1.8
       semver: 5.7.1
-      simple-update-notifier: 1.0.8
+      simple-update-notifier: 1.1.0
       supports-color: 5.5.0
       touch: 3.1.0
       undefsafe: 2.0.5
@@ -10203,8 +10208,8 @@ packages:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
     dev: true
 
-  /requizzle/0.2.3:
-    resolution: {integrity: sha512-YanoyJjykPxGHii0fZP0uUPEXpvqfBDxWV7s6GKAiiOsiqhX6vHNyW3Qzdmqp/iq/ExbhaGbVrjB4ruEVSM4GQ==}
+  /requizzle/0.2.4:
+    resolution: {integrity: sha512-JRrFk1D4OQ4SqovXOgdav+K8EAhSB/LJZqCz8tbX0KObcdeM15Ss59ozWMBWmmINMagCwmqn4ZNryUGpBsl6Jw==}
     dependencies:
       lodash: 4.17.21
     dev: true
@@ -10592,8 +10597,8 @@ packages:
   /signal-exit/3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
 
-  /simple-update-notifier/1.0.8:
-    resolution: {integrity: sha512-KPXw773wEyrIIhjZh83kmHGrmiAWTxwhAFOhN09IIN1I6ZAmh1luQnS9KPmFaz3X53dcIJ4II80iYV7z7LsUjQ==}
+  /simple-update-notifier/1.1.0:
+    resolution: {integrity: sha512-VpsrsJSUcJEseSbMHkrsrAVSdvVS5I96Qo1QAQ4FxQ9wXFcB+pjj7FB7/us9+GcgfW4ziHtYMc1J0PLczb55mg==}
     engines: {node: '>=8.10.0'}
     dependencies:
       semver: 7.0.0
@@ -12174,6 +12179,11 @@ packages:
   /xml-name-validator/4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
     engines: {node: '>=12'}
+    dev: true
+
+  /xmlbuilder/15.1.1:
+    resolution: {integrity: sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg==}
+    engines: {node: '>=8.0'}
     dev: true
 
   /xmlchars/2.2.0:

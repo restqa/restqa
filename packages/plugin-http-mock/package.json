@@ -1,6 +1,6 @@
 {
   "name": "@restqa/plugin-http-mock",
-  "version": "0.0.5",
+  "version": "0.0.0-generated",
   "description": "RestQA plugin enabling mock of HTTP request",
   "main": "src/index.js",
   "dependencies": {
@@ -43,5 +43,13 @@
     "README.md"
   ],
   "author": "Olivier Rodomond",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
 }

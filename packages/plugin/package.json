@@ -1,6 +1,6 @@
 {
   "name": "@restqa/plugin",
-  "version": "0.0.4",
+  "version": "0.0.0-generated",
   "description": "An abstraction to create RestQA plugin easily",
   "main": "index.js",
   "types": "index.d.ts",
@@ -22,11 +22,14 @@
     "gherkin",
     "test automation"
   ],
-  "homepage": "https://github.com/restqa/plugin",
-  "bugs": {
-    "url": "https://github.com/restqa/plugin/issues",
-    "email": "gorez.tony@gmail.com"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
   },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme",
   "author": {
     "name": "Tony Gorez",
     "email": "gorez.tony@gmail.com"

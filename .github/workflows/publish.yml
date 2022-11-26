@@ -13,12 +13,14 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
-      - run: npm install
+      - run: npm install -g pnpm
+      - run: pnpm i
       - run: npm run build
-      - run: npm publish --access public --prefix cli
+      - run: pnpm -r publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
   docker-publish:
+    needs: npm-publish
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

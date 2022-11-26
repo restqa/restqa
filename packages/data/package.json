@@ -1,7 +1,8 @@
 {
   "name": "@restqa/data",
-  "version": "0.1.1",
-  "description": "Data management for test automation - Restqa Labs",
+  "private": true,
+  "version": "0.0.0-generated",
+  "description": "Data management used by RestQA",
   "main": "index.js",
   "scripts": {
     "serve": "node server.js",
@@ -22,8 +23,7 @@
     "atlassian",
     "google sheets",
     "google sheet",
-    "Csv",
-    "Express"
+    "Csv"
   ],
   "author": "Olivier Rodomond <hi@olivierodo.me>",
   "license": "ISC",
@@ -59,5 +59,13 @@
       2,
       "never"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
 }
