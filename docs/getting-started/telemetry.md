@@ -39,7 +39,7 @@ The information that we track are the following:
 
 Any personal information is track.
 
-[Check on the source Code](https://github.com/restqa/restqa/blob/master/cli/src/utils/telemetry/index.js)
+[Check on the source Code](https://github.com/restqa/restqa/blob/master/packages/cli/src/utils/telemetry/index.js)
 
 ## Where does RestQA stored the collected data?
 
