@@ -23,14 +23,19 @@ jobs:
     - run: npm run build
     - run: npm run lint
     - run: npm run format
+    - run: pnpm i
     - run: npm test
       env:
         BOOT_TIMEOUT: 60000
         DEBUG: testcontainers*
         CI: true
     - run: npm run test:functional
-    - run: pnpm i
     - run: npm run example
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: examples/nodejs/restqa
 
   build-windows:
     runs-on: windows-latest
@@ -48,10 +53,15 @@ jobs:
     - run: npm run build
     - run: npm run lint
     - run: npm run format
-    - run: npm test
-      env:
-        DEBUG: testcontainers*
-        BOOT_TIMEOUT: 60000
-        CI: true
     - run: pnpm i
+#	    - run: npm test
+#	      env:
+#	        DEBUG: testcontainers*
+#	        BOOT_TIMEOUT: 60000
+#	        CI: true
     - run: npm run example
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: examples/nodejs/restqa
