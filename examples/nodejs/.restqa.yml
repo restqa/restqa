@@ -7,7 +7,7 @@ metadata:
 tests:
   local:
     port: 8000
-    command: npm run dev
+    command: node index.js
   performance:
     tool: artillery
     outputFolder: tests/performances
