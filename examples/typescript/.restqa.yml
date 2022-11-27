@@ -6,4 +6,4 @@ metadata:
 tests:
   local:
     port: "8088"
-    command: npm run dev
+    command: ts-node -r tsconfig-paths/register src/index
