@@ -1,4 +1,3 @@
-const kill = require("tree-kill");
 const {ChildProcess} = require("child_process");
 const spawn = require("cross-spawn");
 const logger = require("../utils/logger");
@@ -60,11 +59,14 @@ class Executor {
     const envs = this.envs || {};
     envs.PORT = this.port;
     envs.NODE_V8_COVERAGE = this.coveragePath;
+
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
-        const server = spawn(command, {
-          shell: true,
+
+        const args = command.split(' ');
+        const cmd = args.shift();
+        const server = spawn(cmd, args, {
           env: {
             ...process.env,
             ...envs
@@ -100,6 +102,7 @@ class Executor {
           // Note: we only do it this way to be win32 compliant.
           server.kill();
         });
+
         this._server = server;
       } else {
         throw new Error(
@@ -107,6 +110,7 @@ class Executor {
         );
       }
     }).then(() => {
+      // Todo(tony): we should extract this into another method
       if (!this.port) return this.server;
       return this.checkServer();
     });
@@ -158,10 +162,13 @@ class Executor {
   terminate() {
     return new Promise((resolve, reject) => {
       if (this.server instanceof ChildProcess) {
-        kill(this.server.pid, "SIGTERM", (err) => {
-          if (err) return reject(err);
-          resolve();
-        });
+        const pid = this.server.pid;
+        const status = this.server.kill();
+        if (!status) {
+          reject(new Error(`Executor: failed to terminate process: ${pid}`));
+          return
+        }
+        resolve();
       } else {
         resolve();
       }
