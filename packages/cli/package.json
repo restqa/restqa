@@ -48,7 +48,6 @@
     "inquirer": "^7.3.3",
     "joi": "^17.4.0",
     "lodash": "^4.17.21",
-    "tree-kill": "^1.2.2",
     "update-notifier": "^5.1.0",
     "yaml": "^1.9.2"
   },
