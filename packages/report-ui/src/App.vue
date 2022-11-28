@@ -7,5 +7,11 @@
 <script>
 export default {
   name: "App",
+  mounted() {
+    const appLoading = document.getElementById("loading-bg");
+    if (appLoading) {
+      appLoading.style.display = "none";
+    }
+  },
 };
 </script>

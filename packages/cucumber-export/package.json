@@ -49,6 +49,7 @@
     "node": ">=12.0.0"
   },
   "devDependencies": {
+    "@restqa/report-ui": "workspace:*",
     "@cucumber/cucumber": "^7.3.0",
     "@cucumber/messages": "^16.0.1",
     "eslint": "^7.32.0",
@@ -84,25 +85,6 @@
           "name": "test",
           "color": "yellow"
         }
-      },
-      {
-        "runner": "jest-runner-eslint",
-        "displayName": "eslint",
-        "testMatch": [
-          "<rootDir>/index.js",
-          "<rootDir>/src/**/*.js"
-        ]
-      },
-      {
-        "runner": "jest-runner-prettier",
-        "displayName": {
-          "name": "prettier",
-          "color": "blue"
-        },
-        "testMatch": [
-          "<rootDir>/index.js",
-          "<rootDir>/src/**/*.js"
-        ]
       }
     ],
     "coverageThreshold": {

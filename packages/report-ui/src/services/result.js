@@ -16,6 +16,14 @@ class Result {
     this._current = item;
   }
 
+  isFullReport() {
+    const keys = Object.keys(this._current);
+    if (keys.length === 2 && keys[0] === "RESTQA_RESULT" && keys[1] === "id") {
+      return false;
+    }
+    return true;
+  }
+
   isLatestReport() {
     return this.id === History.last().id;
   }

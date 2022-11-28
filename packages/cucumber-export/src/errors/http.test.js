@@ -2,7 +2,7 @@ beforeEach(() => {
   jest.resetModules();
 });
 
-describe("#http - src/errors", () => {
+describe.skip("#http - src/errors", () => {
   test("toString", () => {
     const Http = require("./http");
     const gotError = new Error("got Msg");

@@ -10,5 +10,6 @@ Given I have the dashboard page
 When I click on my account
 
 @success
-Scenario: Access to my orders from the menu
+Scenario: Access to my orders from the menu 2
 Given I have the dashboard page
+When It passed
