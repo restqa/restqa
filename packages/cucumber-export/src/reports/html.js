@@ -1,17 +1,7 @@
-const fs = require("fs-extra");
 const path = require("path");
-const URL = require("url");
-const open = require("open");
+const Report = require("@restqa/report-ui");
 
 module.exports = async function (config, result) {
-  const HTML_TEMPLATE_FOLDER = path.resolve(
-    __dirname,
-    "..",
-    "..",
-    "html-report-template",
-    "dist"
-  );
-
   config = config || {};
   if (undefined === config.browserOpening) {
     config.browserOpening = true;
@@ -19,16 +9,15 @@ module.exports = async function (config, result) {
   config.folder = config.folder || path.resolve(process.cwd(), "report");
 
   try {
-    fs.copySync(HTML_TEMPLATE_FOLDER, config.folder, {overwrite: true});
+    const options = {
+      browserOpening: config.browserOpening,
+      dataOutput: {
+        RESTQA_RESULT: result
+      },
+      folder: config.folder
+    };
+    const url = await Report(options);
 
-    const output = `window.RESTQA_RESULT = ${JSON.stringify(result, null, 2)}`;
-    fs.writeFileSync(path.resolve(config.folder, "restqa-result.js"), output);
-
-    const url = URL.pathToFileURL(
-      path.resolve(config.folder, "index.html")
-    ).href;
-
-    config.browserOpening && (await open(url));
     return Promise.resolve(
       `[HTML REPORT][SUCCESS] - Your report has been generated at ${url}`
     );

@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import router from "./router";
+import { RouterFullReport, RouterPartialReport } from "./router";
 import store from "./store/store";
 import App from "./App.vue";
 
@@ -14,4 +14,8 @@ import "prismjs/components/prism-gherkin";
 import "prismjs/components/prism-bash";
 import "prism-themes/themes/prism-dracula.css";
 
+let router = RouterFullReport;
+if (false === store.getters.result.isFullReport()) {
+  router = RouterPartialReport;
+}
 createApp(App).use(router).use(store).mount("#app");

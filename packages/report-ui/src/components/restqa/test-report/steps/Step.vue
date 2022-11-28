@@ -15,7 +15,7 @@
       icon="el-icon-magic-stick"
       @click.prevent="copyCurl()"
       class="btn btn-info"
-      v-if="hasAttachement && data.keyword.trim() === 'When'"
+      v-if="hasCurl"
       >Copy Curl command</el-link
     >
     <el-link
@@ -36,24 +36,22 @@
     <pre class="debug debug-error" v-if="show.error">{{
       data.result.error_message
     }}</pre>
+
     <div v-if="show.info">
-      <pre
-        class="debug debug-info"
-        v-for="(attachment, index) in data.embeddings"
-        :key="index"
-        >{{ formatAttachement(attachment) }}</pre
-      >
+      <step-attachments :data="data.embeddings" />
     </div>
   </div>
 </template>
 <script>
 import { copyText } from "vue3-clipboard";
 import StepFormat from "./StepFormat.vue";
+import StepAttachments from "./StepAttachments.vue";
 
 export default {
   name: "RestQAProjectEditorRunnerStep",
   components: {
     StepFormat,
+    StepAttachments,
   },
   props: {
     data: {
@@ -82,6 +80,16 @@ export default {
     hasArguments() {
       return (this.data.arguments || []).length;
     },
+    hasCurl() {
+      let result = false;
+      if (this.hasAttachement && this.data.keyword.trim() === "When") {
+        const curlCommand = this.data.embeddings[0].data;
+        if (curlCommand.split(" ")[0].toLowerCase().trim() === "curl") {
+          result = true;
+        }
+      }
+      return result;
+    },
   },
   methods: {
     showError() {
@@ -89,24 +97,6 @@ export default {
     },
     showInfo() {
       this.show.info = !this.show.info;
-    },
-    formatAttachement(obj) {
-      let result;
-      switch (obj.mime_type) {
-        case "application/json":
-          result = JSON.stringify(JSON.parse(obj.data), undefined, 2);
-          break;
-        case "text/plain":
-          result = obj.data;
-          break;
-        /*
-        default:
-          attachment.type = 'media'
-          attachment.render = `data:${attachment.mime_type};base64, ${attachment.data}`
-          break
-        */
-      }
-      return result;
     },
     copyCurl() {
       const curlCommand = this.data.embeddings[0].data;

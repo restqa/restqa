@@ -52,7 +52,7 @@ const envConfig = {
       type: 'html',
       enabled: true,
       config: {
-        browserOpening: false
+        browserOpening: true
       }
     },
     {

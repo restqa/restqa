@@ -6,7 +6,7 @@
           <el-descriptions :column="1" :border="true">
             <el-descriptions-item label="Tag">
               <el-tag
-                size="medium"
+                size="default"
                 v-for="(item, index) in this.feature.tags || []"
                 :key="index"
               >

@@ -1,43 +1,43 @@
 <template>
   <card :loading="loading">
     <el-collapse-transition>
-      <div class="result" v-if="hasResult">
+      <div class="result">
         <el-alert
           effect="dark"
           :closable="false"
-          v-if="result.scenarios.failed"
+          v-if="feature.failed"
           type="error"
           show-icon
           ><template #title
-            >{{ result.scenarios.failed }}/{{ scenarios.length }} scenarios
+            >{{ feature.failed }}/{{ scenarios.length }} scenarios
             failed</template
           ></el-alert
         >
         <el-alert
           effect="dark"
           :closable="false"
-          v-else-if="result.scenarios.passed"
+          v-else-if="feature.passed"
           type="success"
           show-icon
           ><template #title
-            >{{ result.scenarios.passed }}/{{ scenarios.length }} scenarios
-            successfully passed</template
+            >{{ feature.passed }}/{{ scenarios.length }} scenarios successfully
+            passed</template
           ></el-alert
         >
         <el-alert
           effect="dark"
           :closable="false"
-          v-else-if="result.scenarios.skipped"
+          v-else-if="feature.skipped"
           type="warning"
           show-icon
           ><template #title
-            >{{ result.scenarios.skipped }}/{{ scenarios.length }} scenarios
+            >{{ feature.skipped }}/{{ scenarios.length }} scenarios
             skipped</template
           ></el-alert
         >
-        <el-collapse v-model="activeSection">
+        <el-collapse>
           <el-collapse-item
-            :name="scenario.id"
+            :name="index + scenario.name"
             v-for="(scenario, index) in scenarios"
             :key="index"
           >
@@ -113,24 +113,14 @@ export default {
     return {
       loading: false,
       result,
-      activeSection: [],
     };
   },
   computed: {
+    feature() {
+      return this.data;
+    },
     scenarios() {
-      return (
-        (this.result &&
-          this.result.features &&
-          this.result.features[0] &&
-          this.result.features[0].elements) ||
-        []
-      );
-    },
-    env() {
-      return this.$store.getters.selectedEnv;
-    },
-    hasResult() {
-      return true;
+      return this.feature.elements;
     },
   },
 };

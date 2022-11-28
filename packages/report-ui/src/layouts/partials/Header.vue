@@ -1,12 +1,12 @@
 <template>
   <el-breadcrumb v-if="!isHomepage" class="bread" separator=">">
-    <el-breadcrumb-item :to="{ name: 'homepage' }"
+    <el-breadcrumb-item :to="{ name: 'homepage' }" v-if="isFullReport"
       >Dashboard</el-breadcrumb-item
     >
     <el-breadcrumb-item
       :key="index"
       v-for="(item, index) in list"
-      to="item.router"
+      :to="item.route"
       >{{ item.title }}</el-breadcrumb-item
     >
   </el-breadcrumb>
@@ -38,6 +38,9 @@ export default {
     },
     isHomepage() {
       return this.$router.currentRoute.value.name === "homepage";
+    },
+    isFullReport() {
+      return this.result.isFullReport();
     },
     list() {
       const result = [];

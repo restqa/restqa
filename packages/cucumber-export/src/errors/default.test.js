@@ -2,7 +2,7 @@ beforeEach(() => {
   jest.resetModules();
 });
 
-describe("#default - src/errors", () => {
+describe.skip("#default - src/errors", () => {
   test("toString", () => {
     const Default = require("./default");
     const error = new Error("got Msg");
