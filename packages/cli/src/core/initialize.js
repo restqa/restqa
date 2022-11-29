@@ -8,6 +8,7 @@ const Telemetry = require("../utils/telemetry");
 const Locale = require("../locales")();
 const Config = require("../config");
 const Executor = require("./executor");
+const CustomStepTemplate = require("../templates/custom-steps.tmpl.js");
 
 const DEFAULT_ANSWER = {
   name: "app",
@@ -148,6 +149,11 @@ initialize.generate = async function (options) {
     ];
 
     fs.writeFileSync(path.resolve(folder, output), content.join("\n"));
+
+    fs.writeFileSync(
+      path.resolve(folder, "tests/steps.js"),
+      CustomStepTemplate()
+    );
 
     logger.info("service.init.success.sample");
   } catch (err) {
