@@ -13,6 +13,8 @@
     <a href="https://docs.restqa.io">📖 Documentation</a>
 </p>
 
+> Still under development... The release 1.0.0 is coming soon, Feel free to contribute!
+
 ## 😃 Why Test Driven Happiness?
 
 Within our DEV team while working with microservice, we realized a few thing:
@@ -155,6 +157,17 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 - [X] Bitbucket Pipeline
 - [X] Docker
 - [ ] Azure pipeline
+
+## Big Love ❤️
+
+RestQA Tesm would like to give a hug 🤗 to thanks the excellent work of the following dependent open source project:
+
+* [Cucumber-js](https://github.com/cucumber/cucumber-js/)
+* [VueJs](https://vuejs.org/)
+* [Element-ui](https://element-plus.org)
+* [C8](https://github.com/bcoe/c8)
+* [Swagger Ui](https://github.com/swagger-api/swagger-ui)
+
 
 
 ## Contribution

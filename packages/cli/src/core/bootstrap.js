@@ -1,8 +1,10 @@
 const Data = require("./data");
 const logger = require("../utils/logger");
+const fs = require("fs");
 const path = require("path");
 const RestQAData = require("@restqa/data");
 const CorePlugin = require("./plugin");
+const {cwd} = require("../utils/process.js");
 
 const Module = require("module");
 
@@ -82,6 +84,16 @@ module.exports = function (processor, options = {}) {
     dataInstance.set(key, environment.data.getVariables()[key]);
   }
   defineParameterType(buildParameterTypeRegexp(environment.data));
+
+  const customStepFile = path.resolve(cwd, "tests/steps.js");
+  if (fs.existsSync(customStepFile)) {
+    const customStep = require(customStepFile);
+    customStep({
+      Given: processor.Given,
+      When: processor.When,
+      Then: processor.Then
+    });
+  }
 
   options.config = config;
   CorePlugin(options, processor);

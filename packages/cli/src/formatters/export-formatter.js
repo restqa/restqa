@@ -65,9 +65,9 @@ options.customExporters = {
         browserOpening: config.browserOpening,
         dataOutput: getDataOutput(result),
         folder: config.folder
-      }
+      };
 
-      const url = await Report(options)
+      const url = await Report(options);
 
       return Promise.resolve(
         `[HAPPY REPORT][SUCCESS] - Your report has been generated at ${url}`

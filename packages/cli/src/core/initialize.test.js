@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const YAML = require("yaml");
+const CustomStepTemplate = require("../templates/custom-steps.tmpl.js");
 
 let mockGenerator;
 
@@ -292,6 +293,16 @@ Scenario: Initial scenario
 Given I have an example`;
 
         expect(contentWelcome.trim()).toEqual(expectedWelcomeFeature.trim());
+
+        const filenameSteps = path.resolve(
+          jestqa.getTmpFolder(),
+          "tests",
+          "steps.js"
+        );
+        jestqa.getCurrent().files.push(filenameSteps);
+        const contentSteps = fs.readFileSync(filenameSteps).toString("utf-8");
+        const expectedContentSteps = CustomStepTemplate();
+        expect(contentSteps.trim()).toEqual(expectedContentSteps.trim());
       });
     });
   });
