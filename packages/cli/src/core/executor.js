@@ -66,7 +66,7 @@ class Executor {
 
         const args = command.split(' ');
         const cmd = args.shift();
-        const server = spawn(cmd, args, {
+        this._server = spawn(cmd, args, {
           env: {
             ...process.env,
             ...envs
@@ -74,7 +74,7 @@ class Executor {
         });
 
         // reject if an error happened
-        server.stderr.on("data", (chunk) => {
+        this.server.stderr.on("data", (chunk) => {
           this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
@@ -83,27 +83,24 @@ class Executor {
         });
 
         // resolve when process is spawn successfully
-        server.stdout.on("data", (chunk) => {
+        this._server.stdout.on("data", (chunk) => {
           this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
             logger.success(`Server is running (command: ${command})`);
-            resolve(server);
+            resolve(this._server);
           }
         });
 
         // handle when server (process) is closing
-        server.on("close", () => {
+        this._server.on("close", () => {
           logger.debug("Server closed!");
         });
 
-        // handle error
-        server.on("error", () => {
-          // Note: we only do it this way to be win32 compliant.
-          server.kill();
-        });
+        // Note: we only do it this way to be win32 compliant.
+        // this._server.on("error");
 
-        this._server = server;
+        this._server.on("exit", this._exit);
       } else {
         throw new Error(
           `Executor: command should be a string but received ${typeof command}`
@@ -173,6 +170,11 @@ class Executor {
         resolve();
       }
     });
+  }
+
+  _exit() {
+    logger.debug(`Kill server (proc: ${this.pid})`);
+    this.kill();
   }
 }
 
