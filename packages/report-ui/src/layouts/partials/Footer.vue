@@ -13,7 +13,7 @@
     -
     <br />
     <span v-if="version">v{{ version }}</span>
-    <el-link type="primary" href="https://restqa.io"
+    <el-link v-else type="primary" href="https://restqa.io"
       >Try RestQA, The Next in class microservice testing Framework</el-link
     >
   </div>

@@ -5,7 +5,7 @@
     :closable="false"
     v-if="hasError"
   />
-  <div class="swagger" id="swagger" v-loading="true"></div>
+  <div class="swagger" id="swagger" v-loading="loading"></div>
 </template>
 
 <script>
