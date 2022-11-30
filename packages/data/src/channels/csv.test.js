@@ -117,11 +117,15 @@ john,doe,1990/12/02,male,john doe
         Gender: 'female',
         'full name': 'gina jean'
       }
-      expect(data.get('users', 2)).resolves.toEqual(expectedResult)
+
+      const resource = 'users'
+      const filename = path.resolve(options.folder, resource + '.csv')
+
+      expect(data.get(resource, 2)).resolves.toEqual(expectedResult)
       expect(fs.existsSync.mock.calls.length).toBe(1)
-      expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.existsSync.mock.calls[0][0]).toEqual(filename)
       expect(fs.readFileSync.mock.calls.length).toBe(1)
-      expect(fs.readFileSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.readFileSync.mock.calls[0][0]).toEqual(filename)
       expect(parse.mock.calls.length).toEqual(1)
       const expectedParseOption = {
         delimiter: ',',

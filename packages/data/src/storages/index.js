@@ -1,11 +1,12 @@
 const path = require('path')
 const fs = require('fs')
+const os = require('os')
 
 module.exports = function (options) {
   options = options || {}
 
   if (!options.storage) {
-    options.storage = '/tmp/'
+    options.storage = os.tmpdir()
     if (options.logger) {
       options.logger.log(`[RESTQDATA] No storage found (default: ${options.storage})`)
     }

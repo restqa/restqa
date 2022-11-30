@@ -1,8 +1,11 @@
+const os = require('os')
+const path = require('path')
+
 beforeEach(() => {
   jest.resetModules()
 })
 
-describe.skip('#Services - data', () => {
+describe('#Services - data', () => {
   test('Module type ', () => {
     const Storage = require('./index')
     expect(typeof Storage).toEqual('function')
@@ -14,10 +17,11 @@ describe.skip('#Services - data', () => {
         log: jest.fn()
       }
     }
+    const filename = os.tmpdir()
     const Storage = require('./index')(opt)
     expect(Object.keys(Storage)).toEqual(['get', 'set'])
     expect(opt.logger.log.mock.calls.length).toBe(1)
-    expect(opt.logger.log.mock.calls[0][0]).toBe('[RESTQDATA] No storage found (default: /tmp/)')
+    expect(opt.logger.log.mock.calls[0][0]).toBe(`[RESTQDATA] No storage found (default: ${filename})`)
   })
 
   describe('get', () => {
@@ -25,12 +29,13 @@ describe.skip('#Services - data', () => {
       const fs = require('fs')
       jest.mock('fs')
       fs.existsSync = jest.fn().mockReturnValue(false)
+      const filename = path.resolve(os.tmpdir(), 'test.png')
       const Storage = require('./index')
       expect(() => {
         Storage().get('test.png')
-      }).toThrow(new Error('[RESTQDATA] Impossible to load the file from the storage /tmp/test.png'))
+      }).toThrow(new Error(`[RESTQDATA] Impossible to load the file from the storage ${filename}`))
       expect(fs.existsSync.mock.calls.length).toBe(1)
-      expect(fs.existsSync.mock.calls[0][0]).toBe('/tmp/test.png')
+      expect(fs.existsSync.mock.calls[0][0]).toBe(filename)
     })
 
     test('Return the filename when the file is found', () => {
