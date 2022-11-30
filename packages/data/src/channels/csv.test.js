@@ -46,10 +46,10 @@ describe('#Channel - CSV', () => {
       const filename = path.resolve(options.folder, resource + '.csv')
 
       const data = new Csv(options)
-      expect(data.get('users', 2)).rejects.toThrow(new Error(`Impossible to load the dataset from the csv ${filename}`))
+      expect(data.get(resource, 2)).rejects.toThrow(new Error(`Impossible to load the dataset from the csv ${filename}`))
       expect(fs.existsSync.mock.calls.length).toBe(1)
 
-      expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.existsSync.mock.calls[0][0]).toEqual(filename)
     })
 
     test('Throw error when row is not found', () => {
@@ -69,12 +69,15 @@ john,doe,1990/12/02,male,john doe
         folder: '/my-data'
       }
 
+      const resource = 'users'
+      const filename = path.resolve(options.folder, resource + '.csv')
+
       const data = new Csv(options)
-      expect(data.get('users', 4)).rejects.toThrow(new Error('The data set row 4 doesn\'t exist on the resource users.csv'))
+      expect(data.get(resource, 4)).rejects.toThrow(new Error('The data set row 4 doesn\'t exist on the resource users.csv'))
       expect(fs.existsSync.mock.calls.length).toBe(1)
-      expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.existsSync.mock.calls[0][0]).toEqual(filename)
       expect(fs.readFileSync.mock.calls.length).toBe(1)
-      expect(fs.readFileSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.readFileSync.mock.calls[0][0]).toEqual(filename)
     })
 
     test('Return the expected row', () => {
