@@ -55,11 +55,11 @@ jobs:
     - run: npm run lint
     - run: npm run format
     - run: pnpm i
-#	    - run: npm test
-#	      env:
-#	        DEBUG: testcontainers*
-#	        BOOT_TIMEOUT: 60000
-#	        CI: true
+    - run: npm test
+      env:
+        DEBUG: testcontainers*
+        BOOT_TIMEOUT: 60000
+        CI: true
     - run: npm run example
     - name: Archive code coverage results
       uses: actions/upload-artifact@v3
