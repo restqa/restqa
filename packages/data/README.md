@@ -1,7 +1,7 @@
-# restqdata
+# @restqa/data
 
 
-> One of the key challenge of test automation is using up to data data, RestQData is a simple library to support your test automation by connecting to a specific dataset and serve it to you as a JSON object
+> One of the key challenge of test automation is using up to data data, @restqa/data is a simple library to support your test automation by connecting to a specific dataset and serve it to you as a JSON object
 
 ![Build](https://github.com/restqa/restqdata/workflows/Build/badge.svg)
 
@@ -12,8 +12,6 @@
 - Serve data from Google Sheet
 - Serve data from Confluence
 - Serve data from local csv file
-- NodeJs version
-- Server version
 
 ---
 
@@ -26,7 +24,7 @@
 Install the library into your project:
 
 ```cmd
-npm i -S @restqa/restqdata
+npm i -S @restqa/data
 ```
 
 ---
@@ -35,7 +33,7 @@ npm i -S @restqa/restqdata
 #### Example (Getting data from google sheets)
 
 ```js
-const RestQData = require('@restqa/restqdata')
+const Data = require('@restqa/data')
 
 let options = {
   channel: 'google-sheet',
@@ -45,7 +43,7 @@ let options = {
   }
 }
 
-const data = RestQData(options)
+const data = Data(options)
 data.get('users', 3) // get the sheet named "users" and get the row number 3
   .then(response => {
     console.log(response)
@@ -70,13 +68,13 @@ data.get('users', 3) // get the sheet named "users" and get the row number 3
 ```js
 // Let say the file 'avatar.png' is stored into the '/custom-storage' folder
 
-const RestQData = require('@restqa/restqdata')
+const Data = require('@restqa/data')
 
 let options = {
   storage : '/custom-storage'
 }
 
-const data = RestQData(options)
+const data = Data(options)
 data.storage('users', 3)
   .then(response => {
     console.log(response)
@@ -112,11 +110,6 @@ data.storage('users', 3)
 
 * `config.folder` (required) The folder where the dataset files are stored
 * `config.delimiter` (optional) delimiter userd in the csv, default: `,`
-
-
-### The Server way
-
-@todo
 
 ---
 

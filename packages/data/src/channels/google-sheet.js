@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 const got = require('got')
 const { URLSearchParams } = require('url')
 

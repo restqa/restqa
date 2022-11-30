@@ -1,9 +1,10 @@
+const path = require('path')
+
 beforeEach(() => {
   jest.resetModules()
 })
 
-// @skip due to windows issues...
-describe.skip('#Channel - CSV', () => {
+describe('#Channel - CSV', () => {
   test('throw error if the options are not valid', () => {
     const Csv = require('./csv')
     expect(() => {
@@ -41,11 +42,14 @@ describe.skip('#Channel - CSV', () => {
         delimiter: ';'
       }
 
+      const resource = 'users'
+      const filename = path.resolve(options.folder, resource + '.csv')
+
       const data = new Csv(options)
-      expect(data.get('users', 2)).rejects.toThrow(new Error('Impossible to load the dataset from the csv /my-data/users.csv'))
+      expect(data.get(resource, 2)).rejects.toThrow(new Error(`Impossible to load the dataset from the csv ${filename}`))
       expect(fs.existsSync.mock.calls.length).toBe(1)
 
-      expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.existsSync.mock.calls[0][0]).toEqual(filename)
     })
 
     test('Throw error when row is not found', () => {
@@ -65,12 +69,15 @@ john,doe,1990/12/02,male,john doe
         folder: '/my-data'
       }
 
+      const resource = 'users'
+      const filename = path.resolve(options.folder, resource + '.csv')
+
       const data = new Csv(options)
-      expect(data.get('users', 4)).rejects.toThrow(new Error('The data set row 4 doesn\'t exist on the resource users.csv'))
+      expect(data.get(resource, 4)).rejects.toThrow(new Error('The data set row 4 doesn\'t exist on the resource users.csv'))
       expect(fs.existsSync.mock.calls.length).toBe(1)
-      expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.existsSync.mock.calls[0][0]).toEqual(filename)
       expect(fs.readFileSync.mock.calls.length).toBe(1)
-      expect(fs.readFileSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.readFileSync.mock.calls[0][0]).toEqual(filename)
     })
 
     test('Return the expected row', () => {
@@ -110,11 +117,15 @@ john,doe,1990/12/02,male,john doe
         Gender: 'female',
         'full name': 'gina jean'
       }
-      expect(data.get('users', 2)).resolves.toEqual(expectedResult)
+
+      const resource = 'users'
+      const filename = path.resolve(options.folder, resource + '.csv')
+
+      expect(data.get(resource, 2)).resolves.toEqual(expectedResult)
       expect(fs.existsSync.mock.calls.length).toBe(1)
-      expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.existsSync.mock.calls[0][0]).toEqual(filename)
       expect(fs.readFileSync.mock.calls.length).toBe(1)
-      expect(fs.readFileSync.mock.calls[0][0]).toEqual('/my-data/users.csv')
+      expect(fs.readFileSync.mock.calls[0][0]).toEqual(filename)
       expect(parse.mock.calls.length).toEqual(1)
       const expectedParseOption = {
         delimiter: ',',

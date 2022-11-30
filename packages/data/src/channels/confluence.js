@@ -1,5 +1,5 @@
 const got = require('got')
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 const { parse } = require('html-table-to-json')
 
 function Channel (config) {

@@ -5,8 +5,6 @@
   "description": "Data management used by RestQA",
   "main": "index.js",
   "scripts": {
-    "serve": "node server.js",
-    "serve:dev": "nodemon -r dotenv/config server.js",
     "test": "jest",
     "test:watch": "jest --watch --coverage",
     "test:coverage": "jest --coverage",
@@ -28,11 +26,10 @@
   "author": "Olivier Rodomond <hi@olivierodo.me>",
   "license": "ISC",
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
     "csv-parse": "^4.8.8",
-    "express": "^4.17.1",
     "got": "^10.7.0",
-    "html-table-to-json": "^1.0.0"
+    "html-table-to-json": "^1.0.0",
+    "joi": "^17.4.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
