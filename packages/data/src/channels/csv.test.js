@@ -1,9 +1,10 @@
+const path = require('path')
+
 beforeEach(() => {
   jest.resetModules()
 })
 
-// @skip due to windows issues...
-describe.skip('#Channel - CSV', () => {
+describe('#Channel - CSV', () => {
   test('throw error if the options are not valid', () => {
     const Csv = require('./csv')
     expect(() => {
@@ -41,8 +42,11 @@ describe.skip('#Channel - CSV', () => {
         delimiter: ';'
       }
 
+      const resource = 'users'
+      const filename = path.resolve(options.folder, resource + '.csv')
+
       const data = new Csv(options)
-      expect(data.get('users', 2)).rejects.toThrow(new Error('Impossible to load the dataset from the csv /my-data/users.csv'))
+      expect(data.get('users', 2)).rejects.toThrow(new Error(`Impossible to load the dataset from the csv ${filename}`))
       expect(fs.existsSync.mock.calls.length).toBe(1)
 
       expect(fs.existsSync.mock.calls[0][0]).toEqual('/my-data/users.csv')

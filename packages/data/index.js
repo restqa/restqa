@@ -1,7 +1,5 @@
 const Data = require('./src')
 
-function RestQData (options) {
+module.exports = function (options) {
   return Data(options)
 }
-
-module.exports = RestQData

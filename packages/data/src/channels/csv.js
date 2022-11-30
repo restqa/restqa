@@ -1,5 +1,5 @@
 const parse = require('csv-parse/lib/sync')
-const Joi = require('@hapi/joi')
+const Joi = require('joi')
 const path = require('path')
 const fs = require('fs')
 
