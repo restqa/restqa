@@ -84,7 +84,12 @@ describe("#Cli - Run", () => {
         '{"snippetSyntax": "./src/restqa-snippet.js"}',
         "--format",
         "./src/formatters/local-test-formatter",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        ),
         os.tmpdir()
       ],
       cwd: path.join(__dirname, "../"),
@@ -139,7 +144,12 @@ describe("#Cli - Run", () => {
         '{"snippetSyntax": "./src/restqa-snippet.js"}',
         "--format",
         "./src/formatters/local-test-formatter",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        ),
         os.tmpdir()
       ],
       cwd: path.join(__dirname, "../"),
@@ -236,7 +246,12 @@ describe("#Cli - Run", () => {
         '{"snippetSyntax": "./src/restqa-snippet.js"}',
         "--format",
         "./src/formatters/local-test-formatter",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}")
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        )
       ],
       cwd: path.join(__dirname, "../"),
       stdout: process.stdout
@@ -289,7 +304,12 @@ describe("#Cli - Run", () => {
         "@production",
         "--tags",
         "@success",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}")
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        )
       ],
       cwd: path.join(__dirname, "../"),
       stdout: process.stdout
@@ -336,7 +356,12 @@ describe("#Cli - Run", () => {
         '{"snippetSyntax": "./src/restqa-snippet.js"}',
         "--format",
         "./src/formatters/local-test-formatter",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}")
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        )
       ],
       cwd: path.join(__dirname, "../"),
       stdout: process.stdout
@@ -448,7 +473,12 @@ describe("#Cli - Run", () => {
         "./src/formatters/export-formatter:.restqa.log",
         "--format",
         "./src/formatters/local-test-formatter",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        ),
         os.tmpdir()
       ],
       cwd: path.join(__dirname, "../"),
@@ -500,7 +530,12 @@ describe("#Cli - Run", () => {
         '{"snippetSyntax": "./src/restqa-snippet.js"}',
         "--format",
         "./src/formatters/export-formatter:.restqa.log",
-        path.resolve(".", "{*.feature,!(node_modules)", "**", "*.feature}"),
+        path.resolve(
+          ".",
+          "{*.feature,!(node_modules|restqa)",
+          "**",
+          "*.feature}"
+        ),
         os.tmpdir()
       ],
       cwd: path.join(__dirname, "../"),

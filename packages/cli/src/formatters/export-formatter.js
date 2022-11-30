@@ -1,5 +1,6 @@
 const Welcome = require("../utils/welcome");
 const Pkg = require("../../package.json");
+const path = require("path");
 const {getFormatter} = require("@restqa/cucumber-export");
 const Report = require("@restqa/report-ui");
 
@@ -64,7 +65,8 @@ options.customExporters = {
       const options = {
         browserOpening: config.browserOpening,
         dataOutput: getDataOutput(result),
-        folder: config.folder
+        folder: config.folder,
+        includeFiles: [path.resolve(process.cwd(), "tests")]
       };
 
       const url = await Report(options);
@@ -114,6 +116,7 @@ function getDataOutput(RESTQA_RESULT) {
   }
 
   return {
+    RESTQA_FOLDER: process.cwd(),
     RESTQA_RESULT,
     RESTQA_INTEGRATION,
     RESTQA_PERFORMANCE,

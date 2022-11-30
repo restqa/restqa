@@ -14,35 +14,36 @@
   <br />
   <br />
   See below the list of mocks that has been generated in the folder
-  <i>{{ data.outputFolder }}</i
+  <i>{{ outputFolder }}</i
   >:
   <ul>
-    <li v-for="(item, index) in data.files" :key="index">
-      <el-link :href="'file://' + item" target="_blank">{{
-        item.replace(data.outputFolder, "")
-      }}</el-link>
+    <li v-for="(item, index) in list" :key="index">
+      <el-link :href="item.location" target="_blank">{{ item.name }}</el-link>
     </li>
   </ul>
-
-  <!--
-  <h3>Learn how to use this feature (todo)</h3>
-
-  <iframe
-    width="560"
-    height="315"
-    src="https://www.youtube.com/embed/NpEaa2P7qZI"
-    title="YouTube video player"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-  ></iframe>
---></template>
+</template>
 <script>
 export default {
   props: {
     data: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    outputFolder() {
+      return this.data.outputFolder.replace(
+        this.$store.getters.result.folder,
+        ""
+      );
+    },
+    list() {
+      return this.data.files.map((item) => {
+        return {
+          name: item.replace(this.data.outputFolder, ""),
+          location: this.$store.getters.result.getLocation(item),
+        };
+      });
     },
   },
 };

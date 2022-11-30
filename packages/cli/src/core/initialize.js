@@ -61,7 +61,7 @@ async function initialize(program = {}) {
     questionCommand.type = "list";
     questionCommand.choices = availablesCommands
       .filter((cmd) => {
-        return cmd !== "test";
+        return ["test", "happy"].includes(cmd) === false;
       })
       .map((cmd) => {
         if (cmd !== "start") {

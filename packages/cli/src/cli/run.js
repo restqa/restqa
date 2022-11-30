@@ -45,7 +45,7 @@ module.exports = async function (opt, program = {}) {
 
   const currentPathGlob = path.resolve(
     ".",
-    "{*.feature,!(node_modules)",
+    "{*.feature,!(node_modules|restqa)",
     "**",
     "*.feature}"
   );

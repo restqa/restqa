@@ -1,6 +1,7 @@
 const OUTPUT = {};
 
 OUTPUT.RESTQA_VERSION = "3.0.0";
+OUTPUT.RESTQA_FOLDER = "/Users/olivierodo/WORKS/restqa/restqa/example/";
 
 OUTPUT.RESTQA_RESULT = {
   id: "esefb6dsd4a9-e91e-d4d13-8672-2250c0e18b43",

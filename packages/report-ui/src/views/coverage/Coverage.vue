@@ -13,7 +13,13 @@ export default {
   name: "CoveragePage",
   computed: {
     url() {
-      return this.$store.getters.result.coverage;
+      let url = this.$store.getters.result.coverage;
+      if (false === url.startsWith("http")) {
+        url = this.$store.getters.result
+          .getLocation(url)
+          .replace("restqa/", "");
+      }
+      return url;
     },
   },
 };
