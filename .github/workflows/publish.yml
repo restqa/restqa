@@ -16,6 +16,7 @@ jobs:
       - run: npm install -g pnpm
       - run: pnpm i
       - run: npm run build
+      - run: sh .github/scripts/sync-version.sh
       - run: pnpm -r publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
