@@ -32,6 +32,10 @@ class Result {
     return this.local.success;
   }
 
+  get folder() {
+    return this._current.RESTQA_FOLDER;
+  }
+
   get version() {
     return this._current.RESTQA_VERSION;
   }
@@ -74,6 +78,14 @@ class Result {
 
   get httpMocks() {
     return this._current.RESTQA_HTTP_MOCKS;
+  }
+
+  getLocation(file) {
+    file = file.replace(this.folder, "/").replace("//", "/");
+    if (file[0] === "/") {
+      file = file.substring(1);
+    }
+    return file;
   }
 }
 

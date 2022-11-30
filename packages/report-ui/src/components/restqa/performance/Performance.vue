@@ -76,7 +76,7 @@ export default {
           label: "List of performance tests (" + this.data.length + " files)",
           children: this.data.map((file) => {
             return {
-              label: file,
+              label: this.$store.getters.result.getLocation(file),
             };
           }),
         },

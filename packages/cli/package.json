@@ -21,7 +21,7 @@
     "cucumber",
     "restqa",
     "rest-api",
-    "local=test",
+    "local-test",
     "unittest",
     "microservice",
     "test-automation"
