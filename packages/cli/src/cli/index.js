@@ -12,11 +12,13 @@
 const Steps = require("./steps");
 const Generate = require("./generate");
 const Run = require("./run");
+const Sandbox = require("./sandbox");
 const Telemetry = require("./telemetry");
 
 module.exports = {
   Steps,
   Generate,
   Run,
+  Sandbox,
   Telemetry
 };

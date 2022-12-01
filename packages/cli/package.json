@@ -40,6 +40,7 @@
     "@restqa/plugin-rest-api": "workspace:*",
     "@restqa/report-ui": "workspace:*",
     "@restqa/data": "workspace:*",
+    "@restqa/sandbox": "workspace:*",
     "c8": "^7.12.0",
     "chalk": "^4.0.0",
     "commander": "^8.0.0",
