@@ -117,6 +117,32 @@ restqa generate  curl https://jsonplaceholder.typicode.com/todos/1 -o generated.
 
 ---
 
+## `restqa sandbox`: Playground proxy generator
+
+In order to generate new Scenario for an existing microservice.
+
+### Default parameter
+
+```bash
+restqa sandbox
+```
+
+### Option
+
+```bash
+restqa sandbox -p 9090 -d
+```
+
+
+There are options available:
+
+| Parameter  | Alias | Description                                                  | Default                           |
+| ---------- | ----- | ------------------------------------------------------------ | --------------------------------- |
+| ` --port`  | `-p`  | use a specific port for the proxy                            | 8888                              |
+| `--debug`  | `-d`  | enable debug mode                                            | false                             |
+
+--- 
+
 ## `restqa telemetry` : Telemetry
 
 The telemetry options can be enabled or disabled as you wishes.

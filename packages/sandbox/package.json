@@ -1,0 +1,41 @@
+{
+  "name": "@restqa/sandbox",
+  "private": true,
+  "version": "0.0.0-generated",
+  "description": "An amazing Sandbox where test scenario could be easily generated",
+  "main": "src/index.js",
+  "scripts": {
+    "start:dev": "node src/index.dev.js",
+    "test": "restqa run tests",
+    "test:watch": "nodemon -x \"npm test\" -e js,feature --ignore tests-generated/*",
+    "lint": "eslint src tests",
+    "lint:fix": "eslint src tests --fix",
+    "format": "prettier --check src tests",
+    "format:fix": "prettier --write src tests"
+  },
+  "keywords": [],
+  "author": "Olivier Rodomond <hi@olivierodo.me>",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/http-proxy": "^8.4.0",
+    "@restqa/plugin-rest-api": "workspace:*",
+    "chalk": "^4.0.0",
+    "fastify": "^4.10.2"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@restqa/restqa": "workspace:*",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2"
+  }
+}

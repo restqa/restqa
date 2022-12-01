@@ -1,0 +1,9 @@
+version: 0.0.1
+metadata:
+  code: -RESTQA-SANDBOX
+  name: "@restqa/sandbox"
+  description: An amazing Sandbox where test scenario could be easily generated
+tests:
+  local:
+    port: "3001"
+    command: npm run start:dev
