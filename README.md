@@ -1,7 +1,7 @@
 <p align="center"><img src="https://restqa.io/assets/img/content/mascote.png" alt="RestQA logo"/></p>
 <h1 align="center">RestQA</h1>
 <h3 align="center">Test Driven Happiness</h3>
-<p align="center">Making engineer happy by applying world class developer experience to any Microservices</p>
+<p align="center">Making engineer happy by applying world class developer experience to any Microservice Tests</p>
 <p align="center">
   <a href="https://www.npmjs.com/package/@restqa/restqa"><img src="https://img.shields.io/npm/v/@restqa/restqa" alt="npm package"></a>
   <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/@restqa/restqa" alt="node compatility"></a>
