@@ -13,8 +13,7 @@
     "ecmaVersion": 12
   },
   "rules": {
-    "no-control-regex": 0,
-    "no-console": 2
+    "no-control-regex": 0
   },
   "globals": {
     "JestQA": true

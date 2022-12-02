@@ -24,6 +24,8 @@ jobs:
     - run: npm run lint
     - run: npm run format
     - run: pnpm i
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
     - run: npm test
       env:
         BOOT_TIMEOUT: 60000

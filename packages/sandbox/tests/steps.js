@@ -1,7 +1,6 @@
 const fastify = require("fastify");
 const fs = require("fs");
-const path = require("path");
-const assert = require("assert");
+const path = require("path"); const assert = require("assert");
 
 const Steps = function ({Given, When, Then}) {
   Given(
@@ -29,7 +28,16 @@ const Steps = function ({Given, When, Then}) {
   });
 
   When("upstream stops", function (cb) {
-    this.upstream.close(cb);
+    try {
+      this.upstream.close((err) => {
+        console.log('closing the server')
+        cb(err)
+      });
+
+    } catch(e) {
+      console.log(e)
+      cb()
+    }
   });
 
   Then("the file {string} exists", function (file) {
