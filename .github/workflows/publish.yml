@@ -18,9 +18,15 @@ jobs:
       - run: npm run build
       - run: sh .github/scripts/sync-version.sh
       - run: pnpm -r publish --access=public
+        if:  github.event.release.prerelease == false
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+      - run: pnpm -r publish --access=public --tag next
+        if: github.event.release.prerelease == true
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
   docker-publish:
+    if: github.event.release.prerelease == false
     needs: npm-publish
     runs-on: ubuntu-latest
     steps:
