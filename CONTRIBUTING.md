@@ -46,7 +46,7 @@ npm run contribute:docs
 
 This short video below will help you understand the different steps.
 
-https://user-images.githubusercontent.com/4768226/202208731-31ca25d6-7b73-415b-b0c4-39803301702a.mp4
+https://user-images.githubusercontent.com/4768226/205432562-13c0e802-5809-4fb9-9a05-5703daae36ff.mp4
 
 
 #### Contribute to the UI report
