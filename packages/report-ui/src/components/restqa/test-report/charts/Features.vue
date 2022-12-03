@@ -1,16 +1,26 @@
 <template>
   <card title="Features" emoji="🏆">
-    <highcharts :options="featuresForChart"></highcharts>
+    <el-row :gutter="20">
+      <el-col :span="16"
+        ><highcharts :options="featuresForChart"></highcharts
+      ></el-col>
+      <el-col :span="8" style="text-align: right">
+        <el-card class="statusCard" shadow="Hover">
+          <el-image class="statusImg" :src="statusImageUrl" :fit="fit" />
+          <div class="detailText">{{ statusDesc }}</div>
+          <div class="detailLink">
+            <el-link
+              type="primary"
+              v-on:click.stop.prevent="goToDetail()"
+              v-if="accessLink"
+              >See details</el-link
+            >
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
     <el-row :gutter="20">
       <el-col :span="16"> {{ nbFeatures }} Features </el-col>
-      <el-col :span="8" style="text-align: right">
-        <el-link
-          type="primary"
-          v-on:click.stop.prevent="goToDetail()"
-          v-if="accessLink"
-          >Access to all the detail test result</el-link
-        >
-      </el-col>
     </el-row>
   </card>
 </template>
@@ -60,6 +70,18 @@ export default {
   computed: {
     nbFeatures() {
       return this.data.features.length;
+    },
+    statusImageUrl() {
+      return `images/reportStatus/${
+        this.data.success
+          ? "statusSuccess.png"
+          : "statusFailed.png"
+      }`;
+    },
+    statusDesc() {
+      return this.data.success
+        ? "Perfect, you reach the maximum level."
+        : "Oups, something went wrong.";
     },
     featuresForChart() {
       const colors = {
@@ -119,6 +141,7 @@ export default {
         },
         colors: [success, info, danger],
         legend: {
+          enabled: false,
           align: "right",
           verticalAlign: "middle",
           layout: "vertical",
@@ -139,3 +162,28 @@ export default {
   },
 };
 </script>
+<style>
+.statusImg {
+  display: flex !important;
+  justify-content: center;
+}
+.statusImg .el-image__inner {
+  width: 150px;
+}
+.statusCard {
+  display: flex;
+  text-align: left;
+  height: 100%;
+}
+.statusCard .el-card__body {
+  display: flex;
+  flex-direction: column;
+}
+.detailText {
+  margin-top: auto;
+}
+.detailLink {
+  padding-top: 10px;
+  display: flex;
+}
+</style>
