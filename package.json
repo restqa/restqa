@@ -12,11 +12,18 @@
     "test": "pnpm -r --workspace-concurrency=1 test",
     "test:functional": "pnpm run --filter '@restqa/cli' test:functional",
     "contribute": "pnpm i && npm run build && pnpm i && npm run example",
+    "contribute:docs": "pnpm i && concurrently 'npm run watch:docs' 'npm run watch:ui' ",
+    "watch:docs": "nodemon  -w docs -e md -x 'pnpm -r --filter @restqa/docs run build'",
+    "watch:ui": "pnpm -r --filter @restqa/report-ui run dev",
     "cleanup": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/node_modules && rm -rf packages/*/dist"
   },
   "packageManager": "pnpm@7.17.0",
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^6.5.1",
+    "nodemon": "^2.0.20"
   }
 }

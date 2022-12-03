@@ -12,10 +12,16 @@ Feel free to hit us on [discord](https://restqa.io/chat) if you face a issue.
 
 This repository is a monorepo an relies on [NPM Workspace](https://docs.npmjs.com/cli/v7/using-npm/workspaces)
 
-#### Simply run the command
+### Pre-requisite
+
+* Install NodeJs / npm
+* Install pnpm package manager `npm i -g pnpm`
+
+#### Complete install for End to End contribution
+
+In order to build all the package and get RestQA fully built run the command:
 
 ```
-npm i -g pnpm
 npm run contribute
 ```
 
@@ -32,11 +38,25 @@ npm run example
 
 #### Contribute to the documentation
 
-This short video below will help you understand how you can contribute to the RestQA Documentation.
+If you just want to contribute to the documentation, you can run simply run the command:
+
+```
+npm run contribute:docs
+```
+
+This short video below will help you understand the different steps.
 
 https://user-images.githubusercontent.com/4768226/202208731-31ca25d6-7b73-415b-b0c4-39803301702a.mp4
 
+
 #### Contribute to the UI report
+
+If you just want to contribute to the UI report, you will need to locate your developement into the `packages/report-ui`
+
+```
+cd packages/report-ui
+npm run dev
+```
 
 This short video below will help you understand how you can contribute to the RestQA UI report.
 
@@ -53,20 +73,34 @@ https://user-images.githubusercontent.com/4768226/202217108-249d22cd-5ea1-4af3-a
 ### Project Structure
 
 ```
-└── src
+└── docs      # Documentation based markdown
+│
+└── examples  # Example projects using RestQA
+│
+└── packages  # List of packages
     │
-    ├── cli          # executing RestQA from argv
+    ├── cli                   # executing RestQA from argv
     │
-    ├── docs         # Documentation (markdowns)
+    ├── cucumber-export       # Package handling report from cucumber
     │
-    ├── examples     # List of sample project leveraging RestQA
+    ├── data                  # Package handling data state
     │
-    ├── plugins      # RestQA plugin
+    ├── docs                  # Documentation builder
     │
-    └── ui           # User interface of the test report
+    ├── plugin                # Plugin builder
+    │
+    ├── plugin-faker          # Package to handle generation of fake data
+    │
+    ├── plugin-http-mock      # Package to handle http mock
+    │
+    ├── plugin-mongodb-mock   # Package to handle mongodb mock
+    │
+    ├── plugin-rest-api       # Package to handle rest api request
+    │
+    ├── report-ui             # Package for the UI report
+    │
+    └── sandbox               # Package managing the sandbox feature
 ```
-
-
 
 ## Tests
 
@@ -77,9 +111,6 @@ What do you need to know about the unit tests ?
 * Technology: [jest](https://jestjs.io)
 * Style: [chicago school](https://dev.to/hiboabd/a-beginners-explanation-of-the-chicago-london-approaches-4o5f)
 * Command: `npm test`
-* Watch Command: `npm test:watch -w cli` *(Recommended during development session.)*
-* Coverage command: `npm run test:coverage -w cli`
-
 
 ### Functional Tests
 
@@ -88,9 +119,9 @@ Why ?
 Because the RestQA command line is connected by multiple libraries and some breaking change can't be detected by the unit test.
 
 * Technology: [bats](https://bats-core.readthedocs.io)
-* Command: `npm run test:functional -w cli`
+* Command: `npm run test:functional`
 
-### Run tests in CI
+### Run functional tests in CI
 
 Sometimes in your hacking journey you'll have to handle backward compatibility for Node.JS 12.x, 14.x and 16.x.
 
@@ -107,7 +138,7 @@ Where:
 For example, if you want to run functional tests in Node.JS 12.x:
 
 ```bash
-$ docker run --rm -it -v $PWD:$PWD --workdir $PWD node:18 npm run test:functional -w cli
+$ docker run --rm -it -v $PWD:$PWD --workdir $PWD node:18 npm run test:functional
 ```
 
 ## Debugging
