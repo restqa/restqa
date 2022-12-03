@@ -60,7 +60,11 @@ npm run dev
 
 This short video below will help you understand how you can contribute to the RestQA UI report.
 
-https://user-images.githubusercontent.com/4768226/202215697-9a7c048f-f577-4ebc-a7b9-3ec718cb8371.mp4
+
+
+https://user-images.githubusercontent.com/4768226/205433030-089ff616-1bc0-4b97-8aab-e5e9be6c0bc7.mp4
+
+
 
 #### Contribute to the CLI 
 
