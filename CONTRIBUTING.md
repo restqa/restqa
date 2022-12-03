@@ -70,7 +70,11 @@ https://user-images.githubusercontent.com/4768226/205433030-089ff616-1bc0-4b97-8
 
 This short video below will help you understand how you can contribute to the RestQA CLI.
 
-https://user-images.githubusercontent.com/4768226/202217108-249d22cd-5ea1-4af3-ae8f-39b6b583f7c2.mp4
+
+
+https://user-images.githubusercontent.com/4768226/205433540-427965fc-f455-41ca-90a5-21c7d7603fc0.mp4
+
+
 
 ## Internals
 
