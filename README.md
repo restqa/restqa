@@ -36,7 +36,7 @@ Run one command and get everything that you need to enjoy maintaining your micro
 
 #### Screenshot
 
-![Screenshot](./examples/nodejs/assets/restqa-screenshot.png)
+![Screenshot](https://restqa.io/assets/img/content/2-why-step2.png)
 
 ## ⭐️ Features
 
@@ -51,6 +51,9 @@ Run one command and get everything that you need to enjoy maintaining your micro
 - 👑 Programming language Agnostic
 - 👩‍💻 Community Driven
 
+## 🎬 Demo
+
+https://user-images.githubusercontent.com/4768226/205502972-1fddb8f2-130e-4071-a9f5-de4bc2406497.mp4
 
 ## 📦 Install
 
@@ -108,8 +111,8 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 ##### 🚀 Local Test
 
 - [X] Test coverage
-- [X] [Mock external http depedencies](https://github.com/restqa/http-mock-plugin)
-- [X] [Mock MongoDB database](https://github.com/restqa/mongodb-mock-plugin)
+- [X] [Mock external http depedencies](./packages/plugin-http-mock)
+- [X] [Mock MongoDB database](./packages/plugin-mongodb)
 - [ ] Mock Postgres database
 - [ ] Mock MySQL database
 - [ ] Mock S3 database
