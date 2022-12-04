@@ -66,6 +66,7 @@ class Executor {
 
         const args = command.split(' ');
         const cmd = args.shift();
+        // eslint-disable-next-line
         console.log(cmd, args);
         const server = spawn(cmd, args, {
           env: {
