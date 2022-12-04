@@ -66,8 +66,6 @@ class Executor {
 
         const args = command.split(' ');
         const cmd = args.shift();
-        // eslint-disable-next-line
-        console.log(cmd, args);
         const server = spawn(cmd, args, {
           env: {
             ...process.env,
@@ -77,18 +75,26 @@ class Executor {
 
         // reject if an error happened
         server.stderr.on("data", (chunk) => {
+          // eslint-disable-next-line
+          console.log('err', initialized);
           this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
+            // eslint-disable-next-line
+            console.log('err fail', initialized);
             reject(new Error(`Error during running command ${command}`));
           }
         });
 
         // resolve when process is spawn successfully
         server.stdout.on("data", (chunk) => {
+          // eslint-disable-next-line
+          console.log('out', initialized);
           this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
+            // eslint-disable-next-line
+            console.log('out success', initialized);
             logger.success(`Server is running (command: ${command})`);
             resolve(server);
           }
@@ -102,6 +108,7 @@ class Executor {
         // handle error
         server.on("error", () => {
           // Note: we only do it this way to be win32 compliant.
+          reject(new Error(`Error during running command ${command}`));
           server.kill();
         });
 
