@@ -82,7 +82,6 @@ importers:
       nodemon: ^2.0.20
       prettier: ^2.3.2
       rimraf: ^3.0.2
-      tree-kill: ^1.2.2
       update-notifier: ^5.1.0
       yaml: ^1.9.2
     dependencies:
@@ -100,7 +99,6 @@ importers:
       inquirer: 7.3.3
       joi: 17.7.0
       lodash: 4.17.21
-      tree-kill: 1.2.2
       update-notifier: 5.1.0
       yaml: 1.10.2
     devDependencies:
@@ -11729,6 +11727,7 @@ packages:
   /tree-kill/1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
+    dev: true
 
   /ts-node/10.9.1_bspv7bpieoza2i5ctiw2ofswem:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
