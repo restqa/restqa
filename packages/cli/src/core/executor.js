@@ -54,7 +54,7 @@ class Executor {
     return this._coveragePath;
   }
 
-  execute() {
+  async execute() {
     const command = this.command;
     const envs = this.envs || {};
     envs.PORT = this.port;
@@ -66,6 +66,7 @@ class Executor {
 
         const args = command.split(' ');
         const cmd = args.shift();
+        console.log(cmd, args);
         const server = spawn(cmd, args, {
           env: {
             ...process.env,
