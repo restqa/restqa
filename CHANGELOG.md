@@ -15,7 +15,7 @@ RestQA is now focusing on providing the best automation testing experience for M
 Major breaking changes need to be addressed. There is no compatibility between the previous version and the new one.
 If you don't want to focus on the microservice testing you can stick to the version [0.0.38]
 
-## [1.0.0-rc3] - 2022-12-05
+## [1.0.0-rc4] - 2022-12-05
 
 ### Added
 
@@ -365,7 +365,7 @@ If you don't want to focus on the microservice testing you can stick to the vers
 
 [unreleased]: https://github.com/restqa/restqa/compare/1.0.0...HEAD
 [1.0.0]: https://github.com/restqa/restqa/compare/1.0.0-rc2...1.0.0
-[1.0.0-rc3]: https://github.com/restqa/restqa/compare/0.0.38...1.0.0-rc3
+[1.0.0-rc4]: https://github.com/restqa/restqa/compare/0.0.38...1.0.0-rc4
 [0.0.38]: https://github.com/restqa/restqa/compare/0.0.37...0.0.38
 [0.0.37]: https://github.com/restqa/restqa/compare/0.0.36...0.0.37
 [0.0.36]: https://github.com/restqa/restqa/compare/0.0.35...0.0.36

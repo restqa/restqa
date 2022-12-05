@@ -87,6 +87,7 @@ importers:
       yaml: ^1.9.2
     dependencies:
       '@cucumber/cucumber': 7.3.2
+      '@restqa/plugin-rest-api': link:../plugin-rest-api
       '@restqa/report-ui': link:../report-ui
       c8: 7.12.0
       chalk: 4.1.2
@@ -106,7 +107,6 @@ importers:
       '@restqa/cucumber-export': link:../cucumber-export
       '@restqa/data': link:../data
       '@restqa/plugin': 0.0.3
-      '@restqa/plugin-rest-api': link:../plugin-rest-api
       '@restqa/sandbox': link:../sandbox
       bats: 1.8.2
       bats-assert: github.com/ztombol/bats-assert/9f88b4207da750093baabc4e3f41bf68f0dd3630_bats-support@0.3.0
