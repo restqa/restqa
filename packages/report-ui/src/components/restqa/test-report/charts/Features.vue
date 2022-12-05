@@ -1,18 +1,17 @@
 <template>
   <card title="Features" emoji="🏆">
     <el-row :gutter="20">
-      <el-col :span="16"
+      <el-col :span="columnChart"
         ><highcharts :options="featuresForChart"></highcharts
       ></el-col>
-      <el-col :span="8" style="text-align: right">
-        <el-card class="statusCard" shadow="Hover">
+      <el-col :span="8" v-if="accessLink" style="text-align: right">
+        <el-card  class="statusCard" shadow="Hover">
           <el-image class="statusImg" :src="statusImageUrl" :fit="fit" />
           <div class="detailText">{{ statusDesc }}</div>
           <div class="detailLink">
             <el-link
               type="primary"
               v-on:click.stop.prevent="goToDetail()"
-              v-if="accessLink"
               >See details</el-link
             >
           </div>
@@ -68,6 +67,13 @@ export default {
     },
   },
   computed: {
+    columnChart () {
+      let result = 24
+      if (this.accessLink) {
+        result = 16
+      }
+      return result
+    },
     nbFeatures() {
       return this.data.features.length;
     },
@@ -141,7 +147,7 @@ export default {
         },
         colors: [success, info, danger],
         legend: {
-          enabled: false,
+          enabled: !this.accessLink,
           align: "right",
           verticalAlign: "middle",
           layout: "vertical",
