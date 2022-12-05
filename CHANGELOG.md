@@ -7,12 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2022-11-24
+## [1.0.0] - 2022-12-05
+
 
 After 1 year of being idle, RestQA is back with a major version! 🚀🚀🚀
 RestQA is now focusing on providing the best automation testing experience for Microservice.
 Major breaking changes need to be addressed. There is no compatibility between the previous version and the new one.
 If you don't want to focus on the microservice testing you can stick to the version [0.0.38]
+
+## [1.0.0-rc2] - 2022-12-05
+
+### Added
+
+- New Feature: `restqa sandbox` allowing test scenario generation [#279](https://github.com/restqa/restqa/pull/279)
+- New Feature: enable user to add their own step definition [#273](https://github.com/restqa/restqa/pull/273)
+- Centralize the documentation into the RestQA Report [#219](https://github.com/restqa/restqa/pull/219)
+- Enable Code coverage for local testing [#228](https://github.com/restqa/restqa/pull/228)
+- Generate HTTP Mock [#214](https://github.com/restqa/restqa/pull/214)
+- Generate postman collection [#215](https://github.com/restqa/restqa/pull/215)
+- Generate API specification [#206](https://github.com/restqa/restqa/pull/206)
+- Generate Performance testing fixture [#205](https://github.com/restqa/restqa/pull/205)
+
+
+### Updated
+
+- Snippet: Enable recommendation when a step definition is incorrect [#244](https://github.com/restqa/restqa/pull/244)
+- RestQA report: format the table and inline argument [#228](https://github.com/restqa/restqa/pull/228)
+- Update the example folder to share multiple example [#227](https://github.com/restqa/restqa/pull/227)
+- Add a screencast and a pre-requisite feature on the documenation [#239](https://github.com/restqa/restqa/pull/239)
+- [cucumber-export] Change the ui report design [#271](https://github.com/restqa/restqa/pull/271)
+
+### Fix
+
+- Display an error message when no test has been found [#242](https://github.com/restqa/restqa/pull/242)-
+
 
 
 ## [0.0.38] - 2021-12-10
@@ -336,7 +364,8 @@ If you don't want to focus on the microservice testing you can stick to the vers
 - Enable secret into the configuration file
 
 [unreleased]: https://github.com/restqa/restqa/compare/1.0.0...HEAD
-[1.0.0]: https://github.com/restqa/restqa/compare/v0.0.38...1.0.0
+[1.0.0]: https://github.com/restqa/restqa/compare/1.0.0-rc2...1.0.0
+[1.0.0-rc2]: https://github.com/restqa/restqa/compare/0.0.38...1.0.0-rc2
 [0.0.38]: https://github.com/restqa/restqa/compare/0.0.37...0.0.38
 [0.0.37]: https://github.com/restqa/restqa/compare/0.0.36...0.0.37
 [0.0.36]: https://github.com/restqa/restqa/compare/0.0.35...0.0.36
