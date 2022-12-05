@@ -17,11 +17,11 @@ jobs:
       - run: pnpm i
       - run: npm run build
       - run: sh .github/scripts/sync-version.sh
-      - run: pnpm -r publish --access=public
+      - run: pnpm -r publish --access=public  --no-git-checks
         if:  github.event.release.prerelease == false
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
-      - run: pnpm -r publish --access=public --tag next
+      - run: pnpm -r publish --access=public --tag next --no-git-checks
         if: github.event.release.prerelease == true
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
