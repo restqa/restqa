@@ -36,7 +36,7 @@ Run one command and get everything that you need to enjoy maintaining your micro
 
 #### Screenshot
 
-[Demo](https://dasbhoard.restqa.io)
+👉 [Access to our online demo](https://dasbhoard.restqa.io)
 
 ![Screenshot](https://restqa.io/assets/img/content/2-why-step2.png)
 
