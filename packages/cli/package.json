@@ -3,7 +3,6 @@
   "version": "0.0.0-generated",
   "description": "The ultimate microservice test automation sidekick",
   "scripts": {
-    "prepublishOnly": "npm run build --prefix ../",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
