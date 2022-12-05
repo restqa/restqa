@@ -1,6 +1,5 @@
 {
   "name": "@restqa/report-ui",
-  "private": true,
   "version": "0.0.0-generated",
   "description": "UI used by RestQA to display the test report",
   "main": "index.cjs",

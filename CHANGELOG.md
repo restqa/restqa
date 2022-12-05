@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2022-12-05
+## [1.0.0] - Soon
 
 
 After 1 year of being idle, RestQA is back with a major version! 🚀🚀🚀
@@ -15,7 +15,7 @@ RestQA is now focusing on providing the best automation testing experience for M
 Major breaking changes need to be addressed. There is no compatibility between the previous version and the new one.
 If you don't want to focus on the microservice testing you can stick to the version [0.0.38]
 
-## [1.0.0-rc2] - 2022-12-05
+## [1.0.0-rc3] - 2022-12-05
 
 ### Added
 
@@ -39,7 +39,7 @@ If you don't want to focus on the microservice testing you can stick to the vers
 
 ### Fix
 
-- Display an error message when no test has been found [#242](https://github.com/restqa/restqa/pull/242)-
+- Display an error message when no test has been found [#242](https://github.com/restqa/restqa/pull/242)
 
 
 
@@ -365,7 +365,7 @@ If you don't want to focus on the microservice testing you can stick to the vers
 
 [unreleased]: https://github.com/restqa/restqa/compare/1.0.0...HEAD
 [1.0.0]: https://github.com/restqa/restqa/compare/1.0.0-rc2...1.0.0
-[1.0.0-rc2]: https://github.com/restqa/restqa/compare/0.0.38...1.0.0-rc2
+[1.0.0-rc3]: https://github.com/restqa/restqa/compare/0.0.38...1.0.0-rc3
 [0.0.38]: https://github.com/restqa/restqa/compare/0.0.37...0.0.38
 [0.0.37]: https://github.com/restqa/restqa/compare/0.0.36...0.0.37
 [0.0.36]: https://github.com/restqa/restqa/compare/0.0.35...0.0.36
