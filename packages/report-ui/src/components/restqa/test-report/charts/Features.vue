@@ -81,7 +81,7 @@ export default {
     statusDesc() {
       return this.data.success
         ? "Perfect, you reach the maximum level."
-        : "Oups, something went wrong.";
+        : "Oops, something went wrong.";
     },
     featuresForChart() {
       const colors = {
