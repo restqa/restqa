@@ -5,8 +5,13 @@ ignore:
   - https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks
   - https://twitter.com/restqa
   - https://cucumber.io/*
+  - https://docs.restqa.io/*
   - https://github.com/restqa/restqa/tree/master/*
   - https://github.com/Marak/*
+  - https://github.com/restqa/cucumber-export/*
+  - https://github.com/restqa/restqapi/*
+  - https://github.com/restqa/plugin/*
+  - https://github.com/restqa/restqdata/*
 
 delay:
   'https://github.com': 500
