@@ -4,7 +4,7 @@
 
 > Nothing is more annoying than mocking an external HTTP API on unit test!
 
-![banner](https://raw.githubusercontent.com/restqa/http-mock-plugin/main/assets/mock-http.png)
+![banner](https://raw.githubusercontent.com/restqa/restqa/master/packages/plugin-http-mock/assets/mock-http.png)
 
 
 ## Description
@@ -120,8 +120,7 @@ response:
 
 Then every time your microservice will perform a request targeting `GET http://api.github.com/status` the response will be:
 
-```
-
+```bash
 < HTTP/2 200
 < content-type: application/json; charset=utf-8
 
