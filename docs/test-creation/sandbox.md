@@ -41,7 +41,7 @@ From there the proxy serveer will start with the following message:
 > To exit, press Ctrl+C
 ```
 
-## Test Scenario Generatiopn
+## Test Scenario Generation
 
 From there you can start playing with your microservice using the PORT shared on the console by RestQA.
 
