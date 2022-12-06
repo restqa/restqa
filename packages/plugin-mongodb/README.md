@@ -4,7 +4,7 @@
 
 > Finally a simple way to use a MongoDB while you test your microservice locally
 
-![banner](https://raw.githubusercontent.com/restqa/mongodb-mock-plugin/main/assets/mock-mongodb.png)
+![banner](https://raw.githubusercontent.com/restqa/restqa/master/packages/plugin-mongodb/assets/mock-mongodb.png)
 
 ## Description
 
@@ -27,7 +27,7 @@ npm i @restqa/mongodb-mock-plugin
 
 ## Usage
 
-![flow](https://raw.githubusercontent.com/restqa/mongodb-mock-plugin/main/assets/flow.png)
+![flow](https://raw.githubusercontent.com/restqa/restqa/master/packages/plugin-mongodb/assets/flow.png)
 
 
 Let's say you have  microservice connecting to mongoDB:

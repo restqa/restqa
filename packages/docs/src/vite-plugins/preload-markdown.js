@@ -91,15 +91,16 @@ function toUpperCamelCase(string) {
     .join('');
 }
 
-function fetchRemote ({contents, CONTENT_PATH, dir}) {
+function fetchRemote ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
   const urls = contents
     .filter(_ => _.fromUrl)
-    .filter(_ => _.fromUrl.startsWith('https'))
-    .map(_ => new Promise(async (resolve, reject) => {
+    .filter(_ => _.fromUrl.endsWith('.md'))
+    .map(_ => new Promise((resolve, reject) => {
       const content = fs.readFileSync(join(CONTENT_PATH, _.filename)).toString()
-      const { body } = await got.get(_.fromUrl)
+      const body = fs.readFileSync(join(PWD_RESTQA, _.fromUrl)).toString()
       const file = join(dir, posix.basename(_.filename))
-      fs.writeFileSync(
+
+      const edd = fs.writeFileSync(
         file,
         content + body,
         {encoding: 'utf-8'})
@@ -118,7 +119,7 @@ function fetchRemote ({contents, CONTENT_PATH, dir}) {
 function stepDefinition ({contents, PWD_RESTQA, CONTENT_PATH, dir}) {
   const result = contents
     .filter(_ => _.fromUrl)
-    .filter(_ => !_.fromUrl.startsWith('https'))
+    .filter(_ => !_.fromUrl.endsWith('.md'))
     .map(doc => {
       const remoteBody = fs.readFileSync(join(PWD_RESTQA, doc.fromUrl)).toString()
       const content = fs.readFileSync(join(CONTENT_PATH, doc.filename)).toString()
