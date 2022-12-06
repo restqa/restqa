@@ -78,7 +78,7 @@ export default {
     },
     filename() {
       return (
-        `https://github.com/restqa/restqa/blob/master/docs/content/` +
+        `https://github.com/restqa/restqa/blob/master/docs/` +
         docs.getFilePath(this.id)
       );
     },
