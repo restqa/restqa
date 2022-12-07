@@ -1,11 +1,14 @@
 const {ChildProcess} = require("child_process");
-const spawn = require("cross-spawn");
-const logger = require("../utils/logger");
 const net = require("net");
+
+const spawn = require("cross-spawn");
+
+const logger = require("../utils/logger");
 const Locale = require("../locales")("service.run");
 const {format} = require("util");
 
 const DEFAULT_TIMEOUT = 4000;
+
 class Executor {
   constructor(options) {
     const {port, command, envs, silent, timeout} = options;
@@ -54,7 +57,7 @@ class Executor {
     return this._coveragePath;
   }
 
-  execute() {
+  async execute() {
     const command = this.command;
     const envs = this.envs || {};
     envs.PORT = this.port;
@@ -74,7 +77,7 @@ class Executor {
         });
 
         // reject if an error happened
-        this.server.stderr.on("data", (chunk) => {
+        this._server.stderr.on("data", (chunk) => {
           this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
@@ -97,10 +100,10 @@ class Executor {
           logger.debug("Server closed!");
         });
 
-        // Note: we only do it this way to be win32 compliant.
-        // this._server.on("error");
-
-        this._server.on("exit", this._exit);
+        this._server.on("error", () => {
+          this._server.kill();
+          reject(new Error(`Error during running command ${command}`));
+        });
       } else {
         throw new Error(
           `Executor: command should be a string but received ${typeof command}`
@@ -108,7 +111,7 @@ class Executor {
       }
     }).then(() => {
       // Todo(tony): we should extract this into another method
-      if (!this.port) return this.server;
+      if (!this.port) return this._server;
       return this.checkServer();
     });
   }
@@ -152,15 +155,15 @@ class Executor {
         this._isRunning = true;
       })
       .then(() => {
-        return this.server;
+        return this._server;
       });
   }
 
   terminate() {
     return new Promise((resolve, reject) => {
-      if (this.server instanceof ChildProcess) {
-        const pid = this.server.pid;
-        const status = this.server.kill();
+      if (this._server instanceof ChildProcess) {
+        const pid = this._server.pid;
+        const status = this._server.kill();
         if (!status) {
           reject(new Error(`Executor: failed to terminate process: ${pid}`));
           return
@@ -170,11 +173,6 @@ class Executor {
         resolve();
       }
     });
-  }
-
-  _exit() {
-    logger.debug(`Kill server (proc: ${this.pid})`);
-    this.kill();
   }
 }
 
