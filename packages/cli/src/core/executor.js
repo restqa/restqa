@@ -57,64 +57,68 @@ class Executor {
     return this._coveragePath;
   }
 
-  async execute() {
+  async spawn() {
     const command = this.command;
+    if (typeof command !== "string") {
+      throw new Error(
+        `Executor: command should be a string but received ${typeof command}`
+      ); 
+    }
+
     const envs = this.envs || {};
     envs.PORT = this.port;
     envs.NODE_V8_COVERAGE = this.coveragePath;
 
     return new Promise((resolve, reject) => {
-      if (typeof command === "string") {
-        let initialized = false;
+      let initialized = false;
+      const args = command.split(' ');
+      const cmd = args.shift();
+      this._server = spawn(cmd, args, {
+        env: {
+          ...process.env,
+          ...envs
+        }
+      });
 
-        const args = command.split(' ');
-        const cmd = args.shift();
-        this._server = spawn(cmd, args, {
-          env: {
-            ...process.env,
-            ...envs
-          }
-        });
-
-        // reject if an error happened
-        this._server.stderr.on("data", (chunk) => {
-          this.log(chunk.toString());
-          if (!initialized) {
-            initialized = true;
-            reject(new Error(`Error during running command ${command}`));
-          }
-        });
-
-        // resolve when process is spawn successfully
-        this._server.stdout.on("data", (chunk) => {
-          this.log(chunk.toString());
-          if (!initialized) {
-            initialized = true;
-            logger.success(`Server is running (command: ${command})`);
-            resolve(this._server);
-          }
-        });
-
-        // handle when server (process) is closing
-        this._server.on("close", () => {
-          logger.debug("Server closed!");
-        });
-
-        this._server.on("error", () => {
-          this._server.kill();
+      // reject if an error happened
+      this._server.stderr.on("data", (chunk) => {
+        this.log(chunk.toString());
+        if (!initialized) {
+          initialized = true;
           reject(new Error(`Error during running command ${command}`));
-        });
-      } else {
-        throw new Error(
-          `Executor: command should be a string but received ${typeof command}`
-        );
-      }
-    }).then(() => {
-      // Todo(tony): we should extract this into another method
-      if (!this.port) return this._server;
-      return this.checkServer();
+        }
+      });
+
+      // resolve when process is spawn successfully
+      this._server.stdout.on("data", (chunk) => {
+        this.log(chunk.toString());
+        if (!initialized) {
+          initialized = true;
+          logger.success(`Server is running (command: ${command})`);
+          resolve(this._server);
+        }
+      });
+
+      // handle when server (process) is closing
+      this._server.on("close", () => {
+        logger.debug("Server closed!");
+      });
+
+      this._server.on("error", () => {
+        this._server.kill();
+        reject(new Error(`Error during running command ${command}`));
+      });
     });
   }
+
+  async execute() {
+    await this.spawn();
+    if (this.port) {
+      await this.checkServer();
+    }
+    return this._server;
+  }
+
 
   log(str) {
     global.restqa && global.restqa.outputStream.addDebugLog(str);
@@ -122,16 +126,20 @@ class Executor {
 
   async checkServer() {
     logger.info("service.run.waiting_server");
+
     const port = this.port;
     let timeout = this.timeout;
+
     return new Promise((resolve, reject) => {
       const checker = () => {
         const socket = net.createConnection({port});
+
         socket.on("ready", function (err) {
           if (err) reject(err);
           resolve();
           socket.destroy();
         });
+
         socket.on("error", function (err) {
           socket.destroy();
           timeout -= 200;
