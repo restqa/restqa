@@ -9,8 +9,6 @@ const {format} = require("util");
 
 const DEFAULT_TIMEOUT = 4000;
 
-console.log('here');
-
 class Executor {
   constructor(options) {
     const {port, command, envs, silent, timeout} = options;
