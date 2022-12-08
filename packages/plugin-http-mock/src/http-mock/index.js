@@ -16,6 +16,8 @@ module.exports = {
           DEBUG.enable("testcontainers:containers");
         }
 
+        console.log('> 🔄 Starting server. It could take a few minutes the first time ... <');
+        console.log('> ☝ Tips: You can tweak `BOOT_TIMEOUT` variable, if you need more timeout <');
         container = await new GenericContainer(`restqa/stubby`)
           .withExposedPorts(PORT)
           .withEnvironment({
