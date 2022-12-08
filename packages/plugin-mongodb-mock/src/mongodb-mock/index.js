@@ -21,7 +21,10 @@ module.exports = {
       envVarName.dbName = envVarName.dbName || "MONGODB_DBNAME";
 
       console.log("> Spin up the mongodb container 👻 <"); // eslint-disable-line no-console
-      console.log('> ☝ Tips: You can tweak `BOOT_TIMEOUT` variable, if you need more timeout <'); // eslint-disable-line no-console
+      // eslint-disable-next-line no-console
+      console.log(
+        "> ☝ Tips: You can tweak `BOOT_TIMEOUT` variable, if you need more timeout <"
+      );
 
       container = await new GenericContainer(`mongo:${config.mongodb.version}`)
         .withExposedPorts(27017)
