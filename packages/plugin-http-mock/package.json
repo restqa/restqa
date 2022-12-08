@@ -9,7 +9,7 @@
     "testcontainers": "^9.0.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^7.3.1",
+    "@restqa/restqa": "workspace:*",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
@@ -25,7 +25,9 @@
     "lint": "eslint src tests --fix",
     "lint:fix": "eslint src tests --fix",
     "format": "prettier --write src tests",
-    "test": "cucumber-js --require ./tests/setup.js --publish-quiet --fail-fast ./tests/features"
+    "test": "restqa run",
+    "happy": "restqa run --report",
+    "test:server": "node tests/server.js"
   },
   "keywords": [
     "api",

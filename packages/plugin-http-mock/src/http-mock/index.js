@@ -9,15 +9,28 @@ module.exports = {
   name: "http-mock",
   hooks: {
     beforeAll: async function (config) {
-      const {envs = {}, debug = false, folder} = config;
+      const {
+        envs = {},
+        debug = false,
+        folder = path.resolve(process.cwd(), "tests", "stubs")
+      } = config || {};
+
+      if (Object.keys(envs).length === 0) {
+        console.log("No configuration has been set.");
+        return Promise.resolve();
+      }
 
       try {
         if (debug === true) {
           DEBUG.enable("testcontainers:containers");
         }
 
-        console.log('> 🔄 Starting server. It could take a few minutes the first time ... <');
-        console.log('> ☝ Tips: You can tweak `BOOT_TIMEOUT` variable, if you need more timeout <');
+        console.log(
+          "> 🔄 Starting server. It could take a few minutes the first time ... <"
+        );
+        console.log(
+          "> ☝ Tips: You can tweak `BOOT_TIMEOUT` variable, if you need more timeout <"
+        );
         container = await new GenericContainer(`restqa/stubby`)
           .withExposedPorts(PORT)
           .withEnvironment({
@@ -53,7 +66,8 @@ module.exports = {
       }
     },
     before: function () {
-      const {envs} = this.getConfig("http-mock");
+      const {envs} = this.getConfig("http-mock") || {};
+      if (undefined === envs) return;
       const host = getHost(container);
       this["http-mock"] = {
         envs: getMock(host, envs)
@@ -67,7 +81,7 @@ module.exports = {
   }
 };
 
-function getMock(host, envs) {
+function getMock(host, envs = {}) {
   const result = {};
   for (const [key, value] of Object.entries(envs)) {
     result[key] = `${host}/${value}`;

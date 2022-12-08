@@ -1,0 +1,17 @@
+version: 0.0.1
+metadata:
+  code: RESTQA-HTTP-MOCK
+  name: "@restqa/plugin-http-mock"
+  description: An amazing test to handle plugin http-mock
+tests:
+  local:
+    port: "3010"
+    command: npm run test:server
+
+plugins:
+  - name: "./src/index.js"
+    config:
+      envs:
+        GITHUB_API: "github"
+
+
