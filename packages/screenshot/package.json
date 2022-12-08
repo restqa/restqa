@@ -1,0 +1,43 @@
+{
+  "name": "@restqa/screenshot",
+  "version": "0.0.0-generated",
+  "description": "A way to create screenshot of the RestQA Report UI",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "screenshot": "bin/index.js"
+  },
+  "scripts": {
+    "start": "node bin/index.js",
+    "test": "npm run test:clean && npm run test:fixture && npm start && node tests/check.js",
+    "test:fixture": "CI=true restqa run --report",
+    "test:server": "node tests/server.js",
+    "test:clean": "rm -rf restqa screenshot-restqa.png",
+    "lint": "eslint src tests",
+    "lint:fix": "eslint src tests --fix",
+    "format": "prettier --check src tests",
+    "format:fix": "prettier --write src tests"
+  },
+  "keywords": [],
+  "author": "Olivier Rodomond <hi@olivierodo.me>",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^8.0.0",
+    "file-url": "^4.0.0",
+    "puppeteer": "^19.4.0"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@restqa/restqa": "workspace:*",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "prettier": "^2.7.1"
+  }
+}
