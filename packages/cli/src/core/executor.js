@@ -9,6 +9,8 @@ const {format} = require("util");
 
 const DEFAULT_TIMEOUT = 4000;
 
+console.log('here');
+
 class Executor {
   constructor(options) {
     const {port, command, envs, silent, timeout} = options;
@@ -57,7 +59,7 @@ class Executor {
     return this._coveragePath;
   }
 
-  async spawn() {
+  _spawnServer() {
     const command = this.command;
     if (typeof command !== "string") {
       throw new Error(
@@ -112,9 +114,9 @@ class Executor {
   }
 
   async execute() {
-    await this.spawn();
+    await this._spawnServer();
     if (this.port) {
-      await this.checkServer();
+      await this._checkServer();
     }
     return this._server;
   }
@@ -124,7 +126,7 @@ class Executor {
     global.restqa && global.restqa.outputStream.addDebugLog(str);
   }
 
-  async checkServer() {
+  _checkServer() {
     logger.info("service.run.waiting_server");
 
     const port = this.port;
@@ -136,7 +138,8 @@ class Executor {
 
         socket.on("ready", function (err) {
           if (err) reject(err);
-          resolve();
+          this._isRunning = true;
+          resolve(this._server);
           socket.destroy();
         });
 
@@ -158,13 +161,7 @@ class Executor {
         });
       };
       checker();
-    })
-      .then(() => {
-        this._isRunning = true;
-      })
-      .then(() => {
-        return this._server;
-      });
+    });
   }
 
   terminate() {
