@@ -4,7 +4,7 @@ const RestQAMongoDbMock = require("./mongodb-mock");
 const instance = new RestQAPlugin(RestQAMongoDbMock.name);
 instance
   .addBeforeAllHook(
-    {timeout: Number(process.env.BOOT_TIMEOUT) || 30000},
+    {timeout: Number(process.env.BOOT_TIMEOUT) || 120000},
     function () {
       const config = instance._config;
       return RestQAMongoDbMock.hooks.beforeAll.call(this, config);
