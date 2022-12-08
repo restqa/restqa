@@ -1,3 +1,9 @@
+# RestQA
+
+tests/mocks
+tests/collections
+restqa
+
 # Logs
 logs
 *.log
