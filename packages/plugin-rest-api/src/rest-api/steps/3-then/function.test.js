@@ -202,12 +202,15 @@ describe("#StepDefinition - then - functions", () => {
     test("shouldBeEmptyArrayResponse", () => {
       const $this = {
         api: {
-          response: {
-            body: [1, 2, 3],
+          response: new Response({
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify([1, 2, 3]),
             request: {
               prefix: "[POST /users]"
             }
-          }
+          })
         }
       };
 
@@ -221,12 +224,15 @@ describe("#StepDefinition - then - functions", () => {
     test("shouldNotBeEmptyArrayResponse", () => {
       const $this = {
         api: {
-          response: {
-            body: [],
+          response: new Response({
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify([]),
             request: {
               prefix: "[POST /users]"
             }
-          }
+          })
         }
       };
 
@@ -241,7 +247,7 @@ describe("#StepDefinition - then - functions", () => {
       const $this = {
         api: {
           response: {
-            body: [],
+            body: JSON.stringify([]),
             request: {
               prefix: "[POST /users]"
             }
@@ -504,9 +510,9 @@ describe("#StepDefinition - then - functions", () => {
         api: {
           response: {
             findInBody: jest.fn((_) => "my value"),
-            body: {
+            body: JSON.stringify({
               foo: "test"
-            },
+            }),
             request: {
               prefix: "[POST /users]"
             }
@@ -526,9 +532,9 @@ describe("#StepDefinition - then - functions", () => {
         api: {
           response: {
             findInBody: jest.fn((_) => [1, 2, 3]),
-            body: {
+            body: JSON.stringify({
               foo: [1, 2, 3]
-            },
+            }),
             request: {
               prefix: "[POST /users]"
             }
@@ -546,12 +552,15 @@ describe("#StepDefinition - then - functions", () => {
     test("shouldBeArraySize", () => {
       const $this = {
         api: {
-          response: {
-            body: [1, 2, 3],
+          response: new Response({
+            headers: {
+              "content-type": "application/json"
+            },
+            body: JSON.stringify([1, 2, 3]),
             request: {
               prefix: "[POST /users]"
             }
-          }
+          })
         }
       };
 
@@ -621,11 +630,11 @@ describe("#StepDefinition - then - functions", () => {
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: 22
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -650,11 +659,11 @@ describe("#StepDefinition - then - functions", () => {
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "22"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -720,14 +729,17 @@ describe("#StepDefinition - then - functions", () => {
             get: (_) => _
           },
           api: {
-            response: {
-              body: {
-                foo: "bar"
+            response: new Response({
+              headers: {
+                "content-type": "application/json"
               },
+              body: JSON.stringify({
+                foo: "bar"
+              }),
               request: {
                 prefix: "[POST /users]"
               }
-            }
+            })
           }
         };
 
@@ -749,14 +761,17 @@ describe("#StepDefinition - then - functions", () => {
             get: (_) => _
           },
           api: {
-            response: {
-              body: {
-                f00: "b@r"
+            response: new Response({
+              headers: {
+                "content-type": "application/json"
               },
+              body: JSON.stringify({
+                f00: "b@r"
+              }),
               request: {
                 prefix: "[POST /users]"
               }
-            }
+            })
           }
         };
 
@@ -788,12 +803,12 @@ describe("#StepDefinition - then - functions", () => {
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstName: "john",
                   lastName: "doe"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -824,12 +839,12 @@ describe("#StepDefinition - then - functions", () => {
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: `
 foo
 bar
 `.trim()
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -858,9 +873,9 @@ bar
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: "foo\\nbar"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -892,11 +907,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstName: "john"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -932,11 +947,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "twenty-two"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -962,11 +977,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: 10.1
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -992,11 +1007,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "22"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1020,11 +1035,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "30"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1048,11 +1063,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-50.4"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1080,11 +1095,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-50"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1110,11 +1125,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "twenty-two"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1140,11 +1155,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: 30.5
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1170,11 +1185,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "22"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1198,11 +1213,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "10"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1226,11 +1241,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-500.4"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1254,11 +1269,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-500"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1284,9 +1299,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "twenty-two"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1312,9 +1327,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/10"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1340,9 +1355,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/20"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1368,9 +1383,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/01"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1396,9 +1411,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "twenty-two"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1424,9 +1439,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/20"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1458,9 +1473,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/01"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1492,9 +1507,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "twenty-two"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1520,9 +1535,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/10"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1548,9 +1563,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/10"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1576,9 +1591,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/20"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1604,9 +1619,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "twenty-two"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1632,9 +1647,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/01"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1666,9 +1681,9 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 createDate: "2020/12/25"
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1700,11 +1715,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "twenty-two"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1730,11 +1745,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: 10.1
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1760,11 +1775,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "22"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1790,11 +1805,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "30"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1818,11 +1833,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-50.4"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1846,11 +1861,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-50"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1876,11 +1891,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "twenty-two"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1906,11 +1921,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: 30.3
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1936,11 +1951,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "22"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1966,11 +1981,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "10"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -1994,11 +2009,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-500.4"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -2022,11 +2037,11 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   age: "-500"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -2071,12 +2086,12 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstname: true,
                   lastname: 100
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -2120,12 +2135,12 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstname: true,
                   lastname: 100
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -2171,12 +2186,12 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstname: "John",
                   lastname: "Doe"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -2220,12 +2235,12 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstname: true,
                   lastname: 100
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }
@@ -2271,12 +2286,12 @@ bar', but received : 'foo\\nbar'`
               headers: {
                 "content-type": "application/json"
               },
-              body: {
+              body: JSON.stringify({
                 person: {
                   firstname: "John",
                   lastname: "Doe"
                 }
-              },
+              }),
               request: {
                 prefix: "[POST /users]"
               }

@@ -113,7 +113,7 @@ plugins:
       envs:
         GITHUB_API: github
     `;
-    const filename = jestqa.createCwdConfig(validRestQAConfigFile);
+    const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
     const Instance = new Config();
     Instance.load(filename);
     // metadata
@@ -312,7 +312,7 @@ settings:
     messages:
     - My message
     `;
-    const filename = jestqa.createCwdConfig(validRestQAConfigFile);
+    const filename = jestqa.createTmpFile(validRestQAConfigFile, ".restqa.yml");
     const Instance = new Config();
     Instance.load(filename);
     // metadata

@@ -23,7 +23,7 @@ main()
       })
       .post("/users", async (req, res) => {
         await db.collection("users").insertOne(req.body);
-        res.status(201).json({}); // @todo: to be remove when this issue will be solved: https://github.com/restqa/restqa/issues/303
+        res.sendStatus(201); // @todo: to be remove when this issue will be solved: https://github.com/restqa/restqa/issues/303
       })
       .listen(PORT || 3011);
   })

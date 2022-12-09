@@ -14,9 +14,9 @@ describe("# API  Response", () => {
       headers: {
         "content-type": "application/json"
       },
-      body: {
+      body: JSON.stringify({
         foo: "bar"
-      },
+      }),
       timing: 2000
     };
 
@@ -57,11 +57,11 @@ describe("# API  Response", () => {
       headers: {
         "content-type": "application/json"
       },
-      body: {
+      body: JSON.stringify({
         foo: {
           foo: "bar"
         }
-      },
+      }),
       timing: 2000
     };
 
@@ -123,11 +123,11 @@ describe("# API  Response", () => {
         "content-type": "application/json",
         "x-req-id": "zz-xx-yy"
       },
-      body: {
+      body: JSON.stringify({
         foo: {
           foo: "bar"
         }
-      },
+      }),
       timing: 2000
     };
 
@@ -150,11 +150,11 @@ describe("# API  Response", () => {
         "content-type": "application/json",
         "x-req-id": "zz-xx-yy"
       },
-      body: {
+      body: JSON.stringify({
         foo: {
           foo: "bar"
         }
-      },
+      }),
       timing: 2000
     };
 
@@ -175,11 +175,11 @@ describe("# API  Response", () => {
         "content-type": "application/json",
         "x-req-id": "zz-xx-yy"
       },
-      body: {
+      body: JSON.stringify({
         foo: {
           foo: "bar"
         }
-      },
+      }),
       timing: 2000
     };
 
@@ -212,11 +212,11 @@ describe("# API  Response", () => {
         "content-type": "application/json",
         "x-req-id": "zz-xx-yy"
       },
-      body: {
+      body: JSON.stringify({
         foo: {
           foo: "bar"
         }
-      },
+      }),
       timing: 2000
     };
 
@@ -237,11 +237,11 @@ describe("# API  Response", () => {
         "content-type": "application/text",
         "x-req-id": "zz-xx-yy"
       },
-      body: {
+      body: JSON.stringify({
         foo: {
           foo: "bar"
         }
-      },
+      }),
       timing: 2000
     };
 

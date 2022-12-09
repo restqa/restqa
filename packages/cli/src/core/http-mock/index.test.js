@@ -35,9 +35,9 @@ describe("http-mock", () => {
           headers: {
             "content-type": "application/json"
           },
-          body: {
+          body: JSON.stringify({
             message: "Hello World!"
-          }
+          })
         })
       }
     ];
@@ -102,9 +102,9 @@ describe("http-mock", () => {
           headers: {
             "content-type": "application/json"
           },
-          body: {
+          body: JSON.stringify({
             message: "Hello World with query parameters!"
-          }
+          })
         })
       }
     ];
@@ -179,11 +179,11 @@ describe("http-mock", () => {
           headers: {
             "content-type": "application/json"
           },
-          body: {
+          body: JSON.stringify({
             id: 1,
             firstName: "John",
             lastName: "Doe"
-          }
+          })
         })
       }
     ];
@@ -267,9 +267,9 @@ describe("http-mock", () => {
           headers: {
             "content-type": "application/json"
           },
-          body: {
+          body: JSON.stringify({
             message: "Hello World!"
-          }
+          })
         })
       }
     ];
@@ -289,11 +289,11 @@ describe("http-mock", () => {
           headers: {
             "content-type": "application/json"
           },
-          body: {
+          body: JSON.stringify({
             id: 1,
             firstName: "John",
             lastName: "Doe"
-          }
+          })
         })
       }
     ];

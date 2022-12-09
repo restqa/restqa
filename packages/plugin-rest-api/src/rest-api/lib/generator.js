@@ -239,6 +239,10 @@ function getFromFull(options) {
   if (request.json) {
     api.request.setPayload(request.json);
   }
+
+  if (typeof response.body !== "string") {
+    response.body = JSON.stringify(response.body);
+  }
   api.response = new Response(response);
   return api;
 }

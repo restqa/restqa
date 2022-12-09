@@ -45,9 +45,9 @@ describe("collection", () => {
             headers: {
               "content-type": "application/json"
             },
-            body: {
+            body: JSON.stringify({
               message: "Hello World!"
-            }
+            })
           })
         }
       ];
@@ -74,11 +74,11 @@ describe("collection", () => {
             headers: {
               "content-type": "application/json"
             },
-            body: {
+            body: JSON.stringify({
               id: 1,
               firstName: "John",
               lastName: "Doe"
-            }
+            })
           })
         }
       ];
