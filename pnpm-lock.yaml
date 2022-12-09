@@ -45,7 +45,7 @@ importers:
       '@cucumber/cucumber': ^7.3.0
       '@restqa/cucumber-export': workspace:*
       '@restqa/data': workspace:*
-      '@restqa/plugin': 0.0.3
+      '@restqa/plugin': workspace:*
       '@restqa/plugin-rest-api': workspace:*
       '@restqa/report-ui': workspace:*
       '@restqa/sandbox': workspace:*
@@ -106,7 +106,7 @@ importers:
     devDependencies:
       '@restqa/cucumber-export': link:../cucumber-export
       '@restqa/data': link:../data
-      '@restqa/plugin': 0.0.3
+      '@restqa/plugin': link:../plugin
       '@restqa/sandbox': link:../sandbox
       bats: 1.8.2
       bats-assert: github.com/ztombol/bats-assert/9f88b4207da750093baabc4e3f41bf68f0dd3630_bats-support@0.3.0
@@ -303,7 +303,7 @@ importers:
 
   packages/plugin-mongodb-mock:
     specifiers:
-      '@restqa/plugin': 0.0.4
+      '@restqa/plugin': workspace:*
       '@restqa/restqa': workspace:*
       debug: ^4.3.4
       dot-object: ^2.1.4
@@ -319,7 +319,7 @@ importers:
       prettier: ^2.7.1
       testcontainers: ^8.15.0
     dependencies:
-      '@restqa/plugin': 0.0.4
+      '@restqa/plugin': link:../plugin
       debug: 4.3.4
       dot-object: 2.1.4
       mongodb: 4.12.1
@@ -339,7 +339,7 @@ importers:
   packages/plugin-rest-api:
     specifiers:
       '@cucumber/cucumber': ^7.3.1
-      '@restqa/plugin': 0.0.2
+      '@restqa/plugin': workspace:*
       ajv: ^8.0.1
       dot-object: ^2.1.3
       esbuild: ^0.14.38
@@ -360,7 +360,7 @@ importers:
       prettier: ^2.4.1
       uuid: ^3.4.0
     dependencies:
-      '@restqa/plugin': 0.0.2
+      '@restqa/plugin': link:../plugin
       ajv: 8.11.2
       dot-object: 2.1.4
       form-data: 3.0.1
@@ -2390,10 +2390,6 @@ packages:
   /@restqa/plugin/0.0.2:
     resolution: {integrity: sha512-Z4M+QLvDwOLZMpzHy5MTgKUGr+x/dqd9YRYuwrrUr4eI1IjyXehbK1h6l4l4bS+oESMnVtLAVM0Cecek1qvVYQ==}
     dev: false
-
-  /@restqa/plugin/0.0.3:
-    resolution: {integrity: sha512-1Sjj+qEOsYxYzuWsoJdQwvp/WT1PjHzWrPhAFLfj51jjpTwq7eicDD2EnUGbr8MYmHBW/9I3Qq6zVUC1advfKg==}
-    dev: true
 
   /@restqa/plugin/0.0.4:
     resolution: {integrity: sha512-0JTwG1QdvgN/F/WkFJJqGDNIbMc9MDrbFTRjdoe+WFDA1mcHnUJlmlfm9RF40xfNDzQt/Arf9EcgGzA998zj6Q==}

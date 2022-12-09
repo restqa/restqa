@@ -32,7 +32,7 @@
   "author": "Olivier Rodomond",
   "license": "ISC",
   "dependencies": {
-    "@restqa/plugin": "0.0.4",
+    "@restqa/plugin": "workspace:*",
     "debug": "^4.3.4",
     "dot-object": "^2.1.4",
     "mongodb": "^4.10.0",

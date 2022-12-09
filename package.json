@@ -10,7 +10,7 @@
     "format": "pnpm -r run format",
     "example": "cd examples/nodejs && npm run happy",
     "test": "pnpm -r --workspace-concurrency=1 test",
-    "test:functional": "pnpm run --filter '@restqa/cli' test:functional",
+    "test:functional": "pnpm run --filter '@restqa/restqa' test:functional",
     "contribute": "pnpm i && npm run build && pnpm i && npm run example",
     "contribute:docs": "pnpm i && concurrently 'npm run watch:docs' 'npm run watch:ui' ",
     "watch:docs": "nodemon  -w docs -e md -x 'pnpm -r --filter @restqa/docs run build'",

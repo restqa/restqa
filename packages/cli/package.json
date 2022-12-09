@@ -62,7 +62,7 @@
     "@restqa/cucumber-export": "workspace:*",
     "@restqa/data": "workspace:*",
     "@restqa/sandbox": "workspace:*",
-    "@restqa/plugin": "0.0.3",
+    "@restqa/plugin": "workspace:*",
     "bats": "^1.8.2",
     "bats-assert": "github:ztombol/bats-assert",
     "bats-file": "github:ztombol/bats-file",
