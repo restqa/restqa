@@ -1,0 +1,14 @@
+version: 0.0.1
+metadata:
+  code: RESTQA-MONGO-MOCK
+  name: "@restqa/plugin-mongodb-mock"
+  description: An amazing test to handle plugin http-mock
+tests:
+  local:
+    port: "3011"
+    command: npm run test:server
+
+plugins:
+  - name: "./src/index.js"
+
+

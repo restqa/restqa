@@ -8,7 +8,9 @@
     "lint:fix": "eslint src tests --fix",
     "format": "prettier --check src tests",
     "format:fix": "prettier --write src tests",
-    "test": "cucumber-js --require ./tests/setup.js --publish-quiet --fail-fast ./tests/features"
+    "test": "restqa run",
+    "happy": "restqa run --report",
+    "test:server": "node tests/server.js"
   },
   "keywords": [
     "mongodb",
@@ -37,7 +39,7 @@
     "testcontainers": "^8.15.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^8.7.0",
+    "@restqa/restqa": "workspace:*",
     "esbuild": "^0.15.11",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -45,6 +47,7 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "express": "^4.18.2",
     "prettier": "^2.7.1"
   },
   "repository": {

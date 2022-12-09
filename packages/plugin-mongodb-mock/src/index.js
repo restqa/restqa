@@ -14,23 +14,23 @@ instance
   .addAfterHook(RestQAMongoDbMock.hooks.after)
   .addAfterAllHook(RestQAMongoDbMock.hooks.afterAll)
   .addGivenStep(
-    "I insert in the collection {string}:",
+    "a collection[mongodb] {string}:",
     RestQAMongoDbMock.steps.addEntries
   )
   .addThenStep(
-    "the db collection {string} exists",
+    "the collection[mongodb] {string} exists",
     RestQAMongoDbMock.steps.collectionExists
   )
   .addThenStep(
-    "I search in the collection {string}:",
+    "search in collection[mongodb] {string}:",
     RestQAMongoDbMock.steps.search
   )
   .addThenStep(
-    "the result of the search at {string} should equal {string}",
+    "search result {string} = {string}",
     RestQAMongoDbMock.steps.matchString
   )
   .addThenStep(
-    "the result of the search at {string} should equal {int}",
+    "search result {string} = {int}",
     RestQAMongoDbMock.steps.matchFloat
   );
 
