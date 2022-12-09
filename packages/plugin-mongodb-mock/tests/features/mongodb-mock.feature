@@ -47,6 +47,7 @@ Then search result "line.id" = "0009"
 Then search result "age" = 23
 Then the collection[mongodb] "users" exists
 
+@skip
 Scenario: Insert and search on nested field
 Given a request
   And the payload:
@@ -88,6 +89,7 @@ Then search result "line.id" = "0007"
 Then search result "age" = 20
 Then the collection[mongodb] "users" exists
 
+@skip
 Scenario: Insert and search on multi fields
 Given a request
   And the payload:
