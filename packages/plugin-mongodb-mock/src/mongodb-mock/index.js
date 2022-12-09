@@ -2,7 +2,7 @@ const {GenericContainer, Wait} = require("testcontainers");
 const MongoClient = require("mongodb").MongoClient;
 const assert = require("assert");
 const dot = require("dot-object");
-const debug = require("debug");
+const Debug = require("debug");
 
 const DB_NAME = "restqa";
 let container;
@@ -11,12 +11,13 @@ let mongodbUri;
 module.exports = {
   name: "mongodb-mock",
   hooks: {
-    beforeAll: async function (config) {
-      if (config.debug === true) {
-        debug.enable("testcontainers");
+    beforeAll: async function (config = {}) {
+      const {debug = false, mongodb = {}, envVarName = {}} = config;
+
+      if (debug === true) {
+        Debug.enable("testcontainers");
       }
 
-      const envVarName = config.envVarName || {};
       envVarName.uri = envVarName.uri || "MONGODB_URI";
       envVarName.dbName = envVarName.dbName || "MONGODB_DBNAME";
 
@@ -26,7 +27,9 @@ module.exports = {
         "> ☝ Tips: You can tweak `BOOT_TIMEOUT` variable, if you need more timeout <"
       );
 
-      container = await new GenericContainer(`mongo:${config.mongodb.version}`)
+      container = await new GenericContainer(
+        `mongo:${mongodb.version || "latest"}`
+      )
         .withExposedPorts(27017)
         .withWaitStrategy(Wait.forLogMessage(/.*waiting for connections.*/i))
         .start();

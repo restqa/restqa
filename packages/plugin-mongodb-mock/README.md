@@ -20,7 +20,7 @@ With this plugin we want to allow you to focus on your test and not writting bor
 Within your microservice project tested by RestQA, run the following command:
 
 ```
-npm i @restqa/mongodb-mock-plugin
+npm i -D @restqa/mongodb-mock-plugin
 ```
 
 ***In order to use this library your local machine must have docker installed.***
@@ -34,54 +34,62 @@ Let's say you have  microservice connecting to mongoDB:
 
 ```js
 // index.js
+const express = require("express");
 const { MongoClient } = require('mongodb');
-const express = require('express');
 
-const url = process.env.MONGODB_URI; // Use environement variable
-const dbName = process.env.MONGODB_DBNAME; // Use environment variable
+const {
+  PORT,
+  MONGODB_URI,
+  MONGODB_DBNAME
+} = process.env
+
 async function main() {
-  const client = new MongoClient(url);
+  const client = new MongoClient(MONGODB_URI);
   await client.connect();
-  return client.db(dbName);
+  return client.db(MONGODB_DBNAME);
 }
 
 main()
   .then(db => {
     express()
-      .get('/users', async (req, res) => {
-        const results = await db.collection('users').find({}).toArray();
-        res.json(results);
+      .use(express.json())
+      .get('/users/:id', async (req, res) => {
+        const search = {
+          'line.id': req.params.id
+        }
+        const result = await db.collection('users').findOne(search)
+        delete result._id
+        res.json(result);
       })
-      .listen(3000)
+      .listen(PORT || 3011)
   })
   .catch(console.error)
-
 ```
 
 Your RestQA test will look like:
 
 ```gherkin
-Given I insert in the collection "users":  # Insert mock Data in the sandbox mongoDB
-  | firstname    | lastname | person.age |
-  | john         | doe      | 26         |
-Given I have the api gateway # Run the microservice test locally
-  And I have the path "/users"
-  And I have the method "GET"
-When I run the API
-Then I should receive a response with the status 200
-  And the response body should be equal to: #return the data from the database.
+Scenario: Insert and Get information for microservice
+Given a collection[mongodb] "users":
+  | firstname    | lastname | age | line.displayName | line.id |
+  | John         | Doe      | 28  | johndoe          | 123456  |
+  | johnny       | doe      | 26  | johnny5          | 45678   |
+  And a request
+When GET "/users/45678"
+Then status = 200
+  And the body:
   """
-[{
-  "firstname": "john",
-  "lastname": "doe",
-  "person": {
-    "age": 26,
+  {
+    "firstname": "johnny",
+    "lastname": "doe",
+    "age": "26",
+    "line": {
+      "id": "45678",
+      "displayName" : "johnny5"
+    }
   }
-}]
   """
 ```
-
-
 
 > ⚠️ Important! You need to use environement variable to manage your connection to the mongodb Database. The mongodb-mock-plugin will override the connection environement variable accordingly.
 
@@ -126,11 +134,6 @@ tests:
   local:
     port: 8887
     command: npm run dev
-    data: {}
-  performance:
-    tool: artillery
-    outputFolder: tests/performances
-    onlySuccess: false
 specification:
   tool: swagger
 plugins:
@@ -162,35 +165,70 @@ async function main() {
 #### Full example
 
 ```gherkin
-Given I insert in the collection "users":
-  | firstname    | lastname | person.age |
-  | john         | doe      | 26  |
-  | christiano   | ronaldo  | 32  |
-When I search in the collection "users":
-  | firstname    |
-  | john         |
-Then the result of the search at "firstname" should equal "John"
-Then the result of the search at "lastname" should equal "doe"
-Then the result of the search at "person.age" should equal 26
-Then the db collection "users" exists
+Scenario: GET -  Insert and Get information for microservice
+Given a collection[mongodb] "users":
+  | firstname    | lastname | age | line.displayName | line.id |
+  | John         | Doe      | 28  | johndoe          | 123456  |
+  | johnny       | doe      | 26  | johnny5          | 45678   |
+  And a request
+When GET "/users/45678"
+Then status = 200
+  And the body:
+  """
+  {
+    "firstname": "johnny",
+    "lastname": "doe",
+    "age": "26",
+    "line": {
+      "id": "45678",
+      "displayName" : "johnny5"
+    }
+  }
+  """
+ 
+Scenario: POST -  Insert and Get information for microservice
+Given a request
+  And the payload:
+  """
+  {
+    "firstname": "Julia",
+    "lastname": "Queen",
+    "age": "23",
+    "line": {
+      "id": "0009",
+      "displayName" : "spy-7"
+    }
+  }
+  """
+When POST "/users"
+Then status = 201
+When search in collection[mongodb] "users":
+  | firstname |
+  | Julia |
+Then search result "firstname" = "Julia"
+Then search result "lastname" = "Queen"
+Then search result "line.displayName" = "spy-7"
+Then search result "line.id" = "0009"
+Then search result "age" = 23
+Then the collection[mongodb] "users" exists
 ```
 
 #### Given
 
 ```gherkin
-Given I insert in the collection {string}:
+Given a collection[mongodb] {string}:
 | field1  | field2 |
 | value2  | value2 |
 
 # Example
-Given I insert in the collection "users":
+Given a collection[mongodb] "users":
 | firstname    | lastname | age |
 | john         | doe      | 26  |
 | christiano   | ronaldo  | 32  |
 
 # Using dot syntax for cascading values:
 
-Given I insert in the collection "users":
+Given a collection[mongodb] "users":
 | firstname    | lastname | person.age |
 | john         | doe      | 26         |
 
@@ -209,12 +247,12 @@ Given I insert in the collection "users":
 The `When` keyword will trigger action to perform in you MongoDB sandbox
 
 ```gherkin
-When I search in the collection {string}:
+When search in collection[mongodb] {string}:
 | query field1 | query field2 |
 | query value1 | query value2 |
 
 # Example if we want to search an entry containing:  firstname = John
-When I search in the collection "user":
+When search in collection[mongodb] "users":
   | firstname |
   | John |
 ```
@@ -225,17 +263,17 @@ The `Then` keyword will after different asssertion that you want do in your mong
 
 ```gherkin
 # Asserting the result from a previous search
-Then the result of the search at {string} should equal {string}
-Then the result of the search at {string} should equal {float}
+Then search result {string} = {string}
+Then search result {string} = {float}
 
 # Example
-Then the result of the search at "firstname" should equal "John"
+Then search result "firstname" = "John"
 ```
 
 ```gherkin
 # Check if a collection exist in the mongoDB database
-Then the db collection {string} exists
+Then the collection[mongodb] {string} exists
 
 # Example
-Then the db collection "user" exists
+Then the collection[mongodb] "users" exists
 ```
