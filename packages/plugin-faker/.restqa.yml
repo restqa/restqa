@@ -1,0 +1,13 @@
+version: 0.0.1
+metadata:
+  code: RESTQA-FAKER
+  name: "@restqa/plugin-faker"
+  description: An amazing test to handle plugin faker
+tests:
+  local:
+    port: "3013"
+    command: npm run test:server
+
+plugins:
+  - name: "./src/index.js"
+
