@@ -47,13 +47,13 @@ describe("# rest-api.Generator", () => {
         headers: {
           "content-type": "application/json"
         },
-        body: {
+        body: JSON.stringify({
           foo: "bar",
           number: 12,
           booTrue: true,
           booFalse: false,
           null: null
-        }
+        })
       }
     });
     jest.mock("got");
@@ -127,13 +127,13 @@ Then status = 200
         headers: {
           "content-type": "application/json"
         },
-        body: {
+        body: JSON.stringify({
           foo: "bar",
           number: 12,
           booTrue: true,
           booFalse: false,
           null: null
-        }
+        })
       }
     });
     jest.mock("got");
@@ -207,13 +207,13 @@ Then status = 200
         headers: {
           "content-type": "application/json"
         },
-        body: {
+        body: JSON.stringify({
           foo: "bar",
           number: 12,
           booTrue: true,
           booFalse: false,
           null: null
-        }
+        })
       }
     });
     jest.mock("got");

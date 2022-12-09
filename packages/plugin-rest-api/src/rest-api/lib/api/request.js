@@ -26,6 +26,7 @@ const Request = function (baseUrl, insecure, id) {
             timing: response.timings.phases.total,
             headers: response.headers,
             statusCode: response.statusCode,
+            statusMessage: response.statusMessage,
             request: {
               path: this.options.pathname,
               method: this.options.method,
@@ -45,7 +46,7 @@ const Request = function (baseUrl, insecure, id) {
     this.options.headers["x-correlation-id"] = getId();
     this.options.headers["user-agent"] =
       "restqa (https://github.com/restqa/restqa)";
-    this.options.responseType = this.options.responseType || "json";
+    this.options.responseType = "text";
 
     if (insecure === true) {
       ignoreSsl();

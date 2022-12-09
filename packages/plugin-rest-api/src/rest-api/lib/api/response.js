@@ -2,9 +2,17 @@ const dot = require("dot-object");
 const jp = require("jsonpath");
 
 const Response = function (result) {
-  const {request, statusCode, headers, body, timing} = result;
+  let {request, statusCode, statusMessage, headers, body, timing} = result;
 
   const isJson = /application\/json/i.test(headers["content-type"] || "");
+
+  if (body === statusMessage) {
+    body = undefined;
+  }
+
+  if (isJson && body) {
+    body = JSON.parse(body);
+  }
 
   let dotBody = {};
 

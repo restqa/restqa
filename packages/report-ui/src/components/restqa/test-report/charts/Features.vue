@@ -5,13 +5,11 @@
         ><highcharts :options="featuresForChart"></highcharts
       ></el-col>
       <el-col :span="8" v-if="accessLink" style="text-align: right">
-        <el-card  class="statusCard" shadow="Hover">
+        <el-card class="statusCard" shadow="Hover">
           <el-image class="statusImg" :src="statusImageUrl" :fit="fit" />
           <div class="detailText">{{ statusDesc }}</div>
           <div class="detailLink">
-            <el-link
-              type="primary"
-              v-on:click.stop.prevent="goToDetail()"
+            <el-link type="primary" v-on:click.stop.prevent="goToDetail()"
               >See details</el-link
             >
           </div>
@@ -67,21 +65,19 @@ export default {
     },
   },
   computed: {
-    columnChart () {
-      let result = 24
+    columnChart() {
+      let result = 24;
       if (this.accessLink) {
-        result = 16
+        result = 16;
       }
-      return result
+      return result;
     },
     nbFeatures() {
       return this.data.features.length;
     },
     statusImageUrl() {
       return `images/reportStatus/${
-        this.data.success
-          ? "statusSuccess.png"
-          : "statusFailed.png"
+        this.data.success ? "statusSuccess.png" : "statusFailed.png"
       }`;
     },
     statusDesc() {

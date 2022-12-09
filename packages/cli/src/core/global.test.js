@@ -22,7 +22,10 @@ tests:
     port: 8080
     command: npm run dev
     `;
-    const configFile = jestqa.createCwdConfig(validRestQAConfigFile);
+    const configFile = jestqa.createTmpFile(
+      validRestQAConfigFile,
+      ".restqa.yml"
+    );
 
     const optionsLocalTest = {
       configFile,
@@ -57,7 +60,10 @@ tests:
     - name: 'UAT'
       url: 'https://example.com'
     `;
-    const configFile = jestqa.createCwdConfig(validRestQAConfigFile);
+    const configFile = jestqa.createTmpFile(
+      validRestQAConfigFile,
+      ".restqa.yml"
+    );
 
     const optionsLocalTest = {
       configFile,
