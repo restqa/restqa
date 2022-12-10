@@ -2,7 +2,7 @@ const fastify = require("fastify");
 const fs = require("fs");
 const path = require("path");
 const assert = require("assert");
-const http = require("http");
+const Express = require("express");
 
 const Steps = function ({Given, When, Then}) {
   Given(
@@ -60,18 +60,20 @@ const Steps = function ({Given, When, Then}) {
 
 function getServerNode16(method, url, response) {
   const handler = function (req, res) {
-    res.writeHead(200);
     try {
-      response = JSON.stringify(JSON.parse(response));
-      res.setHeader("Content-Type", "application/json");
-    } catch (e) {}
-    return res.end(response);
+      response = JSON.parse(response);
+      return res.json(response);
+    } catch (e) {
+      return res.send(response);
+    }
   };
 
-  const srv = http.createServer(handler);
+  let srv;
+  const app = Express();
+  app[method.toLowerCase()](url, handler);
 
   function start(port, cb) {
-    srv.listen(port, cb);
+    srv = app.listen(port, cb);
   }
 
   function close(cb) {

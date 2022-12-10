@@ -28,7 +28,7 @@ const stream = {
 
 Sandbox({
   port: 3001,
-  debug: process.env.CI !== undefined,
+  debug: false,
   upstream: "http://localhost:9999",
   outputFolder,
   stream
