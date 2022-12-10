@@ -15,6 +15,10 @@ RestQA is now focusing on providing the best automation testing experience for M
 Major breaking changes need to be addressed. There is no compatibility between the previous version and the new one.
 If you don't want to focus on the microservice testing you can stick to the version [0.0.38]
 
+### Fix
+
+- Handle API empty api response [#306](https://github.com/restqa/restqa/pull/306)
+
 ## [1.0.0-rc4] - 2022-12-05
 
 ### Added
