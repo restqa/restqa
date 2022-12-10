@@ -27,7 +27,6 @@ jobs:
     - run: npm test
       env:
         BOOT_TIMEOUT: 60000
-        DEBUG: testcontainers*
         CI: true
     - run: npm run test:functional
     - run: npm run example

@@ -452,6 +452,7 @@ importers:
       eslint-plugin-import: ^2.24.2
       eslint-plugin-node: ^11.1.0
       eslint-plugin-promise: ^5.1.0
+      express: ^4.18.2
       fastify: ^4.10.2
       nodemon: ^2.0.20
       prettier: ^2.7.1
@@ -469,6 +470,7 @@ importers:
       eslint-plugin-import: 2.26.0_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-promise: 5.2.0_eslint@7.32.0
+      express: 4.18.2
       nodemon: 2.0.20
       prettier: 2.8.1
       rimraf: 3.0.2
@@ -2386,10 +2388,6 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.14.0
     dev: true
-
-  /@restqa/plugin/0.0.2:
-    resolution: {integrity: sha512-Z4M+QLvDwOLZMpzHy5MTgKUGr+x/dqd9YRYuwrrUr4eI1IjyXehbK1h6l4l4bS+oESMnVtLAVM0Cecek1qvVYQ==}
-    dev: false
 
   /@restqa/plugin/0.0.4:
     resolution: {integrity: sha512-0JTwG1QdvgN/F/WkFJJqGDNIbMc9MDrbFTRjdoe+WFDA1mcHnUJlmlfm9RF40xfNDzQt/Arf9EcgGzA998zj6Q==}
