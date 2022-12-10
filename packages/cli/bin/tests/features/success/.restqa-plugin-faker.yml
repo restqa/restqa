@@ -9,5 +9,5 @@ tests:
     command: "npm run dev"
 
 plugins:
-  - name: '@restqa/faker-plugin'
+  - name: '@restqa/plugin-faker'
 

@@ -20,7 +20,7 @@ WORKDIR="$MAINDIR/steps"
 
 setup_file() {
   echo "--> Installing the npm package @restqa/faker-plugin into the $MAINDIR folder" >&3
-  npm install @restqa/faker-plugin --prefix $MAINDIR
+  npm install @restqa/plugin-faker --prefix $MAINDIR
 }
 
 setup() {
