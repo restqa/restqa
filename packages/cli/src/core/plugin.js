@@ -6,6 +6,22 @@ const HttpMock = require("./http-mock");
 const Collection = require("./collection");
 const path = require("path");
 const Coverage = require("./coverage");
+const {getPackageJson} = require("../utils/fs");
+
+function formatCommand(command) {
+  if (typeof command !== "string") {
+    throw new Error(`Plugin: command should be a string but got: ${command}`);
+  }
+
+  const isNpmCommand = command.startsWith("npm run");
+  if (!isNpmCommand) return command;
+  else {
+    const scriptName = command.slice(8);
+    const pkgJson = getPackageJson();
+    return pkgJson.scripts[scriptName];
+  }
+}
+
 
 module.exports = function ({env, report, config}, processor = {}) {
   global.result = {};
@@ -32,9 +48,11 @@ module.exports = function ({env, report, config}, processor = {}) {
     processor.BeforeAll(async function () {
       this.restqa = this.restqa || {};
       const {envs} = this.restqa.mock || {};
+      const commandFromConfig = config.getLocalTest().getCommand();
+      const command = formatCommand(commandFromConfig);
       const options = {
         port: config.getLocalTest().getPort(),
-        command: config.getLocalTest().getCommand(),
+        command,
         envs
       };
 
