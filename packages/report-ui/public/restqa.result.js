@@ -1,3 +1,14 @@
+/*****************
+ *
+ * This file is the most important asset of th report-ui
+ * That the file that contain what the @restqa/restqa (cli folder) will generate
+ * Below is a simple representation that you can use to tweek for your UI development
+ *
+ * IMPORTANT: If you update this file make sure you clear your localstorage
+ *            Simply because The localstorage is storing this file 
+ *            and serve it in priority for the history feature.
+ *
+ * ******************/
 const OUTPUT = {};
 
 OUTPUT.RESTQA_VERSION = "3.0.0";
