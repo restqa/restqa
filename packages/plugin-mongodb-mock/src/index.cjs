@@ -1,5 +1,5 @@
 const RestQAPlugin = require("@restqa/plugin");
-const RestQAMongoDbMock = require("./mongodb-mock");
+const RestQAMongoDbMock = require("./mongodb-mock/index.cjs");
 
 const instance = new RestQAPlugin(RestQAMongoDbMock.name);
 instance
