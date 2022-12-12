@@ -1,5 +1,5 @@
 const RestQAPlugin = require("@restqa/plugin");
-const RestQAHTTPMock = require("./http-mock");
+const RestQAHTTPMock = require("./http-mock/index.cjs");
 
 const instance = new RestQAPlugin(RestQAHTTPMock.name);
 instance

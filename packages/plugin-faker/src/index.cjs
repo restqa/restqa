@@ -1,5 +1,5 @@
 const RestQAPlugin = require("@restqa/plugin");
-const RestQAFaker = require("./faker-plugin");
+const RestQAFaker = require("./faker-plugin/index.cjs");
 
 const instance = new RestQAPlugin(RestQAFaker.name);
 
