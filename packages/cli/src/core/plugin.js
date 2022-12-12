@@ -1,7 +1,7 @@
 const Executor = require("./executor");
 const GitStat = require("./git-stat");
 const Performance = require("./performance");
-const Specification = require("./specification");
+const Specification = require("@restqa/specification");
 const HttpMock = require("./http-mock");
 const Collection = require("./collection");
 const path = require("path");
@@ -64,7 +64,16 @@ module.exports = function ({env, report, config}, processor = {}) {
 
   if (report) {
     let performanceInstance = null;
-    const specificationInstance = new Specification(config.toJSON());
+    const optionSpecification = {
+      info: {
+        version: "0.0.1",
+        title: config.getName(),
+        description: config.getDescription()
+      },
+      ...config.getSpecification().toJSON()
+    };
+
+    const specificationInstance = new Specification(optionSpecification);
 
     const optionsMock = {
       outputFolder: path.resolve(process.cwd(), "tests", "mocks")
@@ -77,11 +86,11 @@ module.exports = function ({env, report, config}, processor = {}) {
     );
 
     processor.After(function (scenario) {
-      const exportApi = this.api.toJSON();
-      exportApi.scenario = {
-        pickle: {
-          name: scenario.pickle.name,
-          tags: scenario.pickle.tags
+      const exportApi = {
+        request: this.api.request,
+        response: this.api.response,
+        scenario: {
+          name: scenario.pickle.name
         }
       };
       specificationInstance.add(exportApi);

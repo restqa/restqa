@@ -446,7 +446,7 @@ describe("#core - plugin", () => {
     });
   });
 
-  describe("specification", () => {
+  describe.skip("specification", () => {
     test("init with specification config", async () => {
       const config = new Config();
       config.setName("My fixture 1");

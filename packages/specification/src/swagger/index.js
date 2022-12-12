@@ -1,36 +1,31 @@
 const CODES = require("./codes.json");
 const {URLSearchParams} = require("url");
-const _ = require("lodash");
+const isEmpty = require("lodash/isEmpty");
+const Merge = require("lodash/merge");
 const SwaggerUrl = require("./url");
 
-let CONFIG;
 let URL;
 let TAGS;
 let OPTIONS;
-module.exports = function (config) {
-  CONFIG = config;
-  const options = config.specification || {};
-
-  options.tool = options.tool || "swagger";
-  if (["swagger"].includes(options.tool) === false) {
-    throw new Error(
-      'The specification property "tool" should be specify. (available: swagger)'
-    );
-  }
+module.exports = function (options) {
   TAGS = options.tags || {};
-  URL = new SwaggerUrl(options.matches);
+  URL = new SwaggerUrl(options.matches || {});
   options.excludes = options.excludes || {};
-  options.excludes.paths = options.excludes.paths || [];
+  options.excludes.routes = options.excludes.routes || [];
   options.excludes.queries = options.excludes.queries || [];
   options.headers = options.headers || {};
   options.headers.request = options.headers.request || [];
   options.headers.response = options.headers.response || [];
   OPTIONS = options;
 
-  // const tmpl = fs.readFileSync(options.template).toString('utf-8')
   const apis = [];
 
   const add = function (api) {
+    api = prepareAPI({
+      request: api.request.getOptions(),
+      response: api.response.getOptions(),
+      scenario: api.scenario
+    });
     apis.push(api);
   };
 
@@ -39,10 +34,6 @@ module.exports = function (config) {
     const definitions = {};
     const result = apis.reduce(transform, {path, definitions});
     return toOpenAPI(result);
-    // result = YAML.stringify(toOpenAPI(result), { defaultKeyType: 'PLAIN', defaultStringType : 'QUOTE_DOUBLE'})
-    // return result
-    // fs.writeFileSync(options.to, tmpl.replace('<DEFINITION>', result.trim()))
-    // return options.to
   };
 
   return {
@@ -55,17 +46,10 @@ function toOpenAPI({path, definitions}) {
   const obj = {
     openapi: "3.0.0",
     info: {
-      version: "0.0.1",
-      title: CONFIG.metadata.name,
-      description: OPTIONS.description || CONFIG.metadata.description
+      version: OPTIONS.info.version,
+      title: OPTIONS.info.title,
+      description: OPTIONS.info.description
     },
-    /*
-    // Not sure if we need to add the server definition
-    servers: [{
-      url: 'http://localhost:8000',
-      description: CONFIG.environment.name
-    }],
-    */
     paths: {}
   };
 
@@ -80,15 +64,22 @@ function transform(result, api) {
   const {path} = result;
   try {
     const endpoint = new Endpoint(api);
-    if (OPTIONS.excludes.paths.includes(endpoint.getPath())) {
+    const isExclude = OPTIONS.excludes.routes.some((item) => {
+      return (
+        endpoint.getPath() === item.path &&
+        api.request.method === item.method.toLowerCase()
+      );
+    });
+    if (isExclude) {
       return {path};
     }
+
     path[endpoint.getPath()] = path[endpoint.getPath()] || endpoint;
     path[endpoint.getPath()]
       .addMethod(new Method(api))
       .addResponse(new Response(api.response));
     if (String(api.response.statusCode)[0] === "2") {
-      const qs = api.request.qs || {};
+      const qs = api.request.searchParams || {};
       const extraParameter = api.request.pathname.split("?");
       if (extraParameter.length > 1) {
         const sp = new URLSearchParams(extraParameter.pop());
@@ -185,30 +176,31 @@ function Method({scenario, request, response}) {
   }
 
   function setRequestBody(request) {
-    if (_.isEmpty(request.json)) return;
+    if (isEmpty(request.json)) return;
     const rBody = new RequestBody(request);
-    requestBody = _.merge(requestBody || {}, rBody.toJSON());
+    requestBody = Merge(requestBody || {}, rBody.toJSON());
   }
 
   function toJSON() {
     const obj = {
-      deprecated: false,
       operationId: operation,
       tags,
-      // summary: '✅ - ' +scenario.pickle.name,
-      summary: scenario.pickle.name,
+      summary: scenario.name,
       parameters: parameters
         .sort((a, b) => a.type.localeCompare(b.type))
         .map((_) => _.toJSON()),
       requestBody,
       responses: responses.reduce((res, item) => {
-        res[item.code] = _.merge(res[item.code] || {}, item.toJSON());
+        res[item.code] = Merge(res[item.code] || {}, item.toJSON());
         return res;
       }, {})
     };
 
+    if (obj.tags.length === 0) {
+      obj.tags = ["Tested by RestQA"];
+    }
+
     if (obj.parameters.length === 0) delete obj.parameters;
-    if (obj.tags.length === 0) delete obj.tags;
     if (!obj.requestBody) delete obj.requestBody;
     return obj;
   }
@@ -247,7 +239,7 @@ function RequestParameter(name, type, example) {
 
 function RequestBody({body, responseType, json, headers}) {
   function toJSON() {
-    const contentType = responseType === "json" && "application/json";
+    const contentType = "application/json";
     const content = {};
     content[contentType] = {
       schema: new Schema(contentType, json).toJSON()
@@ -281,8 +273,10 @@ function Response({statusCode, body, headers}) {
     for (const [key, example] of Object.entries(headers)) {
       if (OPTIONS.headers.response.includes(key)) {
         _headers[key] = {
-          schema: "string",
-          example
+          schema: {
+            type: "string",
+            example
+          }
         };
       }
     }
@@ -297,7 +291,7 @@ function Response({statusCode, body, headers}) {
       content
     };
 
-    if (_.isEmpty(obj.headers)) {
+    if (isEmpty(obj.headers)) {
       delete obj.headers;
     }
 
@@ -369,6 +363,10 @@ function Schema(type, body) {
         properties: getDefinition(body[0])
       };
     }
+
+    if (type === "string") {
+      obj.example = body;
+    }
     return obj;
   }
 
@@ -393,3 +391,8 @@ const getType = function (obj) {
     .match(/\s([a-zA-Z]+)/)[1]
     .toLowerCase();
 };
+
+function prepareAPI(api) {
+  api.request.method = api.request.method.toLowerCase();
+  return api;
+}
