@@ -27,9 +27,12 @@ const Steps = function ({Given, When, Then}) {
     this.upstream.close(cb);
   });
 
-  Then("the file {string} exists", function (file) {
-    const filename = path.resolve(process.cwd(), file);
-    assert.ok(fs.existsSync(filename));
+  Then("the file {string} exists", function (file, cb) {
+    setTimeout(() => {
+      const filename = path.resolve(process.cwd(), file);
+      assert.ok(fs.existsSync(filename));
+      cb();
+    }, 500);
   });
 
   Then("the file {string} not exists", function (file) {

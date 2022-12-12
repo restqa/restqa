@@ -52,6 +52,8 @@ const Request = function (baseUrl, insecure, id) {
       ignoreSsl();
     }
 
+    this.options.method = this.options.method || "GET";
+
     return this.options;
   };
 

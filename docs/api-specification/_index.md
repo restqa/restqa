@@ -64,12 +64,12 @@ Setting up your API specification, by following the instruction: [here](/#/speci
 | `specification.matches`          | object         | List of matchers                                                 | No         |                                |
 | `specification.matches.ids`      | array <regexp> | Array of Regexp that would match  unique Id                      | No         |                                |
 | `specification.excludes`         | object         | Information to not display on the api specification              | No         |                                |
-| `specification.excludes.paths`   | array <string> | Path to exclude                                                  | No         |                                |
+| `specification.excludes.routes`  | array <object> | Route to exclude, object: `{route: '/path', method:'get'}`       | No         |                                |
 | `specification.excludes.queries` | array <string> | Query parameter to exclude                                       | No         |                                |
 | `specification.headers`          | object         | Headers to display on the api specification                      | No         |                                |
 | `specification.headers.request`  | array <string> | Header from the request to include                               | No         |                                |
 | `specification.headers.response` | array <string> | Header from the response to include                              | No         |                                |
-| `specification.tags`             | object [array] | Ordering endpoints per sections                                  | No         |                                |
+| `specification.tags`             | object         | Ordering endpoints per sections                                  | No         |                                |
 
 
 #### Example
@@ -89,8 +89,9 @@ specification:
     - "/^(\d+)/" example: 23243
     - "/^[a-zA-Z0-9]+\=$/" example: NjEwMjI2NzU=
   excludes:
-    paths:
-    - '/payments/qr'
+    routes:
+    - path: '/payments/qr'
+      method: get
     queries:
     - 'cached'
   headers:

@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@restqa/cucumber-export": "workspace:*",
+    "@restqa/specification": "workspace:*",
     "@restqa/data": "workspace:*",
     "@restqa/sandbox": "workspace:*",
     "@restqa/plugin": "workspace:*",
