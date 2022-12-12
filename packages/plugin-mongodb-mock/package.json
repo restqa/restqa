@@ -2,7 +2,7 @@
   "name": "@restqa/plugin-mongodb-mock",
   "version": "0.0.0-generated",
   "description": "A RestQA plugin to mockup a mongo DB database to run your local test with class",
-  "main": "index.js",
+  "main": "src/index.cjs",
   "scripts": {
     "lint": "eslint src tests",
     "lint:fix": "eslint src tests --fix",

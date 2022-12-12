@@ -9,6 +9,6 @@ tests:
     command: npm run test:server
 
 plugins:
-  - name: "./src/index.js"
+  - name: "./src/index.cjs"
 
 
