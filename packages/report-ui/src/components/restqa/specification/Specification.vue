@@ -5,6 +5,9 @@
     :closable="false"
     v-if="hasError"
   />
+  <div class="spacer" v-if="loading">
+    Wait a second, your api specification is baking!
+  </div>
   <div class="swagger" id="swagger" v-loading="loading"></div>
 </template>
 
@@ -56,3 +59,13 @@ export default {
   },
 };
 </script>
+<style scoped>
+.spacer {
+  padding-top: 100px;
+  height: 60px;
+  text-align: center;
+  color: #8c40ff;
+}
+div.swagger div {
+}
+</style>
