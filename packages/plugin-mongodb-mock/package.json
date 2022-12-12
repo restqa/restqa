@@ -4,8 +4,8 @@
   "description": "A RestQA plugin to mockup a mongo DB database to run your local test with class",
   "main": "src/index.cjs",
   "scripts": {
-    "lint": "eslint src tests",
-    "lint:fix": "eslint src tests --fix",
+    "lint": "eslint --ext .cjs,.js src/ tests/",
+    "lint:fix": "eslint --fix --ext .cjs,.js src/ tests/",
     "format": "prettier --check src tests",
     "format:fix": "prettier --write src tests",
     "test": "restqa run",

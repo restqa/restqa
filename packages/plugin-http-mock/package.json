@@ -2,7 +2,7 @@
   "name": "@restqa/plugin-http-mock",
   "version": "0.0.0-generated",
   "description": "RestQA plugin enabling mock of HTTP request",
-  "main": "src/index.js",
+  "main": "src/index.cjs",
   "dependencies": {
     "@restqa/plugin": "0.0.4",
     "debug": "^4.3.4",
@@ -22,7 +22,7 @@
     "prettier": "^2.4.1"
   },
   "scripts": {
-    "lint": "eslint src tests --fix",
+    "lint": "eslint --fix --ext .cjs,.js src/ tests/",
     "lint:fix": "eslint src tests --fix",
     "format": "prettier --write src tests",
     "test": "restqa run",

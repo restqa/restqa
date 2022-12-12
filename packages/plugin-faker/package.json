@@ -1,6 +1,6 @@
 {
   "name": "@restqa/plugin-faker",
-  "main": "src/index.js",
+  "main": "src/index.cjs",
   "description": "RestQA Plugin enabling the generation of fake data to be used in test scenario",
   "version": "0.0.0-generated",
   "keywords": [
@@ -13,7 +13,8 @@
     "mock"
   ],
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint --ext .cjs,.js src/ tests/",
+    "lint:fix": "eslint --fix --ext .cjs,.js src/ tests/",
     "format": "prettier --check src",
     "format:fix": "prettier --write src",
     "test": "restqa run",
