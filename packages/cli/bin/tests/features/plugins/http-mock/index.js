@@ -15,5 +15,5 @@ app.get("/status", async () => {
   return response.data
 });
 
-app.listen(9998, () => {});
+app.listen(9998, '0.0.0.0', () => {});
 

@@ -108,7 +108,7 @@ class Executor {
       }
     }).then(() => {
       if (!this.port) return this.server;
-      return this.checkServer();
+      return this.isReady();
     });
   }
 
@@ -116,27 +116,54 @@ class Executor {
     global.restqa && global.restqa.outputStream.addDebugLog(str);
   }
 
-  async checkServer() {
+  async isReady() {
     logger.info("service.run.waiting_server");
     const port = this.port;
-    let timeout = this.timeout;
+    const timeout = this.timeout;
+    const controller = new AbortController();
+    return Promise.any([
+      this.checkServer(controller, port, timeout),
+      this.checkServer(controller, port, timeout, "0.0.0.0")
+    ])
+      .then((response) => {
+        controller.abort();
+        this._isRunning = true;
+      })
+      .then(() => {
+        return this.server;
+      })
+      .catch((e) => {
+        throw e.errors[0];
+      });
+  }
+
+  checkServer(controller, port, timeout, host) {
     return new Promise((resolve, reject) => {
       const checker = () => {
-        const socket = net.createConnection({port});
+        let isOut = false;
+        let idTimeout;
+        const opt = {
+          port,
+          host
+        };
+        const socket = net.createConnection(opt);
         socket.on("ready", function (err) {
           if (err) reject(err);
           resolve();
           socket.destroy();
+          isOut = true;
         });
         socket.on("error", function (err) {
           socket.destroy();
           timeout -= 200;
           if (err.code !== "ECONNREFUSED") {
+            isOut = true;
             return reject(err);
           }
           if (timeout > 0) {
-            setTimeout(checker, 200);
+            idTimeout = setTimeout(checker, 200);
           } else {
+            isOut = true;
             reject(
               new Error(
                 format(Locale.get("error_port_timeout"), port, DEFAULT_TIMEOUT)
@@ -144,15 +171,17 @@ class Executor {
             );
           }
         });
+
+        // Since we are using Promise.any we should kill the ongoing promise to release the event loop
+        controller.signal.addEventListener("abort", () => {
+          if (isOut) return;
+          socket.destroy();
+          clearTimeout(idTimeout);
+          resolve();
+        });
       };
       checker();
-    })
-      .then(() => {
-        this._isRunning = true;
-      })
-      .then(() => {
-        return this.server;
-      });
+    });
   }
 
   terminate() {

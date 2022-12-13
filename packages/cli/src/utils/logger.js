@@ -14,6 +14,11 @@ module.exports = {
   error: function () {
     if (!(arguments[0] instanceof Error)) {
       arguments[0] = Locale.get(arguments[0]) || arguments[0];
+    } else if (
+      arguments[0].constructor &&
+      arguments[0].constructor.name === "VError"
+    ) {
+      arguments[0] = arguments[0].jse_cause;
     } else {
       debug(arguments[0]);
     }

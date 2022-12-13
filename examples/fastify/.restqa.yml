@@ -1,0 +1,9 @@
+version: 0.0.1
+metadata:
+  code: -RESTQA-EXAMPLE-FASTIFY
+  name: "@restqa/example-fastify"
+  description: A RestQA example running on fastify
+tests:
+  local:
+    port: "3012"
+    command: npm run dev

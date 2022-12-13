@@ -221,7 +221,7 @@ class LocalTest {
   }
 
   getUrl() {
-    return `http://localhost:${this._config.port}`;
+    return `http://127.0.0.1:${this._config.port}`;
   }
 
   getPort() {
