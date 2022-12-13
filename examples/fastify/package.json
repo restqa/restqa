@@ -1,0 +1,21 @@
+{
+  "name": "@restqa/example-fastify",
+  "private": "true",
+  "version": "1.0.0",
+  "description": "A RestQA example running on fastify",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "restqa run",
+    "happy": "restqa run --report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@restqa/restqa": "workspace:*"
+  },
+  "dependencies": {
+    "fastify": "^4.10.2"
+  }
+}

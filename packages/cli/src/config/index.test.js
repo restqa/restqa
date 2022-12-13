@@ -127,7 +127,7 @@ plugins:
     expect(Instance.getLocalTest().getPort()).toEqual(8080);
     expect(Instance.getLocalTest().getCommand()).toEqual("npm run dev");
     expect(Instance.getLocalTest().getName()).toEqual("local");
-    expect(Instance.getLocalTest().getUrl()).toEqual("http://localhost:8080");
+    expect(Instance.getLocalTest().getUrl()).toEqual("http://127.0.0.1:8080");
     expect(Instance.getLocalTest().getData().getStorage()).toEqual(
       "./test/data"
     );

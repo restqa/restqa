@@ -120,7 +120,7 @@ tests:
     Bootstrap(processor, options);
 
     expect(mockPlugin._getConfig()).toEqual({
-      url: "http://localhost:8088"
+      url: "http://127.0.0.1:8088"
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(1);
@@ -139,7 +139,7 @@ tests:
     expect(world.state.host).toBe("https://example.com");
     expect(world.data.get("{{ hello }}")).toBe("world");
     expect(world.getConfig("plugin-rest-api")).toEqual({
-      url: "http://localhost:8088"
+      url: "http://127.0.0.1:8088"
     });
 
     const {regexp, transformer, name} =
@@ -527,7 +527,7 @@ module.exports = function ({ Given, When, Then }) {
     Bootstrap(processor, options);
 
     expect(mockPlugin._getConfig()).toEqual({
-      url: "http://localhost:8088"
+      url: "http://127.0.0.1:8088"
     });
 
     expect(processor.Given).toHaveBeenCalledTimes(2);

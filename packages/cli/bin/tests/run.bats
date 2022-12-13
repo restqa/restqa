@@ -72,7 +72,7 @@ teardown() {
 
   assert_success
   assert_output --partial 'The selected environment is: "local"'
-  assert_output --partial 'Target url: http://localhost:3010'
+  assert_output --partial 'Target url: http://127.0.0.1:3010'
   assert_output --partial 'Server is running (command: npm run dev)'
   assert_output --partial 'Waiting for the server to be up...'
   assert_output --partial '|> DEBUG: log'
@@ -90,7 +90,7 @@ teardown() {
 
   assert_success
   assert_output --partial 'The selected environment is: "local"'
-  assert_output --partial 'Target url: http://localhost:3010'
+  assert_output --partial 'Target url: http://127.0.0.1:3010'
   assert_output --partial 'Server is running (command: npm run dev)'
   assert_output --partial 'Waiting for the server to be up...'
   refute_output --partial '|> DEBUG: log'
@@ -170,7 +170,7 @@ teardown() {
   run restqa run
   assert_success
   assert_output --partial 'The selected environment is: "local"'
-  assert_output --partial 'Target url: http://localhost:9998'
+  assert_output --partial 'Target url: http://127.0.0.1:9998'
   assert_output --partial 'Server is running (command: npm start)'
   assert_output --partial 'Waiting for the server to be up...'
   assert_output --partial 'PASSED - Hello > Scenario using mock'
