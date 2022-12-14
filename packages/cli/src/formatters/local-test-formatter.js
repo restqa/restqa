@@ -50,12 +50,12 @@ class LocalTestFormatter extends Formatter {
       error = failedStep.result.message
         .split("\n")
         .map((_) => `    ${_.trim()}`.trimEnd());
-      error.pop();
-      // @todo: Handle case when SourceLocation is not defined
-      // To reproduce.. run the test scenario on the wrong port.
-      const {uri, line} = failedStep.sourceLocation;
-      error.push(`    at ${uri}:${line}\n`);
-      error = chalk.red(error.join("\n"));
+      if (failedStep.sourceLocation) {
+        error.pop();
+        const {uri, line} = failedStep.sourceLocation;
+        error.push(`    at ${uri}:${line}\n`);
+      }
+      error = chalk.red(error.join("\n")) + "\n";
     }
     this.outputStream.updateStatus(uuid, status, error);
 

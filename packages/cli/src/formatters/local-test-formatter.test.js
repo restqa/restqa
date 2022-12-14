@@ -184,7 +184,8 @@ ${chalk.red(`    AssertionError [ERR_ASSERTION]: [GET /] The response httpCode i
     +201
 
     at ./tests/init-test/tests/integration/welcome-restqa.feature:21
-`)}---
+`)}
+---
 ${chalk.red("1 failed")}, ${chalk.green("1 passed")}, 2 total
 ---
 `;
@@ -295,7 +296,8 @@ ${chalk.red(`    AssertionError [ERR_ASSERTION]: [GET /] The response httpCode i
     +201
 
     at ./tests/init-test/tests/integration/welcome-restqa.feature:21
-`)}🚧 ${chalk.yellow.bold(
+`)}
+🚧 ${chalk.yellow.bold(
           "SKIPPED"
         )} - As a User I want to login > Generate Password
 ---
@@ -417,7 +419,8 @@ ${chalk.red(`    AssertionError [ERR_ASSERTION]: [GET /] The response httpCode i
     +201
 
     at ./tests/init-test/tests/integration/welcome-restqa.feature:21
-`)}🚧 ${chalk.yellow.bold(
+`)}
+🚧 ${chalk.yellow.bold(
           "SKIPPED"
         )} - As a User I want to login > Generate Password
 ---
