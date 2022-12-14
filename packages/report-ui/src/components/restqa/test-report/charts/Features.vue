@@ -1,16 +1,16 @@
 <template>
   <card title="Features" emoji="🏆">
     <el-row :gutter="20" :class="classObject">
-      <el-col :span="20" 
+      <el-col :span="20"
         ><highcharts :options="featuresForChart"></highcharts
       ></el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="12"> {{ nbFeatures }} Features </el-col>
-      <el-col :span="12" v-if="accessLink" style="text-align:right">
-            <el-link type="primary" v-on:click.stop.prevent="goToDetail()"
-              >Access to test report detail</el-link
-            >
+      <el-col :span="12" v-if="accessLink" style="text-align: right">
+        <el-link type="primary" v-on:click.stop.prevent="goToDetail()"
+          >Access to test report detail</el-link
+        >
       </el-col>
     </el-row>
   </card>
@@ -63,8 +63,8 @@ export default {
       return {
         status: this.accessLink,
         success: this.data.success,
-        fail: !this.data.success
-      }
+        fail: !this.data.success,
+      };
     },
     columnChart() {
       let result = 24;
@@ -117,7 +117,7 @@ export default {
         chart: {
           type: "pie",
           height: 300,
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
         },
         credits: {
           enabled: false,
@@ -171,11 +171,11 @@ export default {
   background-repeat: no-repeat;
   background-position: right top;
   &.success {
-    background-image: url('images/mascot/status-success.png');
+    background-image: url("images/mascot/status-success.png");
   }
 
   &.fail {
-    background-image: url('images/mascot/status-failed.png');
+    background-image: url("images/mascot/status-failed.png");
   }
 }
 </style>

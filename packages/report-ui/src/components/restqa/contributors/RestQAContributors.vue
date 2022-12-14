@@ -7,11 +7,11 @@
     <div class="contrib" v-for="(contributor, index) in data" :key="index">
       <el-avatar
         :size="70"
-        :src="
-          contributor.avatar +
-          '?d=https://restqa.io/assets/img/illustrations/UI/mascot.png'
-        "
-      ></el-avatar>
+        @error="errorHandler"
+        :src="contributor.avatar + '?d=404'"
+      >
+        <img :src="`./images/mascot.png`" />
+      </el-avatar>
       <br /><br />
       <small>{{ contributor.commits }} commits</small><br />
       <span>{{ contributor.username }}</span>
@@ -55,6 +55,9 @@ export default {
   methods: {
     gotcha() {
       localStorage.setItem("contribution.busFactor", this.busFactor.username);
+    },
+    errorHandler() {
+      return true;
     },
   },
   computed: {

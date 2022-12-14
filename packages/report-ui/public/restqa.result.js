@@ -5,7 +5,7 @@
  * Below is a simple representation that you can use to tweek for your UI development
  *
  * IMPORTANT: If you update this file make sure you clear your localstorage
- *            Simply because The localstorage is storing this file 
+ *            Simply because The localstorage is storing this file
  *            and serve it in priority for the history feature.
  *
  * ******************/
