@@ -1,23 +1,17 @@
 <template>
   <card title="Features" emoji="🏆">
-    <el-row :gutter="20">
-      <el-col :span="columnChart"
+    <el-row :gutter="20" :class="classObject">
+      <el-col :span="20" 
         ><highcharts :options="featuresForChart"></highcharts
       ></el-col>
-      <el-col :span="8" v-if="accessLink" style="text-align: right">
-        <el-card class="statusCard" shadow="Hover">
-          <el-image class="statusImg" :src="statusImageUrl" :fit="fit" />
-          <div class="detailText">{{ statusDesc }}</div>
-          <div class="detailLink">
-            <el-link type="primary" v-on:click.stop.prevent="goToDetail()"
-              >See details</el-link
-            >
-          </div>
-        </el-card>
-      </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="16"> {{ nbFeatures }} Features </el-col>
+      <el-col :span="12"> {{ nbFeatures }} Features </el-col>
+      <el-col :span="12" v-if="accessLink" style="text-align:right">
+            <el-link type="primary" v-on:click.stop.prevent="goToDetail()"
+              >Access to test report detail</el-link
+            >
+      </el-col>
     </el-row>
   </card>
 </template>
@@ -65,6 +59,13 @@ export default {
     },
   },
   computed: {
+    classObject() {
+      return {
+        status: this.accessLink,
+        success: this.data.success,
+        fail: !this.data.success
+      }
+    },
     columnChart() {
       let result = 24;
       if (this.accessLink) {
@@ -77,7 +78,7 @@ export default {
     },
     statusImageUrl() {
       return `images/reportStatus/${
-        this.data.success ? "statusSuccess.png" : "statusFailed.png"
+        !this.data.success ? "statusSuccess.png" : "statusFailed.png"
       }`;
     },
     statusDesc() {
@@ -116,6 +117,7 @@ export default {
         chart: {
           type: "pie",
           height: 300,
+          backgroundColor: 'transparent',
         },
         credits: {
           enabled: false,
@@ -164,28 +166,16 @@ export default {
   },
 };
 </script>
-<style>
-.statusImg {
-  display: flex !important;
-  justify-content: center;
-}
-.statusImg .el-image__inner {
-  width: 150px;
-}
-.statusCard {
-  display: flex;
-  text-align: left;
-  height: 100%;
-}
-.statusCard .el-card__body {
-  display: flex;
-  flex-direction: column;
-}
-.detailText {
-  margin-top: auto;
-}
-.detailLink {
-  padding-top: 10px;
-  display: flex;
+<style lang="scss">
+.status {
+  background-repeat: no-repeat;
+  background-position: right top;
+  &.success {
+    background-image: url('images/mascot/status-success.png');
+  }
+
+  &.fail {
+    background-image: url('images/mascot/status-failed.png');
+  }
 }
 </style>
