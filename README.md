@@ -33,6 +33,11 @@ RestQA was build with a simple goal: Driving the happiness of the DEV team throu
 
 Run one command and get everything that you need to enjoy maintaining your microservice.
 
+#### Synthax
+
+Gherkin Based but **KEEP CALM It aint's BDD!**
+![Step definition](https://restqa.io/assets/img/content/2-why-step1.gif)
+
 #### Screenshot
 
 👉 [Access to our online demo](https://dashboard.restqa.io)
