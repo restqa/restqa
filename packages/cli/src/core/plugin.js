@@ -1,5 +1,5 @@
 const Executor = require("./executor");
-const GitStat = require("./git-stat");
+const {Contributors} = require("@restqa/core-git");
 const Performance = require("./performance");
 const Specification = require("@restqa/specification");
 const HttpMock = require("./http-mock");
@@ -124,7 +124,7 @@ module.exports = function ({env, report, config}, processor = {}) {
     });
 
     processor.AfterAll(async function () {
-      this.restqa.contributors = await GitStat();
+      this.restqa.contributors = await Contributors();
       if (performanceInstance) {
         this.restqa.performance = performanceInstance.generate();
       }

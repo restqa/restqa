@@ -1,16 +1,28 @@
-const jestqa = new JestQA(__filename, true);
+const os = require("os");
+const fs = require("fs");
+const path = require("path");
 
-beforeEach(jestqa.beforeEach);
-afterEach(jestqa.afterEach);
+describe("# contributors", () => {
+  let mockTestPath = null;
+  beforeEach(() => {
+    const id = Math.floor(Math.random() * 10000000) + "-" + Date.now();
+    mockTestPath = path.resolve(os.tmpdir(), id);
+    if (!fs.existsSync(mockTestPath)) {
+      fs.mkdirSync(mockTestPath);
+    }
+  });
+  afterEach(() => {
+    jest.resetModules();
+    jest.resetAllMocks();
+  });
 
-describe("# git-stat", () => {
   test("return empty array if the .git folder is not detected", async () => {
-    const gitStat = require("./git-stat");
+    const {Contributors} = require("../");
     const options = {
-      path: __dirname
+      path: mockTestPath
     };
 
-    const result = await gitStat(options);
+    const result = await Contributors(options);
     expect(result).toEqual([]);
   });
 
@@ -26,8 +38,8 @@ describe("# git-stat", () => {
       };
     });
 
-    const gitStat = require("./git-stat");
-    const result = await gitStat();
+    const {Contributors} = require("../");
+    const result = await Contributors();
     const expectedResult = [];
     expect(result).toEqual(expectedResult);
   });
@@ -44,8 +56,15 @@ describe("# git-stat", () => {
       };
     });
 
-    const gitStat = require("./git-stat");
-    const result = await gitStat();
+    fs.mkdirSync(path.resolve(mockTestPath, ".git"));
+    jest.mock("../src/utils/process", () => {
+      return {
+        cwd: mockTestPath
+      };
+    });
+
+    const {Contributors} = require("../");
+    const result = await Contributors();
     const expectedResult = [];
     expect(result).toEqual(expectedResult);
   });
@@ -75,14 +94,15 @@ describe("# git-stat", () => {
       };
     });
 
-    jest.mock("fs", () => {
+    fs.mkdirSync(path.resolve(mockTestPath, ".git"));
+    jest.mock("../src/utils/process", () => {
       return {
-        existsSync: () => true
+        cwd: mockTestPath
       };
     });
 
-    const gitStat = require("./git-stat");
-    const result = await gitStat();
+    const {Contributors} = require("../");
+    const result = await Contributors();
     const expectedResult = [
       {
         commits: 579,
@@ -161,8 +181,15 @@ describe("# git-stat", () => {
       };
     });
 
-    const gitStat = require("./git-stat");
-    const result = await gitStat();
+    fs.mkdirSync(path.resolve(mockTestPath, ".git"));
+    jest.mock("../src/utils/process", () => {
+      return {
+        cwd: mockTestPath
+      };
+    });
+
+    const {Contributors} = require("../");
+    const result = await Contributors();
     const expectedResult = [
       {
         commits: 456,

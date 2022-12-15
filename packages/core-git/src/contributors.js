@@ -3,9 +3,10 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const fsm = require("fuzzy-string-matching");
+const {cwd} = require("./utils/process");
 
 module.exports = function (options = {}) {
-  options.path = options.path || process.cwd();
+  options.path = options.path || cwd;
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(path.resolve(options.path, ".git"))) return resolve([]);
 
