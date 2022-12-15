@@ -60,6 +60,7 @@
     "node": ">=14.2.0"
   },
   "devDependencies": {
+    "@restqa/core-git": "workspace:*",
     "@restqa/cucumber-export": "workspace:*",
     "@restqa/data": "workspace:*",
     "@restqa/plugin": "workspace:*",

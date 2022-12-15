@@ -8,6 +8,7 @@ const Telemetry = require("../utils/telemetry");
 const Locale = require("../locales")();
 const Config = require("../config");
 const Executor = require("./executor");
+const {Ignore} = require("@restqa/core-git");
 const CustomStepTemplate = require("../templates/custom-steps.tmpl.js");
 
 const DEFAULT_ANSWER = {
@@ -154,6 +155,15 @@ initialize.generate = async function (options) {
       path.resolve(folder, "tests/steps.js"),
       CustomStepTemplate()
     );
+
+    const ignoreFiles = [
+      "restqa",
+      "tests/mocks",
+      "tests/collections",
+      "tests/integrations",
+      "tests/performances"
+    ];
+    Ignore({files: ignoreFiles});
 
     logger.info("service.init.success.sample");
   } catch (err) {

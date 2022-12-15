@@ -52,6 +52,7 @@ importers:
   packages/cli:
     specifiers:
       '@cucumber/cucumber': ^7.3.0
+      '@restqa/core-git': workspace:*
       '@restqa/cucumber-export': workspace:*
       '@restqa/data': workspace:*
       '@restqa/plugin': workspace:*
@@ -116,6 +117,7 @@ importers:
       update-notifier: 5.1.0
       yaml: 1.10.2
     devDependencies:
+      '@restqa/core-git': link:../core-git
       '@restqa/cucumber-export': link:../cucumber-export
       '@restqa/data': link:../data
       '@restqa/plugin': link:../plugin
@@ -143,6 +145,31 @@ importers:
       nodemon: 2.0.20
       prettier: 2.8.1
       rimraf: 3.0.2
+
+  packages/core-git:
+    specifiers:
+      eslint: ^7.21.0
+      eslint-config-prettier: ^8.3.0
+      eslint-config-standard: ^16.0.2
+      eslint-plugin-import: ^2.22.1
+      eslint-plugin-jest: ^24.2.1
+      eslint-plugin-node: ^11.1.0
+      eslint-plugin-promise: ^4.3.1
+      fuzzy-string-matching: ^1.0.2
+      jest: ^26.6.3
+      prettier: ^2.3.2
+    dependencies:
+      fuzzy-string-matching: 1.0.2
+    devDependencies:
+      eslint: 7.32.0
+      eslint-config-prettier: 8.5.0_eslint@7.32.0
+      eslint-config-standard: 16.0.3_x4ksp4i5em7khivw5kkmm7swui
+      eslint-plugin-import: 2.26.0_eslint@7.32.0
+      eslint-plugin-jest: 24.7.0_eslint@7.32.0
+      eslint-plugin-node: 11.1.0_eslint@7.32.0
+      eslint-plugin-promise: 4.3.1
+      jest: 26.6.3
+      prettier: 2.8.1
 
   packages/cucumber-export:
     specifiers:
