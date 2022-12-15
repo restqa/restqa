@@ -191,6 +191,10 @@ RestQA Tesm would like to give a hug 🤗 to thanks the excellent work of the fo
 
 See [Contributing Guide](./CONTRIBUTING.md).
 
+## Author
+
+- [@olivierodo](https://www.github.com/olivierodo) - 🇫🇷
+
 ## License
 
 [MIT License](./LICENSE)
