@@ -35,8 +35,9 @@
   "license": "MIT",
   "dependencies": {
     "@cucumber/cucumber": "^7.3.0",
-    "@restqa/report-ui": "workspace:*",
     "@restqa/plugin-rest-api": "workspace:*",
+    "@restqa/report-ui": "workspace:*",
+    "@scarf/scarf": "^1.1.1",
     "c8": "^7.12.0",
     "chalk": "^4.0.0",
     "commander": "^8.0.0",
@@ -60,10 +61,10 @@
   },
   "devDependencies": {
     "@restqa/cucumber-export": "workspace:*",
-    "@restqa/specification": "workspace:*",
     "@restqa/data": "workspace:*",
-    "@restqa/sandbox": "workspace:*",
     "@restqa/plugin": "workspace:*",
+    "@restqa/sandbox": "workspace:*",
+    "@restqa/specification": "workspace:*",
     "bats": "^1.8.2",
     "bats-assert": "github:ztombol/bats-assert",
     "bats-file": "github:ztombol/bats-file",
