@@ -1,0 +1,22 @@
+{
+  "name": "@restqa/example-custom-step-definition",
+  "private": "true",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A RestQA example running show how to load custom step definition",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "restqa run",
+    "happy": "restqa run --report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@restqa/restqa": "workspace:*"
+  },
+  "dependencies": {
+    "fastify": "^4.10.2"
+  }
+}
