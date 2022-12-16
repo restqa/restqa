@@ -1,0 +1,41 @@
+{
+  "name": "@restqa/core-performance",
+  "private": true,
+  "version": "0.0.0-generated",
+  "description": "Feature related to the performance fixture",
+  "scripts": {
+    "lint": "eslint --fix src/ tests/",
+    "format": "prettier --write --check src tests",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "main": "src/index.js",
+  "author": "Olivier Rodomond",
+  "license": "MIT",
+  "dependencies": {
+    "yaml": "^1.9.2"
+  },
+  "devDependencies": {
+    "@restqa/plugin-rest-api": "workspace:*",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.2.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "jest": "^26.6.3",
+    "prettier": "^2.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/restqa/restqa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/restqa/restqa/issues"
+  },
+  "homepage": "https://github.com/restqa/restqa#readme"
+}
+
+
