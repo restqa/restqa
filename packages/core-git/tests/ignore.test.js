@@ -68,12 +68,12 @@ describe("# contributors", () => {
 
   test("Update .gitinore if exists and don't add the files that already in the file (pass filename)", () => {
     const initialContent = ["restqa"];
-    const {mockTestFile} = createGitignore(initialContent);
+    const {mockTestFile, mockTestPath} = createGitignore(initialContent);
 
     const {Ignore} = require("../");
     const options = {
       files: ["node_modules", "tests/", "restqa"],
-      gitignore: mockTestFile
+      folder: mockTestPath
     };
     Ignore(options);
 

@@ -7,7 +7,9 @@ function format(files) {
 }
 
 module.exports = function (options) {
-  let {files = [], gitignore = path.resolve(cwd, ".gitignore")} = options;
+  let {files = [], folder = cwd} = options;
+
+  const gitignore = path.resolve(folder, ".gitignore");
 
   let lines = [];
   if (!fs.existsSync(gitignore)) {

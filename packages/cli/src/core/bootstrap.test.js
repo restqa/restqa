@@ -1,5 +1,6 @@
 const Plugin = require("@restqa/plugin");
 const Config = require("../config");
+const {CUSTOM_STEP_FILE_NAME} = require("../services/custom-step-definition");
 
 const jestqa = new JestQA(__filename, true);
 
@@ -488,7 +489,7 @@ module.exports = function ({ Given, When, Then }) {
   Then ('custom then step', () => {})
 }
 `;
-    jestqa.createTmpFile(contentCustomStep, "tests/steps.js");
+    jestqa.createTmpFile(contentCustomStep, `tests/${CUSTOM_STEP_FILE_NAME}`);
 
     const mockCwd = jestqa.getTmpFolder();
     jest.mock("../utils/process.js", () => {

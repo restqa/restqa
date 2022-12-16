@@ -8,7 +8,7 @@
     "start:dev": "node src/index.dev.js",
     "test": "restqa run tests",
     "test:watch": "nodemon -x \"npm test\" -e js,feature --ignore tests-generated/*",
-    "lint": "eslint src tests",
+    "lint": "eslint --ext .js,.cjs src tests",
     "lint:fix": "eslint src tests --fix",
     "format": "prettier --check src tests",
     "format:fix": "prettier --write src tests"
