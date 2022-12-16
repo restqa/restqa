@@ -1,10 +1,10 @@
 const Data = require("./data");
 const logger = require("../utils/logger");
-const fs = require("fs");
 const path = require("path");
 const RestQAData = require("@restqa/data");
 const CorePlugin = require("./plugin");
 const {cwd} = require("../utils/process.js");
+const CustomStep = require("../services/custom-step-definition");
 
 const Module = require("module");
 
@@ -85,15 +85,7 @@ module.exports = function (processor, options = {}) {
   }
   defineParameterType(buildParameterTypeRegexp(environment.data));
 
-  const customStepFile = path.resolve(cwd, "tests/steps.js");
-  if (fs.existsSync(customStepFile)) {
-    const customStep = require(customStepFile);
-    customStep({
-      Given: processor.Given,
-      When: processor.When,
-      Then: processor.Then
-    });
-  }
+  CustomStep.load(processor);
 
   options.config = config;
   CorePlugin(options, processor);
@@ -112,8 +104,7 @@ function getPluginModule(options, processor) {
       instance = require(name);
     } else {
       instance = Module.createRequire(
-        path.resolve(process.env.RESTQA_PROJECT_FOLDER || process.cwd(), ".") +
-          path.sep
+        path.resolve(process.env.RESTQA_PROJECT_FOLDER || cwd, ".") + path.sep
       )(name);
     }
     options.plugin = instance.name;

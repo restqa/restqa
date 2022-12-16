@@ -4,7 +4,10 @@ const fs = require("fs");
 const path = require("path");
 const os = require("os");
 const YAML = require("yaml");
-const CustomStepTemplate = require("../templates/custom-steps.tmpl.js");
+const {
+  CUSTOM_STEP_TEMPLATE,
+  CUSTOM_STEP_FILE_NAME
+} = require("../services/custom-step-definition.js");
 
 let mockGenerator;
 
@@ -297,11 +300,11 @@ Given I have an example`;
         const filenameSteps = path.resolve(
           jestqa.getTmpFolder(),
           "tests",
-          "steps.js"
+          CUSTOM_STEP_FILE_NAME
         );
         jestqa.getCurrent().files.push(filenameSteps);
         const contentSteps = fs.readFileSync(filenameSteps).toString("utf-8");
-        const expectedContentSteps = CustomStepTemplate();
+        const expectedContentSteps = CUSTOM_STEP_TEMPLATE;
         expect(contentSteps.trim()).toEqual(expectedContentSteps.trim());
       });
     });
@@ -451,6 +454,18 @@ Given I have an example`;
           value: "npm run start:dev"
         }
       ]);
+
+      const resultGitignore = fs
+        .readFileSync(path.resolve(jestqa.getTmpFolder(), ".gitignore"))
+        .toString();
+      const expectedGitignore = [
+        "restqa",
+        `tests/mocks`,
+        `tests/collections`,
+        `tests/integrations`,
+        `tests/performances`
+      ].join("\n");
+      expect(resultGitignore).toEqual(expectedGitignore);
     });
   });
 });

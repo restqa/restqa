@@ -12,7 +12,7 @@ to add your own step definition :)
 
 ## 1. Create your custom step definition in a few second
 
-Create a file in the folder `tests` as `<root>/tests/steps.js`
+Create a file in the folder `tests` as `<root>/tests/custom-steps.cjs`
 
 Then add the following contents:
 
@@ -43,7 +43,7 @@ To get more detail about the **Given**, **When** and **Then** function, check th
 Find below a full example on how you can use the built-in options to manipulate the API request
 
 ```js
-// file: tests/steps.js
+// file: tests/custom-steps.cjs
 const assert = require('assert')
 
 module.exports = function ({ Given, When, Then }) {
@@ -97,7 +97,7 @@ Then ('assert the response', function () {
 RestQA also has a few options allowing to manage the data flowing within one scenario.
 
 ```js
-// file: tests/steps.js
+// file: tests/custom-steps.cjs
 const assert = require('assert')
 
 module.exports = function ({ Given, When, Then }) {
