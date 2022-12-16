@@ -194,6 +194,7 @@ See [Contributing Guide](./CONTRIBUTING.md).
 ## Author
 
 - [@olivierodo](https://www.github.com/olivierodo) - 🇫🇷
+- [@tonygo](https://github.com/tony-go) - 🇫🇷
 
 ## License
 
