@@ -10,6 +10,15 @@ importers:
       concurrently: 6.5.1
       nodemon: 2.0.20
 
+  examples/custom-step-definition:
+    specifiers:
+      '@restqa/restqa': workspace:*
+      fastify: ^4.10.2
+    dependencies:
+      fastify: 4.10.2
+    devDependencies:
+      '@restqa/restqa': link:../../packages/cli
+
   examples/express:
     specifiers:
       '@restqa/restqa': workspace:*
@@ -531,7 +540,7 @@ importers:
     dependencies:
       commander: 8.3.0
       file-url: 4.0.0
-      puppeteer: 19.4.0
+      puppeteer: 19.4.1
     devDependencies:
       '@restqa/restqa': link:../cli
       eslint: 7.32.0
@@ -1432,7 +1441,7 @@ packages:
       convert-source-map: 1.9.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.2
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -1924,8 +1933,8 @@ packages:
       ajv: 6.12.6
     dev: true
 
-  /@fastify/ajv-compiler/3.4.0:
-    resolution: {integrity: sha512-69JnK7Cot+ktn7LD5TikP3b7psBPX55tYpQa8WSumt8r117PCa2zwHnImfBtRWYExreJlI48hr0WZaVrTBGj7w==}
+  /@fastify/ajv-compiler/3.5.0:
+    resolution: {integrity: sha512-ebbEtlI7dxXF5ziNdr05mOY8NnDiPB1XvAlLHctRt/Rc+C3LCOVW5imUVX+mhvUhnNzmPBHewUkOFgGlCxgdAA==}
     dependencies:
       ajv: 8.11.2
       ajv-formats: 2.1.1
@@ -1944,8 +1953,8 @@ packages:
     resolution: {integrity: sha512-KAfcLa+CnknwVi5fWogrLXgidLic+GXnLjijXdpl8pvkvbXU5BGa37iZO9FGvsh9ZL4y+oFi5cbHBm5UOG+dmQ==}
     dev: false
 
-  /@fastify/fast-json-stringify-compiler/4.1.0:
-    resolution: {integrity: sha512-cTKBV2J9+u6VaKDhX7HepSfPSzw+F+TSd+k0wzifj4rG+4E5PjSFJCk19P8R6tr/72cuzgGd+mbB3jFT6lvAgw==}
+  /@fastify/fast-json-stringify-compiler/4.2.0:
+    resolution: {integrity: sha512-ypZynRvXA3dibfPykQN3RB5wBdEUgSGgny8Qc6k163wYPLD4mEGEDkACp+00YmqkGvIm8D/xYoHajwyEdWD/eg==}
     dependencies:
       fast-json-stringify: 5.5.0
     dev: false
@@ -1976,8 +1985,8 @@ packages:
     resolution: {integrity: sha512-FPFLbg2b06MIw1dqk2SOEMAMX3xlrreGjcui5OTxfBDtaKTmh0kioOVjT8gcfl58juawL/yF+S+gnq8aUYQx/Q==}
     dev: true
 
-  /@floating-ui/dom/1.0.10:
-    resolution: {integrity: sha512-ZRe5ZmtGYCd82zrjWnnMW8hN5H1otedLh0Ur6rRo6f0exbEe6IlkVvo1RO7tgiMvbF0Df8hkhdm50VcVYqwP6g==}
+  /@floating-ui/dom/1.0.12:
+    resolution: {integrity: sha512-HeG/wHoa2laUHlDX3xkzqlUqliAfa+zqV04LaKIwNCmCNaW2p0fQi4/Kd0LB4GdFoJ2UllLFq5gWnXAd67lg7w==}
     dependencies:
       '@floating-ui/core': 1.0.4
     dev: true
@@ -2725,8 +2734,8 @@ packages:
       '@hapi/hoek': 9.3.0
     dev: false
 
-  /@sideway/formula/3.0.0:
-    resolution: {integrity: sha512-vHe7wZ4NOXVfkoRb8T5otiENVlT7a3IAiw7H5M2+GO+9CDgcVUUsX1zalAztCmwyOr2RUTGJdgB+ZvSVqmdHmg==}
+  /@sideway/formula/3.0.1:
+    resolution: {integrity: sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==}
     dev: false
 
   /@sideway/pinpoint/2.0.0:
@@ -4969,7 +4978,7 @@ packages:
     dependencies:
       '@ctrl/tinycolor': 3.5.0
       '@element-plus/icons-vue': 2.0.10_vue@3.2.45
-      '@floating-ui/dom': 1.0.10
+      '@floating-ui/dom': 1.0.12
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.191
       '@types/lodash-es': 4.17.6
@@ -6563,15 +6572,15 @@ packages:
   /fastify/4.10.2:
     resolution: {integrity: sha512-0T+4zI6N3S8ex0LCZi3H4FasJR4AzWw834fUkPWvV8r6GBJkLmAOfFxH8f5V29Plef24IK0QSQD/tz1Nx+1UOA==}
     dependencies:
-      '@fastify/ajv-compiler': 3.4.0
+      '@fastify/ajv-compiler': 3.5.0
       '@fastify/error': 3.2.0
-      '@fastify/fast-json-stringify-compiler': 4.1.0
+      '@fastify/fast-json-stringify-compiler': 4.2.0
       abstract-logging: 2.0.1
       avvio: 8.2.0
       content-type: 1.0.4
       find-my-way: 7.3.1
       light-my-request: 5.8.0
-      pino: 8.7.0
+      pino: 8.8.0
       process-warning: 2.1.0
       proxy-addr: 2.0.7
       rfdc: 1.3.0
@@ -9141,7 +9150,7 @@ packages:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
       '@sideway/address': 4.1.4
-      '@sideway/formula': 3.0.0
+      '@sideway/formula': 3.0.1
       '@sideway/pinpoint': 2.0.0
     dev: false
 
@@ -9250,8 +9259,8 @@ packages:
       minimist: 1.2.7
     dev: true
 
-  /json5/2.2.1:
-    resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
+  /json5/2.2.2:
+    resolution: {integrity: sha512-46Tk9JiOL2z7ytNQWFLpj99RZkVgeHf87yGQKsIkaPz1qSH9UczKH1rO7K3wgRselo0tYMUNfecYpm/p1vC7tQ==}
     engines: {node: '>=6'}
     hasBin: true
     dev: true
@@ -10368,8 +10377,8 @@ packages:
       sonic-boom: 1.4.1
     dev: true
 
-  /pino/8.7.0:
-    resolution: {integrity: sha512-l9sA5uPxmZzwydhMWUcm1gI0YxNnYl8MfSr2h8cwLvOAzQLBLewzF247h/vqHe3/tt6fgtXeG9wdjjoetdI/vA==}
+  /pino/8.8.0:
+    resolution: {integrity: sha512-cF8iGYeu2ODg2gIwgAHcPrtR63ILJz3f7gkogaHC/TXVVXxZgInmNYiIpDYEwgEkxZti2Se6P2W2DxlBIZe6eQ==}
     hasBin: true
     dependencies:
       atomic-sleep: 1.0.0
@@ -10606,8 +10615,8 @@ packages:
       escape-goat: 2.1.1
     dev: false
 
-  /puppeteer-core/19.4.0:
-    resolution: {integrity: sha512-gG/jxseleZStinBn86x8r7trjcE4jcjx1hIQWOpACQhquHYMuKnrWxkzg+EDn8sN3wUtF/Ry9mtJgjM49oUOFQ==}
+  /puppeteer-core/19.4.1:
+    resolution: {integrity: sha512-JHIuqtqrUAx4jGOTxXu4ilapV2jabxtVMA/e4wwFUMvtSsqK4nVBSI+Z1SKDoz7gRy/JUIc8WzmfocCa6SIZ1w==}
     engines: {node: '>=14.1.0'}
     dependencies:
       cross-fetch: 3.1.5
@@ -10619,7 +10628,7 @@ packages:
       rimraf: 3.0.2
       tar-fs: 2.1.1
       unbzip2-stream: 1.4.3
-      ws: 8.10.0
+      ws: 8.11.0
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -10627,17 +10636,16 @@ packages:
       - utf-8-validate
     dev: false
 
-  /puppeteer/19.4.0:
-    resolution: {integrity: sha512-sRzWEfFSZCCcFUJflGtYI2V7A6qK4Jht+2JiI2LZgn+Nv/LOZZsBDEaGl98ZrS8oEcUA5on4p2yJbE0nzHNzIg==}
+  /puppeteer/19.4.1:
+    resolution: {integrity: sha512-PCnrR13B8A+VSEDXRmrNXRZbrkF1tfsI1hKSC7vs13eNS6CUD3Y4FA8SF8/VZy+Pm1kg5AggJT2Nu3HLAtGkFg==}
     engines: {node: '>=14.1.0'}
     requiresBuild: true
     dependencies:
       cosmiconfig: 8.0.0
-      devtools-protocol: 0.0.1068969
       https-proxy-agent: 5.0.1
       progress: 2.0.3
       proxy-from-env: 1.1.0
-      puppeteer-core: 19.4.0
+      puppeteer-core: 19.4.1
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -12021,7 +12029,7 @@ packages:
     resolution: {integrity: sha512-VgPrtLKpRgEAJsMj5Q/I/mXouC6A/7eJ/X4Nuk6o0cRPwBtznYxTCU4FodbexbzH9somBPEXYi0ZkUViUpJ21Q==}
     engines: {node: '>=6'}
     dependencies:
-      json5: 2.2.1
+      json5: 2.2.2
       minimist: 1.2.7
       strip-bom: 3.0.0
     dev: true
@@ -12768,19 +12776,6 @@ packages:
       utf-8-validate:
         optional: true
     dev: true
-
-  /ws/8.10.0:
-    resolution: {integrity: sha512-+s49uSmZpvtAsd2h37vIPy1RBusaLawVe8of+GyEPsaJTCMpj/2v8NpeK1SHXjBlQ95lQTmQofOJnFiLoaN3yw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
 
   /ws/8.11.0:
     resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
