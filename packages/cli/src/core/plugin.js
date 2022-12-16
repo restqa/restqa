@@ -1,6 +1,6 @@
 const Executor = require("./executor");
 const {Contributors} = require("@restqa/core-git");
-const Performance = require("./performance");
+const Performance = require("@restqa/core-performance");
 const Specification = require("@restqa/specification");
 const HttpMock = require("./http-mock");
 const Collection = require("./collection");
@@ -96,18 +96,22 @@ module.exports = function ({env, report, config}, processor = {}) {
       specificationInstance.add(exportApi);
     });
 
+    // Performance
     if (!config.getPerformanceTest().isEmpty()) {
-      processor.Before("@performance", function (scenario) {
-        const performance = config.getPerformanceTest().toJSON();
-        performance.outputFolder =
-          performance.outputFolder ||
-          path.resolve(process.cwd(), "tests", "performance");
-        performance.onlySuccess =
-          performance.onlySuccess === undefined
-            ? true
-            : Boolean(performance.onlySuccess);
-        performanceInstance = new Performance(performance);
-      });
+      const performance = config.getPerformanceTest().toJSON();
+
+      const {
+        tool,
+        outputFolder = path.resolve(process.cwd(), "tests", "performance"),
+        onlySuccess = true
+      } = performance;
+
+      const options = {
+        tool,
+        outputFolder,
+        onlySuccess: Boolean(onlySuccess)
+      };
+      performanceInstance = new Performance(options);
     }
 
     processor.After(function (scenario) {

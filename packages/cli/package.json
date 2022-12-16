@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@restqa/core-git": "workspace:*",
+    "@restqa/core-performance": "workspace:*",
     "@restqa/cucumber-export": "workspace:*",
     "@restqa/data": "workspace:*",
     "@restqa/plugin": "workspace:*",
