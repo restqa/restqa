@@ -3,7 +3,7 @@ id: custom-step
 title: Create your own step definition
 sidebar_label: Custom step definition
 parent: test-creation
-video: https://www.youtube.com/watch?v=nhwfPNjNOno
+video: https://www.youtube.com/watch?v=z69Bi-iSKuI
 order: 4
 ---
 
