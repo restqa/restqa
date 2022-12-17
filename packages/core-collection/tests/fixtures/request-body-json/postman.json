@@ -1,0 +1,42 @@
+{
+  "info": {
+    "name": "REQUEST-BODY-JSON",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /",
+      "item": [
+        {
+          "name": "Add JSON Request body",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"firtname\":\"John doe\"}"
+            },
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

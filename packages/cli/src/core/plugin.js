@@ -3,7 +3,7 @@ const {Contributors} = require("@restqa/core-git");
 const Performance = require("@restqa/core-performance");
 const Specification = require("@restqa/core-specification");
 const HttpMock = require("./http-mock");
-const Collection = require("./collection");
+const Collection = require("@restqa/core-collection");
 const path = require("path");
 const Coverage = require("./coverage");
 
@@ -80,10 +80,12 @@ module.exports = function ({env, report, config}, processor = {}) {
     };
     const httpMockInstance = new HttpMock(optionsMock);
 
-    const collectionInstance = new Collection(
-      config.code,
-      config.getCollection()
-    );
+    const optionsCollection = {
+      projectName: config.code,
+      resultFolder: path.resolve(process.cwd(), "tests")
+    };
+
+    const collectionInstance = new Collection(optionsCollection);
 
     processor.After(function (scenario) {
       const exportApi = {

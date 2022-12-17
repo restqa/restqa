@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "HEADERS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /",
+      "item": [
+        {
+          "name": "Single header",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "test-api-key",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Multiple headers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-customer-value",
+                "value": "clear-cache",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["users", "account"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

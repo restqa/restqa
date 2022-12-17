@@ -1,0 +1,82 @@
+{
+  "info": {
+    "name": "REQUEST-BODY-FORM",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /",
+      "item": [
+        {
+          "name": "Add FORM Request body",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstname",
+                  "value": "John",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add FORM Request body multiple values",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstname",
+                  "value": "John",
+                  "type": "text"
+                },
+                {
+                  "key": "lastname",
+                  "value": "Doe",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
