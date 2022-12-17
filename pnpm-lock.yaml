@@ -63,13 +63,13 @@ importers:
       '@cucumber/cucumber': ^7.3.0
       '@restqa/core-git': workspace:*
       '@restqa/core-performance': workspace:*
+      '@restqa/core-specification': workspace:*
       '@restqa/cucumber-export': workspace:*
       '@restqa/data': workspace:*
       '@restqa/plugin': workspace:*
       '@restqa/plugin-rest-api': workspace:*
       '@restqa/report-ui': workspace:*
       '@restqa/sandbox': workspace:*
-      '@restqa/specification': workspace:*
       '@scarf/scarf': ^1.1.1
       bats: ^1.8.2
       bats-assert: github:ztombol/bats-assert
@@ -129,11 +129,11 @@ importers:
     devDependencies:
       '@restqa/core-git': link:../core-git
       '@restqa/core-performance': link:../core-performance
+      '@restqa/core-specification': link:../core-specification
       '@restqa/cucumber-export': link:../cucumber-export
       '@restqa/data': link:../data
       '@restqa/plugin': link:../plugin
       '@restqa/sandbox': link:../sandbox
-      '@restqa/specification': link:../specification
       bats: 1.8.2
       bats-assert: github.com/ztombol/bats-assert/9f88b4207da750093baabc4e3f41bf68f0dd3630_bats-support@0.3.0
       bats-file: github.com/ztombol/bats-file/2fddb2b831d65cdf2e411f3b47f4677fbb15729c_bats-support@0.3.0
@@ -207,6 +207,33 @@ importers:
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-promise: 4.3.1
       jest: 26.6.3
+      prettier: 2.8.1
+
+  packages/core-specification:
+    specifiers:
+      '@restqa/plugin-rest-api': workspace:*
+      eslint: ^7.32.0
+      eslint-config-prettier: ^8.3.0
+      eslint-config-standard: ^16.0.3
+      eslint-plugin-import: ^2.24.2
+      eslint-plugin-jest: ^24.4.0
+      eslint-plugin-node: ^11.1.0
+      eslint-plugin-promise: ^5.1.0
+      jest: ^29.3.1
+      lodash: ^4.17.21
+      prettier: ^2.7.1
+    dependencies:
+      lodash: 4.17.21
+    devDependencies:
+      '@restqa/plugin-rest-api': link:../plugin-rest-api
+      eslint: 7.32.0
+      eslint-config-prettier: 8.5.0_eslint@7.32.0
+      eslint-config-standard: 16.0.3_wnerebu6rbpsve3qx7qqwvcqtq
+      eslint-plugin-import: 2.26.0_eslint@7.32.0
+      eslint-plugin-jest: 24.7.0_eslint@7.32.0
+      eslint-plugin-node: 11.1.0_eslint@7.32.0
+      eslint-plugin-promise: 5.2.0_eslint@7.32.0
+      jest: 29.3.1
       prettier: 2.8.1
 
   packages/cucumber-export:
@@ -578,33 +605,6 @@ importers:
       eslint-plugin-import: 2.26.0_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-promise: 5.2.0_eslint@7.32.0
-      prettier: 2.8.1
-
-  packages/specification:
-    specifiers:
-      '@restqa/plugin-rest-api': workspace:*
-      eslint: ^7.32.0
-      eslint-config-prettier: ^8.3.0
-      eslint-config-standard: ^16.0.3
-      eslint-plugin-import: ^2.24.2
-      eslint-plugin-jest: ^24.4.0
-      eslint-plugin-node: ^11.1.0
-      eslint-plugin-promise: ^5.1.0
-      jest: ^29.3.1
-      lodash: ^4.17.21
-      prettier: ^2.7.1
-    dependencies:
-      lodash: 4.17.21
-    devDependencies:
-      '@restqa/plugin-rest-api': link:../plugin-rest-api
-      eslint: 7.32.0
-      eslint-config-prettier: 8.5.0_eslint@7.32.0
-      eslint-config-standard: 16.0.3_wnerebu6rbpsve3qx7qqwvcqtq
-      eslint-plugin-import: 2.26.0_eslint@7.32.0
-      eslint-plugin-jest: 24.7.0_eslint@7.32.0
-      eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 5.2.0_eslint@7.32.0
-      jest: 29.3.1
       prettier: 2.8.1
 
 packages:

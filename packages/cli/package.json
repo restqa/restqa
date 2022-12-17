@@ -66,7 +66,7 @@
     "@restqa/data": "workspace:*",
     "@restqa/plugin": "workspace:*",
     "@restqa/sandbox": "workspace:*",
-    "@restqa/specification": "workspace:*",
+    "@restqa/core-specification": "workspace:*",
     "bats": "^1.8.2",
     "bats-assert": "github:ztombol/bats-assert",
     "bats-file": "github:ztombol/bats-file",

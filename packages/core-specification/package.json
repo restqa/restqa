@@ -1,5 +1,5 @@
 {
-  "name": "@restqa/specification",
+  "name": "@restqa/core-specification",
   "version": "0.0.0-generated",
   "private": true,
   "description": "A way to create screenshot of the RestQA Report UI",
