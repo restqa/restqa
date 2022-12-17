@@ -150,9 +150,9 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 ##### 🏎 Performance Test
 
 - [X] Artillery.io
-- [ ] K6
-- [ ] Jmeter
-- [ ] Vegeta
+- [ ] K6 (Need contribution [#291](https://github.com/restqa/restqa/issues/291))
+- [ ] Jmeter (Need contribution [#290](https://github.com/restqa/restqa/issues/290))
+- [ ] Vegeta (Need contribution [#289](https://github.com/restqa/restqa/issues/289))
 
 #### 📚 API Specification
 
@@ -162,8 +162,8 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 #### 👩‍🚀 API Collection
 
 - [X] Postman
-- [ ] Insomnia
-- [ ] hoppscotch
+- [ ] Insomnia (Need contribution [#293](https://github.com/restqa/restqa/issues/293))
+- [ ] hoppscotch (Need contribution [#292](https://github.com/restqa/restqa/issues/292))
 
 #### 📦 Continuous integration
 
