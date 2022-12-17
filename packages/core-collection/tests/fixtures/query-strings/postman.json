@@ -1,0 +1,61 @@
+{
+  "info": {
+    "name": "QUERY-STRING",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /",
+      "item": [
+        {
+          "name": "Single query string",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["status"],
+              "query": [
+                {
+                  "key": "match",
+                  "value": "query"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Multiple query strings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["users", "account"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "keyword"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000"
+    }
+  ]
+}

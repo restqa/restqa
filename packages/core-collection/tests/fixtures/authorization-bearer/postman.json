@@ -1,0 +1,62 @@
+{
+  "info": {
+    "name": "AUTHORIZATION-BEARER",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /",
+      "item": [
+        {
+          "name": "Add Bearer Authorization",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer xxx-yyy-zzz",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Bearer Authorization on list of existing headers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-customer-value",
+                "value": "clear-cache",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer xxx-yyy-zzz",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "protocol": "http",
+              "host": ["{{host}}"],
+              "path": ["users", "account"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:3000"
+    }
+  ]
+}
