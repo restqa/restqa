@@ -9,7 +9,7 @@ beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
 
 describe("# utils - executor", () => {
-  const Logger = require("../utils/logger");
+  const {Logger} = require("@restqa/core-logger");
   // Mocks and spies
   const loggerSuccessSpy = jest
     .spyOn(Logger, "success")

@@ -35,12 +35,6 @@ EsBuild
     color: true,
   })
   .then(result => {
-    fs.copyFileSync(path.resolve('.', 'src', 'locales', 'en.yml'), path.resolve(OUTPUT_FOLDER, 'src', 'en.yml'))
-    fs.copyFileSync(path.resolve('.', 'src', 'locales', 'en.yml'), path.resolve(OUTPUT_FOLDER, 'bin', 'en.yml'))
-    console.log('> Locales files: en.yml copied')
-    return result
-  })
-  .then(result => {
     fs.renameSync(path.resolve(OUTPUT_FOLDER, 'bin', 'restqa.js'), path.resolve(OUTPUT_FOLDER, 'bin', 'restqa'))
     console.log('> Renamed dist/bin/restqa.js to dist/bin/restqa')
   })

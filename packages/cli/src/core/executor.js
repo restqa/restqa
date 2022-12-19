@@ -1,9 +1,8 @@
 const kill = require("tree-kill");
 const {ChildProcess} = require("child_process");
 const spawn = require("cross-spawn");
-const logger = require("../utils/logger");
+const {Logger, Locale} = require("@restqa/core-logger");
 const net = require("net");
-const Locale = require("../locales")("service.run");
 const {format} = require("util");
 
 const DEFAULT_TIMEOUT = 4000;
@@ -85,14 +84,14 @@ class Executor {
           this.log(chunk.toString());
           if (!initialized) {
             initialized = true;
-            logger.success(`Server is running (command: ${command})`);
+            Logger.success(`Server is running (command: ${command})`);
             resolve(server);
           }
         });
 
         // handle when server (process) is closing
         server.on("close", () => {
-          logger.debug("Server closed!");
+          Logger.debug("Server closed!");
         });
 
         // handle error
@@ -117,7 +116,7 @@ class Executor {
   }
 
   async isReady() {
-    logger.info("service.run.waiting_server");
+    Logger.info("service.run.waiting_server");
     const port = this.port;
     const timeout = this.timeout;
     const controller = new AbortController();
@@ -166,7 +165,11 @@ class Executor {
             isOut = true;
             reject(
               new Error(
-                format(Locale.get("error_port_timeout"), port, DEFAULT_TIMEOUT)
+                format(
+                  Locale().service.run.error_port_timeout,
+                  port,
+                  DEFAULT_TIMEOUT
+                )
               )
             );
           }

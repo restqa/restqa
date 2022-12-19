@@ -3,7 +3,7 @@
 const pkg = require("../package.json");
 const updateNotifier = require("update-notifier");
 
-const logger = require("../src/utils/logger");
+const { Logger } = require("@restqa/core-logger");
 const {program, telemetry} = require("./program");
 
 const notifier = updateNotifier({
@@ -18,7 +18,7 @@ async function main() {
 main()
   .catch((e) => {
     telemetry.track("error", e.message, process.argv.join(" "));
-    logger.error(e);
+    Logger.error(e);
     process.exit(1);
   })
   .finally(() => {

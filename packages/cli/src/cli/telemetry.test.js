@@ -28,7 +28,7 @@ describe("#Cli - Steps", () => {
       "🕵️ The telemetry has been enabled."
     );
     expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-      "More detail on https://docs.restqa.io/getting-started/telemetry"
+      "More detail on https://dashboard.restqa.io/#/documentation/telemetry"
     );
   });
 
@@ -40,7 +40,7 @@ describe("#Cli - Steps", () => {
       "🕵️ The telemetry has been enabled."
     );
     expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-      "More detail on https://docs.restqa.io/getting-started/telemetry"
+      "More detail on https://dashboard.restqa.io/#/documentation/telemetry"
     );
   });
 
@@ -52,7 +52,7 @@ describe("#Cli - Steps", () => {
       "🕵️ The telemetry has been disabled."
     );
     expect(jestqa.getLoggerMock().mock.calls[1][0]).toMatch(
-      "More detail on https://docs.restqa.io/getting-started/telemetry"
+      "More detail on https://dashboard.restqa.io/#/documentation/telemetry"
     );
   });
 });
