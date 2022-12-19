@@ -1,3 +1,1 @@
-
-module.exports = function (projectName, features) {
-}
+module.exports = function (projectName, features) {};

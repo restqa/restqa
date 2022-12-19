@@ -43,16 +43,16 @@ describe("#Cli - Run", () => {
       return mockSandbox;
     });
 
-    const mockExecutor = jest.fn();
-    const mockExecutorExecute = jest.fn();
-    jest.mock("../core/executor", () => {
+    const mockMicroservice = jest.fn();
+    const mockMicroserviceStart = jest.fn();
+    jest.mock("@restqa/core-microservice", () => {
       return class {
         constructor(opt) {
-          mockExecutor(opt);
+          mockMicroservice(opt);
         }
 
-        async execute() {
-          mockExecutorExecute(null);
+        async start() {
+          mockMicroserviceStart(null);
         }
       };
     });
@@ -61,12 +61,12 @@ describe("#Cli - Run", () => {
     const debug = false;
     const SanboxCli = require("./sandbox");
     await SanboxCli({port, debug});
-    expect(mockExecutor).toHaveBeenCalled();
-    expect(mockExecutor).toHaveBeenCalledWith({
+    expect(mockMicroservice).toHaveBeenCalled();
+    expect(mockMicroservice).toHaveBeenCalledWith({
       port: 8081,
       command: "npm run dev"
     });
-    expect(mockExecutorExecute).toHaveBeenCalled();
+    expect(mockMicroserviceStart).toHaveBeenCalled();
 
     expect(mockSandbox).toHaveBeenCalled();
     expect(mockSandbox).toHaveBeenCalledWith({

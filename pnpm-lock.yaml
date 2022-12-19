@@ -64,6 +64,7 @@ importers:
       '@restqa/core-collection': workspace:*
       '@restqa/core-git': workspace:*
       '@restqa/core-logger': workspace:*
+      '@restqa/core-microservice': workspace:*
       '@restqa/core-performance': workspace:*
       '@restqa/core-specification': workspace:*
       '@restqa/cucumber-export': workspace:*
@@ -82,7 +83,6 @@ importers:
       commander: ^8.0.0
       concurrently: ^6.1.0
       console-table-printer: ^2.9.0
-      cross-spawn: ^7.0.3
       debug: ^4.3.1
       esbuild: ^0.15.7
       eslint: ^7.21.0
@@ -106,7 +106,6 @@ importers:
       nodemon: ^2.0.20
       prettier: ^2.3.2
       rimraf: ^3.0.2
-      tree-kill: ^1.2.2
       update-notifier: ^5.1.0
       yaml: ^1.9.2
     dependencies:
@@ -118,20 +117,19 @@ importers:
       chalk: 4.1.2
       commander: 8.3.0
       console-table-printer: 2.11.1
-      cross-spawn: 7.0.3
       debug: 4.3.4
       fuzzy-string-matching: 1.0.2
       glob: 7.2.3
       inquirer: 7.3.3
       joi: 17.7.0
       lodash: 4.17.21
-      tree-kill: 1.2.2
       update-notifier: 5.1.0
       yaml: 1.10.2
     devDependencies:
       '@restqa/core-collection': link:../core-collection
       '@restqa/core-git': link:../core-git
       '@restqa/core-logger': link:../core-logger
+      '@restqa/core-microservice': link:../core-microservice
       '@restqa/core-performance': link:../core-performance
       '@restqa/core-specification': link:../core-specification
       '@restqa/cucumber-export': link:../cucumber-export
@@ -239,7 +237,9 @@ importers:
 
   packages/core-microservice:
     specifiers:
+      '@restqa/core-logger': workspace:*
       '@restqa/plugin-rest-api': workspace:*
+      cross-spawn: ^7.0.3
       eslint: ^7.21.0
       eslint-config-prettier: ^8.3.0
       eslint-config-standard: ^16.0.2
@@ -249,9 +249,11 @@ importers:
       eslint-plugin-promise: ^4.3.1
       jest: ^26.6.3
       prettier: ^2.3.2
-      yaml: ^1.9.2
+      tree-kill: ^1.2.2
     dependencies:
-      yaml: 1.10.2
+      '@restqa/core-logger': link:../core-logger
+      cross-spawn: 7.0.3
+      tree-kill: 1.2.2
     devDependencies:
       '@restqa/plugin-rest-api': link:../plugin-rest-api
       eslint: 7.32.0
@@ -2029,7 +2031,7 @@ packages:
       debug: 4.3.4
       espree: 9.4.1
       globals: 13.19.0
-      ignore: 5.2.2
+      ignore: 5.2.3
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       minimatch: 3.1.2
@@ -4872,7 +4874,7 @@ packages:
     dependencies:
       find-root: 1.1.0
       glob: 7.2.3
-      ignore: 5.2.2
+      ignore: 5.2.3
       pkg-config: 1.1.1
       run-parallel: 1.2.0
       uniq: 1.0.1
@@ -5973,7 +5975,7 @@ packages:
       eslint: 6.8.0
       eslint-plugin-es: 2.0.0_eslint@6.8.0
       eslint-utils: 1.4.3
-      ignore: 5.2.2
+      ignore: 5.2.3
       minimatch: 3.1.2
       resolve: 1.22.1
       semver: 6.3.0
@@ -5988,7 +5990,7 @@ packages:
       eslint: 7.32.0
       eslint-plugin-es: 3.0.1_eslint@7.32.0
       eslint-utils: 2.1.0
-      ignore: 5.2.2
+      ignore: 5.2.3
       minimatch: 3.1.2
       resolve: 1.22.1
       semver: 6.3.0
@@ -6270,7 +6272,7 @@ packages:
       glob-parent: 6.0.2
       globals: 13.19.0
       grapheme-splitter: 1.0.4
-      ignore: 5.2.2
+      ignore: 5.2.3
       import-fresh: 3.3.0
       imurmurhash: 0.1.4
       is-glob: 4.0.3
@@ -7119,7 +7121,7 @@ packages:
       array-union: 2.1.0
       dir-glob: 3.0.1
       fast-glob: 3.2.12
-      ignore: 5.2.2
+      ignore: 5.2.3
       merge2: 1.4.1
       slash: 3.0.0
     dev: true
@@ -7436,8 +7438,8 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /ignore/5.2.2:
-    resolution: {integrity: sha512-m1MJSy4Z2NAcyhoYpxQeBsc1ZdNQwYjN0wGbLBlnVArdJ90Gtr8IhNSfZZcCoR0fM/0E0BJ0mf1KnLNDOCJP4w==}
+  /ignore/5.2.3:
+    resolution: {integrity: sha512-6BCmRZymdnasx6eA82MnzchMPSxA7ZwIYDLnUER0T9Xhf9XrsceU05+7nt9KPC1yjG3fDA1yk37yPlld3YX7oA==}
     engines: {node: '>= 4'}
     dev: true
 

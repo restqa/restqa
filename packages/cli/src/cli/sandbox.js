@@ -2,7 +2,7 @@ const Sandbox = require("@restqa/sandbox");
 const Global = require("../core/global");
 const {cwd} = require("../utils/process");
 const path = require("path");
-const Executor = require("../core/executor");
+const Microservice = require("@restqa/core-microservice");
 
 module.exports = async function ({port, debug}) {
   const configFile = path.resolve(cwd, ".restqa.yml");
@@ -14,8 +14,8 @@ module.exports = async function ({port, debug}) {
   };
 
   const upstream = `http://localhost:${options.port}`;
-  const microservice = new Executor(options);
-  await microservice.execute();
+  const microservice = new Microservice(options);
+  await microservice.start();
 
   return Sandbox({
     port,

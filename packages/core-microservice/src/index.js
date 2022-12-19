@@ -6,9 +6,9 @@ const net = require("net");
 const {format} = require("util");
 
 const DEFAULT_TIMEOUT = 4000;
-class Executor {
+class Microservice {
   constructor(options) {
-    const {port, command, envs, silent, timeout} = options;
+    const {port, command, envs, silent, timeout, state} = options;
 
     this._port = port;
     this._command = command;
@@ -16,6 +16,7 @@ class Executor {
     this._silent = silent || false;
     this._timeout = timeout || DEFAULT_TIMEOUT;
     this._isRunning = false;
+    this._state = state;
   }
 
   get port() {
@@ -54,7 +55,7 @@ class Executor {
     return this._coveragePath;
   }
 
-  execute() {
+  start() {
     const command = this.command;
     const envs = this.envs || {};
     envs.PORT = this.port;
@@ -102,7 +103,7 @@ class Executor {
         this._server = server;
       } else {
         throw new Error(
-          `Executor: command should be a string but received ${typeof command}`
+          `Microservice: command should be a string but received ${typeof command}`
         );
       }
     }).then(() => {
@@ -112,7 +113,7 @@ class Executor {
   }
 
   log(str) {
-    global.restqa && global.restqa.outputStream.addDebugLog(str);
+    this._state.outputStream.addDebugLog(str);
   }
 
   async isReady() {
@@ -187,7 +188,7 @@ class Executor {
     });
   }
 
-  terminate() {
+  stop() {
     return new Promise((resolve, reject) => {
       if (this.server instanceof ChildProcess) {
         kill(this.server.pid, "SIGTERM", (err) => {
@@ -201,4 +202,4 @@ class Executor {
   }
 }
 
-module.exports = Executor;
+module.exports = Microservice;

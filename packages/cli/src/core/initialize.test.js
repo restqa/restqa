@@ -22,11 +22,10 @@ jestqa.hooks.beforeEach = function () {
     Generator: mockGenerator
   }));
 
-  jest.mock("./executor", () => {
+  jest.mock("@restqa/core-microservice", () => {
     return class {
-      execute() {}
-
-      terminate() {}
+      start() {}
+      stop() {}
     };
   });
 };
