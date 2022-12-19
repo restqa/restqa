@@ -6,7 +6,7 @@ const {Logger, Locale} = require("@restqa/core-logger");
 const {getPackageJson} = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
 const Config = require("../config");
-const Executor = require("./executor");
+const Microservice = require("@restqa/core-microservice");
 const {Ignore} = require("@restqa/core-git");
 const CustomStep = require("../services/custom-step-definition");
 
@@ -133,11 +133,11 @@ initialize.generate = async function (options) {
     port: config.getLocalTest().getPort(),
     command: config.getLocalTest().getCommand()
   };
-  const microservice = new Executor(opt);
+  const microservice = new Microservice(opt);
 
   const localURL = `http://localhost:${opt.port}/`;
   try {
-    await microservice.execute();
+    await microservice.start();
 
     const curl = ["curl", localURL];
 
@@ -174,7 +174,7 @@ initialize.generate = async function (options) {
   } catch (err) {
     Logger.log("service.init.error.scenario_generation", localURL);
   }
-  microservice.terminate();
+  microservice.stop();
   Logger.log("service.init.success.info");
   return config;
 };

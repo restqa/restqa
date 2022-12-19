@@ -1,37 +1,32 @@
-const Executor = require("./executor");
-const Global = require("./global");
+const Microservice = require("../src/index");
 
 jest.useFakeTimers("legacy");
 
-const jestqa = new JestQA(__filename, true);
+afterEach(() => {
+  jest.resetModules();
+});
 
-beforeEach(jestqa.beforeEach);
-afterEach(jestqa.afterEach);
-
-describe("# utils - executor", () => {
+describe("#Microservice", () => {
   const {Logger} = require("@restqa/core-logger");
   // Mocks and spies
   const loggerSuccessSpy = jest
     .spyOn(Logger, "success")
     .mockImplementation(jest.fn());
 
-  beforeEach(() => {
-    global.restqa = new Global();
-  });
-
-  afterEach(() => {
-    delete global.restqa;
-  });
-
   test("given an valid command when we execute it then process.stdout.write should have been called (not a server)", async () => {
     // Given
     const optionsWithValidCommand = {
-      command: "ls -l"
+      command: "ls -l",
+      state: {
+        outputStream: {
+          addDebugLog: jest.fn()
+        }
+      }
     };
-    const Instance = new Executor(optionsWithValidCommand);
+    const Instance = new Microservice(optionsWithValidCommand);
 
     // When
-    await Instance.execute();
+    await Instance.start();
 
     // Then
     expect(loggerSuccessSpy).toHaveBeenCalledWith(
@@ -42,20 +37,25 @@ describe("# utils - executor", () => {
   test("given a mistyped command when we execute it then it should throw an error", async () => {
     // Given
     const optionsMistypedCommand = {
-      command: ["ls", ["-l"]]
+      command: ["ls", ["-l"]],
+      state: {
+        outputStream: {
+          addDebugLog: jest.fn()
+        }
+      }
     };
-    const Instance = new Executor(optionsMistypedCommand);
+    const Instance = new Microservice(optionsMistypedCommand);
 
     // When
     expect.assertions(1);
     try {
-      await Instance.execute();
+      await Instance.start();
     } catch (error) {
       // Then
       // eslint-disable-next-line
       expect(error).toEqual(
         new Error(
-          `Executor: command should be a string but received ${typeof optionsMistypedCommand.command}`
+          `Microservice: command should be a string but received ${typeof optionsMistypedCommand.command}`
         )
       );
     }
@@ -64,14 +64,19 @@ describe("# utils - executor", () => {
   test("given a command that should fail when we execute it then it should throw an error", async () => {
     // Given
     const optionsWithInvalidCommand = {
-      command: "cd dsqsq"
+      command: "cd dsqsq",
+      state: {
+        outputStream: {
+          addDebugLog: jest.fn()
+        }
+      }
     };
-    const Instance = new Executor(optionsWithInvalidCommand);
+    const Instance = new Microservice(optionsWithInvalidCommand);
 
     // When
     expect.assertions(1);
     try {
-      await Instance.execute();
+      await Instance.start();
     } catch (error) {
       // Then
       // eslint-disable-next-line

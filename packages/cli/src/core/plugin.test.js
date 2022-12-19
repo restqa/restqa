@@ -52,8 +52,8 @@ describe("#core - plugin", () => {
       const childProcess = Object.create(ChildProcess.prototype);
       childProcess.kill = killProcessFn;
       childProcess.pid = 9999;
-      const Executor = require("./executor");
-      const mockExecuteCommand = jest.spyOn(Executor.prototype, "execute");
+      const Executor = require("@restqa/core-microservice");
+      const mockExecuteCommand = jest.spyOn(Executor.prototype, "start");
 
       setTimeout(() => {
         servers.push(express().listen(serverPort));

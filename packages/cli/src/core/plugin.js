@@ -1,4 +1,4 @@
-const Executor = require("./executor");
+const Microservice = require("@restqa/core-microservice");
 const {Contributors} = require("@restqa/core-git");
 const Performance = require("@restqa/core-performance");
 const Specification = require("@restqa/core-specification");
@@ -35,10 +35,11 @@ module.exports = function ({env, report, config}, processor = {}) {
       const options = {
         port: config.getLocalTest().getPort(),
         command: config.getLocalTest().getCommand(),
+        state: global.restqa,
         envs
       };
 
-      const microservice = new Executor(options);
+      const microservice = new Microservice(options);
 
       if (report) {
         const CoverageOptions = {
@@ -49,13 +50,13 @@ module.exports = function ({env, report, config}, processor = {}) {
         microservice.coveragePath = this.restqa.coverage.tmp;
       }
 
-      await microservice.execute();
+      await microservice.start();
       this.restqa.microservice = microservice;
     });
 
     processor.AfterAll(async function () {
       if (!this.restqa.microservice) return;
-      await this.restqa.microservice.terminate();
+      await this.restqa.microservice.stop();
 
       if (!this.restqa.coverage) return;
       await this.restqa.coverage.generate();
