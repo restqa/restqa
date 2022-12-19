@@ -1,5 +1,5 @@
 const Data = require("./data");
-const logger = require("../utils/logger");
+const {Logger} = require("@restqa/core-logger");
 const path = require("path");
 const RestQAData = require("@restqa/data");
 const CorePlugin = require("./plugin");
@@ -65,7 +65,7 @@ module.exports = function (processor, options = {}) {
     environment.data = config.getIntegrationTest(env).getData();
   }
 
-  logger.info("service.select_environment", environment.name);
+  Logger.info("service.select_environment", environment.name);
 
   // Plugin settings
   const RestQAPI = {

@@ -4,7 +4,7 @@ const cucumber = require("@cucumber/cucumber");
 
 const Global = require("../core/global");
 const Initialize = require("../core/initialize");
-const logger = require("../utils/logger");
+const {Logger} = require("@restqa/core-logger");
 
 module.exports = async function (opt, program = {}) {
   let {
@@ -128,7 +128,7 @@ module.exports = async function (opt, program = {}) {
       }
     })
     .catch((err) => {
-      logger.error(err);
+      Logger.error(err);
       process.exit(1);
     });
 };

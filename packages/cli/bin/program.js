@@ -3,7 +3,7 @@ const path = require("path");
 
 const pkg = require("../package.json");
 const Cli = require("../src/cli");
-const logger = require("../src/utils/logger");
+const { Logger } = require("@restqa/core-logger");
 const Telemetry = require("../src/utils/telemetry");
 
 const DEFAULT_CONFIG =
@@ -71,7 +71,7 @@ program
 
 program.on("--help", () => {
   /* eslint-disable no-console */
-  logger.log(
+  Logger.log(
     "  For more details please visit https://github.com/restqa/restqa"
   );
   /* eslint-enable no-console */

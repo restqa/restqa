@@ -2,10 +2,9 @@ const fs = require("fs");
 const path = require("path");
 const inquirer = require("inquirer");
 const Generate = require("../cli/generate");
-const logger = require("../utils/logger");
+const {Logger, Locale} = require("@restqa/core-logger");
 const {getPackageJson} = require("../utils/fs");
 const Telemetry = require("../utils/telemetry");
-const Locale = require("../locales")();
 const Config = require("../config");
 const Executor = require("./executor");
 const {Ignore} = require("@restqa/core-git");
@@ -20,6 +19,8 @@ const DEFAULT_ANSWER = {
 
 const DEFAULT_TEST_FOLDER = "tests";
 
+const locale = Locale("service.init");
+
 async function initialize(program = {}) {
   const {folder} = program;
 
@@ -27,26 +28,26 @@ async function initialize(program = {}) {
     type: "input",
     name: "name",
     default: DEFAULT_ANSWER.name,
-    message: Locale.get("service.init.questions.name")
+    message: locale.questions.name
   };
 
   const questionPort = {
     type: "input",
     name: "port",
-    message: Locale.get("service.init.questions.port"),
+    message: locale.questions.port,
     default: DEFAULT_ANSWER.port
   };
 
   const questionCommand = {
     type: "input",
     name: "command",
-    message: Locale.get("service.init.questions.command")
+    message: locale.questions.command
   };
 
   const questionTelemetry = {
     type: "confirm",
     name: "telemetry",
-    message: Locale.get("service.init.questions.telemetry"),
+    message: locale.questions.telemetry,
     default: DEFAULT_ANSWER.telemetry
   };
 
@@ -126,7 +127,7 @@ initialize.generate = async function (options) {
   const filename = path.resolve(folder, ".restqa.yml");
   config.save(filename);
 
-  logger.success("service.init.success.welcome");
+  Logger.success("service.init.success.welcome");
 
   const opt = {
     port: config.getLocalTest().getPort(),
@@ -169,12 +170,12 @@ initialize.generate = async function (options) {
       folder
     });
 
-    logger.info("service.init.success.sample");
+    Logger.info("service.init.success.sample");
   } catch (err) {
-    logger.log("service.init.error.scenario_generation", localURL);
+    Logger.log("service.init.error.scenario_generation", localURL);
   }
   microservice.terminate();
-  logger.log("service.init.success.info");
+  Logger.log("service.init.success.info");
   return config;
 };
 

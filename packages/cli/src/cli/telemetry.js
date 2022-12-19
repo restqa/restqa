@@ -1,4 +1,4 @@
-const logger = require("../utils/logger");
+const {Logger} = require("@restqa/core-logger");
 const Telemetry = require("../utils/telemetry");
 
 module.exports = function (status) {
@@ -12,12 +12,12 @@ module.exports = function (status) {
   }
 
   telemetry.toggle(status === "on");
-  logger.success(
+  Logger.success(
     "service.telemetry.toggle",
     status === "on" ? "enabled" : "disabled"
   );
-  logger.info(
+  Logger.info(
     "service.telemetry.detail",
-    "https://docs.restqa.io/getting-started/telemetry"
+    "https://dashboard.restqa.io/#/documentation/telemetry"
   );
 };

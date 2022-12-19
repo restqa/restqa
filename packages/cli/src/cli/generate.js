@@ -2,7 +2,7 @@ const {Command} = require("commander");
 const {Generator} = require("@restqa/plugin-rest-api");
 const fs = require("fs");
 const path = require("path");
-const logger = require("../utils/logger");
+const {Logger} = require("@restqa/core-logger");
 
 module.exports = async function (pOptions, program) {
   const {args} = program;
@@ -176,10 +176,10 @@ module.exports = async function (pOptions, program) {
       }
 
       fs.appendFileSync(filename, content.join("\n"));
-      logger.success("service.generate.output_file_message", opt.output);
+      Logger.success("service.generate.output_file_message", opt.output);
     } else if (print === true) {
-      logger.success("service.generate.successful_message");
-      logger.log(result);
+      Logger.success("service.generate.successful_message");
+      Logger.log(result);
     }
 
     return result;
