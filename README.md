@@ -28,7 +28,7 @@ Within our DEV team while working with microservice, we realized a few thing:
 - [X] **WE HATE** Maintaining the HTTP Mocks
 - [X] **WE HATE** Rewrite the test while changing the microservice technology
 
-This is why we decided to challenge ourself on how to transform this anger into a positive initative.
+This is why we decided to challenge ourself on how to transform this frustration into a positive initative.
 RestQA was build with a simple goal: Driving the happiness of the DEV team through testing.
 
 Run one command and get everything that you need to enjoy maintaining your microservice.
