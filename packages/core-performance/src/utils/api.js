@@ -6,6 +6,7 @@ function clean(obj) {
 }
 
 function getContentType(headerContentType) {
+  if (!headerContentType) return undefined;
   return String(headerContentType.split("/").pop()).split(";").shift();
 }
 

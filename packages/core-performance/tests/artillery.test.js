@@ -103,6 +103,87 @@ describe("#performance - artillery", () => {
     expect(YAML.parse(generatedFile)).toEqual(expectedFile);
   });
 
+  test("generate into specific file (method + url) - no response content type", () => {
+    const apis = [
+      {
+        request: Request("http://localhost", false, "xx-yyy-zzzz"),
+        response: Response({
+          statusCode: 204
+        })
+      }
+    ];
+    const scenario = {
+      pickle: {
+        uri: "example/features/users.api.feature",
+        language: "en",
+        locations: [
+          {
+            column: 1,
+            line: 4
+          }
+        ],
+        name: "Successfull creation (no data variable)",
+        steps: [
+          {
+            arguments: [],
+            locations: [
+              {
+                column: 7,
+                line: 5
+              }
+            ],
+            text: "I have the api gateway"
+          }
+        ]
+      },
+      result: {
+        duration: 1001000000,
+        exception: {
+          actual: 204,
+          code: "ERR_ASSERTION",
+          expected: 204,
+          generatedMessage: false,
+          operator: "strictEqual"
+        },
+        status: "passed"
+      }
+    };
+
+    const config = {
+      tool: "artillery",
+      outputFolder: path.resolve(os.tmpdir(), "perf"),
+      onlySuccess: true
+    };
+    tmpFiles.push(path.join(config.outputFolder, "users.api.yml"));
+    const Performance = require("../");
+    const instance = new Performance(config);
+    instance.add(apis, scenario);
+    instance.generate();
+    const expectedFile = {
+      scenarios: [
+        {
+          name: "Successfull creation (no data variable)",
+          flow: [
+            {
+              get: {
+                url: "/",
+                headers: {
+                  "user-agent": "restqa (https://github.com/restqa/restqa)",
+                  "x-correlation-id": "xx-yyy-zzzz"
+                },
+                expect: [{statusCode: 204}]
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    expect(fs.existsSync(tmpFiles[0])).toBe(true);
+    const generatedFile = fs.readFileSync(tmpFiles[0]).toString("utf-8");
+    expect(YAML.parse(generatedFile)).toEqual(expectedFile);
+  });
+
   test("generate into specific file (method + url + headers)", () => {
     const apis = [
       {
