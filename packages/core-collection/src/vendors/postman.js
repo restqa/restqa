@@ -124,7 +124,7 @@ function transformFeatures(features) {
           };
         }
 
-        host = options.protocol + "//" + options.hostname;
+        host = options.hostname;
         if (options.port) {
           host += ":" + options.port;
         }

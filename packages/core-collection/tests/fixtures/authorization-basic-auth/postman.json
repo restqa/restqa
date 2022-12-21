@@ -56,7 +56,7 @@
   "variable": [
     {
       "key": "host",
-      "value": "http://localhost:3000"
+      "value": "localhost:3000"
     }
   ]
 }
