@@ -1,6 +1,7 @@
 ---
 id: introduction
 title: Introduction
+video: https://www.youtube.com/watch?v=Vnqn42GYGS8
 order: 1
 
 ---
