@@ -63,7 +63,8 @@ module.exports = async function (transaction, includeHost) {
     }
 
     if (tags.includes("form") && bodyBackup) {
-      const table = [definition];
+      const _def  = definition.replace('\\', '')
+      const table = [_def]
       Object.entries(bodyBackup).forEach(([key, value]) => {
         const row = `    | ${key} | ${value} |`;
         table.push(row);

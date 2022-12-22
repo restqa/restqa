@@ -254,11 +254,6 @@ Then status = 200
 `;
     expect(result).toEqual(expectedResult.trim());
 
-    const FormData = require("form-data");
-    const form = new FormData();
-    form.append("hello", "world");
-    form.append("bonjour", "le monde");
-
     const expectedOptions = {
       pathname: "/",
       method: "GET",
@@ -266,13 +261,17 @@ Then status = 200
       hostname: "www.example.com",
       searchParams: {
         q: "restqa"
+      },
+      form: {
+        hello: "world",
+        bonjour: "le monde"
       }
     };
     expect(got.mock.calls).toHaveLength(1);
     expect(got.mock.calls[0][0]).toEqual(
       expect.objectContaining(expectedOptions)
     );
-    expect(form.toString()).toEqual(got.mock.calls[0][0].body.toString());
+    // expect(form.toString()).toEqual(got.mock.calls[0][0].body.toString());
   });
 
   test("No response body", async () => {

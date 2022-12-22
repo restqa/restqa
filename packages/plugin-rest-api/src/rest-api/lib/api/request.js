@@ -1,6 +1,5 @@
 const dot = require("dot-object");
 const {URL} = require("url");
-const FormData = require("form-data");
 
 const Request = function (baseUrl, insecure, id) {
   const url = new URL(baseUrl);
@@ -108,8 +107,8 @@ const Request = function (baseUrl, insecure, id) {
   };
 
   const addFormField = (field, value) => {
-    this.options.body = this.options.body || new FormData();
-    this.options.body.append(field, value);
+    this.options.form = this.options.form || {}
+    this.options.form[field] = value
     bodyBackup[field] = value;
   };
 

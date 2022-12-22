@@ -283,7 +283,7 @@ module.exports = [
    * @function JsonPayloadTable
    */
   [
-    "the body (json):",
+    "the body \\(json\\):",
     given.payloads,
     "Adding multiple query parameters to the request (table format)",
     "request, body, dot, table"
@@ -340,7 +340,7 @@ module.exports = [
    * @function FormBodyTable
    */
   [
-    "the body (form):",
+    "the body \\(form):",
     given.forms,
     "Adding multiple values to the form request body (table format)",
     "request, body, form, table, generator"
