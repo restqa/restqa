@@ -4,6 +4,7 @@ const spawn = require("cross-spawn");
 const {Logger, Locale} = require("@restqa/core-logger");
 const net = require("net");
 const {format} = require("util");
+const {on, exit} = require("./utils/process");
 
 const DEFAULT_TIMEOUT = 4000;
 class Microservice {
@@ -17,6 +18,13 @@ class Microservice {
     this._timeout = timeout || DEFAULT_TIMEOUT;
     this._isRunning = false;
     this._state = state;
+
+    ["SIGTERM", "SIGHUP", "SIGINT", "SIGBREAK"].forEach((signal) => {
+      on(signal, async () => {
+        await this.stop();
+        exit();
+      });
+    });
   }
 
   get port() {
@@ -113,6 +121,7 @@ class Microservice {
   }
 
   log(str) {
+    if (this.silent) return;
     this._state.outputStream.addDebugLog(str);
   }
 
@@ -147,13 +156,13 @@ class Microservice {
           host
         };
         const socket = net.createConnection(opt);
-        socket.on("ready", function (err) {
+        socket.on("ready", (err) => {
           if (err) reject(err);
           resolve();
           socket.destroy();
           isOut = true;
         });
-        socket.on("error", function (err) {
+        socket.on("error", (err) => {
           socket.destroy();
           timeout -= 200;
           if (err.code !== "ECONNREFUSED") {
@@ -161,7 +170,9 @@ class Microservice {
             return reject(err);
           }
           if (timeout > 0) {
-            idTimeout = setTimeout(checker, 200);
+            idTimeout = setTimeout(() => {
+              checker();
+            }, 200);
           } else {
             isOut = true;
             reject(
@@ -169,7 +180,7 @@ class Microservice {
                 format(
                   Locale().service.run.error_port_timeout,
                   port,
-                  DEFAULT_TIMEOUT
+                  this.timeout
                 )
               )
             );
@@ -193,6 +204,8 @@ class Microservice {
       if (this.server instanceof ChildProcess) {
         kill(this.server.pid, "SIGTERM", (err) => {
           if (err) return reject(err);
+          this._isRunning = false;
+          this.server.kill();
           resolve();
         });
       } else {
