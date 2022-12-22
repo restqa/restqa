@@ -14,9 +14,10 @@
   "author": "Olivier Rodomond",
   "license": "MIT",
   "dependencies": {
-    "tree-kill": "^1.2.2",
+    "@restqa/core-logger": "workspace:*",
     "cross-spawn": "^7.0.3",
-    "@restqa/core-logger": "workspace:*"
+    "express": "^4.18.2",
+    "tree-kill": "^1.2.2"
   },
   "devDependencies": {
     "@restqa/plugin-rest-api": "workspace:*",
@@ -39,5 +40,3 @@
   },
   "homepage": "https://github.com/restqa/restqa#readme"
 }
-
-
