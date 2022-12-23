@@ -1,0 +1,9 @@
+version: 0.0.1
+metadata:
+  code: RESTQA-EXAMPLE-SCENARIO-00-BOILERPLATE
+  name: "@restqa/example-scenario-00_boilerplate"
+  description: Boilerplate for scenario
+tests:
+  local:
+    port: "8887"
+    command: npm run dev

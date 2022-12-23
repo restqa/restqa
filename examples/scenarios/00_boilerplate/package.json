@@ -1,0 +1,20 @@
+{
+  "name": "@restqa/example-scenario-00_boilerplate",
+  "version": "1.0.0",
+  "description": "Boilerplate for scenario",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "restqa run",
+    "happy": "restqa run --report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@restqa/restqa": "workspace:*"
+  }
+}

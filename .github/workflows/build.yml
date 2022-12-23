@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: restqa-test-report-unix-${{ matrix.node-version }}
-        path: examples/express/restqa
+        path: examples/technologies/express/restqa
 
   build-windows:
     runs-on: windows-latest
@@ -64,4 +64,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: restqa-test-report-windows-${{ matrix.node-version }}
-        path: examples/express/restqa
+        path: examples/technologies/express/restqa

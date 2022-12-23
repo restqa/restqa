@@ -18,6 +18,16 @@
     </el-collapse>
   </div>
   <youtube-video :url="video" />
+  <br />
+  <div v-if="example">
+    <el-divider> ⭐ Talk is cheap, show me code! ⭐ </el-divider>
+    <br />
+    <el-button @click="goExample()" type="primary" style="width: 100%">
+      Click here to look at the demo of this feature
+    </el-button>
+    <br />
+    <el-divider />
+  </div>
   <div class="content" v-html="content"></div>
 </template>
 <script>
@@ -46,6 +56,9 @@ export default {
     video() {
       return docs.getElement(this.page).attributes.video;
     },
+    example() {
+      return docs.getElement(this.page).attributes.example;
+    },
     hasPreRequisit() {
       return (
         docs.getElement(this.page).attributes["pre-requisit"] !== undefined
@@ -66,6 +79,10 @@ export default {
           id,
         },
       });
+    },
+    goExample() {
+      const link = `https://github.com/restqa/restqa/tree/master/examples/${this.example}`;
+      window.open(link, "_blank");
     },
   },
   watch: {
