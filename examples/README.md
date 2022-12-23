@@ -17,9 +17,13 @@ This example is a set of test automation scenario that are testing a simple loca
 
 ## Available example
 
+### Technologies
+
 You can find below the list of example available:
 
 * [NodeJS](./nodejs)
+
+### Test Creation
 
 ---
 

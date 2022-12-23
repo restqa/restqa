@@ -1,7 +1,7 @@
 version: 0.0.1
 metadata:
-  code: -RESTQA-EXAMPLE-FASTIFY
-  name: "@restqa/example-fastify"
+  code: RESTQA-EXAMPLE-SCENARIO-CUSTOM-STEP-DEFINITION
+  name: "@restqa/example-scenario-custom-step-definition"
   description: A RestQA example running on fastify
 tests:
   local:

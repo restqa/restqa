@@ -1,0 +1,7 @@
+node_modules
+
+restqa
+tests/mocks
+tests/collections
+tests/integrations
+tests/performances

@@ -1,0 +1,9 @@
+version: 0.0.1
+metadata:
+  code: RESTQA-EXAMPLE-SCENARIO-02-REQUEST-HEADERS
+  name: "@restqa/example-scenario-02-request-headers"
+  description: Example scenario to demonstrate how to use Request headers
+tests:
+  local:
+    port: "8887"
+    command: npm run dev

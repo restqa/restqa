@@ -6,6 +6,7 @@ parent: given
 category: Form Request body
 content_from: plugin-rest-api/src/rest-api/steps/1-given/index.js
 video: https://www.youtube.com/watch?v=QCI2ViTzf_I
+example: scenarios/06-request-formdata
 pre-requisit:
   - given
   - given-host
