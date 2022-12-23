@@ -39,7 +39,9 @@ RestQASnippetSyntax.prototype.build = function ({
       if (step.matchs.length > 0) {
         result = result.concat([
           "Did you mean:",
-          step.matchs.map((x) => "- " + functionName + " " + x).join("\n"),
+          step.matchs
+            .map((x) => "- " + functionName + " " + x.replace("\\", ""))
+            .join("\n"),
           "",
           "---"
         ]);

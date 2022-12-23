@@ -28,7 +28,7 @@ module.exports = function (features, outputFolder) {
               obj.json = clean(options.json);
             }
 
-            if (options.body) {
+            if (options.form) {
               obj.formData = clean(api.request.bodyBackup);
             }
 

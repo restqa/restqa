@@ -107,8 +107,8 @@ const Request = function (baseUrl, insecure, id) {
   };
 
   const addFormField = (field, value) => {
-    this.options.form = this.options.form || {}
-    this.options.form[field] = value
+    this.options.form = this.options.form || {};
+    this.options.form[field] = value;
     bodyBackup[field] = value;
   };
 

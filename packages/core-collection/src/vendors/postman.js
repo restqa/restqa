@@ -95,7 +95,7 @@ function transformFeatures(features) {
           };
         }
 
-        if (options.body) {
+        if (options.form) {
           item.request.header = item.request.header || [];
           item.request.header.push({
             key: "Content-Type",
@@ -103,20 +103,13 @@ function transformFeatures(features) {
             type: "text"
           });
 
-          const formdata = options.body
-            .getBuffer()
-            .toString("utf-8")
-            .split("\n")
-            .reduce((result, item, index, arr) => {
-              if (item.includes("form-data")) {
-                result.push({
-                  key: item.match(/name="(.*)"/)[1],
-                  value: arr[index + 2].replace("\r", ""),
-                  type: "text"
-                });
-              }
-              return result;
-            }, []);
+          const formdata = Object.keys(options.form).map((key) => {
+            return {
+              key,
+              value: options.form[key],
+              type: "text"
+            };
+          });
 
           item.request.body = {
             mode: "formdata",

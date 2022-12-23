@@ -72,7 +72,7 @@ describe("#core - plugin", () => {
       const [beforeAll, afterAll] = Hooks;
       beforeAll && (await beforeAll());
       afterAll && afterAll();
-      expect(true).toBe(true)
+      expect(true).toBe(true);
     });
   });
 
