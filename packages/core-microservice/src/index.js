@@ -122,7 +122,7 @@ class Microservice {
 
   log(str) {
     if (this.silent) return;
-    this._state.outputStream.addDebugLog(str);
+    this._state?.outputStream?.addDebugLog(str);
   }
 
   async isReady() {
