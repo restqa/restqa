@@ -12,7 +12,9 @@ module.exports = {
       this.apis = [];
       this.createApi = (url) => {
         const options = {
-          config: this.getConfig("rest-api")
+          config: {
+            ...this.getConfig("rest-api")
+          }
         };
 
         if (url) {
