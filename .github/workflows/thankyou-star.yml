@@ -1,0 +1,15 @@
+name: Thank you for the star
+
+on:
+  watch:
+    types: [started]
+jobs:
+  thanks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: olivierodo/star-thankyou-action@0.0.1
+      with:
+        template: './.github/templates/tthankyou-support.yml'
+        discord-webhook: 'https://discord.com/api/webhooks/887256938956611604/Draqt1mdGU4gIOTEDlTwKbmsxqxkQT5qyeFGt-TD7VDJ-SKIqyaNP64xv4S8rJcjzRqw'
+        personal-github-token: ${{ secrets.GH_PERSONAL_TOKEN }}
