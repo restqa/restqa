@@ -15,9 +15,39 @@ RestQA is now focusing on providing the best automation testing experience for M
 Major breaking changes need to be addressed. There is no compatibility between the previous version and the new one.
 If you don't want to focus on the microservice testing you can stick to the version [0.0.38]
 
+## [1.0.0-rc5] - 2022-12-27
+
+### Added
+* Doc improvment by @olivierodo in https://github.com/restqa/restqa/pull/294
+* package: new package @restqa/screenshot by @olivierodo in https://github.com/restqa/restqa/pull/298
+* feat: Use RestQA as a test runner for the plugin mongodb-mock by @olivierodo in https://github.com/restqa/restqa/pull/304
+* Feat:  Use RestQA as test runner for the plugin-faker by @olivierodo in https://github.com/restqa/restqa/pull/305
+* Spike: use scarf-js to track adoption by @olivierodo in https://github.com/restqa/restqa/pull/318
+* Feature: update the gitignore while onboarding RestQA into a project by @olivierodo in https://github.com/restqa/restqa/pull/319
+
+### Updated
+
+* refacto: use RestQA to test the plugin HTTP MOCK by @olivierodo in https://github.com/restqa/restqa/pull/301
+* Refacto performance by @olivierodo in https://github.com/restqa/restqa/pull/321
+* refacto: create a package @restqa/core-collection by @olivierodo in https://github.com/restqa/restqa/pull/322
+* Refacto:  executor -> @restqa/core-microservice by @olivierodo in https://github.com/restqa/restqa/pull/323
+* DX: Refactor the example folder by @olivierodo in https://github.com/restqa/restqa/pull/330
+
 ### Fix
 
-- Handle API empty api response [#306](https://github.com/restqa/restqa/pull/306)
+* Fix: increase default boot timeout by @tony-go in https://github.com/restqa/restqa/pull/296
+* Fix: increase boot timeout for mongo mock plugin by @tony-go in https://github.com/restqa/restqa/pull/297
+* Fix: issue when the response body is empty by @olivierodo in https://github.com/restqa/restqa/pull/306
+* Fix: api specification should also handle querystrings by @olivierodo in https://github.com/restqa/restqa/pull/310
+* Fix mongodb plugin by @olivierodo in https://github.com/restqa/restqa/pull/312
+* Fix: add a loading message while the swagger ui is loading - report ui by @olivierodo in https://github.com/restqa/restqa/pull/314
+* Fix: Historical conflict - Report ui by @olivierodo in https://github.com/restqa/restqa/pull/315
+* Fix host request by @olivierodo in https://github.com/restqa/restqa/pull/316
+* Fix: Misleading error message when an error occured at the runtime by @olivierodo in https://github.com/restqa/restqa/pull/317
+* Fix: .cjs file for custom step definition by @olivierodo in https://github.com/restqa/restqa/pull/320
+* Fix: Artillery fixture generation if there is no content-type by @olivierodo in https://github.com/restqa/restqa/pull/326
+* Fix: The host variable on the postman collection by @olivierodo in https://github.com/restqa/restqa/pull/325
+* Fix: Kill microservice if a process signal is received by @olivierodo in https://github.com/restqa/restqa/pull/328
 
 ## [1.0.0-rc4] - 2022-12-05
 
@@ -368,7 +398,8 @@ If you don't want to focus on the microservice testing you can stick to the vers
 - Enable secret into the configuration file
 
 [unreleased]: https://github.com/restqa/restqa/compare/1.0.0...HEAD
-[1.0.0]: https://github.com/restqa/restqa/compare/1.0.0-rc2...1.0.0
+[1.0.0]: https://github.com/restqa/restqa/compare/1.0.0-rc5...1.0.0
+[1.0.0-rc5]: https://github.com/restqa/restqa/compare/1.0.0-rc4...1.0.0-rc5
 [1.0.0-rc4]: https://github.com/restqa/restqa/compare/0.0.38...1.0.0-rc4
 [0.0.38]: https://github.com/restqa/restqa/compare/0.0.37...0.0.38
 [0.0.37]: https://github.com/restqa/restqa/compare/0.0.36...0.0.37
