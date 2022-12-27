@@ -11,5 +11,5 @@ jobs:
     - uses: olivierodo/star-thankyou-action@0.0.1
       with:
         template: './.github/templates/tthankyou-support.yml'
-        discord-webhook: 'https://discord.com/api/webhooks/887256938956611604/Draqt1mdGU4gIOTEDlTwKbmsxqxkQT5qyeFGt-TD7VDJ-SKIqyaNP64xv4S8rJcjzRqw'
+        discord-webhook: ${{ secrets.DISCORD_CONTRIBUTION_WEBHOOK }}
         personal-github-token: ${{ secrets.GH_PERSONAL_TOKEN }}
