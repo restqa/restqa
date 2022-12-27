@@ -12,4 +12,4 @@ jobs:
       with:
         template: './.github/templates/tthankyou-support.yml'
         discord-webhook: ${{ secrets.DISCORD_CONTRIBUTION_WEBHOOK }}
-        personal-github-token: ${{ secrets.GH_PERSONAL_TOKEN }}
+        personal-github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
