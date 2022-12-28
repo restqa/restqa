@@ -39,6 +39,8 @@ Gherkin Based but **KEEP CALM It aint's BDD!**
 
 ![Step definition](https://restqa.io/assets/img/content/2-why-step1.gif)
 
+The RestQA Community maintains the step definitions! **YOU** focus on writting scenarios **WE** taking care of everything else 🤗
+
 #### Screenshot
 
 👉 [Access to our online demo](https://dashboard.restqa.io)
