@@ -1,0 +1,20 @@
+{
+  "name": "@restqa/example-scenario-07-request-method-path",
+  "version": "1.0.0",
+  "description": "Example focus on demonstrating how to use method and path",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "restqa run",
+    "happy": "restqa run --report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@restqa/restqa": "workspace:*"
+  }
+}

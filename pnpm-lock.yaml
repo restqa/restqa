@@ -73,6 +73,15 @@ importers:
     devDependencies:
       '@restqa/restqa': link:../../../packages/cli
 
+  examples/scenarios/07-request-method-path:
+    specifiers:
+      '@restqa/restqa': workspace:*
+      express: ^4.18.2
+    dependencies:
+      express: 4.18.2
+    devDependencies:
+      '@restqa/restqa': link:../../../packages/cli
+
   examples/scenarios/custom-step-definition:
     specifiers:
       '@restqa/restqa': workspace:*
