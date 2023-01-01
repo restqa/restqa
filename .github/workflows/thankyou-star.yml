@@ -8,8 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: olivierodo/star-thankyou-action@0.0.1
+    - name: Engage your supporters
+      uses: atalent-labs/star-engagement-action@0.0.1
       with:
         template: './.github/templates/thankyou-support.yml'
         discord-webhook: ${{ secrets.DISCORD_CONTRIBUTION_WEBHOOK }}
         personal-github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        twitter-app-key: ${{ secrets.TWITTER_CONSUMER_KEY }}
+        twitter-app-secret: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+        twitter-oauth-token: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
+        twitter-oauth-secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        support-me: true
