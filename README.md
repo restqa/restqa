@@ -47,6 +47,17 @@ The RestQA Community maintains the step definitions! **YOU** focus on writting s
 
 ![Screenshot](https://restqa.io/assets/img/content/2-why-step2.png)
 
+#### Benefits
+
+* No Gherkin step to maintain (50+ steps out of the box)
+* Gherkin step maintain by the community
+* Test Ready in a minute
+* Outside in testing: Code refactoring friendly
+* Code Review friendly
+* Test driven development friendly
+* Mock ready in a minute
+* Community driven
+
 ## ⭐️ Features
 
 - 🌈 Local API test as Single source of truth
@@ -59,6 +70,52 @@ The RestQA Community maintains the step definitions! **YOU** focus on writting s
 - 🕐 Instant result
 - 👑 Programming language Agnostic
 - 👩‍💻 Community Driven
+
+## 🕵️ Under the scene
+
+Only one command to run and everything else is taking care of:
+
+``` mermaid
+%%{init: {'theme': 'forest' } }%%
+stateDiagram-v2
+    direction LR
+    state "npm test" as cmd
+    state "RestQA" as restqa
+    state "run tests" as runner
+    state "Test report" as formatter
+    state "Microservice" as mc
+    state "External dependencies (container)" as extenal
+    state "3rd party mock" as mock
+    state "console output" as console
+
+    [*] --> cmd
+    cmd --> restqa
+    state restqa {
+      direction LR
+      
+      runner --> mc
+      mc --> runner
+      mc --> extenal
+      extenal --> mc
+     
+      state mc {
+        direction LR
+        [*] --> running
+        running --> [*]
+      }
+
+      state extenal {
+        direction LR
+        [*] --> mock
+        mock --> [*]
+      }
+      mc --> result
+      result --> formatter
+      result --> console
+    }
+
+    restqa --> [*]
+```
 
 ## 🎬 Demo
 
