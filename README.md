@@ -69,11 +69,11 @@ https://user-images.githubusercontent.com/4768226/205502972-1fddb8f2-130e-4071-a
 Once you get nodeJs on your local machine run the command
 
 ```
-npm install -D @restqa/restqa
+npm install -D @restqa/restqa@next
 ```
 
 ```
-yarn add @restqa/restqa -D
+yarn add @restqa/restqa@next -D
 ```
 
 ## 🎯 Usage
