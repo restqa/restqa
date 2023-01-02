@@ -1,5 +1,5 @@
 const Welcome = require("../utils/welcome");
-const Pkg = require("../../package.json");
+const {getPackageJson} = require("../utils/fs");
 const path = require("path");
 const {getFormatter} = require("@restqa/cucumber-export");
 const Report = require("@restqa/report-ui");
@@ -83,13 +83,14 @@ options.customExporters = {
 };
 
 function getDataOutput(RESTQA_RESULT) {
-  let RESTQA_SPECIFICATION,
-    RESTQA_INTEGRATION,
-    RESTQA_PERFORMANCE,
-    RESTQA_COLLECTION,
-    RESTQA_HTTP_MOCKS,
-    RESTQA_COVERAGE,
-    RESTQA_CONTRIBUTORS;
+  let RESTQA_SPECIFICATION;
+  let RESTQA_INTEGRATION;
+  let RESTQA_PERFORMANCE;
+  let RESTQA_COLLECTION;
+  let RESTQA_HTTP_MOCKS;
+  let RESTQA_COVERAGE;
+  let RESTQA_VERSION = "0.0.0";
+  let RESTQA_CONTRIBUTORS;
 
   if (global.restqa && global.restqa.specification) {
     RESTQA_SPECIFICATION = global.restqa.specification;
@@ -115,6 +116,11 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_COVERAGE = global.restqa.coverage.filename;
   }
 
+  const pkg = getPackageJson(path.join(__dirname, "..", "..", "..")); // from the dist/src/formatters folder...
+  if (pkg) {
+    RESTQA_VERSION = pkg.version;
+  }
+
   return {
     RESTQA_FOLDER: process.cwd(),
     RESTQA_RESULT,
@@ -126,7 +132,7 @@ function getDataOutput(RESTQA_RESULT) {
     RESTQA_CONFIG: config,
     RESTQA_HTTP_MOCKS,
     RESTQA_COVERAGE,
-    RESTQA_VERSION: Pkg.version
+    RESTQA_VERSION
   };
 }
 
