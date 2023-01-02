@@ -1,11 +1,17 @@
+const {URL} = require("url");
 const When = {};
 
 When.callApi = function (method) {
-  return async function (path) {
+  return async function (pathname) {
     this.api = this.api || this.createApi();
     try {
-      path = this.data.get(path);
-      this.api.request.setPath(encodeURI(path));
+      pathname = this.data.get(pathname);
+      const url = new URL(pathname, "http://fake.com");
+      url.searchParams.forEach((value, key) => {
+        this.api.request.setQueryString(key, value);
+      });
+
+      this.api.request.setPath(encodeURI(url.pathname));
 
       method = method.toLowerCase();
       const allowed = [
