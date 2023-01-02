@@ -1,6 +1,6 @@
 notification:
   discord: |
-    Congratulation the **{{ github-repo }}** got a new star ⭐ from **[{{ github-username }}](https://github.com/{{github-username}}/{{github-username}})**
+    Congratulation **{{ github-repo }}** got a new star ⭐ from **[{{ github-username }}](https://github.com/{{github-username}}/{{github-username}})**
   twitter: |
     We have a new supporter 🎉
     Thank you @{{ twitter-username }} give a ⭐️ star the our opensource @restqa project.
@@ -14,30 +14,30 @@ github:
     title: {{ github-repo }} Project we want to Thank you for your support
     body: |
       Hi @{{github-username}} 👋,
-      By giving a Star ⭐to the RestQA project, it means a lot to us.
+      By giving a Star ⭐to RestQA project means a lot to us.
 
-      Knowing that people like you are interested into this RestQA, it's giving us the energy to keep investing on it.
+      Knowing that people like you is interested in RestQA, it's giving us the energy to keep investing on it.
 
-      If you are interested by providing additional contribution, feel free to pick a level 🎮.
+      If you're interested to provide additional contribution, feel free to pick a level 🎮.
 
       ## Level 1. 💬 Join the community
 
-      Our lovely community is open to everyone, over there you can interact with all the contributor, ask any question and get behind the scene update about RestQA
+      Our lovely community is open to everyone! Over there you can interact with all the contributors. Ask any question and get behind the scene updates about RestQA.
 
       👉 https://restqa.io/chat
 
       ## Level 2. 🍿  Understand RestQA
 
       Going through a lot of documentation is not ideal...
-      This is why we have a short series of Screencast that describe all the feature of RestQA.
+      This is why we have a short series of Screencast that describes all the features of RestQA.
 
       👉 [Getting started with RestQA](https://www.youtube.com/playlist?list=PLrRQ02SZbOsWzgS8bSanSugtqvkDZnrbQ)
 
       ## Level 3. 🦏  Interact with the core maintainers
 
-      You might have question about RestQA or even on how to help...
+      You might have question about RestQA or how you can help...
       Don't worry, the core team is dedicated for you to get a smooth onboarding!
-      In the discord channel, Feel free to ping :
+      In the Discord channel feel free to ping us:
 
       * @olivierodo: Author - Core developer
       * @tonygo: Author - Core developer
@@ -45,7 +45,7 @@ github:
 
       ### Level 4. 🚧 Take a look at our open issues
 
-      We are constantly looking for new contributors the could support us on improving RestQA.
+      We are constantly looking for new contributors that could support us on improving RestQA.
       We have a selection of **Good First issues** to start with:
 
       👉 https://restqa.io/issues
