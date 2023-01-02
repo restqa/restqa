@@ -148,9 +148,9 @@ initialize.generate = async function (options) {
     createRecursiveFolder(output, folder);
 
     const content = [
-      "Feature: Welcome to the RestQA community",
+      "Feature: GET /",
       "",
-      "Scenario: Initial scenario",
+      "Scenario: Initial API (generated)",
       response
     ];
 

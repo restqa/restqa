@@ -209,9 +209,9 @@ describe("#Cli - Initialize", () => {
           .readFileSync(filenameWelcome)
           .toString("utf-8");
         const expectedWelcomeFeature = `
-Feature: Welcome to the RestQA community
+Feature: GET /
 
-Scenario: Initial scenario
+Scenario: Initial API (generated)
 Given I have an example`;
 
         expect(contentWelcome.trim()).toEqual(expectedWelcomeFeature.trim());
@@ -289,9 +289,9 @@ Given I have an example`;
           .readFileSync(filenameWelcome)
           .toString("utf-8");
         const expectedWelcomeFeature = `
-Feature: Welcome to the RestQA community
+Feature: GET /
 
-Scenario: Initial scenario
+Scenario: Initial API (generated)
 Given I have an example`;
 
         expect(contentWelcome.trim()).toEqual(expectedWelcomeFeature.trim());
