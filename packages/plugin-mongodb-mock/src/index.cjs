@@ -14,15 +14,15 @@ instance
   .addAfterHook(RestQAMongoDbMock.hooks.after)
   .addAfterAllHook(RestQAMongoDbMock.hooks.afterAll)
   .addGivenStep(
-    "a collection[mongodb] {string}:",
+    "a mongo collection {string}:",
     RestQAMongoDbMock.steps.addEntries
   )
   .addThenStep(
-    "the collection[mongodb] {string} exists",
+    "the mongo collection {string} exists",
     RestQAMongoDbMock.steps.collectionExists
   )
   .addThenStep(
-    "search in collection[mongodb] {string}:",
+    "search in mongo collection {string}:",
     RestQAMongoDbMock.steps.search
   )
   .addThenStep(
