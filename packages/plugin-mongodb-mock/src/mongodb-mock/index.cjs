@@ -101,13 +101,17 @@ module.exports = {
       const collection = this["mongodb-mock"].db.collection(collectionName);
       const fields = table.rawTable.splice(0, 1).pop();
       const values = table.rawTable;
-      const list = values.map((item) => {
+      const list = values.map((item, row) => {
         return fields.reduce((result, property, index) => {
           result[property] = item[index];
+          this.data.set(`row.${row + 1}.${property}`, item[index]);
           return dot.object(result);
         }, {});
       });
       const {insertedIds} = await collection.insertMany(list);
+      Object.entries(insertedIds).forEach(([key, value]) => {
+        this.data.set(`row.${Number(key) + 1}._id`, value);
+      });
       this.attach(JSON.stringify(insertedIds));
     }
   }

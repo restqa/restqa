@@ -1,5 +1,5 @@
 const express = require("express");
-const {MongoClient} = require("mongodb");
+const {MongoClient, ObjectId} = require("mongodb");
 
 const {PORT, MONGODB_URI, MONGODB_DBNAME} = process.env;
 
@@ -15,7 +15,7 @@ main()
       .use(express.json())
       .get("/users/:id", async (req, res) => {
         const search = {
-          "line.id": req.params.id
+          _id: ObjectId(req.params.id)
         };
         const result = await db.collection("users").findOne(search);
         delete result._id;
