@@ -192,20 +192,6 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 - [ ] Mock S3 database
 - [ ] Mock Redis store
 
-##### 🚦 Integration Test
-
-- [X] Slack (alerting)
-- [X] Discord (alerting)
-- [X] Mattermost (alerting)
-- [X] Microsoft Team (alerting)
-- [X] Line (alerting)
-- [X] Webhook (alerting)
-- [ ] Kibana (Monitoring)
-- [ ] Grafana (Monitoring)
-- [X] Excel (Data)
-- [X] Google Sheet (Data)
-- [X] File system (Data)
-
 ##### 🏎 Performance Test
 
 - [X] Artillery.io
@@ -224,16 +210,6 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 - [ ] Insomnia (Need contribution [#293](https://github.com/restqa/restqa/issues/293))
 - [ ] hoppscotch (Need contribution [#292](https://github.com/restqa/restqa/issues/292))
 
-#### 📦 Continuous integration
-
-- [X] Github Action
-- [X] Gitlab CI
-- [X] Jenkins
-- [X] Circle CI
-- [X] Travis CI
-- [X] Bitbucket Pipeline
-- [X] Docker
-- [ ] Azure pipeline
 
 ## Big Love ❤️
 
