@@ -309,7 +309,7 @@ function Schema(type, body) {
     const properties = {};
     for (let [key, val] of Object.entries(obj || {})) {
       let type = getType(val);
-      const first = val[0] || "";
+      const first = (val || '')[0] || "";
       switch (type) {
         case "object":
           properties[key] = {
