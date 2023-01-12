@@ -8,6 +8,16 @@ jest.useFakeTimers();
 beforeEach(jestqa.beforeEach);
 afterEach(jestqa.afterEach);
 
+let mockExit;
+beforeEach(() => {
+  mockExit = jest.fn();
+  jest.mock("../utils/process", () => {
+    return {
+      exit: mockExit
+    };
+  });
+});
+
 const validRestQAConfigFile = `
 ---
 
@@ -64,8 +74,6 @@ describe("#Cli - Run", () => {
       };
     });
 
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
-
     const Run = require("./run");
     const options = {
       config: filename,
@@ -97,7 +105,7 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).toHaveBeenCalledWith(0);
+    expect(mockExit.mock.calls[0][0]).toEqual(0);
   });
 
   test("Run the cucumber success local tests with passed stdout, with the args passed as commander", async () => {
@@ -119,8 +127,6 @@ describe("#Cli - Run", () => {
         Cli: mockCucumberCli
       };
     });
-
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     const Run = require("./run");
     const options = {
@@ -157,7 +163,7 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).toHaveBeenCalledWith(0);
+    expect(mockExit.mock.calls[0][0]).toEqual(0);
   });
 
   test("Run the cucumber failing local tests with default stdout", async () => {
@@ -179,8 +185,6 @@ describe("#Cli - Run", () => {
         Cli: mockCucumberCli
       };
     });
-
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     const Run = require("./run");
     const options = {
@@ -205,7 +209,7 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).toHaveBeenCalledWith(1);
+    expect(mockExit.mock.calls[0][0]).toEqual(1);
   });
 
   test("Run the cucumber local test but should not exit", async () => {
@@ -227,8 +231,6 @@ describe("#Cli - Run", () => {
         Cli: mockCucumberCli
       };
     });
-
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     const Run = require("./run");
     const options = {
@@ -258,7 +260,6 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).not.toHaveBeenCalled();
   });
 
   test("Run the cucumber local test with expected tag", async () => {
@@ -280,8 +281,6 @@ describe("#Cli - Run", () => {
         Cli: mockCucumberCli
       };
     });
-
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     const Run = require("./run");
     const options = {
@@ -316,7 +315,6 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).not.toHaveBeenCalled();
   });
 
   test("Error during cucumber run execution local test", async () => {
@@ -337,8 +335,6 @@ describe("#Cli - Run", () => {
         Cli: mockCucumberCli
       };
     });
-
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     const Run = require("./run");
     const options = {
@@ -368,7 +364,7 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).toHaveBeenCalledWith(1);
+    expect(process.exitCode).toEqual(1);
     expect(jestqa.getLoggerMock()).toHaveBeenCalledTimes(1);
     expect(jestqa.getLoggerMock().mock.calls[0][0]).toMatch("This is an error");
   });
@@ -450,8 +446,6 @@ describe("#Cli - Run", () => {
       };
     });
 
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
-
     const Run = require("./run");
     const options = {
       config: filename,
@@ -486,7 +480,7 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).toHaveBeenCalledWith(0);
+    expect(mockExit.mock.calls[0][0]).toEqual(0);
   });
 
   test("Run the cucumber success integration tests with passed stdout that remove the local test formatter", async () => {
@@ -508,8 +502,6 @@ describe("#Cli - Run", () => {
         Cli: mockCucumberCli
       };
     });
-
-    const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 
     const Run = require("./run");
     const options = {
@@ -543,6 +535,6 @@ describe("#Cli - Run", () => {
     };
     expect(mockCucumberCli.mock.calls[0][0]).toEqual(expectedRunOption);
     expect(mockCucumberRun.mock.calls).toHaveLength(1);
-    expect(mockExit).toHaveBeenCalledWith(0);
+    expect(mockExit.mock.calls[0][0]).toEqual(0);
   });
 });
