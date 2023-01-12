@@ -10,6 +10,7 @@
   <a href="https://restqa.io/chat"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
 </p>
 <p align="center">
+    <img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=8107db3b-fcee-4af8-81f0-14e29ec04430" />
     <a href="https://dashboard.restqa.io/#/documentation/introduction">📖 Documentation</a>
 </p>
 
@@ -220,6 +221,7 @@ RestQA Tesm would like to give a hug 🤗 to thanks the excellent work of the fo
 * [Element-ui](https://element-plus.org)
 * [C8](https://github.com/bcoe/c8)
 * [Swagger Ui](https://github.com/swagger-api/swagger-ui)
+* [Scarf](https://github.com/scarf-sh)
 
 
 ## Contribution
