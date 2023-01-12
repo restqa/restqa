@@ -214,7 +214,7 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 
 ## Big Love ❤️
 
-RestQA Tesm would like to give a hug 🤗 to thanks the excellent work of the following dependent open source project:
+RestQA Team would like to give a hug 🤗 to thanks the excellent work of the following dependent open source project:
 
 * [Cucumber-js](https://github.com/cucumber/cucumber-js/)
 * [VueJs](https://vuejs.org/)
