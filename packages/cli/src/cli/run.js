@@ -5,6 +5,7 @@ const cucumber = require("@cucumber/cucumber");
 const Global = require("../core/global");
 const Initialize = require("../core/initialize");
 const {Logger} = require("@restqa/core-logger");
+const {exit} = require("../utils/process");
 
 module.exports = async function (opt, program = {}) {
   let {
@@ -122,13 +123,16 @@ module.exports = async function (opt, program = {}) {
     .then((result) => {
       const exitCode = result.success ? 0 : 1;
       if (result.shouldExitImmediately) {
-        process.exit(exitCode);
+        exit(exitCode);
       } else {
         process.exitCode = exitCode;
       }
     })
     .catch((err) => {
       Logger.error(err);
-      process.exit(1);
+      process.exitCode = 1;
+    })
+    .finally(() => {
+      process.emit("RESTQA.KILL", process.exitCode);
     });
 };

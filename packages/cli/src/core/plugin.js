@@ -6,6 +6,7 @@ const HttpMock = require("./http-mock");
 const Collection = require("@restqa/core-collection");
 const path = require("path");
 const Coverage = require("./coverage");
+const {exit} = require("../utils/process");
 
 module.exports = function ({env, report, config}, processor = {}) {
   global.result = {};
@@ -61,6 +62,13 @@ module.exports = function ({env, report, config}, processor = {}) {
       if (!this.restqa.coverage) return;
       await this.restqa.coverage.generate();
     });
+
+    process.on("RESTQA.KILL", async (exitCode) => {
+      if (this.restqa.microservice) {
+        await this.restqa.microservice.stop();
+      }
+      exit(exitCode);
+    });
   }
 
   if (report) {
@@ -89,6 +97,7 @@ module.exports = function ({env, report, config}, processor = {}) {
     const collectionInstance = new Collection(optionsCollection);
 
     processor.After(function (scenario) {
+      if (!this.api) return;
       const exportApi = {
         request: this.api.request,
         response: this.api.response,

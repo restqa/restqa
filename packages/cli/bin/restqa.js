@@ -19,9 +19,10 @@ main()
   .catch((e) => {
     telemetry.track("error", e.message, process.argv.join(" "));
     Logger.error(e);
-    process.exit(1);
+    process.exitCode = 1;
   })
   .finally(() => {
+    process.emit('RESTQA.KILL', process.exitCode)
     if (notifier.update) {
       notifier.notify();
     }
