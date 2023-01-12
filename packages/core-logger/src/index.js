@@ -17,6 +17,7 @@ const Logger = {
     debug(...arguments);
   },
   error: function () {
+    debug(arguments[0]);
     if (!(arguments[0] instanceof Error)) {
       arguments[0] = Locale(arguments[0]) || arguments[0];
     } else if (
