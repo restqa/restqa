@@ -29,10 +29,10 @@ jobs:
         uses: m1ner79/Github-Twittction@v1.0.1
         with:
           twitter_status: "Hey, RestQA needs your awesome skill for the issue ${{ github.event.issue.html_url }}! This is an excellent opportunity to contribute to #opensource and be a part of an delicious community 🦏"
-            twitter_consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }} 
-            twitter_consumer_secret: ${{ secrets.TWITTER_CONSUMER_SECRET }} 
-            twitter_access_token_key: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }} 
-            twitter_access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }} 
+          twitter_consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }} 
+          twitter_consumer_secret: ${{ secrets.TWITTER_CONSUMER_SECRET }} 
+          twitter_access_token_key: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }} 
+          twitter_access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }} 
   reply-comment:
     if: github.event.label.name == 'good first issue'
     runs-on: ubuntu-latest
