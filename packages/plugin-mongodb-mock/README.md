@@ -266,6 +266,20 @@ Then status = 200
   """
 ```
 
+##### Data Casting
+
+While inserting data you might need to have a specific type inserted in the db.
+The available type are:
+
+* string
+* boolean
+* number
+* date
+* timestamp
+
+[Look at the example here](https://github.com/restqa/restqa/blob/master/packages/plugin-mongodb-mock/tests/features/cast-data.feature)
+
+> The `array` are not supported yet 🤭
 
 #### When
 
