@@ -202,8 +202,7 @@ class Microservice {
   stop() {
     return new Promise((resolve, reject) => {
       if (this.server instanceof ChildProcess) {
-        kill(this.server.pid, "SIGTERM", (err) => {
-          if (err) return reject(err);
+        kill(this.server.pid, "SIGTERM", () => {
           this._isRunning = false;
           this.server.kill();
           resolve();
