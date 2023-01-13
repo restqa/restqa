@@ -21,6 +21,15 @@ main()
         delete result._id;
         res.json(result);
       })
+      .get("/users", async (req, res) => {
+        const {age} = req.query;
+        const search = {
+          age
+        };
+        const result = await db.collection("users").find(search).toArray();
+        if (result.length) delete result[0]._id;
+        res.json(result);
+      })
       .post("/users", async (req, res) => {
         await db.collection("users").insertOne(req.body);
         res.sendStatus(201);

@@ -1,5 +1,5 @@
 const {GenericContainer, Wait} = require("testcontainers");
-const MongoClient = require("mongodb").MongoClient;
+const {MongoClient, Timestamp} = require("mongodb");
 const assert = require("assert");
 const dot = require("dot-object");
 const Debug = require("debug");
@@ -103,7 +103,20 @@ module.exports = {
       const values = table.rawTable;
       const list = values.map((item, row) => {
         return fields.reduce((result, property, index) => {
-          result[property] = item[index];
+          let value = item[index];
+          const hasCast = property.match(/\[(\w+)\]/);
+          if (hasCast) {
+            property = property.trim().replace(/\[\w+\]/, "");
+            value = cast(value, hasCast[1]);
+          }
+
+          if (value === "null") {
+            value = null;
+          }
+
+          // console.log(result)
+
+          result[property] = value;
           this.data.set(`row.${row + 1}.${property}`, item[index]);
           return dot.object(result);
         }, {});
@@ -116,3 +129,24 @@ module.exports = {
     }
   }
 };
+
+function cast(value, type) {
+  switch (type.toLowerCase()) {
+    case "string":
+      value = String(value);
+      break;
+    case "boolean":
+      value = value === "true";
+      break;
+    case "number":
+      value = Number(value);
+      break;
+    case "date":
+      value = new Date(value);
+      break;
+    case "timestamp":
+      value = new Timestamp(Number(value));
+      break;
+  }
+  return value;
+}

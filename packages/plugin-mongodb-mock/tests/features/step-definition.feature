@@ -1,4 +1,4 @@
-Feature: Example to test the plugin
+Feature: Test step definitions
 
 Scenario: Insert and Get information for microservice
 Given a mongo collection "users":
@@ -20,6 +20,28 @@ Then status = 200
     }
   }
   """
+
+Scenario: Insert then retrieve the data using a casted value
+Given a mongo collection "users":
+  | firstname    | lastname | age    | line.displayName | line.id[string] |
+  | John         | Doe      | 28     | johndoe          | 123456          |
+  | johnny       | doe      | 26     | johnny5          | 000009          |
+  And a request
+When GET "/users?age=26"
+Then status = 200
+  And the body:
+  """
+  [{
+    "firstname": "{{ row.2.firstname }}",
+    "lastname": "doe",
+    "age": "26",
+    "line": {
+      "id": "000009",
+      "displayName" : "johnny5"
+    }
+  }]
+  """
+
 
 Scenario: Insert and Get information for microservice
 Given a request
