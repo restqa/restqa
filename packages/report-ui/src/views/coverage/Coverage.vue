@@ -17,7 +17,7 @@ export default {
       if (false === url.startsWith("http")) {
         url = this.$store.getters.result
           .getLocation(url)
-          .replace("restqa/", "");
+          .replace(/(\/|\\)?restqa(\/|\\)/, "");
       }
       return url;
     },
