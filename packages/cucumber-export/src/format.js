@@ -55,7 +55,7 @@ module.exports = function (metadata, testResult) {
       (_) => _.status === "undefined"
     ).length;
 
-    feature.result = feature.total === feature.passed;
+    feature.result = feature.total === feature.passed + feature.skipped;
 
     feature.duration = feature.elements.reduce((r, i) => r + i.duration, 0);
 
