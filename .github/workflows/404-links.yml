@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: 'restqa-404-links'
-      uses: restqa/404-links@3.1.2
+    - name: Check markdown links
+      uses: atalent-labs/404-links@3.1.3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
