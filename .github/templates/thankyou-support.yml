@@ -1,6 +1,6 @@
 notification:
   discord: |
-    Congratulation **{{ github-repo }}** got a new star ⭐ from **[{{ github-username }}](https://github.com/{{github-username}}**
+    Congratulation **{{ github-repo }}** got a new star ⭐ from **[{{ github-username }}](https://github.com/{{github-username}})**
   twitter: |
     We have a new supporter 🎉
     Thank you @{{ twitter-username }} give a ⭐️ star the our opensource @restqa project.
