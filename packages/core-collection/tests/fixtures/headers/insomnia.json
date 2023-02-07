@@ -1,0 +1,52 @@
+{
+    "resources": [
+        {
+            "_id": "req_restqa",
+            "url": "",
+            "name": "Single header",
+            "description": "",
+            "method": "GET",
+            "headers": [
+                {
+                    "name": "x-api-key",
+                    "value": "test-api-key"
+                }
+            ],
+            "body": {},
+            "parameters": [],
+            "authentication": {},
+            "_type": "request"
+        },
+        {
+            "_id": "req_restqa",
+            "url": "",
+            "name": "Multiple headers",
+            "description": "",
+            "method": "POST",
+            "headers": [
+                {
+                    "name": "x-customer-value",
+                    "value": "clear-cache"
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {},
+            "parameters": [],
+            "authentication": {},
+            "_type": "request"
+        },
+        {
+            "_id": "req_restqa-base-url",
+            "parentId": "req_restqa",
+            "name": "HEADERS",
+            "description": "",
+            "environment": {
+                "host": "localhost:3000"
+            },
+            "_type": "request_group"
+        }
+    ]
+}

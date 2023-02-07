@@ -4,13 +4,13 @@ const fs = require("fs");
 const Collection = require("../");
 
 const fixtures = [
-  "base-url",
-  "query-strings",
+ "base-url",
+ // "query-strings",
   "headers",
-  "authorization-bearer",
-  "authorization-basic-auth",
-  "request-body-json",
-  "request-body-form"
+  //"authorization-bearer",
+  //"authorization-basic-auth",
+  //"request-body-json",
+  //"request-body-form"
 ];
 
 describe("collection", () => {

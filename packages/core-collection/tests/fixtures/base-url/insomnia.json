@@ -1,0 +1,26 @@
+{
+    "resources": [
+        {
+            "_id": "req_restqa",
+            "url": "",
+            "name": "Different Base URL",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [],
+            "authentication": {},
+            "_type": "request"
+        },
+        {
+            "_id": "req_restqa-base-url",
+            "parentId": "req_restqa",
+            "name": "BASE-URL",
+            "description": "",
+            "environment": {
+                "host": "localhost:3000"
+            },
+            "_type": "request_group"
+        }
+    ]
+}

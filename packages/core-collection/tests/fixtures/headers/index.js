@@ -4,6 +4,7 @@ module.exports = {
   },
   simulation: require("./simulation"),
   collections: {
-    postman: require("./postman.json")
+    postman: require("./postman.json"),
+    insomnia: require("./insomnia.json")
   }
 };
