@@ -18,7 +18,7 @@ With this plugin we want to make mocking of external HTTP services easy while te
 
 Within your microservice project tested by RestQA, run the following command:
 
-```
+```bash
 npm i @restqa/http-mock-plugin
 ```
 
