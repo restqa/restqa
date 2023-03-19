@@ -19,7 +19,7 @@ With this plugin we want to allow you to focus on your test and not writting bor
 
 Within your microservice project tested by RestQA, run the following command:
 
-```
+```bash
 npm i -D @restqa/plugin-mongodb-mock
 ```
 
