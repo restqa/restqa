@@ -98,7 +98,7 @@ In your existing `.restqa.yml` under plugins section, add the following:
 ```yaml
 ...
 plugins:
-- name: "@restqa/plugin-mongodb-mock
+- name: "@restqa/plugin-mongodb-mock"
   config:
     debug: false
     envVarName:
