@@ -27,7 +27,7 @@
   "license": "ISC",
   "dependencies": {
     "csv-parse": "^4.8.8",
-    "got": "^10.7.0",
+    "got": "^11.8.5",
     "html-table-to-json": "^1.0.0",
     "joi": "^17.4.0"
   },
