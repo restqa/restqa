@@ -83,10 +83,15 @@ module.exports = {
         return result;
       }, {});
       const result = await collection.findOne(params);
+      const flatResult = dot.dot(result || {});
       this["mongodb-mock"].search = {
         result,
-        flatResult: dot.dot(result || {})
+        flatResult
       };
+
+      Object.entries(flatResult).forEach(([key, value], index) => {
+        this.data.set(`result.${key}`, value);
+      });
       this.attach(JSON.stringify(result));
     },
     matchString: function (field, expectedValue) {

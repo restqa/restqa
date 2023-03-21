@@ -11,6 +11,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.2._id }}",
     "firstname": "{{ row.2.firstname }}",
     "lastname": "doe",
     "age": "26",
@@ -32,6 +33,7 @@ Then status = 200
   And the body:
   """
   [{
+    "id": "{{ row.2._id }}",
     "firstname": "{{ row.2.firstname }}",
     "lastname": "doe",
     "age": "26",
@@ -150,3 +152,54 @@ Then search result "line.displayName" = "spy-9"
 Then search result "line.id" = "0007"
 Then search result "age" = 20
 Then the mongo collection "users" exists
+
+Scenario: Insert and search on multi fields and use it from dataset
+Given a request
+  And the payload:
+  """
+  {
+    "firstname": "Ruby",
+    "lastname": "Queen",
+    "age": "20",
+    "line": {
+      "id": "0007",
+      "displayName" : "spy-9"
+    }
+  }
+  """
+When POST "/users"
+Then status = 201
+Given a request
+  And the payload:
+  """
+  {
+    "firstname": "Julia",
+    "lastname": "Queen",
+    "age": "23",
+    "line": {
+      "id": "0009",
+      "displayName" : "spy-7"
+    }
+  }
+  """
+When POST "/users"
+Then status = 201
+Given a request
+When GET "/users?age=20"
+  And search in mongo collection "users":
+  | line.id | age |
+  | 0007 | 20 |
+Then status = 200
+  And the body:
+  """
+  [{
+    "id": "{{ result._id }}",
+    "firstname": "{{ result.firstname  }}",
+    "lastname": "{{ result.lastname }}",
+    "age": "{{ result.age }}",
+    "line": {
+      "id": "{{ result.line.id }}",
+      "displayName" : "{{ result.line.displayName }}"
+    }
+  }]
+  """

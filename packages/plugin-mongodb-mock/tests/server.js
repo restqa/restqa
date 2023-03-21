@@ -18,6 +18,7 @@ main()
           _id: ObjectId(req.params.id)
         };
         const result = await db.collection("users").findOne(search);
+        result.id = result._id;
         delete result._id;
         res.json(result);
       })
@@ -27,7 +28,10 @@ main()
           age
         };
         const result = await db.collection("users").find(search).toArray();
-        if (result.length) delete result[0]._id;
+        if (result.length) {
+          result[0].id = result[0]._id;
+          delete result[0]._id;
+        }
         res.json(result);
       })
       .post("/users", async (req, res) => {

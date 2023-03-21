@@ -11,6 +11,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.2._id }}",
     "firstname": "{{ row.2.firstname }}",
     "lastname": "doe",
     "age": 26,
@@ -32,6 +33,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.1._id }}",
     "firstname": "{{ row.1.firstname }}",
     "lastname": "Doe",
     "age": 28,
@@ -47,6 +49,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.2._id }}",
     "firstname": "{{ row.2.firstname }}",
     "lastname": "doe",
     "age": 26,
@@ -69,6 +72,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.1._id }}",
     "firstname": "{{ row.1.firstname }}",
     "lastname": "Doe",
     "age": 28,
@@ -91,6 +95,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.1._id }}",
     "firstname": "{{ row.1.firstname }}",
     "lastname": "Doe",
     "age": 28,
@@ -112,6 +117,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.1._id }}",
     "firstname": "{{ row.1.firstname }}",
     "lastname": "Doe",
     "age": 28,
@@ -134,6 +140,7 @@ Then status = 200
   And the body:
   """
   {
+    "id": "{{ row.1._id }}",
     "firstname": "{{ row.1.firstname }}",
     "lastname": "Doe",
     "age": 28,
