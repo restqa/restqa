@@ -240,6 +240,14 @@ class LocalTest {
     this._config.command = command;
   }
 
+  getEnvs() {
+    return this._config.envs || {};
+  }
+
+  setEnvs(value) {
+    this._config.envs = value;
+  }
+
   getCoverage() {
     return this._config.coverage;
   }

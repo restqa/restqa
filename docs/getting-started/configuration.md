@@ -23,6 +23,8 @@ tests:
     port: 8887
     command: npm run dev
     coverage: ./coverage/index.html
+    envs:
+      FOO: 'BAR'
   integrations:
     - name: 'uat'
       url: http://uat.example.com

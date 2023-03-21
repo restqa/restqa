@@ -42,6 +42,7 @@ Depending on the technology that you use, you can refer to our documentation:
 | `tests.local.port`      | number         | The port exposing the microservice server                                    | Yes        |                                |
 | `tests.local.command`   | string         | The command used to run the microservice                                     | Yes        |                                |
 | `tests.local.coverage`  | string         | The path of the test generated coverage page (for custom coverage reporter ) | No         | ./restqa/coverage/index.html   |
+| `tests.local.envs`      | object         | The environment variable that need be injected in the microservice           | No         |                                |
 
 #### Example
 
@@ -57,4 +58,6 @@ tests:
   local:
     port: 8887
     command: npm run dev
+    envs:
+      FOO: BAR
 ```
