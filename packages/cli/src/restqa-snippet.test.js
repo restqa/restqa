@@ -76,7 +76,7 @@ If the problem persist, please try to check the following:
 
 or...
 
-🚀 Create you own step definition: https://docs.restqa.io
+🚀 Create you own step definition: https://dashboard.restqa.io/#/documentation/introduction
 
 Thank you for using RestQA! 💜`;
 
@@ -170,7 +170,7 @@ If the problem persist, please try to check the following:
 
 or...
 
-🚀 Create you own step definition: https://docs.restqa.io
+🚀 Create you own step definition: https://dashboard.restqa.io/#/documentation/introduction
 
 Thank you for using RestQA! 💜`;
 
@@ -213,7 +213,7 @@ If the problem persist, please try to check the following:
 
 or...
 
-🚀 Create you own step definition: https://docs.restqa.io
+🚀 Create you own step definition: https://dashboard.restqa.io/#/documentation/introduction
 
 Thank you for using RestQA! 💜`;
 
