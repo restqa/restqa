@@ -64,7 +64,7 @@ RestQASnippetSyntax.prototype.build = function ({
     "or...",
     "",
     `🚀 Create you own step definition: ${chalk.yellow(
-      "https://docs.restqa.io"
+      "https://dashboard.restqa.io/#/documentation/introduction"
     )}`,
     "",
     "Thank you for using RestQA! 💜"

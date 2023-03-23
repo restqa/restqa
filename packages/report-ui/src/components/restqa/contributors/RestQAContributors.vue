@@ -1,6 +1,9 @@
 <template>
-  <card title="Contributors" emoji="💪" v-if="data.length">
-    <div class="label">
+  <card title="Contributors" emoji="💪" >
+    <div class="label" v-if="!data.length">
+      So far we could identify the list of code contributor 🤨, Are you using Git?
+    </div>
+    <div class="label" v-if="data.length">
       Find below, the key person you need to contact for more support on this
       service:
     </div>

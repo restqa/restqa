@@ -274,6 +274,8 @@ tests:
   local:
     port: 8080
     command: npm run dev
+    envs:
+      FOO: BAR
   integrations:
     - name: UAT
       url: !env-var URL
@@ -325,6 +327,7 @@ settings:
     // local test
     expect(Instance.getLocalTest().getPort()).toEqual(8080);
     expect(Instance.getLocalTest().getCommand()).toEqual("npm run dev");
+    expect(Instance.getLocalTest().getEnvs()).toEqual({FOO: "BAR"});
 
     // integration test
     expect(Instance.getIntegrationTests()[0].getName()).toEqual("UAT");

@@ -211,6 +211,15 @@ Then search result "line.displayName" = "spy-7"
 Then search result "line.id" = "0009"
 Then search result "age" = 23
 Then the mongo collection "users" exists
+# Or using dataset
+Then the body:
+  """
+  {
+     "id": "{{ result._id }}",
+     "firstname":"{{ result.firstname }}",
+     "lastname": "{{ result.lastname }}"
+  }
+
 ```
 
 #### Given

@@ -82,4 +82,4 @@ myPlugin.addThenStep(
 
 ## Api
 
-Your can find the full API documentation in the [`@restqa/plugin` repository](https://github.com/restqa/plugin#api)
+Your can find the full API documentation in the [`@restqa/plugin` repository](https://github.com/restqa/restqa/tree/master/packages/plugin#api)
