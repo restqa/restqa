@@ -130,7 +130,7 @@ restqa sandbox
 ### Option
 
 ```bash
-restqa sandbox -p 9090 -d
+restqa sandbox -p 9090 -d -h 0.0.0.0
 ```
 
 
@@ -139,6 +139,7 @@ There are options available:
 | Parameter  | Alias | Description                                                  | Default                           |
 | ---------- | ----- | ------------------------------------------------------------ | --------------------------------- |
 | ` --port`  | `-p`  | use a specific port for the proxy                            | 8888                              |
+| ` --host`  | `-h`  | use a specific host for the proxy                            | localhost                         |
 | `--debug`  | `-d`  | enable debug mode                                            | false                             |
 
 --- 

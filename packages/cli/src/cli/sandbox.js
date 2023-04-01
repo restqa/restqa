@@ -4,7 +4,7 @@ const {cwd} = require("../utils/process");
 const path = require("path");
 const Microservice = require("@restqa/core-microservice");
 
-module.exports = async function ({port, debug}) {
+module.exports = async function ({port, host, debug}) {
   const configFile = path.resolve(cwd, ".restqa.yml");
   global.restqa = new Global({configFile});
 
@@ -13,7 +13,7 @@ module.exports = async function ({port, debug}) {
     command: global.restqa.config.getLocalTest().getCommand()
   };
 
-  const upstream = `http://localhost:${options.port}`;
+  const upstream = `http://${host || 'localhost'}:${options.port}`;
   const microservice = new Microservice(options);
   await microservice.start();
 

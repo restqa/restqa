@@ -39,6 +39,7 @@ program
   .command("sandbox")
   .alias("sand")
   .option("-p, --port <port>", "define the port used to run the sandbox proxy", 8888)
+  .option("-h, --host", "Defined the host used to run the sandbox proxy", 'localhost')
   .option("-d, --debug", "Enable the debug mode", false)
   .description("Launch the sandbox and generate test scenario")
   .usage("-p 8889")
