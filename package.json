@@ -1,7 +1,7 @@
 {
   "name": "restqa",
   "private": "true",
-  "version": "1.0.0-rc4",
+  "version": "1.0.0-rc6",
   "description": "RestQA  Monorepo",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
