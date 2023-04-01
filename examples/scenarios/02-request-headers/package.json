@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-02-request-headers",
+  "private": "true",
   "version": "1.0.0",
   "description": "Example scenario to demonstrate how to use Request headers",
   "main": "index.js",

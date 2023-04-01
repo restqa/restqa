@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-03-request-authorization",
+  "private": "true",
   "version": "1.0.0",
   "description": "Example scenario to demonstrate how to use Request Authorization",
   "main": "index.js",

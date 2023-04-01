@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-00_boilerplate",
+  "private": "true",
   "version": "1.0.0",
   "description": "Boilerplate for scenario",
   "main": "index.js",

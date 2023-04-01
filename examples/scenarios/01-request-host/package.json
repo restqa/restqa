@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-01-request-host",
+  "private": "true",
   "version": "1.0.0",
   "description": "Example scenario to demonstrate how to use Request host",
   "main": "index.js",

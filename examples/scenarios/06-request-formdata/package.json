@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-06-request-formdata",
+  "private": "true",
   "version": "1.0.0",
   "description": "Example scenario to demonstrate how to use Request Form Data",
   "main": "index.js",

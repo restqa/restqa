@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-04-request-querystring",
+  "private": "true",
   "version": "1.0.0",
   "description": "Example scenario to demonstrate how to use Request query string",
   "main": "index.js",

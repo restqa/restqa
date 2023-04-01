@@ -1,5 +1,6 @@
 {
   "name": "@restqa/example-scenario-07-request-method-path",
+  "private": "true",
   "version": "1.0.0",
   "description": "Example focus on demonstrating how to use method and path",
   "main": "index.js",
