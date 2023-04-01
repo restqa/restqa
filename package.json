@@ -17,7 +17,7 @@
     "watch:ui": "pnpm -r --filter @restqa/report-ui run dev",
     "cleanup": "rm pnpm-lock.yaml && rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf examples/*/*/node_modules && rm -rf packages/*/dist"
   },
-  "packageManager": "pnpm@7.17.0",
+  "packageManager": "pnpm@8.1.0",
   "engines": {
     "npm": ">=8.0.0",
     "node": ">=16.0.0"
