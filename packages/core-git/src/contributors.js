@@ -1,7 +1,5 @@
 const {exec} = require("child_process");
 const crypto = require("crypto");
-const fs = require("fs");
-const path = require("path");
 const fsm = require("fuzzy-string-matching");
 const {cwd} = require("./utils/process");
 
