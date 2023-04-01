@@ -8,7 +8,6 @@ const {cwd} = require("./utils/process");
 module.exports = function (options = {}) {
   options.path = options.path || cwd;
   return new Promise((resolve, reject) => {
-    if (!fs.existsSync(path.resolve(options.path, ".git"))) return resolve([]);
 
     const cmd = `git shortlog -s -n -e --all --no-merges ${options.path}`;
 
