@@ -4,3 +4,4 @@ dist/*.swp
 *.swm
 .restqa.log
 node_modules
+packages/report-ui/vite.config.js.timestamp-*.mjs
