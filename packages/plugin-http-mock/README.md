@@ -19,7 +19,7 @@ With this plugin we want to make mocking of external HTTP services easy while te
 Within your microservice project tested by RestQA, run the following command:
 
 ```bash
-npm i @restqa/http-mock-plugin
+npm i @restqa/plugin-http-mock
 ```
 
 ***In order to use this library your local machine MUST have docker installed.***
@@ -51,7 +51,7 @@ In your existing `.restqa.yml` under plugins in the local environment section, a
 
 ```yaml
 ...
-- name: "@restqa/http-mock-plugin"
+- name: "@restqa/plugin-http-mock"
   config:
     folder: ./tests/data/stubs
     debug: false
@@ -89,7 +89,7 @@ tests:
     port: 8887
     command: npm run dev
 plugins:
-- name: "@restqa/http-mock-plugin"
+- name: "@restqa/plugin-http-mock"
   config:
     folder: ./tests/data/stubs
     debug: false
