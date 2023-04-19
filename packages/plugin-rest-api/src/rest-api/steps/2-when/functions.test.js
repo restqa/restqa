@@ -5,12 +5,29 @@ describe("#StepDefinition - given - functions", () => {
     test("callApi POST", async () => {
       const $this = {
         data: {
-          get: (_) => _
+          _data: {},
+          get: function (key) {
+            return this._data[key] || key;
+          },
+          set: function (key, data) {
+            this._data[key] = data;
+          }
         },
         api: {
           request: {
             setMethod: jest.fn(),
             setPath: jest.fn()
+          },
+          response: {
+            headers: {
+              "content-type": "application/json",
+              "x-latency": "10ms"
+            },
+            isJson: true,
+            dotBody: {
+              hello: "world",
+              "foo.message": "bar"
+            }
           },
           run: jest.fn().mockResolvedValue(true),
           getCurl: () => "curl http://localhost/"
@@ -30,6 +47,9 @@ describe("#StepDefinition - given - functions", () => {
       expect($this.api.request.setMethod.mock.calls[0][0]).toEqual("post");
       expect($this.api.request.setPath.mock.calls).toHaveLength(1);
       expect($this.api.request.setPath.mock.calls[0][0]).toEqual("/");
+      expect($this.data.get("response.body.hello")).toEqual("world");
+      expect($this.data.get("response.body.foo.message")).toEqual("bar");
+      expect($this.data.get("response.headers.x-latency")).toEqual("10ms");
     });
 
     test("error: callApi incorrect method", async () => {

@@ -36,6 +36,21 @@ When.callApi = function (method) {
       this.api.request.setMethod(method);
       this.attach(this.api.getCurl());
       const result = await this.api.run();
+
+      if (this.api.response.isJson) {
+        Object
+          .entries(this.api.response.dotBody)
+          .forEach(([key, value]) => {
+            this.data.set(`response.body.${key}`,value)
+          })
+      }
+
+      Object
+        .entries(this.api.response.headers)
+        .forEach(([key, value]) => {
+          this.data.set(`response.headers.${key}`,value)
+        })
+
       return result;
     } catch (e) {
       if (e instanceof RangeError) {
