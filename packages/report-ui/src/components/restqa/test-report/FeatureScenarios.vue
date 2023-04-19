@@ -35,9 +35,9 @@
             skipped</template
           ></el-alert
         >
-        <el-collapse>
+        <el-collapse ref="collapser">
           <el-collapse-item
-            :name="index + scenario.name"
+            :name="index"
             v-for="(scenario, index) in scenarios"
             :key="index"
           >
@@ -93,6 +93,11 @@ export default {
       default: null,
       required: false,
     },
+    select: {
+      type: String,
+      default: "",
+      required: false,
+    },
   },
   data() {
     let result = {
@@ -121,6 +126,17 @@ export default {
     },
     scenarios() {
       return this.feature.elements;
+    },
+  },
+  watch: {
+    select(value) {
+      let result = [];
+      if (value) {
+        this.data.elements.forEach((item, index) => {
+          if (item.status === value) result.push(index);
+        });
+      }
+      this.$refs.collapser.setActiveNames(result);
     },
   },
 };
