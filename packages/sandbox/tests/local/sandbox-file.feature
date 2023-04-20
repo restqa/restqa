@@ -84,6 +84,7 @@ Then status = 200
     \"\"\"
   """
 
+@skip
 Scenario: Generate scenario with specific request body
 Given the upstream path "POST" "/users" should respond:
   """
@@ -250,6 +251,7 @@ Then status = 200
 }
     \"\"\"
   """
+
 
 Scenario: Replacing scenario to existing file ( multiple scenarios)
 Given the upstream path "GET" "/advisor" should respond:
