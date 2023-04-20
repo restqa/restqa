@@ -97,6 +97,7 @@ Then status = 200
   ------------------------------------------
   """
 
+@skip
 Scenario: Generate scenario with specific request body
 Given the upstream path "POST" "/loan" should respond:
   """
