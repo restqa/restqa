@@ -38,18 +38,14 @@ When.callApi = function (method) {
       const result = await this.api.run();
 
       if (this.api.response.isJson) {
-        Object
-          .entries(this.api.response.dotBody)
-          .forEach(([key, value]) => {
-            this.data.set(`response.body.${key}`,value)
-          })
+        Object.entries(this.api.response.dotBody).forEach(([key, value]) => {
+          this.data.set(`response.body.${key}`, value);
+        });
       }
 
-      Object
-        .entries(this.api.response.headers)
-        .forEach(([key, value]) => {
-          this.data.set(`response.headers.${key}`,value)
-        })
+      Object.entries(this.api.response.headers).forEach(([key, value]) => {
+        this.data.set(`response.headers.${key}`, value);
+      });
 
       return result;
     } catch (e) {
