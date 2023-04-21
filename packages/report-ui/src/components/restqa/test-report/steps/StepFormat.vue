@@ -22,7 +22,11 @@
         style="width: 100%"
         v-if="argument.rows && !isBuiltIn"
       >
-        <el-table-column v-for="(column, index) in argument.rows[0].cells" prop="key" :label="column" />
+        <el-table-column
+          v-for="(column, index) in argument.rows[0].cells"
+          :key="index"
+          :label="column"
+        />
       </el-table>
     </div>
   </div>
@@ -38,7 +42,7 @@ export default {
     isBuiltIn: {
       type: Boolean,
       required: true,
-    }
+    },
   },
   computed: {
     hasArguments() {
