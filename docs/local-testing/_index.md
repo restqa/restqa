@@ -61,3 +61,11 @@ tests:
     envs:
       FOO: BAR
 ```
+
+# Watch mode
+
+RestQA does not support the watch mode, however if you are using a nodejs setup we would suggest that you install [Nodemon](https://www.npmjs.com/package/nodemon) and use the command:
+
+```bash
+nodemon --exec \"restqa run\" -e js,feature .
+```
