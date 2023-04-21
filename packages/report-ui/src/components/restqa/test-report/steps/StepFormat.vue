@@ -25,6 +25,7 @@
         <el-table-column
           v-for="(column, index) in argument.rows[0].cells"
           :key="index"
+          prop="key"
           :label="column"
         />
       </el-table>
