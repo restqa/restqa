@@ -7,11 +7,22 @@
       <el-table
         :data="formatTableData"
         :border="true"
+        stripe
         style="width: 100%"
-        v-if="argument.rows"
+        v-if="argument.rows && isBuiltIn"
       >
         <el-table-column prop="key" label="Property" />
         <el-table-column prop="value" label="Value" />
+      </el-table>
+
+      <el-table
+        :data="formatTableData.slice(1)"
+        stripe
+        :border="true"
+        style="width: 100%"
+        v-if="argument.rows && !isBuiltIn"
+      >
+        <el-table-column v-for="(column, index) in argument.rows[0].cells" prop="key" :label="column" />
       </el-table>
     </div>
   </div>
@@ -24,6 +35,10 @@ export default {
       type: Object,
       required: true,
     },
+    isBuiltIn: {
+      type: Boolean,
+      required: true,
+    }
   },
   computed: {
     hasArguments() {

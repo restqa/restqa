@@ -31,6 +31,7 @@
       class="arguments"
       v-if="data.arguments"
       :data="data.arguments"
+      :is-built-in="isBuiltIn"
     />
 
     <pre class="debug debug-error" v-if="show.error">{{
@@ -90,6 +91,15 @@ export default {
       }
       return result;
     },
+    isBuiltIn() {
+      return [
+        'the headers:',
+        'the query strings:',
+        'the body (json):',
+        'the body (form):',
+        'headers:',
+      ].includes(this.data.name)
+    }
   },
   methods: {
     showError() {
