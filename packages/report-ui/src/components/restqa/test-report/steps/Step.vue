@@ -93,13 +93,13 @@ export default {
     },
     isBuiltIn() {
       return [
-        'the headers:',
-        'the query strings:',
-        'the body (json):',
-        'the body (form):',
-        'headers:',
-      ].includes(this.data.name)
-    }
+        "the headers:",
+        "the query strings:",
+        "the body (json):",
+        "the body (form):",
+        "headers:",
+      ].includes(this.data.name);
+    },
   },
   methods: {
     showError() {
