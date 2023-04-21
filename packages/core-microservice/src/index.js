@@ -68,6 +68,7 @@ class Microservice {
     const envs = this.envs || {};
     envs.PORT = this.port;
     envs.NODE_V8_COVERAGE = this.coveragePath;
+    envs.NODE_ENV = process.env.NODE_ENV || "test";
     return new Promise((resolve, reject) => {
       if (typeof command === "string") {
         let initialized = false;
