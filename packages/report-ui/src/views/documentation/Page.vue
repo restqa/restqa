@@ -1,4 +1,5 @@
 <template>
+      <search-page @render="goTo"></search-page>
   <el-container>
     <el-main class="main">
       <render-page :page="id" />
@@ -33,8 +34,6 @@
         @node-click="goTo"
         node-key="id"
       />
-      <h4>Search</h4>
-      <search-page @render="goTo"></search-page>
     </el-aside>
   </el-container>
 </template>
