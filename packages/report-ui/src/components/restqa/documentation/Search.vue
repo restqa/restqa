@@ -1,6 +1,8 @@
 <template>
+  <el-container>
+<i class="el-icon-search" style="z-index:1000;position:absolute;right:310px;top:100px" ></i> 
   <el-select
-    style="width: 100%"
+    style="width: 100%;margin-right: 270px; text-align:right"
     v-model="value"
     filterable
     remote
@@ -18,6 +20,7 @@
       :value="item.value"
     />
   </el-select>
+</el-container>
 </template>
 
 <script>
