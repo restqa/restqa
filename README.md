@@ -163,7 +163,7 @@ Scenario: Get the list of informations
 Given a request
 When GET "/api/info"
 Then status = 200
-  And body:
+  And the body:
   """
 {
   "message": "Hello World!"
