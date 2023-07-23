@@ -1,4 +1,3 @@
-const kill = require("tree-kill");
 const {ChildProcess} = require("child_process");
 const spawn = require("cross-spawn");
 const {Logger, Locale} = require("@restqa/core-logger");
@@ -119,9 +118,9 @@ class Microservice {
       });
 
       // handle error
-      server.on("error", () => {
+      server.on("error", async () => {
         // Note: we only do it this way to be win32 compliant.
-        server.kill();
+        await this.stop();
       });
       this._server = server;
     }).then(() => {
@@ -211,14 +210,18 @@ class Microservice {
 
   stop() {
     return new Promise((resolve, reject) => {
-      if (this.server instanceof ChildProcess) {
-        kill(this.server.pid, "SIGTERM", () => {
-          this._isRunning = false;
-          this.server.kill();
-          resolve();
-        });
+      if (this.server instanceof ChildProcess && !this.server.killed) {
+          const isSucceed = this.server.kill();
+          if (isSucceed) {
+            this._isRunning = false;
+            resolve();
+          } else {
+            this._isRunning = false;
+            reject(new Error(`Error during stopping server ${this.command}`));
+          }
       } else {
         resolve();
+        this._isRunning = false;
       }
     });
   }
