@@ -70,51 +70,60 @@ class Microservice {
     envs.NODE_V8_COVERAGE = this.coveragePath;
     envs.NODE_ENV = process.env.NODE_ENV || "test";
     return new Promise((resolve, reject) => {
-      if (typeof command === "string") {
-        let initialized = false;
-        const server = spawn(command, {
-          shell: true,
-          env: {
-            ...process.env,
-            ...envs
-          }
-        });
-
-        // reject if an error happened
-        server.stderr.on("data", (chunk) => {
-          this.log(chunk.toString());
-          if (!initialized) {
-            initialized = true;
-            reject(new Error(`Error during running command ${command}`));
-          }
-        });
-
-        // resolve when process is spawn successfully
-        server.stdout.on("data", (chunk) => {
-          this.log(chunk.toString());
-          if (!initialized) {
-            initialized = true;
-            Logger.success(`Server is running (command: ${command})`);
-            resolve(server);
-          }
-        });
-
-        // handle when server (process) is closing
-        server.on("close", () => {
-          Logger.debug("Server closed!");
-        });
-
-        // handle error
-        server.on("error", () => {
-          // Note: we only do it this way to be win32 compliant.
-          server.kill();
-        });
-        this._server = server;
-      } else {
-        throw new Error(
+      if (typeof command !== "string") {
+                throw new Error(
           `Microservice: command should be a string but received ${typeof command}`
         );
       }
+
+      const [exec, args] = this._formatCommand(command);
+      let initialized = false;
+      const server = spawn(exec, args, {
+        env: {
+          ...process.env,
+          ...envs
+        }
+      });
+
+      // reject if an error happened
+      server.stderr.on("data", (chunk) => {
+        this.log(chunk.toString());
+        if (!initialized) {
+          initialized = true;
+          reject(new Error(`Error during running command ${command}`));
+        }
+      });
+
+      // resolve when process is spawn successfully
+      server.stdout.on("data", (chunk) => {
+        this.log(chunk.toString());
+        if (!initialized) {
+          initialized = true;
+          Logger.success(`Server is running (command: ${command})`);
+          resolve(server);
+        }
+      });
+
+      // handle when server doesn't output anythin
+      setTimeout(() => {
+        if (!initialized) {
+          initialized = true;
+          Logger.success(`Server is running (command: ${command})`);
+          resolve(server);
+        }
+      }, this.timeout / 2);
+
+      // handle when server (process) is closing
+      server.on("close", () => {
+        Logger.debug("Server closed!");
+      });
+
+      // handle error
+      server.on("error", () => {
+        // Note: we only do it this way to be win32 compliant.
+        server.kill();
+      });
+      this._server = server;
     }).then(() => {
       if (!this.port) return this.server;
       return this.isReady();
@@ -212,6 +221,12 @@ class Microservice {
         resolve();
       }
     });
+  }
+
+  _formatCommand(command) {
+    const splittedTokens = command.split(" ");
+    const exec = splittedTokens.shift();
+    return [exec, splittedTokens];
   }
 }
 

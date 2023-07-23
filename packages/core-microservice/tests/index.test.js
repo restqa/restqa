@@ -98,7 +98,7 @@ describe("#Microservice - Test Commands", () => {
   test("given a command that should fail when we execute it then it should throw an error", async () => {
     // Given
     const optionsWithInvalidCommand = {
-      command: "cd dsqsq",
+      command: "ls dsqsq",
       state: {
         outputStream: {
           addDebugLog: jest.fn()
@@ -159,6 +159,24 @@ describe("#Microservice - Server lifecycle", () => {
     expect(addDebugLog).toHaveBeenCalledWith(
       "Server running on the port 9090\n"
     );
+    expect(Instance.server.killed).toBe(true);
+  });
+
+  test("Run silent service", async () => {
+    const serverFilename = path.resolve(__dirname, "fixture", "server-silent.js");
+    const options = {
+      port: 9999,
+      command: "node " + serverFilename,
+      silent: false,
+      timeout: 3000,
+    };
+
+    const Instance = new Microservice(options);
+    expect(Instance.isRunning).toBe(false);
+    await Instance.start();
+    CURRENT_PID = Instance.server.pid;
+    expect(Instance.isRunning).toBe(true);
+    await Instance.stop();
     expect(Instance.server.killed).toBe(true);
   });
 
