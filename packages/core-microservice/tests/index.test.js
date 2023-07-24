@@ -205,7 +205,8 @@ describe("#Microservice - Server lifecycle", () => {
 
   test("Pass environement variable to the  microservice", async () => {
     const serverFilename = path.resolve(__dirname, "fixture", "server-envs.js");
-    const addDebugLog = jest.fn();
+    let debugLogs = "";
+    const addDebugLog = log => { debugLogs += log; };
     const options = {
       port: 9090,
       command: "node " + serverFilename,
@@ -227,10 +228,8 @@ describe("#Microservice - Server lifecycle", () => {
     CURRENT_PID = Instance.server.pid;
     expect(Instance.isRunning).toBe(true);
     await Instance.stop();
-    expect(addDebugLog).toHaveBeenCalledWith(
-      "received the environemet variable TEST_FOO=BAR\n"
-    );
-    expect(addDebugLog).toHaveBeenCalledWith(
+    expect(debugLogs).toEqual(
+      "received the environemet variable TEST_FOO=BAR\n" +
       "received the environemet variable TEST_HELLO=WORLD\n"
     );
     expect(Instance.server.killed).toBe(true);
