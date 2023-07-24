@@ -211,14 +211,14 @@ class Microservice {
   stop() {
     return new Promise((resolve, reject) => {
       if (this.server instanceof ChildProcess && !this.server.killed) {
-          const isSucceed = this.server.kill();
-          if (isSucceed) {
-            this._isRunning = false;
-            resolve();
-          } else {
-            this._isRunning = false;
-            reject(new Error(`Error during stopping server ${this.command}`));
-          }
+        const isSucceed = this.server.kill();
+        if (isSucceed) {
+          this._isRunning = false;
+          resolve();
+        } else {
+          this._isRunning = false;
+          reject(new Error(`Error during stopping server ${this.command}`));
+        }
       } else {
         resolve();
         this._isRunning = false;
