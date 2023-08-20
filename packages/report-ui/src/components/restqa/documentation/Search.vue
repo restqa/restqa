@@ -1,36 +1,38 @@
 <template>
-  <el-container>
-    <i
-      class="el-icon-search"
-      style="z-index: 1000; position: absolute; right: 310px; top: 100px"
-    ></i>
-    <el-select
-      style="width: 100%; margin-right: 270px; text-align: right"
-      v-model="value"
-      filterable
-      remote
-      size="small"
-      placeholder="Please enter a keyword"
-      :remote-method="remoteMethod"
-      :loading="loading"
-      @change="select"
-      clearable
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </el-container>
+  <el-select
+    class="searchbar"
+    v-model="value"
+    filterable
+    remote
+    size="large"
+    placeholder="Search in the documentation"
+    :remote-method="remoteMethod"
+    :loading="loading"
+    @change="select"
+    clearable
+    remote-show-suffix
+    :suffix-icon="Search"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
 </template>
 
 <script>
 import docs from "@restqa/docs";
+import { Search } from "@element-plus/icons-vue";
 
 export default {
   name: "SearchPage",
+  setup() {
+    return {
+      Search,
+    };
+  },
   data() {
     const list = Object.values(docs.getElements())
       .filter((item) => true !== Boolean(item.attributes.disabled))
@@ -67,3 +69,24 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.searchbar {
+  margin: 0 auto 20px auto;
+  width: 100%;
+
+  div.el-input {
+    width: 100%;
+    border: 0;
+    div.el-input__wrapper {
+      width: 100%;
+      border: 0;
+      input.el-input__inner {
+        border: 0;
+      }
+      .el-input__suffix {
+        rotate: 180deg;
+      }
+    }
+  }
+}
+</style>

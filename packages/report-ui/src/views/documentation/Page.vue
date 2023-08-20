@@ -1,41 +1,49 @@
 <template>
-  <search-page @render="goTo"></search-page>
-  <el-container>
-    <el-main class="main">
-      <render-page :page="id" />
-      <div v-if="isStepDefinitionPage">
-        <hr />
-        <h3>😀 Missing step definition?</h3>
-        <p>
-          Don't you can create your own step defintion in a few seconds!
-          <a href="#/documentation/custom-step">Check out the documentation</a>
-        </p>
-      </div>
-      <br />
-      <el-divider />
-      <br />
-      <div class="support">
-        <small
-          >An issue in the page? Support us by
-          <el-link type="primary" :href="filename" target="_blank"
-            >contributing to this this page</el-link
-          ></small
-        >
-      </div>
-    </el-main>
-    <el-aside class="menu" width="250px">
-      <h4>Table of Content</h4>
-      <el-tree
-        ref="menu"
-        :highlight-current="true"
-        :data="data"
-        :props="defaultProps"
-        :expand-on-click-node="false"
-        @node-click="goTo"
-        node-key="id"
-      />
-    </el-aside>
-  </el-container>
+  <el-row>
+    <el-container>
+      <el-main class="main">
+        <el-row>
+          <el-col :offset="6" :span="12">
+            <search-page @render="goTo"></search-page>
+          </el-col>
+        </el-row>
+        <render-page :page="id" />
+        <div v-if="isStepDefinitionPage">
+          <hr />
+          <h3>😀 Missing step definition?</h3>
+          <p>
+            Don't you can create your own step defintion in a few seconds!
+            <a href="#/documentation/custom-step"
+              >Check out the documentation</a
+            >
+          </p>
+        </div>
+        <br />
+        <el-divider />
+        <br />
+        <div class="support">
+          <small
+            >An issue in the page? Support us by
+            <el-link type="primary" :href="filename" target="_blank"
+              >contributing to this this page</el-link
+            ></small
+          >
+        </div>
+      </el-main>
+      <el-aside class="menu" width="250px">
+        <h4>Table of Content</h4>
+        <el-tree
+          ref="menu"
+          :highlight-current="true"
+          :data="data"
+          :props="defaultProps"
+          :expand-on-click-node="false"
+          @node-click="goTo"
+          node-key="id"
+        />
+      </el-aside>
+    </el-container>
+  </el-row>
 </template>
 <script>
 import docs from "@restqa/docs";
