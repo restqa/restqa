@@ -19,6 +19,23 @@
           </p>
         </div>
         <br />
+        <br />
+        <el-row>
+          <el-col :span="5">
+            <el-link
+              :icon="CaretLeft"
+              v-if="previous"
+              type="primary"
+              @click="goTo({ id: previous.id })"
+              >{{ previous.title }}</el-link
+            >
+          </el-col>
+          <el-col :span="5" :offset="14" style="text-align: right">
+            <el-link v-if="next" type="primary" @click="goTo({ id: next.id })"
+              >{{ next.title }}<el-icon><CaretRight /></el-icon
+            ></el-link>
+          </el-col>
+        </el-row>
         <el-divider />
         <br />
         <div class="support">
@@ -49,12 +66,19 @@
 import docs from "@restqa/docs";
 import renderPage from "@/components/restqa/documentation/Render.vue";
 import searchPage from "@/components/restqa/documentation/Search.vue";
+import { CaretRight, CaretLeft } from "@element-plus/icons-vue";
 
 export default {
   name: "DocumentationPage",
   components: {
     renderPage,
     searchPage,
+    CaretRight,
+  },
+  setup() {
+    return {
+      CaretLeft,
+    };
   },
   data() {
     return {
@@ -91,6 +115,12 @@ export default {
     },
     isStepDefinitionPage() {
       return /^(given|then|when)-.+/.test(this.id);
+    },
+    previous() {
+      return docs.getNavigation(this.id).previous.attributes;
+    },
+    next() {
+      return docs.getNavigation(this.id).next.attributes;
     },
   },
   updated() {
