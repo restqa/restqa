@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     initiate() {
-      false;
+      this.loading = false;
       this.chart = Highcharts.chart(this.$refs.container, this.options);
     },
   },
