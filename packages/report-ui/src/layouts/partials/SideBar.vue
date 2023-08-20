@@ -175,6 +175,7 @@ export default {
 <style lang="scss" scoped>
 .menu {
   height: 100%;
+  border-left: 0;
   .logo {
     text-align: center;
     img {
