@@ -22,6 +22,7 @@
         <br />
         <el-row>
           <el-col :span="5">
+            <small>Previous</small><br />
             <el-link
               :icon="CaretLeft"
               v-if="previous"
@@ -31,6 +32,7 @@
             >
           </el-col>
           <el-col :span="5" :offset="14" style="text-align: right">
+            <small>Next</small> <br />
             <el-link v-if="next" type="primary" @click="goTo({ id: next.id })"
               >{{ next.title }}<el-icon><CaretRight /></el-icon
             ></el-link>
