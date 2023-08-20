@@ -1,47 +1,45 @@
 <template>
   <div>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <restqa-test-result-chart-features
-            class="top"
-            :access-link="true"
-            :data="result.local"
-          ></restqa-test-result-chart-features>
-        </el-col>
-        <el-col :span="8">
-          <history-widget :data="result" class="top"></history-widget>
-        </el-col>
-      </el-row>
-      <br />
-      <el-row :gutter="20">
-        <el-col :span="6" v-if="hasPerformance">
-          <performance-widget
-            :data="result.performance"
-            :config="result.config"
-            class="widget"
-          ></performance-widget>
-        </el-col>
-        <el-col :span="6" v-if="hasSpecification">
-          <specification-widget class="widget"></specification-widget>
-        </el-col>
-        <el-col :span="6" v-if="hasCollection">
-          <collection-widget
-            :data="result.collection"
-            class="widget"
-          ></collection-widget>
-        </el-col>
-        <el-col :span="6">
-          <documentation-widget class="widget"></documentation-widget>
-        </el-col>
-      </el-row>
-      <br />
-      <el-row :gutter="20">
-        <el-col :span="24">
-          <restqa-contributors
-            :data="result.contributors"
-          ></restqa-contributors>
-        </el-col>
-      </el-row>
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <restqa-test-result-chart-features
+          class="top"
+          :access-link="true"
+          :data="result.local"
+        ></restqa-test-result-chart-features>
+      </el-col>
+      <el-col :span="8">
+        <history-widget :data="result" class="top"></history-widget>
+      </el-col>
+    </el-row>
+    <br />
+    <el-row :gutter="20">
+      <el-col :span="6" v-if="hasPerformance">
+        <performance-widget
+          :data="result.performance"
+          :config="result.config"
+          class="widget"
+        ></performance-widget>
+      </el-col>
+      <el-col :span="6" v-if="hasSpecification">
+        <specification-widget class="widget"></specification-widget>
+      </el-col>
+      <el-col :span="6" v-if="hasCollection">
+        <collection-widget
+          :data="result.collection"
+          class="widget"
+        ></collection-widget>
+      </el-col>
+      <el-col :span="6">
+        <documentation-widget class="widget"></documentation-widget>
+      </el-col>
+    </el-row>
+    <br />
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <restqa-contributors :data="result.contributors"></restqa-contributors>
+      </el-col>
+    </el-row>
   </div>
 </template>
 

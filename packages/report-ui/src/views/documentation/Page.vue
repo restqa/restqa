@@ -1,5 +1,5 @@
 <template>
-      <search-page @render="goTo"></search-page>
+  <search-page @render="goTo"></search-page>
   <el-container>
     <el-main class="main">
       <render-page :page="id" />
