@@ -208,8 +208,6 @@ Take a look at the [examples folder](./examples) to see a basic setup.
 #### 👩‍🚀 API Collection
 
 - [X] Postman
-- [ ] Insomnia (Need contribution [#293](https://github.com/restqa/restqa/issues/293))
-- [ ] hoppscotch (Need contribution [#292](https://github.com/restqa/restqa/issues/292))
 
 
 ## Big Love ❤️

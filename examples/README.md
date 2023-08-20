@@ -21,7 +21,9 @@ This example is a set of test automation scenario that are testing a simple loca
 
 You can find below the list of example available:
 
-* [NodeJS](./nodejs)
+* [Express](./express)
+* [Express Typescript](./express-typescript)
+* [Fastify](./fastify)
 
 ### Test Creation
 
