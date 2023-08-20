@@ -21,19 +21,19 @@ export default {
   },
   data() {
     return {
-      _current: null,
+      currentId: null,
       history: History.list(),
     };
   },
   methods: {
     goToHistory(id) {
       this.$store.dispatch("history", id);
-      this._current = id
+      this.currentId = id;
     },
   },
   computed: {
-    current () {
-      return this._current || this.data.id
+    current() {
+      return this.currentId || this.data.id;
     },
     historyForChart() {
       const colors = {
@@ -44,10 +44,10 @@ export default {
       let { success, danger, info } = colors;
       let xAxis = {
         labels: {
-          formatter:  ({ value }) => {
-            const item = History.get(value)
+          formatter: ({ value }) => {
+            const item = History.get(value);
             const date = new Date(item.RESTQA_RESULT.timestamp);
-            let text = date.toLocaleString("en-GB", { timeZone: "UTC" })
+            let text = date.toLocaleString("en-GB", { timeZone: "UTC" });
             /*
             if (this.current === item.id) {
               text  = `<strong>${text}</strong>`
@@ -58,7 +58,7 @@ export default {
         },
         categories: History.list()
           .reverse()
-          .map((item) => item.id)
+          .map((item) => item.id),
       };
 
       let data = History.list()
@@ -105,7 +105,7 @@ export default {
             enableMouseTracking: true,
             events: {
               click: (item) => {
-                this.goToHistory(item.point.category)
+                this.goToHistory(item.point.category);
               },
             },
           },
