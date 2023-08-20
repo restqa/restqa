@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-space class="w100" direction="vertical">
       <el-row :gutter="20">
         <el-col :span="16">
           <restqa-test-result-chart-features
@@ -13,6 +12,7 @@
           <history-widget :data="result" class="top"></history-widget>
         </el-col>
       </el-row>
+      <br />
       <el-row :gutter="20">
         <el-col :span="6" v-if="hasPerformance">
           <performance-widget
@@ -34,6 +34,7 @@
           <documentation-widget class="widget"></documentation-widget>
         </el-col>
       </el-row>
+      <br />
       <el-row :gutter="20">
         <el-col :span="24">
           <restqa-contributors
@@ -41,7 +42,6 @@
           ></restqa-contributors>
         </el-col>
       </el-row>
-    </el-space>
   </div>
 </template>
 
@@ -82,6 +82,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.w100,
+.el-space__item {
+  width: 100%;
+}
 .top {
   height: 400px;
 }
