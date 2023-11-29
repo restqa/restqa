@@ -4,6 +4,7 @@ import store from "./store/store";
 import App from "./App.vue";
 
 import "./assets/scss/element-variables.scss";
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 import "prismjs";
 import "prismjs/components/prism-clike";

@@ -51,6 +51,12 @@ import SpecificationWidget from "@/components/restqa/specification/Widget.vue";
 import CollectionWidget from "@/components/restqa/collection/Widget.vue";
 import DocumentationWidget from "@/components/restqa/documentation/Widget.vue";
 import HistoryWidget from "@/components/restqa/history/Widget.vue";
+/*
+import { useDark, useToogle } from '@vueuse/core'
+
+const isDark = useDark()
+const toogleDark = useToogle(isDark)
+*/
 
 export default {
   name: "HomepageTestReport",

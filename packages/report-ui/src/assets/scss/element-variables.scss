@@ -1,3 +1,11 @@
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #123456,
+    ),
+  )
+);
+
 /* theme color */
 //$--color-primary: teal;
 
