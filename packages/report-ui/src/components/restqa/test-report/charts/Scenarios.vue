@@ -77,6 +77,7 @@ export default {
         chart: {
           type: "pie",
           height: 300,
+          backgroundColor: "transparent",
         },
         credits: {
           enabled: false,

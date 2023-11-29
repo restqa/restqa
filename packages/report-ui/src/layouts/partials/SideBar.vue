@@ -9,7 +9,8 @@
       <a href="https://restqa.io" target="_blank">
         <img :src="`./images/mascot.png`" />
       </a>
-    </div>
+  </div>
+
 
     <el-menu-item
       v-for="(item, index) in menu"
@@ -17,13 +18,16 @@
       :index="item.index"
       :route="{ name: item.route, params: item.params || {} }"
     >
-      <i :class="item.icon"></i>
+      <el-icon>
+        <component :is="item.icon"></component>
+      </el-icon>
       {{ item.label }}
     </el-menu-item>
 
     <el-sub-menu index="100">
       <template #title>
-        <i class="el-icon-ice-cream-square"></i> Delicious Outputs
+        <el-icon><IceCreamSquare /></el-icon>
+        Delicious Outputs
       </template>
       <el-menu-item
         v-for="(item, index) in subMenu"
@@ -32,7 +36,9 @@
         :route="{ name: item.route, params: item.params || {} }"
         :disabled="!item.enabled"
       >
-        <i :class="item.icon"></i>
+        <el-icon>
+          <component :is="item.icon"></component>
+        </el-icon>
         {{ item.label }}
       </el-menu-item>
     </el-sub-menu>
@@ -46,7 +52,9 @@
       :key="index"
       :route="item.route"
     >
-      <i :class="item.icon"></i>
+      <el-icon>
+        <component :is="item.icon"></component>
+      </el-icon>
       {{ item.label }}
     </el-menu-item>
 
@@ -57,11 +65,13 @@
 
 <script>
 import Sponsors from "@/components/restqa/sponsors/RestQASponsors.vue";
+import { Odometer, Moon, Basketball, WindPower, Aim, Collection, IceCreamSquare, House, Reading, ChatDotRound, Message} from "@element-plus/icons-vue"
+
 const staticMenu = [
   {
     link: "https://restqa.io/chat",
     label: "Documentation",
-    icon: "el-icon-reading",
+    icon: "Reading",
     route: {
       name: "documentationPage",
       params: {
@@ -71,7 +81,7 @@ const staticMenu = [
   },
   {
     label: "Discord",
-    icon: "el-icon-chat-dot-round",
+    icon: "ChatDotRound",
     route: {
       name: "goTo",
       params: {
@@ -81,7 +91,7 @@ const staticMenu = [
   },
   {
     label: "Share your feedback",
-    icon: "el-icon-message",
+    icon: "Message",
     route: {
       name: "goTo",
       params: {
@@ -96,25 +106,25 @@ const menu = [
     index: "1",
     route: "homepage",
     label: "Dashboard",
-    icon: "el-icon-house",
+    icon: "House",
   },
   {
     index: "2",
     route: "features",
     label: "Test Report",
-    icon: "el-icon-wind-power",
+    icon: "WindPower",
   },
   {
     index: "3",
     route: "coverage",
     label: "Code Coverage",
-    icon: "el-icon-aim",
+    icon: "Aim",
   },
   {
     index: "4",
     route: "specification",
     label: "API Specification",
-    icon: "el-icon-collection",
+    icon: "Collection",
   },
 ];
 
@@ -122,6 +132,7 @@ export default {
   name: "SidebarPartial",
   components: {
     Sponsors,
+    Odometer, Moon, Basketball, WindPower, Aim, Collection, IceCreamSquare, House, Reading, ChatDotRound, Message
   },
   data() {
     return {
@@ -137,21 +148,21 @@ export default {
           index: "5",
           route: "performance",
           label: "Performance testing",
-          icon: "el-icon-odometer",
+          icon: "Odometer",
           enabled: Boolean(result.performance.length),
         },
         {
           index: "6",
           route: "collection",
           label: "API Collection",
-          icon: "el-icon-moon",
+          icon: "Moon",
           enabled: result.collection,
         },
         {
           index: "7",
           route: "http-mock",
           label: "HTTP mocks",
-          icon: "el-icon-basketball",
+          icon: "Basketball",
           enabled: result.httpMocks,
         },
       ];
