@@ -35,26 +35,21 @@
 </template>
 <script>
 import { Moon, Sunny } from '@element-plus/icons-vue'
-import { useDark, useToggle } from '@vueuse/core'
+import { Toggle, Get } from '@/services/utils/dark-mode.js'
 
 
-const isDark = useDark({
-  selector: 'html',
-  attribute: 'class',
-  valueDark: 'dark',
-  valueLight: 'light',
-})
-const getDark = useToggle(isDark)
 
 export default {
   name: "FooterPartial",
   data() {
     return {
-      isDark: Boolean(isDark.value)
+      isDark: Get()
     }
   },
   methods: {
-    getDark
+    getDark() {
+      this.isDark = Toggle()
+    }
   },
   computed: {
     moon() {
