@@ -19,7 +19,7 @@ In your project use the command:
 npm i -D @restqa/restqa
 ```
 
-```
+```bash
 yarn add @restqa/restqa -D
 ```
 If you are running a NodeJS project simply add the following in your `package.json` in the `scripts` section: 
