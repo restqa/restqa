@@ -32,9 +32,9 @@ export default {
       this.loading = false;
       this.chart = Highcharts.chart(this.$refs.container, this.options);
     },
-    update (opt) {
+    update(opt) {
       this.chart.update(opt);
-    }
+    },
   },
   mounted() {
     if (undefined === window.Highcharts) {

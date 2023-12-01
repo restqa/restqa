@@ -9,8 +9,7 @@
       <a href="https://restqa.io" target="_blank">
         <img :src="`./images/mascot.png`" />
       </a>
-  </div>
-
+    </div>
 
     <el-menu-item
       v-for="(item, index) in menu"
@@ -65,7 +64,19 @@
 
 <script>
 import Sponsors from "@/components/restqa/sponsors/RestQASponsors.vue";
-import { Odometer, Moon, Basketball, WindPower, Aim, Collection, IceCreamSquare, House, Reading, ChatDotRound, Message} from "@element-plus/icons-vue"
+import {
+  Odometer,
+  Moon,
+  Basketball,
+  WindPower,
+  Aim,
+  Collection,
+  IceCreamSquare,
+  House,
+  Reading,
+  ChatDotRound,
+  Message,
+} from "@element-plus/icons-vue";
 
 const staticMenu = [
   {
@@ -132,7 +143,17 @@ export default {
   name: "SidebarPartial",
   components: {
     Sponsors,
-    Odometer, Moon, Basketball, WindPower, Aim, Collection, IceCreamSquare, House, Reading, ChatDotRound, Message
+    Odometer,
+    Moon,
+    Basketball,
+    WindPower,
+    Aim,
+    Collection,
+    IceCreamSquare,
+    House,
+    Reading,
+    ChatDotRound,
+    Message,
   },
   data() {
     return {
