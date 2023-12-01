@@ -6,8 +6,8 @@ History.limit = 10;
 
 History.add = function (result) {
   if (!result) throw new Error("The received result is not valid");
-  const { RESTQA_RESULT, RESTQA_CONFIG } = result;
-  this._microserviceCode = RESTQA_CONFIG.metadata.code;
+  const { RESTQA_RESULT, RESTQA_CONFIG = {} } = result;
+  this._microserviceCode = (RESTQA_CONFIG.metadata || {}).code;
   result.id = RESTQA_RESULT.id;
   if (this.get(result.id)) {
     return;
