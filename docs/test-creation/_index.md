@@ -73,7 +73,7 @@ Given a request
     "lastname": "doe"
   }
   """
-When POST "/api/users/101"
+When PUT "/api/users/101"
 Then status = 201
   And the response time < 100 ms
   And body:
@@ -99,7 +99,7 @@ Given a request
     "lastname": "doe"
   }
   """
-When POST "/api/users/101"
+When PATCH "/api/users/101"
 Then status = 201
   And the response time < 100 ms
   And body:
