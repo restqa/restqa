@@ -7,7 +7,7 @@
 import History from "@/services/history";
 import Highcharts from "@/components/UI/highcharts/Highcharts.vue";
 import Card from "@/components/UI/card/Card.vue";
-import { Listen, Get } from '@/services/utils/dark-mode.js'
+import { Listen, Get } from "@/services/utils/dark-mode.js";
 
 export default {
   name: "HistoryWidget",
@@ -22,11 +22,11 @@ export default {
     },
   },
   data() {
-    let isDark = Get()
-    Listen(evt => {
-      this.$refs.chart && this.$refs.chart.update(this.getData(evt.isDark))
-      isDark = evt.isDark
-    })
+    let isDark = Get();
+    Listen((evt) => {
+      this.$refs.chart && this.$refs.chart.update(this.getData(evt.isDark));
+      isDark = evt.isDark;
+    });
     return {
       isDark,
       currentId: null,
@@ -39,7 +39,7 @@ export default {
       this.currentId = id;
     },
     getData(isDark) {
-      const txtColor = isDark ? '#ffffff': null 
+      const txtColor = isDark ? "#ffffff" : null;
       const colors = {
         success: "#21AE8C",
         info: "#1A86D0",
@@ -49,7 +49,7 @@ export default {
       let xAxis = {
         labels: {
           style: {
-            color: txtColor
+            color: txtColor,
           },
           formatter: ({ value }) => {
             const item = History.get(value);
@@ -124,9 +124,9 @@ export default {
         },
         colors: [success, info, danger],
         legend: {
-          labelFormatter: function(t, w) {
-            return `<span style="color: ${txtColor}">${this.name}</span>`
-          }
+          labelFormatter: function () {
+            return `<span style="color: ${txtColor}">${this.name}</span>`;
+          },
         },
         yAxis: {
           min: 0,
@@ -142,14 +142,14 @@ export default {
         xAxis,
         series,
       };
-    }
+    },
   },
   computed: {
     current() {
       return this.currentId || this.data.id;
     },
     historyForChart() {
-      return this.getData(this.isDark)
+      return this.getData(this.isDark);
     },
   },
 };
