@@ -1,7 +1,10 @@
 # Cucumber-export
 
-> This cucumber formatter works well with cucumber version 7.x. If you are still using cucumber 6.x refer to the version @restqa/cucumber-export@0.1.10
+The easiest way to export your cucumber result into different channels (html, slack, discord, ms-team, etc..).
 
+HTML output example: 
+
+![html](https://restqa.io/assets/img/utils/cucumber-export-html.png)
 
 ## Table of content
 
