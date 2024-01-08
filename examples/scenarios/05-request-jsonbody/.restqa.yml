@@ -6,6 +6,6 @@ metadata:
 tests:
   local:
     port: "8887"
-    command: npm run dev
+    command: "node index.js"
     data: 
       storage:  './tests/storage'

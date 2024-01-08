@@ -6,7 +6,6 @@
   "description": "A RestQA example running show how to load custom step definition",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js",
     "test": "restqa run",
     "happy": "restqa run --report"
   },

@@ -98,7 +98,7 @@ describe("#Microservice - Test Commands", () => {
   test("given a command that should fail when we execute it then it should throw an error", async () => {
     // Given
     const optionsWithInvalidCommand = {
-      command: "cd dsqsq",
+      command: "ls dsqsq",
       state: {
         outputStream: {
           addDebugLog: jest.fn()
@@ -162,6 +162,24 @@ describe("#Microservice - Server lifecycle", () => {
     expect(Instance.server.killed).toBe(true);
   });
 
+  test("Run silent service", async () => {
+    const serverFilename = path.resolve(__dirname, "fixture", "server-silent.js");
+    const options = {
+      port: 9999,
+      command: "node " + serverFilename,
+      silent: false,
+      timeout: 3000,
+    };
+
+    const Instance = new Microservice(options);
+    expect(Instance.isRunning).toBe(false);
+    await Instance.start();
+    CURRENT_PID = Instance.server.pid;
+    expect(Instance.isRunning).toBe(true);
+    await Instance.stop();
+    expect(Instance.server.killed).toBe(true);
+  });
+
   test("Run and shutdown microservice (silent)", async () => {
     const serverFilename = path.resolve(__dirname, "fixture", "server.js");
     const addDebugLog = jest.fn();
@@ -187,7 +205,8 @@ describe("#Microservice - Server lifecycle", () => {
 
   test("Pass environement variable to the  microservice", async () => {
     const serverFilename = path.resolve(__dirname, "fixture", "server-envs.js");
-    const addDebugLog = jest.fn();
+    let debugLogs = "";
+    const addDebugLog = log => { debugLogs += log; };
     const options = {
       port: 9090,
       command: "node " + serverFilename,
@@ -209,10 +228,8 @@ describe("#Microservice - Server lifecycle", () => {
     CURRENT_PID = Instance.server.pid;
     expect(Instance.isRunning).toBe(true);
     await Instance.stop();
-    expect(addDebugLog).toHaveBeenCalledWith(
-      "received the environemet variable TEST_FOO=BAR\n"
-    );
-    expect(addDebugLog).toHaveBeenCalledWith(
+    expect(debugLogs).toEqual(
+      "received the environemet variable TEST_FOO=BAR\n" +
       "received the environemet variable TEST_HELLO=WORLD\n"
     );
     expect(Instance.server.killed).toBe(true);
