@@ -14,7 +14,7 @@
     <a href="https://dashboard.restqa.io/#/documentation/introduction">📖 Documentation</a>
 </p>
 
-> Still under development... The release 1.0.0 is coming soon, Feel free to contribute!
+> Project Paused.. ~Still under development... The release 1.0.0 is coming soon, Feel free to contribute!~
 
 ## 😃 Why Test Driven Happiness?
 
