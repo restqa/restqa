@@ -3,7 +3,7 @@ const Express = require('express')
 const PORT = process.env.PORT || 8887
 
 const server = Express()
-  .use(Express.urlencoded())
+  .use(Express.urlencoded({extended: true}))
   .post('/', (req, res) => {
     res.json(req.body)
   })

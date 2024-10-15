@@ -6,7 +6,7 @@ metadata:
 tests:
   local:
     port: "3010"
-    command: npm run test:server
+    command: "node tests/server.js"
 
 plugins:
   - name: "./src/index.cjs"

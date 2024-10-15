@@ -5,7 +5,6 @@
   "description": "Boilerplate for scenario",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js",
     "test": "restqa run",
     "happy": "restqa run --report"
   },

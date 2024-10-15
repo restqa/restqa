@@ -5,7 +5,6 @@
   "description": "Example scenario to demonstrate how to use Request headers",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js",
     "test": "restqa run",
     "happy": "restqa run --report"
   },

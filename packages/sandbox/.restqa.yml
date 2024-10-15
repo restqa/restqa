@@ -6,4 +6,4 @@ metadata:
 tests:
   local:
     port: "3001"
-    command: npm run start:dev
+    command: "node src/index.dev.js"

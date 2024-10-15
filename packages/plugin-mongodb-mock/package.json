@@ -9,8 +9,7 @@
     "format": "prettier --check src tests",
     "format:fix": "prettier --write src tests",
     "test": "restqa run",
-    "happy": "restqa run --report",
-    "test:server": "node tests/server.js"
+    "happy": "restqa run --report"
   },
   "keywords": [
     "mongodb",
